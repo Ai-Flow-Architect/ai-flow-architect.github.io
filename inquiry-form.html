@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ - AIFLOW Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    label .required {
+      color: #ef4444;
+      margin-left: 4px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 15px;
+      color: #1f2937;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    }
+
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+
+    button:hover { opacity: 0.9; transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .status {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .status.success {
+      display: block;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1.5px solid #6ee7b7;
+    }
+
+    .status.error {
+      display: block;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1.5px solid #fca5a5;
+    }
+
+    .privacy {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #9ca3af;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .powered {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 11px;
+      color: #d1d5db;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px; }
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <div class="logo-badge">✨ AI POWERED</div>
+      <h1>お問い合わせ</h1>
+      <p class="subtitle">フォームにご入力いただくと、AIが内容を自動で分類・担当者へ通知します。<br>通常1営業日以内にご連絡いたします。</p>
+    </div>
+
+    <form id="inquiryForm">
+      <div class="row">
+        <div class="form-group">
+          <label>お名前<span class="required">*</span></label>
+          <input type="text" id="name" placeholder="山田 太郎" required>
+        </div>
+        <div class="form-group">
+          <label>会社名<span class="required">*</span></label>
+          <input type="text" id="company" placeholder="株式会社〇〇" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>メールアドレス<span class="required">*</span></label>
+        <input type="email" id="email" placeholder="your@company.com" required>
+      </div>
+
+      <div class="form-group">
+        <label>お問い合わせ内容<span class="required">*</span></label>
+        <textarea id="message" placeholder="ご質問・ご要望をご記入ください..." required></textarea>
+      </div>
+
+      <button type="submit" id="submitBtn">送信する →</button>
+
+      <div id="successMsg" style="display:none; margin-top:16px; padding:16px; background:#ecfdf5; border:1.5px solid #6ee7b7; border-radius:8px; font-size:14px; font-weight:500; color:#065f46;">
+        ✅ 送信完了！担当者より折り返しご連絡いたします。
+        <div style="margin-top:14px; padding:14px; background:#f5f3ff; border-radius:8px; border:1.5px solid #a78bfa;">
+          <p style="font-size:13px; font-weight:700; color:#5b21b6; margin-bottom:8px;">💡 より詳しいご相談はMTGで</p>
+          <p style="font-size:12px; color:#6b7280; margin-bottom:12px;">ご都合の良い日時をお選びいただけます。空き枠のみ表示されます。</p>
+          <a href="https://ejprriiwdcbs.jp.larksuite.com/scheduler/6100417b435e7482"
+             target="_blank"
+             style="display:block; padding:11px; background:linear-gradient(135deg,#667eea,#764ba2); color:white; border-radius:6px; font-size:14px; font-weight:700; text-decoration:none; text-align:center;">
+            📅 MTGを予約する →
+          </a>
+        </div>
+      </div>
+      <div id="errorMsg" style="display:none; margin-top:16px; padding:14px; background:#fef2f2; border:1.5px solid #fca5a5; border-radius:8px; font-size:14px; font-weight:500; color:#991b1b;">
+        ❌ 送信に失敗しました。<br>
+        <a href="https://x.com/Kosuke_free_" target="_blank" style="color:#991b1b; font-weight:700;">こちらのDM（X）</a>よりご連絡ください。
+      </div>
+    </form>
+
+    <p class="privacy">送信いただいた情報は、お問い合わせ対応のみに使用いたします。</p>
+    <p class="powered">POWERED BY AIFLOW × MAKE.COM</p>
+  </div>
+
+  <script>
+    const WEBHOOK_URL = 'https://hook.eu1.make.com/9aoh5rfeu9obqubf1ntjsk5kr2btwcyl';
+
+    document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      const successMsg = document.getElementById('successMsg');
+      const errorMsg = document.getElementById('errorMsg');
+
+      btn.disabled = true;
+      btn.textContent = '送信中...';
+      successMsg.style.display = 'none';
+      errorMsg.style.display = 'none';
+
+      const data = {
+        name: document.getElementById('name').value,
+        company: document.getElementById('company').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          successMsg.style.display = 'block';
+          document.getElementById('inquiryForm').reset();
+          btn.style.display = 'none';
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (err) {
+        errorMsg.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '送信する →';
+      }
+    });
+  </script>
+</body>
+</html>
