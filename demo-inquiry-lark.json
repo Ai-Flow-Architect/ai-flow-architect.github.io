@@ -1,0 +1,236 @@
+{
+  "name": "AIFLOW Demo - 問い合わせAI自動分類＆通知 (Lark版)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": {
+          "parameters": {
+            "hook": { "label": "AIFLOW Demo Inquiry Webhook" }
+          }
+        },
+        "expect": [
+          { "name": "name", "type": "text", "label": "名前" },
+          { "name": "email", "type": "text", "label": "メール" },
+          { "name": "company", "type": "text", "label": "会社名" },
+          { "name": "message", "type": "text", "label": "問い合わせ内容" }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "openai-gpt-4o:CreateCompletion",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "mapper": {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {
+            "role": "system",
+            "content": "あなたは問い合わせ分類AIです。以下のJSON形式で回答してください。\n{\"category\": \"urgent|normal|sales|support\", \"summary\": \"30字以内の要約\", \"priority\": 1-5の数値, \"suggested_action\": \"推奨アクション\"}\n\n分類基準:\n- urgent: 緊急対応が必要（障害報告、クレーム等）\n- sales: 見積もり・導入相談・料金問い合わせ\n- support: 技術的な質問・使い方の問い合わせ\n- normal: その他一般的な問い合わせ"
+          },
+          {
+            "role": "user",
+            "content": "名前: {{1.name}}\n会社: {{1.company}}\nメール: {{1.email}}\n\n問い合わせ内容:\n{{1.message}}"
+          }
+        ],
+        "max_tokens": 200,
+        "temperature": "0.1",
+        "response_format": "json_object"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 },
+        "restore": {
+          "parameters": {
+            "__IMTCONN__": { "label": "OpenAI Connection" }
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "variables": [
+          {
+            "name": "ai_result",
+            "value": "{{2.result}}"
+          },
+          {
+            "name": "category",
+            "value": "{{2.result.category}}"
+          },
+          {
+            "name": "summary",
+            "value": "{{2.result.summary}}"
+          },
+          {
+            "name": "priority",
+            "value": "{{2.result.priority}}"
+          },
+          {
+            "name": "suggested_action",
+            "value": "{{2.result.suggested_action}}"
+          },
+          {
+            "name": "timestamp",
+            "value": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    },
+    {
+      "id": 4,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": null,
+      "metadata": {
+        "designer": { "x": 900, "y": 0 }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 5,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDecompressor": true
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal",
+                "method": "POST",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"app_id\": \"YOUR_LARK_APP_ID\", \"app_secret\": \"YOUR_LARK_APP_SECRET\"}"
+              },
+              "metadata": {
+                "designer": { "x": 1200, "y": -150 },
+                "expect": [
+                  { "name": "data", "type": "collection" }
+                ]
+              }
+            },
+            {
+              "id": 6,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDecompressor": true
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/sheets/v2/spreadsheets/YOUR_SPREADSHEET_TOKEN/values",
+                "method": "PUT",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{5.data.tenant_access_token}}" },
+                  { "name": "Content-Type", "value": "application/json; charset=utf-8" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"valueRange\":{\"range\":\"YOUR_SHEET_ID!A:F\",\"values\":[[\"{{3.timestamp}}\",\"{{1.name}}\",\"{{1.company}}\",\"{{1.email}}\",\"{{3.category}}\",\"{{3.summary}}\"]]}}"
+              },
+              "metadata": {
+                "designer": { "x": 1500, "y": -150 }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 7,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDecompressor": true
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal",
+                "method": "POST",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"app_id\": \"YOUR_LARK_APP_ID\", \"app_secret\": \"YOUR_LARK_APP_SECRET\"}"
+              },
+              "metadata": {
+                "designer": { "x": 1200, "y": 150 }
+              }
+            },
+            {
+              "id": 8,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": {
+                "handleErrors": false,
+                "useNewZLibDecompressor": true
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/im/v1/messages?receive_id_type=chat_id",
+                "method": "POST",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{7.data.tenant_access_token}}" },
+                  { "name": "Content-Type", "value": "application/json; charset=utf-8" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"receive_id\":\"YOUR_CHAT_ID\",\"msg_type\":\"interactive\",\"content\":\"{\\\"elements\\\":[[{\\\"tag\\\":\\\"div\\\",\\\"text\\\":{\\\"tag\\\":\\\"lark_md\\\",\\\"content\\\":\\\"📨 **新しい問い合わせ**\\\\n\\\\n👤 **{{1.name}}** ({{1.company}})\\\\n📧 {{1.email}}\\\\n\\\\n🏷️ 分類: **{{3.category}}** | 優先度: {{3.priority}}/5\\\\n📝 {{3.summary}}\\\\n\\\\n💡 推奨: {{3.suggested_action}}\\\"}}]]}\"}"
+              },
+              "metadata": {
+                "designer": { "x": 1500, "y": 150 }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": { "orphans": [] },
+    "zone": "eu1.make.com"
+  }
+}
