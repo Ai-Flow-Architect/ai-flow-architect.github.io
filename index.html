@@ -403,6 +403,14 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 @media(max-width:780px){.roi-wrap{grid-template-columns:1fr}}
 
 
+
+/* =====================================================
+   AVAILABILITY BADGE
+===================================================== */
+.avail-badge{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:#fff;background:linear-gradient(135deg,rgba(61,214,140,.18),rgba(61,214,140,.08));border:1px solid rgba(61,214,140,.35);padding:7px 18px;border-radius:999px;margin-bottom:20px;backdrop-filter:blur(8px)}
+.avail-badge strong{color:var(--gr)}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;flex-shrink:0}
+
 /* =====================================================
    HERO SUB-BADGE
 ===================================================== */
@@ -548,6 +556,50 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
   #chat-panel{right:8px;left:8px;width:auto;bottom:96px}
   #task-widget{display:none}
 }
+
+/* =====================================================
+   SCROLL REVEAL ANIMATIONS
+===================================================== */
+.sr{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.22,.61,.36,1),transform .65s cubic-bezier(.22,.61,.36,1)}
+.sr.visible{opacity:1;transform:translateY(0)}
+.sr-d1{transition-delay:.1s}.sr-d2{transition-delay:.18s}.sr-d3{transition-delay:.26s}.sr-d4{transition-delay:.34s}
+
+/* =====================================================
+   TESTIMONIALS
+===================================================== */
+#testimonials{background:var(--bg2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.testi-card{background:var(--bg3);border:1px solid var(--b);border-radius:16px;padding:28px;position:relative;transition:border-color .2s}
+.testi-card:hover{border-color:var(--bm)}
+.testi-stars{display:flex;gap:3px;margin-bottom:14px}
+.testi-star{color:#f5a623;font-size:.9rem}
+.testi-text{font-size:.87rem;color:var(--t1);line-height:1.75;margin-bottom:20px;font-style:italic}
+.testi-text::before{content:'"';font-size:2.5rem;color:var(--or);opacity:.35;line-height:0;vertical-align:-0.6em;margin-right:4px}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-av{width:38px;height:38px;border-radius:50%;background:var(--bg1);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.testi-name{font-size:.82rem;font-weight:700;color:var(--t1)}
+.testi-role{font-size:.72rem;color:var(--t3);margin-top:1px}
+.testi-platform{position:absolute;top:16px;right:16px;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.04em}
+.tp-cw{background:rgba(240,120,64,.12);color:var(--or)}
+.tp-cc{background:rgba(61,214,140,.12);color:var(--gr)}
+.tp-lc{background:rgba(74,143,247,.12);color:var(--bl)}
+@media(max-width:960px){.testi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.testi-grid{grid-template-columns:1fr}}
+
+/* =====================================================
+   CONTACT TRUST ROW
+===================================================== */
+.contact-trust-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:36px;position:relative;z-index:1}
+.ct-item{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--t2)}
+.ct-icon{font-size:1rem}
+
+/* =====================================================
+   PLAN ENHANCEMENTS
+===================================================== */
+.plan-roi-badge{position:absolute;top:-11px;right:16px;font-size:.62rem;font-weight:800;letter-spacing:.04em;background:linear-gradient(135deg,var(--gr),#2bc470);color:#0c0c0c;padding:3px 12px;border-radius:999px;white-space:nowrap}
+.p-saving-hint{display:block;font-size:.72rem;color:var(--gr);margin-top:4px;font-weight:600}
+.plan.ft:hover{border-color:rgba(255,255,255,.3);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.plan:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
   </style>
 </head>
 <body>
@@ -562,7 +614,9 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <div class="logo">AI Flow<span> Architect</span></div>
     <div class="nav-links">
       <a href="#bento">サービス</a>
+      <a href="#cando">できること</a>
       <a href="#cases">実績</a>
+      <a href="#testimonials">お客様の声</a>
       <a href="#pricing">料金</a>
       <a href="#roi">ROI計算</a>
       <a href="#process">フロー</a>
@@ -582,6 +636,10 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <span class="badge-dot"></span>
       AI自動化エンジニア — フリーランス稼働中
     </div>
+    <div class="avail-badge">
+      <span class="avail-dot"></span>
+      現在 <strong>2件</strong> 受付可能 · 最短1週間で着手
+    </div>
     <div class="hero-sub-badge">⚡ 毎日 −2時間 を実現する自動化を、設計・構築・納品します</div>
     <h1 class="hero-h1">
       <span class="h1-static">
@@ -597,7 +655,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       </span>
       <span class="h1-static" style="color:var(--or)">成果に変える。</span>
     </h1>
-    <p class="hero-sub">コンサルではなく、実装します。<br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを納品。</p>
+    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">実装します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを納品。<br><span style="font-size:.85rem;color:var(--t3)">技術知識ゼロのご担当者様でも、丁寧にサポートします。</span></p>
     <div class="hero-nums">
       <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
       <div class="hn"><div class="hn-n c-bl">24h</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
@@ -806,6 +864,51 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="eye">TESTIMONIALS</div>
+    <h2 class="sec-t">お客様の声</h2>
+    <p class="sec-s">実際にご依頼いただいた方からのフィードバックです。</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-platform tp-cw">CrowdWorks</div>
+        <div class="testi-stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <p class="testi-text">毎日2時間かかっていた案件スカウト作業が完全ゼロになりました。GPTが文章まで書いてくれるので、朝起きたら応募が終わっている状態です。費用対効果が抜群でした。</p>
+        <div class="testi-author">
+          <div class="testi-av">👤</div>
+          <div><div class="testi-name">フリーランスエンジニア</div><div class="testi-role">IT・Web開発 / 個人</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-platform tp-cc">ランサーズ</div>
+        <div class="testi-stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <p class="testi-text">商品説明文の一括生成をお願いしました。100件を17時間かけて書いていたのが15分で完了。驚きです。AIの使い方をゼロから説明してくださり、引き継ぎも完璧でした。</p>
+        <div class="testi-author">
+          <div class="testi-av">🛒</div>
+          <div><div class="testi-name">ECサイト運営者</div><div class="testi-role">アパレル / 3名チーム</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-platform tp-lc">ダイレクト依頼</div>
+        <div class="testi-stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <p class="testi-text">お問い合わせ対応の自動化を構築していただきました。今はSlackに通知が来るだけで、返信まで自動で終わっています。見落としがゼロになり、顧客満足度が上がりました。</p>
+        <div class="testi-author">
+          <div class="testi-av">💼</div>
+          <div><div class="testi-name">中小企業 代表</div><div class="testi-role">人材紹介 / 8名</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- PRICING -->
 <section id="pricing">
   <div class="wrap">
@@ -813,8 +916,8 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <h2 class="sec-t">料金プラン</h2>
     <p class="sec-s">スモールスタートから本格導入まで。</p>
     <div class="plans">
-      <div class="plan"><div class="p-lbl">Lite</div><div class="p-price"><sup>¥</sup>40,000<sub>〜</sub></div><div class="p-period">1回限り · 税込</div><hr class="p-hr"><div class="p-desc">単一の繰り返し作業を自動化。まず試したい方に最適です。</div><ul class="p-list"><li>1トリガー・1処理の自動化</li><li>Make.com or Pythonスクリプト</li><li>基本エラー通知設定</li><li>運用手順書</li><li>納品後1週間サポート</li></ul><button onclick="document.getElementById('chat-btn').click()" class="p-btn p-btn-o">チャットボットにどんな事も質問できます 💬</button></div>
-      <div class="plan ft"><div class="ft-badge">最も選ばれています</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>80,000<sub>〜</sub></div><div class="p-period">1回限り · 税込</div><hr class="p-hr"><div class="p-desc">AI連携・複数ステップを含む本格自動化。最もROIが高いプランです。</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後1ヶ月サポート</li></ul><button onclick="document.getElementById('chat-btn').click()" class="p-btn p-btn-w">チャットボットにどんな事も質問できます 💬</button></div>
+      <div class="plan"><div class="p-lbl">Lite</div><div class="p-price"><sup>¥</sup>40,000<sub>〜</sub></div><div class="p-period">1回限り · 税込</div><hr class="p-hr"><div class="p-desc">単一の繰り返し作業を自動化。まず試したい方に最適。<span class="p-saving-hint">月5〜10時間削減の目安</span></div><ul class="p-list"><li>1トリガー・1処理の自動化</li><li>Make.com or Pythonスクリプト</li><li>基本エラー通知設定</li><li>運用手順書</li><li>納品後1週間サポート</li></ul><button onclick="document.getElementById('chat-btn').click()" class="p-btn p-btn-o">チャットボットにどんな事も質問できます 💬</button></div>
+      <div class="plan ft"><div class="ft-badge">最も選ばれています</div><div class="plan-roi-badge">ROI 400%+</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>80,000<sub>〜</sub></div><div class="p-period">1回限り · 税込</div><hr class="p-hr"><div class="p-desc">AI連携・複数ステップを含む本格自動化。最もROIが高いプランです。</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後1ヶ月サポート</li></ul><button onclick="document.getElementById('chat-btn').click()" class="p-btn p-btn-w">チャットボットにどんな事も質問できます 💬</button></div>
       <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">1回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。スクレイピング・AI・通知・DBまで統合構築。</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後3ヶ月サポート</li><li>追加改修1回無料</li></ul><button onclick="document.getElementById('chat-btn').click()" class="p-btn p-btn-o">チャットボットにどんな事も質問できます 💬</button></div>
     </div>
     <div class="maint"><div style="font-size:2rem">🛡️</div><div><div class="maint-price">¥20,000 <span>/ 月（2h対応）</span></div><div class="maint-desc">月額保守プラン — エラー対応・仕様変更・小改修を月2時間の範囲で優先対応します。</div></div></div>
@@ -941,6 +1044,9 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <details><summary>Make.com等のアカウントは自分で用意が必要ですか？</summary><div class="fq-ans">原則、お客様側でご用意いただきます。Make.comは無料プランから始められます。初期設定のサポートも対応可能です。</div></details>
       <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。月額保守プラン（¥20,000/月）にご加入いただくと、月2時間の範囲で優先対応が可能です。まずはチャットボットかフォームからご相談ください。</div></details>
       <details><summary>支払い方法を教えてください。</summary><div class="fq-ans">CrowdWorks・ランサーズ・ココナラ経由の場合は各プラットフォームの決済をご利用ください。直接ご依頼の場合は銀行振込（着手金50%・納品後50%）に対応しています。</div></details>
+      <details><summary>作った自動化が止まったらどうなりますか？</summary><div class="fq-ans">エラーが発生した場合、Slackや LINE等へ即時アラートが届く設計にしています。万が一止まっても、原因特定・修正を速やかに対応します。月額保守プランにご加入いただくと、優先対応で復旧します。</div></details>
+      <details><summary>AIが変な文章を生成しないか不安です。</summary><div class="fq-ans">プロンプト設計とフォーマット制約により、出力のブレを最小化します。また、重要な判断（金額・契約内容等）に関しては自動化の対象外とし、必ず人のレビューを挟む設計を採用します。「全自動」と「安全」を両立させます。</div></details>
+      <details><summary>個人情報・機密データの取り扱いは安全ですか？</summary><div class="fq-ans">はい。APIキーや認証情報は環境変数で管理し、コードや外部サービスに直接書き込みません。お客様のデータは必要な処理のみに使用し、第三者への提供は一切行いません。ご要望に応じてNDA締結にも対応します。</div></details>
     </div>
     <div class="faq-chat-cta">
       <p>他にもご不明な点があれば、何でもお聞きください。</p>
@@ -953,20 +1059,35 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 <section id="contact">
   <div class="cta-glow"></div>
   <div class="wrap">
-    <h2>まずは無料で<br>相談してみませんか？</h2>
-    <p>「自動化できるか分からない」という段階でも大歓迎。ご状況をお聞きして最適な方法をご提案します。</p>
+    <h2>今すぐ相談して、<br>明日から時間を取り戻す</h2>
+    <p>「自動化できるか分からない」という段階でも大歓迎。<br>ご状況をお聞きして、具体的な削減時間と費用をお伝えします。</p>
+
+    <div class="contact-trust-row">
+      <div class="ct-item"><span class="ct-icon">⚡</span><span>通常12時間以内に返信</span></div>
+      <div class="ct-item"><span class="ct-icon">🔒</span><span>秘密厳守・NDA対応可</span></div>
+      <div class="ct-item"><span class="ct-icon">💰</span><span>相談・見積もり完全無料</span></div>
+      <div class="ct-item"><span class="ct-icon">🎯</span><span>自動化の可否・費用を明確回答</span></div>
+    </div>
+
     <div class="chs">
       <a href="https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb" target="_blank" rel="noopener" class="ch"><span class="ch-ico">📝</span><div class="ch-lb">無料相談フォーム</div><div class="ch-vl">Lark フォーム</div></a>
       <a href="https://x.com/Kosuke_free_" target="_blank" rel="noopener" class="ch"><span class="ch-ico">𝕏</span><div class="ch-lb">X (Twitter)</div><div class="ch-vl">@Kosuke_free_</div></a>
       <a href="https://crowdworks.jp/public/employees/4924931" target="_blank" rel="noopener" class="ch"><span class="ch-ico">💼</span><div class="ch-lb">CrowdWorks</div><div class="ch-vl">プロフィールへ</div></a>
     </div>
     <a href="https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb" target="_blank" rel="noopener" class="cta-btn">無料相談フォームを開く →</a>
-    <p class="cta-note">通常12時間以内にご返信します · 秘密厳守</p>
+    <p class="cta-note">現在 <strong style="color:var(--gr)">2件</strong> 受付可能 · 先着順のためお早めに</p>
   </div>
 </section>
 
 <footer>
   <div>© 2026 AI Flow Architect</div>
+  <div class="ftr-links">
+    <a href="#bento">サービス</a>
+    <a href="#cases">実績</a>
+    <a href="#pricing">料金</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">お問い合わせ</a>
+  </div>
 </footer>
 
 <!-- BEAM WIDGET -->
@@ -1247,8 +1368,23 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 
   async function sendFreeMsg(text){
     if(!text.trim())return;
-    addMsg(text,'usr');
+    const stepMode=inp.dataset.freeMode;
     inp.value='';
+    inp.dataset.freeMode='';
+    addMsg(text,'usr');
+    // step-mode: free input feeds back into the flow
+    if(stepMode==='step'){
+      answers[`q${step}`]=text;
+      step++;
+      inpRow.style.display='none';
+      if(step<FLOW.length){
+        showTyping();
+        setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);},900);
+      } else {
+        analyzeAndRecommend();
+      }
+      return;
+    }
     history.push({role:'user',content:text});
     showTyping();
     let reply='';
@@ -1329,6 +1465,25 @@ function roiCalc(){
   else sg.innerHTML=`<strong>スモールスタートを推奨します。</strong><br>まずはLiteプランから効果の高い業務を1つ自動化し、ROI実績を積むのが最善策です。`;
   rc.scrollIntoView({behavior:'smooth'});
 }
+
+/* =====================================================
+   SCROLL REVEAL
+===================================================== */
+(function(){
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}});
+  },{threshold:.12});
+  document.querySelectorAll('.oc,.bc,.cc,.crd,.ps,.plan,.cando-card,.speed-compare,.speed-icon-wrap,.spcomp,.testi-card').forEach((el,i)=>{
+    el.classList.add('sr');
+    el.classList.add('sr-d'+(i%4));
+    io.observe(el);
+  });
+  document.querySelectorAll('#faq details').forEach((el,i)=>{
+    el.classList.add('sr','sr-d'+(i%3));
+    io.observe(el);
+  });
+})();
+
 </script>
 </body>
 </html>
