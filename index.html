@@ -233,7 +233,7 @@ section{padding:96px 32px}
 ===================================================== */
 #process{background:var(--bg)}
 .proc-steps{display:flex;gap:0;position:relative;overflow:visible}
-.proc-steps::before{content:'';position:absolute;top:28px;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--b) 10%,var(--b) 90%,transparent);z-index:0}
+.proc-steps::before{display:none}
 .ps{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;padding:0 8px}
 .ps-num{width:56px;height:56px;border-radius:50%;border:1px solid var(--b);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:var(--t2);margin-bottom:16px;position:relative;transition:border-color .3s,color .3s}
 .ps:hover .ps-num{border-color:var(--or);color:var(--or)}
@@ -652,7 +652,29 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .lc-playwright:hover{border-color:rgba(69,186,75,.4)!important}
 .lc-python:hover{border-color:rgba(55,118,171,.5)!important}
 .lc-anthropic:hover{border-color:rgba(204,120,92,.5)!important}
-  </style>
+  
+/* ROI 待機アニメーション */
+.roi-await-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:20px}
+.roi-spin-wrap{position:relative;width:90px;height:90px;margin:0 auto}
+.roi-spin-ring{position:absolute;inset:-2px;border-radius:16px;background:conic-gradient(from 0deg,transparent 0deg,#f07840 60deg,#4a8ff7 150deg,#3dd68c 240deg,transparent 300deg);animation:roiSpinRing 2.2s linear infinite;filter:blur(.5px)}
+.roi-spin-inner{position:absolute;inset:3px;border-radius:13px;background:var(--bg2);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:2.2rem;z-index:1;animation:roiPulse 2.2s ease-in-out infinite}
+@keyframes roiSpinRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes roiPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.roi-await-text{font-size:.9rem;color:var(--t2);font-weight:500}
+.roi-await-hint{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--t3);animation:hintPulse 2s ease-in-out infinite}
+.roi-hint-arrow{font-size:1.2rem;color:var(--or);animation:arrowBounce 1s ease-in-out infinite alternate}
+@keyframes arrowBounce{from{transform:translateX(0)}to{transform:translateX(-6px)}}
+@keyframes hintPulse{0%,100%{opacity:.7}50%{opacity:1}}
+
+/* フロー矢印 */
+.proc-flow-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:0 0 32px;padding-top:8px;position:relative;z-index:1}
+.pfa-line{width:2px;height:28px;background:linear-gradient(to bottom,transparent,var(--or));position:relative;overflow:hidden}
+.pfa-dot{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:var(--or);animation:dotFlow 1.6s linear infinite}
+@keyframes dotFlow{0%{top:-6px;opacity:0}30%{opacity:1}100%{top:28px;opacity:0}}
+.pfa-head{font-size:1rem;color:var(--or);line-height:1;margin-top:2px;animation:arrowBlink .9s ease-in-out infinite alternate}
+@keyframes arrowBlink{from{opacity:.5;transform:translateX(-2px)}to{opacity:1;transform:translateX(2px)}}
+@media(max-width:768px){.proc-flow-arrow{display:none}}
+</style>
 </head>
 <body>
 
@@ -1077,6 +1099,18 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <h2 class="sec-t">自動化ROI計算ツール</h2>
     <p class="sec-s">あなたの業務を自動化したら、いくら節約できる？今すぐ試算してみてください。</p>
     <div class="roi-wrap">
+      <!-- ROI 待機アニメーション -->
+      <div class="roi-await-wrap" id="roi-await">
+        <div class="roi-spin-wrap">
+          <div class="roi-spin-ring"></div>
+          <div class="roi-spin-inner">📊</div>
+        </div>
+        <p class="roi-await-text">計算結果がここに表示されます</p>
+        <div class="roi-await-hint">
+          <span class="roi-hint-arrow">←</span>
+          <span>左のフォームに入力して計算</span>
+        </div>
+      </div>
       <div class="roi-card">
         <div id="roi-tasks">
           <div class="roi-task-item">
@@ -1106,7 +1140,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
         <button class="roi-calc-btn" onclick="roiCalc()">ROIを計算する →</button>
       </div>
 
-      <div class="roi-card roi-result-card" id="roi-result">
+      <div class="roi-card roi-result-card" id="roi-result" style="display:none">
         <div class="roi-result-header">
           <p class="roi-result-sub">年間の削減額</p>
           <div class="roi-big-num" id="roi-annual-saving">—</div>
@@ -1135,9 +1169,13 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <p class="sec-s" style="margin-bottom:48px">シンプルな5ステップ。要件がまとまれば最短1週間も可能です。</p>
     <div class="proc-steps">
       <div class="ps"><div class="ps-ico ps-ico-lg">💬</div><div class="ps-num">01</div><div class="ps-title">無料相談</div><div class="ps-desc">現在の課題・業務内容をヒアリング。自動化の可否と費用感をお伝えします。</div></div>
+      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-ico ps-ico-lg">📋</div><div class="ps-num">02</div><div class="ps-title">要件定義</div><div class="ps-desc">何を・どこまで自動化するかを文書化。認識齟齬ゼロで着手します。</div></div>
+      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-ico ps-ico-lg">💰</div><div class="ps-num">03</div><div class="ps-title">お見積り・契約</div><div class="ps-desc">固定価格でお見積りを提示。着手金50%・納品後50%の安心設計です。</div></div>
+      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-ico ps-ico-lg">⚙️</div><div class="ps-num">04</div><div class="ps-title">設計・構築</div><div class="ps-desc">ドキュメントを作りながら開発。進捗は随時共有します。</div></div>
+      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-ico ps-ico-lg">🚀</div><div class="ps-num">05</div><div class="ps-title">納品・サポート</div><div class="ps-desc">動作確認後に納品。運用手順書も同梱。継続してのサポートもご相談ください。</div></div>
     </div>
   </div>
@@ -1155,7 +1193,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
             <div class="cert-check">✓</div>
             <div class="cert-title-text">CERTIFICATE of COMPLETION</div>
           </div>
-          <div class="cert-name">Kosuke</div>
+          <div class="cert-name" style="font-size:1.1rem;letter-spacing:.04em;font-family:sans-serif;font-style:normal;font-weight:700;">AI Flow Architect</div>
           <div class="cert-has">has completed</div>
           <div class="cert-course">Claude Code in Action</div>
           <div class="cert-meta">
@@ -1596,7 +1634,7 @@ function roiCalc(){
   const planY=planM; // 初期費用のみ
   const roi=((saving-planY)/planY*100);
   const rc=document.getElementById('roi-result');
-  rc.style.display='block';
+  rc.style.display='block';var aw=document.getElementById('roi-await');if(aw)aw.style.display='none';
   document.getElementById('roi-annual-saving').textContent=roiFmt(saving);
   document.getElementById('roi-breakdown').innerHTML=bHTML;
   document.getElementById('roi-total-hours').textContent=total+'時間/月';
