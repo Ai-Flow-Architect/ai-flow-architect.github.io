@@ -1,0 +1,386 @@
+{
+  "name": "Log Pipeline (Claude Code → Lark)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": 0,
+        "maxResults": 1
+      },
+      "mapper": {}
+    },
+    {
+      "id": 2,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "tlsType": "",
+        "proxyKeychain": "",
+        "authenticationType": "noAuth"
+      },
+      "mapper": {
+        "url": "https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal/",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "shareCookies": false,
+        "parseResponse": true,
+        "allowRedirects": true,
+        "stopOnHttpError": true,
+        "jsonStringBodyContent": "{\"app_id\": \"{{parameters.lark_app_id}}\", \"app_secret\": \"{{parameters.lark_app_secret}}\"}",
+        "requestCompressedContent": true
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 },
+        "expect": [
+          { "name": "lark_app_id", "type": "text", "label": "Lark App ID" },
+          { "name": "lark_app_secret", "type": "text", "label": "Lark App Secret" }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "mapper": null,
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 4,
+              "module": "http:MakeRequest",
+              "version": 4,
+              "parameters": {
+                "tlsType": "",
+                "proxyKeychain": "",
+                "authenticationType": "noAuth"
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/bitable/v1/apps/MvH5b2zKJaB4x6sLQyhjM5Lgppe/tables/tblFCHOOsofgX58X/records/search",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{2.data.tenant_access_token}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "contentType": "json",
+                "inputMethod": "jsonString",
+                "shareCookies": false,
+                "parseResponse": true,
+                "allowRedirects": true,
+                "stopOnHttpError": false,
+                "jsonStringBodyContent": "{\"filter\":{\"conjunction\":\"and\",\"conditions\":[{\"field_name\":\"owner\",\"operator\":\"is\",\"value\":[\"{{1.master_status.owner}}\"]}]},\"page_size\":1}",
+                "requestCompressedContent": true
+              },
+              "metadata": {
+                "designer": { "x": 600, "y": -200 },
+                "expect": []
+              }
+            },
+            {
+              "id": 5,
+              "module": "builtin:BasicRouter",
+              "version": 1,
+              "mapper": null,
+              "routes": [
+                {
+                  "flow": [
+                    {
+                      "id": 6,
+                      "module": "http:MakeRequest",
+                      "version": 4,
+                      "parameters": {
+                        "tlsType": "",
+                        "proxyKeychain": "",
+                        "authenticationType": "noAuth"
+                      },
+                      "filter": {
+                        "name": "既存レコードあり → 更新",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{4.data.data.total}}",
+                              "b": "0",
+                              "o": "number:greater"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "url": "https://open.larksuite.com/open-apis/bitable/v1/apps/MvH5b2zKJaB4x6sLQyhjM5Lgppe/tables/tblFCHOOsofgX58X/records/{{4.data.data.items[1].record_id}}",
+                        "method": "put",
+                        "headers": [
+                          { "name": "Authorization", "value": "Bearer {{2.data.tenant_access_token}}" },
+                          { "name": "Content-Type", "value": "application/json" }
+                        ],
+                        "contentType": "json",
+                        "inputMethod": "jsonString",
+                        "shareCookies": false,
+                        "parseResponse": true,
+                        "allowRedirects": true,
+                        "stopOnHttpError": true,
+                        "jsonStringBodyContent": "{\"fields\":{\"owner\":\"{{1.master_status.owner}}\",\"updated_at\":\"{{1.master_status.updated_at}}\",\"active_skills_count\":{{1.master_status.active_skills_count}},\"focus_areas\":\"{{join(1.master_status.focus_areas; \", \")}}\",\"okr_period\":\"{{1.master_status.okr_period}}\",\"okr_summary\":\"{{1.master_status.okr_summary}}\",\"weekly_rhythm\":\"{{1.master_status.weekly_rhythm.monday_friday}} / {{1.master_status.weekly_rhythm.x_post}} / {{1.master_status.weekly_rhythm.saturday}}\"}}",
+                        "requestCompressedContent": true
+                      },
+                      "metadata": {
+                        "designer": { "x": 900, "y": -300 }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "flow": [
+                    {
+                      "id": 7,
+                      "module": "http:MakeRequest",
+                      "version": 4,
+                      "parameters": {
+                        "tlsType": "",
+                        "proxyKeychain": "",
+                        "authenticationType": "noAuth"
+                      },
+                      "filter": {
+                        "name": "新規 → 作成",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{4.data.data.total}}",
+                              "b": "0",
+                              "o": "number:equal"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "url": "https://open.larksuite.com/open-apis/bitable/v1/apps/MvH5b2zKJaB4x6sLQyhjM5Lgppe/tables/tblFCHOOsofgX58X/records",
+                        "method": "post",
+                        "headers": [
+                          { "name": "Authorization", "value": "Bearer {{2.data.tenant_access_token}}" },
+                          { "name": "Content-Type", "value": "application/json" }
+                        ],
+                        "contentType": "json",
+                        "inputMethod": "jsonString",
+                        "shareCookies": false,
+                        "parseResponse": true,
+                        "allowRedirects": true,
+                        "stopOnHttpError": true,
+                        "jsonStringBodyContent": "{\"fields\":{\"owner\":\"{{1.master_status.owner}}\",\"updated_at\":\"{{1.master_status.updated_at}}\",\"active_skills_count\":{{1.master_status.active_skills_count}},\"focus_areas\":\"{{join(1.master_status.focus_areas; \", \")}}\",\"okr_period\":\"{{1.master_status.okr_period}}\",\"okr_summary\":\"{{1.master_status.okr_summary}}\",\"weekly_rhythm\":\"{{1.master_status.weekly_rhythm.monday_friday}} / {{1.master_status.weekly_rhythm.x_post}} / {{1.master_status.weekly_rhythm.saturday}}\"}}",
+                        "requestCompressedContent": true
+                      },
+                      "metadata": {
+                        "designer": { "x": 900, "y": -100 }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "metadata": {
+                "designer": { "x": 750, "y": -200 }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 8,
+              "module": "builtin:BasicFeeder",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "array": "{{1.daily_logs}}"
+              },
+              "metadata": {
+                "designer": { "x": 600, "y": 200 }
+              }
+            },
+            {
+              "id": 9,
+              "module": "http:MakeRequest",
+              "version": 4,
+              "parameters": {
+                "tlsType": "",
+                "proxyKeychain": "",
+                "authenticationType": "noAuth"
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/bitable/v1/apps/MvH5b2zKJaB4x6sLQyhjM5Lgppe/tables/tbl1hjZnDdr58ev7/records/search",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{2.data.tenant_access_token}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "contentType": "json",
+                "inputMethod": "jsonString",
+                "shareCookies": false,
+                "parseResponse": true,
+                "allowRedirects": true,
+                "stopOnHttpError": false,
+                "jsonStringBodyContent": "{\"filter\":{\"conjunction\":\"and\",\"conditions\":[{\"field_name\":\"date\",\"operator\":\"is\",\"value\":[\"{{8.date}}\"]}]},\"page_size\":1}",
+                "requestCompressedContent": true
+              },
+              "metadata": {
+                "designer": { "x": 900, "y": 200 }
+              }
+            },
+            {
+              "id": 10,
+              "module": "builtin:BasicRouter",
+              "version": 1,
+              "mapper": null,
+              "routes": [
+                {
+                  "flow": [
+                    {
+                      "id": 11,
+                      "module": "http:MakeRequest",
+                      "version": 4,
+                      "parameters": {
+                        "tlsType": "",
+                        "proxyKeychain": "",
+                        "authenticationType": "noAuth"
+                      },
+                      "filter": {
+                        "name": "既存 → 更新",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{9.data.data.total}}",
+                              "b": "0",
+                              "o": "number:greater"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "url": "https://open.larksuite.com/open-apis/bitable/v1/apps/MvH5b2zKJaB4x6sLQyhjM5Lgppe/tables/tbl1hjZnDdr58ev7/records/{{9.data.data.items[1].record_id}}",
+                        "method": "put",
+                        "headers": [
+                          { "name": "Authorization", "value": "Bearer {{2.data.tenant_access_token}}" },
+                          { "name": "Content-Type", "value": "application/json" }
+                        ],
+                        "contentType": "json",
+                        "inputMethod": "jsonString",
+                        "shareCookies": false,
+                        "parseResponse": true,
+                        "allowRedirects": true,
+                        "stopOnHttpError": true,
+                        "jsonStringBodyContent": "{\"fields\":{\"date\":\"{{8.date}}\",\"summary\":\"{{8.summary}}\",\"tasks_done\":{{8.metrics.tasks_done}},\"skills_created\":{{8.metrics.skills_created}},\"errors\":{{8.metrics.errors}},\"sessions_json\":\"{{replace(toString(8.sessions); \"\\\"\"; \"'\")}}\"}}",
+                        "requestCompressedContent": true
+                      },
+                      "metadata": {
+                        "designer": { "x": 1200, "y": 100 }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "flow": [
+                    {
+                      "id": 12,
+                      "module": "http:MakeRequest",
+                      "version": 4,
+                      "parameters": {
+                        "tlsType": "",
+                        "proxyKeychain": "",
+                        "authenticationType": "noAuth"
+                      },
+                      "filter": {
+                        "name": "新規 → 作成",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{9.data.data.total}}",
+                              "b": "0",
+                              "o": "number:equal"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "url": "https://open.larksuite.com/open-apis/bitable/v1/apps/MvH5b2zKJaB4x6sLQyhjM5Lgppe/tables/tbl1hjZnDdr58ev7/records",
+                        "method": "post",
+                        "headers": [
+                          { "name": "Authorization", "value": "Bearer {{2.data.tenant_access_token}}" },
+                          { "name": "Content-Type", "value": "application/json" }
+                        ],
+                        "contentType": "json",
+                        "inputMethod": "jsonString",
+                        "shareCookies": false,
+                        "parseResponse": true,
+                        "allowRedirects": true,
+                        "stopOnHttpError": true,
+                        "jsonStringBodyContent": "{\"fields\":{\"date\":\"{{8.date}}\",\"summary\":\"{{8.summary}}\",\"tasks_done\":{{8.metrics.tasks_done}},\"skills_created\":{{8.metrics.skills_created}},\"errors\":{{8.metrics.errors}},\"sessions_json\":\"{{replace(toString(8.sessions); \"\\\"\"; \"'\")}}\"}}",
+                        "requestCompressedContent": true
+                      },
+                      "metadata": {
+                        "designer": { "x": 1200, "y": 300 }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "metadata": {
+                "designer": { "x": 1050, "y": 200 }
+              }
+            }
+          ]
+        }
+      ],
+      "metadata": {
+        "designer": { "x": 450, "y": 0 }
+      }
+    },
+    {
+      "id": 13,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "tlsType": "",
+        "proxyKeychain": "",
+        "authenticationType": "noAuth"
+      },
+      "mapper": {
+        "url": "https://open.larksuite.com/open-apis/im/v1/messages?receive_id_type=open_id",
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer {{2.data.tenant_access_token}}" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "contentType": "json",
+        "inputMethod": "jsonString",
+        "shareCookies": false,
+        "parseResponse": true,
+        "allowRedirects": true,
+        "stopOnHttpError": true,
+        "jsonStringBodyContent": "{\"receive_id\":\"ou_13255832c557c7f7efecc120ca3ade98\",\"msg_type\":\"text\",\"content\":\"{\\\"text\\\":\\\"📊 ログ同期完了\\\\n日付: {{1.master_status.updated_at}}\\\\nDaily logs: {{length(1.daily_logs)}}件同期\\\"}\"}",
+        "requestCompressedContent": true
+      },
+      "metadata": {
+        "designer": { "x": 1500, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": true,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": true,
+      "freshVariables": false
+    },
+    "designer": { "orphans": [] },
+    "zone": "eu1.make.com"
+  }
+}
