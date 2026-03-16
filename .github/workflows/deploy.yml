@@ -7,26 +7,17 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Inject secrets and prepare build
-        run: |
-          cp index.html deploy_index.html
-          sed -i "s|__OPENAI_API_KEY__|${{ secrets.OPENAI_API_KEY }}|g" deploy_index.html
-          mkdir -p dist
-          cp deploy_index.html dist/index.html
-
+      - uses: actions/checkout@v4
+      
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./
           publish_branch: gh-pages
+          exclude_assets: '.github,.gitignore'
