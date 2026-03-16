@@ -221,11 +221,11 @@ section{padding:96px 32px}
 .b-t{font-size:.95rem;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
 .b-d{font-size:.8rem;color:var(--t2);line-height:1.65}
 .b-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
-.btag{font-size:.62rem;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid}
-.bt-bl{color:var(--bl);background:var(--bl-d);border-color:rgba(74,143,247,.2)}
-.bt-or{color:var(--or);background:var(--or-d);border-color:rgba(240,120,64,.2)}
-.bt-gr{color:var(--gr);background:var(--gr-d);border-color:rgba(61,214,140,.2)}
-.bt-pu{color:var(--pu);background:var(--pu-d);border-color:rgba(167,139,250,.2)}
+.btag{font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:5px;border:1px solid;letter-spacing:.02em}
+.bt-bl{color:#7db8ff;background:rgba(74,143,247,.22);border-color:rgba(74,143,247,.45)}
+.bt-or{color:#ffaa7a;background:rgba(240,120,64,.22);border-color:rgba(240,120,64,.45)}
+.bt-gr{color:#5ee8a0;background:rgba(61,214,140,.22);border-color:rgba(61,214,140,.45)}
+.bt-pu{color:#c4adff;background:rgba(167,139,250,.22);border-color:rgba(167,139,250,.45)}
 .b-big{font-size:4rem;font-weight:900;letter-spacing:-.06em;line-height:1;margin-bottom:6px}
 
 /* =====================================================
@@ -434,6 +434,36 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .cando-card{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:20px;transition:all .2s}
 .cando-card:hover{border-color:var(--bm);transform:translateY(-2px)}
 .cando-plus{border-style:dashed;opacity:.7}
+/* FLOW DIAGRAM */
+.flow-diagram{display:flex;align-items:center;gap:0;margin:48px 0 32px;min-height:280px;position:relative}
+.flow-col{display:flex;flex-direction:column;gap:12px;flex:0 0 200px}
+.flow-col-label{font-size:.65rem;font-weight:800;letter-spacing:.12em;color:var(--t3);text-transform:uppercase;margin-bottom:4px;text-align:center}
+.flow-node{background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px 16px;transition:all .2s;cursor:default}
+.flow-node:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.fn-blue{border-left:3px solid var(--bl)}
+.fn-green{border-left:3px solid var(--gr)}
+.fn-orange{border-left:3px solid var(--or)}
+.fn-purple{border-left:3px solid var(--pu)}
+.fn-icon{font-size:1.3rem;margin-bottom:4px}
+.fn-name{font-size:.82rem;font-weight:700;color:var(--t1);margin-bottom:2px}
+.fn-desc{font-size:.7rem;color:var(--t3);line-height:1.35}
+.flow-arrow{flex:1;display:flex;align-items:center;justify-content:center;min-width:60px}
+.flow-arrow-svg{width:80px;height:120px;opacity:.8}
+.flow-engine{flex:0 0 180px;background:linear-gradient(135deg,rgba(74,143,247,.12),rgba(240,120,64,.1));border:1.5px solid rgba(74,143,247,.35);border-radius:20px;padding:24px 16px;text-align:center;position:relative;overflow:hidden}
+.flow-engine-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;background:radial-gradient(circle,rgba(74,143,247,.18) 0%,transparent 70%);animation:engineGlow 2.5s ease-in-out infinite;pointer-events:none}
+@keyframes engineGlow{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}}
+.flow-engine-label{font-size:.62rem;font-weight:800;letter-spacing:.12em;color:var(--bl);text-transform:uppercase;margin-bottom:16px}
+.flow-engine-icons{display:flex;flex-direction:column;gap:8px}
+.fe-chip{font-size:.72rem;font-weight:600;color:var(--t1);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 10px;text-align:left}
+.flow-engine-pulse{position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--bl),var(--or),transparent);animation:flowPulse 2s linear infinite}
+@keyframes flowPulse{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.cando-bottom{margin-top:8px}
+.cando-plus-card{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px dashed rgba(255,255,255,.2);border-radius:14px;padding:20px 24px;flex-wrap:wrap}
+.cando-plus-icon{font-size:1.5rem;color:var(--t3)}
+.cando-plus-text{flex:1;font-size:.9rem;color:var(--t2)}
+.cando-ask-btn{background:linear-gradient(135deg,var(--bl),#3273dc);color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
+.cando-ask-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(74,143,247,.4)}
+@media(max-width:900px){.flow-diagram{flex-direction:column;gap:16px}.flow-arrow{display:none}.flow-engine{flex:unset;width:100%}.flow-col{flex:unset;width:100%}}
 .cando-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:12px}
 .cando-label{font-size:.9rem;font-weight:700;color:var(--t1);margin-bottom:4px}
 .cando-ex{font-size:.75rem;color:var(--t3);line-height:1.4}
@@ -467,8 +497,18 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .spcomp-time{font-size:2.8rem;font-weight:900;color:var(--t1);letter-spacing:-.04em}
 .spcomp-detail{font-size:.8rem;color:var(--t3);margin-top:4px}
 .spcomp-arrow{font-size:1.8rem;color:var(--t3)}
+.spcomp-arrow-ani{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
+.spa-line{width:80px;height:2px;background:linear-gradient(90deg,rgba(255,100,80,.4),var(--or));position:relative;overflow:hidden}
+.spa-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,#fff,transparent);animation:scanLine 1.8s linear infinite}
+@keyframes scanLine{0%{left:-100%}100%{left:100%}}
+.spa-dot{width:8px;height:8px;border-radius:50%;background:var(--or);animation:spaDot 1.8s ease-in-out infinite}
+@keyframes spaDot{0%,100%{transform:scale(1);box-shadow:0 0 6px var(--or)}50%{transform:scale(1.4);box-shadow:0 0 16px var(--or)}}
+.spa-arrow{font-size:1.6rem;color:var(--or);animation:arrowPulse .9s ease-in-out infinite alternate}
+@keyframes arrowPulse{from{transform:translateX(-4px);opacity:.6}to{transform:translateX(4px);opacity:1}}
 .spcomp-badge{position:absolute;top:-14px;right:20px;background:var(--or);color:#fff;padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:800}
 .spcomp-before .spcomp-time{color:rgba(255,100,80,.8)}
+.ctag-chip{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:5px;border:1px solid}
+.ctag-chip svg{width:14px;height:14px;flex-shrink:0;border-radius:3px}
 
 /* =====================================================
    BEFORE/AFTER: Number highlights
@@ -791,22 +831,110 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 <!-- CAN DO: できること = ほぼ全て -->
 <section id="cando">
   <div class="wrap">
-    <div class="eye">CAPABILITIES</div>
-    <div class="cando-eq">
-      <span class="cando-word">できること</span>
-      <span class="cando-sym">=</span>
-      <span class="cando-val c-gr">ほぼ全て</span>
+    <div class="eye">CAN DO</div>
+    <h2 class="sec-t">できること、すべて</h2>
+    <p class="sec-s">Webブラウザ上・API連携・ファイル操作・AIが絡む処理なら、ほぼすべて自動化できます。</p>
+
+    <div class="flow-diagram">
+      <!-- INPUT -->
+      <div class="flow-col flow-in">
+        <div class="flow-col-label">INPUT</div>
+        <div class="flow-node fn-blue sr">
+          <div class="fn-icon">📋</div>
+          <div class="fn-name">データ入力・転記</div>
+          <div class="fn-desc">フォーム / CSV / メール</div>
+        </div>
+        <div class="flow-node fn-green sr">
+          <div class="fn-icon">🌐</div>
+          <div class="fn-name">スクレイピング・RPA</div>
+          <div class="fn-desc">競合調査 / 求人収集</div>
+        </div>
+        <div class="flow-node fn-purple sr">
+          <div class="fn-icon">🔗</div>
+          <div class="fn-name">SaaS・API連携</div>
+          <div class="fn-desc">外部サービス → 自動取得</div>
+        </div>
+      </div>
+
+      <!-- ARROW LEFT -->
+      <div class="flow-arrow flow-arrow-anim">
+        <svg viewBox="0 0 80 120" fill="none" class="flow-arrow-svg">
+          <path class="flow-path-anim" d="M10 20 Q40 20 40 60 Q40 100 70 100" stroke="url(#ga1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path class="flow-path-anim" d="M10 60 L70 60" stroke="url(#ga1)" stroke-width="2.5" stroke-linecap="round" fill="none" stroke-dasharray="4 4"/>
+          <path class="flow-path-anim" d="M10 100 Q40 100 40 60 Q40 20 70 20" stroke="url(#ga1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <defs>
+            <linearGradient id="ga1" x1="0" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4a8ff7" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#4a8ff7"/>
+            </linearGradient>
+          </defs>
+          <polygon points="68,56 76,60 68,64" fill="#4a8ff7"/>
+        </svg>
+      </div>
+
+      <!-- AI ENGINE CENTER -->
+      <div class="flow-engine sr">
+        <div class="flow-engine-glow"></div>
+        <div class="flow-engine-label">AI ENGINE</div>
+        <div class="flow-engine-icons">
+          <div class="fe-chip">⚙️ Make.com</div>
+          <div class="fe-chip">🤖 GPT-4o</div>
+          <div class="fe-chip">🐍 Python</div>
+          <div class="fe-chip">🔧 Claude</div>
+        </div>
+        <div class="flow-engine-pulse"></div>
+      </div>
+
+      <!-- ARROW RIGHT -->
+      <div class="flow-arrow flow-arrow-anim">
+        <svg viewBox="0 0 80 140" fill="none" class="flow-arrow-svg">
+          <path d="M10 70 Q40 70 40 30 Q40 5 70 5" stroke="url(#ga2)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M10 70 L70 70" stroke="url(#ga2)" stroke-width="2.5" stroke-linecap="round" fill="none" stroke-dasharray="4 4"/>
+          <path d="M10 70 Q40 70 40 105 Q40 135 70 135" stroke="url(#ga2)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <defs>
+            <linearGradient id="ga2" x1="0" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#f07840"/>
+              <stop offset="100%" stop-color="#f07840" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="68,66 76,70 68,74" fill="#f07840"/>
+          <polygon points="68,1 76,5 68,9" fill="#f07840"/>
+          <polygon points="68,131 76,135 68,139" fill="#f07840"/>
+        </svg>
+      </div>
+
+      <!-- OUTPUT -->
+      <div class="flow-col flow-out">
+        <div class="flow-col-label">OUTPUT</div>
+        <div class="flow-node fn-orange sr">
+          <div class="fn-icon">🔔</div>
+          <div class="fn-name">通知・アラート</div>
+          <div class="fn-desc">Slack / LINE / メール</div>
+        </div>
+        <div class="flow-node fn-purple sr">
+          <div class="fn-icon">📊</div>
+          <div class="fn-name">レポート・集計</div>
+          <div class="fn-desc">KPI / ダッシュボード</div>
+        </div>
+        <div class="flow-node fn-green sr">
+          <div class="fn-icon">📱</div>
+          <div class="fn-name">SNS自動投稿</div>
+          <div class="fn-desc">X / Instagram 定期配信</div>
+        </div>
+        <div class="flow-node fn-blue sr">
+          <div class="fn-icon">🤖</div>
+          <div class="fn-name">AI文章生成・分類</div>
+          <div class="fn-desc">返信文 / 要約 / 判別</div>
+        </div>
+      </div>
     </div>
-    <p class="sec-s" style="margin-bottom:48px">業務の種類を問いません。<br>Webブラウザ上・API連携・ファイル操作・AIが絡む処理なら、ほぼすべて自動化できます。</p>
-    <div class="cando-grid">
-      <div class="cando-card"><div class="cando-icon" style="background:rgba(74,143,247,.12);color:var(--bl)">📋</div><div class="cando-label">データ入力・転記</div><div class="cando-ex">フォーム → スプレッドシート → DB</div></div>
-      <div class="cando-card"><div class="cando-icon" style="background:rgba(240,120,64,.12);color:var(--or)">🤖</div><div class="cando-label">AI文章生成・分類</div><div class="cando-ex">返信文生成・カテゴリ判別・要約</div></div>
-      <div class="cando-card"><div class="cando-icon" style="background:rgba(61,214,140,.12);color:var(--gr)">🌐</div><div class="cando-label">スクレイピング・RPA</div><div class="cando-ex">競合調査・求人収集・フォーム自動送信</div></div>
-      <div class="cando-card"><div class="cando-icon" style="background:rgba(167,139,250,.12);color:var(--pu)">📊</div><div class="cando-label">レポート・集計</div><div class="cando-ex">日次KPI・売上集計・グラフ自動生成</div></div>
-      <div class="cando-card"><div class="cando-icon" style="background:rgba(240,120,64,.12);color:var(--or)">🔔</div><div class="cando-label">通知・アラート</div><div class="cando-ex">Slack / LINE / メール自動送信</div></div>
-      <div class="cando-card"><div class="cando-icon" style="background:rgba(74,143,247,.12);color:var(--bl)">🔗</div><div class="cando-label">SaaS・API連携</div><div class="cando-ex">複数ツールをつなぎ手動コピペをゼロに</div></div>
-      <div class="cando-card"><div class="cando-icon" style="background:rgba(61,214,140,.12);color:var(--gr)">📱</div><div class="cando-label">SNS自動投稿</div><div class="cando-ex">X / Instagram / Threads 定期配信</div></div>
-      <div class="cando-card cando-plus"><div class="cando-icon" style="background:rgba(255,255,255,.06);color:var(--t2)">＋</div><div class="cando-label">他、相談ください</div><div class="cando-ex">「これ自動化できる？」まず聞いてください</div></div>
+
+    <div class="cando-bottom">
+      <div class="cando-plus-card">
+        <span class="cando-plus-icon">＋</span>
+        <span class="cando-plus-text">他、どんなことでも相談ください。</span>
+        <button onclick="document.getElementById('chat-btn').click()" class="cando-ask-btn">AIに聞く →</button>
+      </div>
     </div>
   </div>
 </section>
@@ -853,9 +981,13 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       </div>
     </div>
     <div class="speed-compare">
-      <div class="spcomp spcomp-before"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time">17時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
-      <div class="spcomp-arrow">→</div>
-      <div class="spcomp spcomp-after"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or">15分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
+      <div class="spcomp spcomp-before"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">17時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
+      <div class="spcomp-arrow-ani">
+        <div class="spa-line"></div>
+        <div class="spa-dot"></div>
+        <div class="spa-arrow">→</div>
+      </div>
+      <div class="spcomp spcomp-after"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">15分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
       <div class="spcomp-badge">68倍速</div>
     </div>
   </div>
@@ -868,12 +1000,12 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <h2 class="sec-t">Before / After</h2>
     <p class="sec-s">実際に構築した自動化の成果です。</p>
     <div class="cases">
-      <div class="cc"><div class="cc-head">案件スカウト自動化（3プラットフォーム）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">1〜2件/日</span>手動確認・手動応募。毎日2時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">20件/日</span>GPTスコア→文章生成→自動送信</div></div><div class="ce">⚡ 毎日2時間削減・応募数10倍</div><div class="ctags"><span class="btag bt-gr">Playwright</span><span class="btag bt-bl">GPT-4o</span><span class="btag bt-or">cron</span></div></div></div>
-      <div class="cc"><div class="cc-head">問い合わせ自動分類・返信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/件</span>手動確認・返信。見落とし多発</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0秒</span>AI分類→即返信→Lark通知</div></div><div class="ce">⚡ 返信速度∞倍・見落としゼロ</div><div class="ctags"><span class="btag bt-bl">Claude API</span><span class="btag bt-or">Make.com</span><span class="btag bt-pu">Lark bot</span></div></div></div>
-      <div class="cc"><div class="cc-head">商品説明文 一括AI生成（100件）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">17時間</span>100件を手書き。月34,000円の人件費</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">15分</span>CSV → GPT一括生成 → シート自動書込</div></div><div class="ce">⚡ 68倍速・月33,500円削減</div><div class="ctags"><span class="btag bt-bl">GPT-4o</span><span class="btag bt-gr">Python</span><span class="btag bt-or">Sheets API</span></div></div></div>
-      <div class="cc"><div class="cc-head">AI活動ログ自動集計ダッシュボード</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/週</span>KPI確認・集計に毎週30分</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0分</span>日次自動UPSERT・常時最新表示</div></div><div class="ce">⚡ 年間26時間の集計作業を完全ゼロ化</div><div class="ctags"><span class="btag bt-or">Make.com</span><span class="btag bt-pu">Lark Bitable</span><span class="btag bt-bl">Webhook</span></div></div></div>
-      <div class="cc"><div class="cc-head">SNS投稿 自動生成・定期配信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/日</span>毎日30分のニュース収集・投稿作業</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0分</span>収集→GPT生成→X自動投稿 2回/日</div></div><div class="ce">⚡ 月15時間削減・投稿頻度2倍</div><div class="ctags"><span class="btag bt-bl">GPT-4o</span><span class="btag bt-gr">X API</span><span class="btag bt-or">cron</span></div></div></div>
-      <div class="cc"><div class="cc-head">Google Forms → Lark 自動転記・集計</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span>フォーム回答を手動転記。集計1時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span>GAS Webhook → Make.com → Bitable自動転記</div></div><div class="ce">⚡ 転記工数ゼロ・リアルタイム集計</div><div class="ctags"><span class="btag bt-gr">GAS</span><span class="btag bt-or">Make.com</span><span class="btag bt-pu">Lark Bitable</span></div></div></div>
+      <div class="cc"><div class="cc-head">案件スカウト自動化（3プラットフォーム）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">1〜2件/日</span>手動確認・手動応募。毎日2時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">20件/日</span>GPTスコア→文章生成→自動送信</div></div><div class="ce">⚡ 毎日2時間削減・応募数10倍</div><div class="ctags"><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a2e"/><circle cx="7" cy="7" r="4.5" fill="none" stroke="#45ba4b" stroke-width="1.2"/><circle cx="7" cy="7" r="2.5" fill="#d65348"/></svg>Playwright</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
+      <div class="cc"><div class="cc-head">問い合わせ自動分類・返信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/件</span>手動確認・返信。見落とし多発</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0秒</span>AI分類→即返信→Lark通知</div></div><div class="ce">⚡ 返信速度∞倍・見落としゼロ</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#CC785C"/><path d="M8.8 10h1.3L7.5 4.5H6.4L3.8 10h1.3l.6-1.6h2.5L8.8 10zm-2.7-2.7l.9-2.2.9 2.2H6.1z" fill="white"/></svg>Claude API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 9 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 8 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark bot</span></div></div></div>
+      <div class="cc"><div class="cc-head">商品説明文 一括AI生成（100件）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">17時間</span>100件を手書き。月34,000円の人件費</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">15分</span>CSV → GPT一括生成 → シート自動書込</div></div><div class="ce">⚡ 68倍速・月33,500円削減</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#3776AB"/><path d="M7 2.5c-1.2 0-2 .4-2 1.2v.8h2v.4H4c-.8 0-1.5.7-1.5 1.7s.7 1.7 1.5 1.7h.7V7.5c0-.8.7-1.4 1.8-1.4H8c.9 0 1.5-.6 1.5-1.3V3.7c0-.7-.7-1.2-2-1.2H7zm-.7.7a.4.4 0 110 .8.4.4 0 010-.8z" fill="#FFD43B"/><path d="M7 11.5c1.2 0 2-.4 2-1.2v-.8H7v-.4h3c.8 0 1.5-.7 1.5-1.7S10.8 5.7 10 5.7h-.7V6.5c0 .8-.7 1.4-1.8 1.4H6c-.9 0-1.5.6-1.5 1.3v2.1c0 .7.7 1.2 2 1.2H7zm.7-.7a.4.4 0 110-.8.4.4 0 010 .8z" fill="white"/></svg>Python</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0f9d58"/><path d="M4 4h6v1.5H4V4zm0 2.5h6V8H4V6.5zm0 2.5h6V10.5H4V9z" fill="white" opacity=".9"/></svg>Sheets API</span></div></div></div>
+      <div class="cc"><div class="cc-head">AI活動ログ自動集計ダッシュボード</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/週</span>KPI確認・集計に毎週30分</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0分</span>日次自動UPSERT・常時最新表示</div></div><div class="ce">⚡ 年間26時間の集計作業を完全ゼロ化</div><div class="ctags"><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 8.5 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 7.5 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark Bitable</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#6366f1"/><circle cx="4" cy="10" r="2" fill="white" opacity=".9"/><circle cx="10" cy="4" r="2" fill="white" opacity=".9"/><path d="M4 8C4 6 5.5 5 7 5M10 6c0 2-1.5 3-3 3" stroke="white" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/></svg>Webhook</span></div></div></div>
+      <div class="cc"><div class="cc-head">SNS投稿 自動生成・定期配信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/日</span>毎日30分のニュース収集・投稿作業</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0分</span>収集→GPT生成→X自動投稿 2回/日</div></div><div class="ce">⚡ 月15時間削減・投稿頻度2倍</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="black"/><path d="M3 3.2l3.2 3.8L3 11h1.1l2.6-3.1L9 11h1.8L7.5 6.9 10.8 3.2H9.7L7.1 6.1 4.8 3.2H3z" fill="white"/></svg>X API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
+      <div class="cc"><div class="cc-head">Google Forms → Lark 自動転記・集計</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span>フォーム回答を手動転記。集計1時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span>GAS Webhook → Make.com → Bitable自動転記</div></div><div class="ce">⚡ 転記工数ゼロ・リアルタイム集計</div><div class="ctags"><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#4285F4"/><path d="M7 3.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 1a2.5 2.5 0 012.5 2.5H7V4.5z" fill="white"/></svg>GAS</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 8.5 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 7.5 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark Bitable</span></div></div></div>
     </div>
   </div>
 </section>
@@ -1496,6 +1628,44 @@ function roiCalc(){
     el.classList.add('sr','sr-d'+(i%3));
     io.observe(el);
   });
+})();
+
+// カウンターアニメーション（speed-compare が表示されたとき）
+(function(){
+  var done=false;
+  var observer=new IntersectionObserver(function(entries){
+    if(done)return;
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        done=true;
+        // BEFORE: 17 → 1 (逆カウント)
+        var bEl=document.getElementById('cnt-before');
+        if(bEl){
+          var b=17;
+          var bi=setInterval(function(){
+            bEl.textContent=b+'時間';
+            if(b<=1){clearInterval(bi);bEl.style.textDecoration='line-through';bEl.style.opacity='.45';}
+            b--;
+          },80);
+        }
+        // AFTER: 0 → 15
+        var aEl=document.getElementById('cnt-after');
+        if(aEl){
+          aEl.textContent='0分';
+          setTimeout(function(){
+            var a=0;
+            var ai=setInterval(function(){
+              aEl.textContent=a+'分';
+              if(a>=15){clearInterval(ai);}
+              a++;
+            },60);
+          },1400);
+        }
+      }
+    });
+  },{threshold:.5});
+  var sc=document.querySelector('.speed-compare');
+  if(sc)observer.observe(sc);
 })();
 
 </script>
