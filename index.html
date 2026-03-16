@@ -363,6 +363,44 @@ footer a:hover{color:var(--t1)}
 @keyframes typ{0%,80%,100%{transform:scale(.8);opacity:.4}40%{transform:scale(1);opacity:1}}
 
 /* =====================================================
+   ROI CALCULATOR
+===================================================== */
+.roi-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.roi-card{background:var(--bg2);border:1px solid var(--b);border-radius:16px;padding:28px}
+.roi-result-card{display:none}
+.roi-label{display:block;font-size:.8rem;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.roi-hint{font-size:.75rem;color:var(--t3);margin-top:4px}
+.roi-field{flex:1}
+.roi-fields-row{display:flex;gap:16px;margin:16px 0}
+.roi-task-item{display:flex;gap:12px;align-items:flex-end;padding:12px 0;border-bottom:1px solid var(--b)}
+#roi-tasks{margin-bottom:16px}
+.roi-add-btn,.roi-calc-btn,.roi-rem-btn{border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:all .2s}
+.roi-add-btn{width:100%;padding:10px;background:var(--bg3);color:var(--t2);font-size:.85rem;margin-bottom:0;border:1px solid var(--b)}
+.roi-add-btn:hover{background:var(--bm);color:var(--t1)}
+.roi-rem-btn{background:rgba(255,100,80,.15);color:#ff6450;width:34px;height:36px;font-size:1rem;flex-shrink:0;border:1px solid rgba(255,100,80,.25)}
+.roi-rem-btn:hover{background:rgba(255,100,80,.3)}
+.roi-calc-btn{width:100%;padding:13px;background:var(--or);color:#fff;font-size:1rem;margin-top:20px}
+.roi-calc-btn:hover{background:#e06830;transform:translateY(-1px)}
+input.roi-inp,#roi-tasks input{width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--b);border-radius:8px;color:var(--t1);font-size:.9rem;font-family:var(--font)}
+input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(240,120,64,.15)}
+.roi-result-header{text-align:center;margin-bottom:20px}
+.roi-result-sub{font-size:.8rem;color:var(--t2);margin-bottom:4px}
+.roi-big-num{font-size:2.8rem;font-weight:800;color:var(--gr)}
+.roi-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.roi-table th,.roi-table td{padding:10px 0;border-bottom:1px solid var(--b);font-size:.875rem}
+.roi-table th{color:var(--t2);font-weight:400;width:55%}
+.roi-table td{color:var(--t1);font-weight:600;text-align:right}
+.roi-badge{display:inline-block;padding:3px 12px;border-radius:20px;font-weight:700;font-size:.95rem}
+.roi-high{background:rgba(61,214,140,.15);color:var(--gr)}
+.roi-mid{background:rgba(250,189,63,.15);color:#fabd3f}
+.roi-low{background:rgba(255,100,80,.15);color:#ff6450}
+.roi-suggestion{padding:16px;border-radius:10px;background:var(--bg3);border-left:3px solid var(--or);font-size:.875rem;line-height:1.6;color:var(--t2);margin-bottom:16px}
+.roi-suggestion strong{color:var(--or)}
+.roi-cta-btn{display:block;text-align:center;padding:12px;background:var(--or);color:#fff;border-radius:10px;font-weight:700;font-size:.95rem;transition:all .2s}
+.roi-cta-btn:hover{background:#e06830;transform:translateY(-1px)}
+@media(max-width:780px){.roi-wrap{grid-template-columns:1fr}}
+
+/* =====================================================
    RESPONSIVE
 ===================================================== */
 @media(max-width:960px){
@@ -411,6 +449,7 @@ footer a:hover{color:var(--t1)}
       <a href="#bento">サービス</a>
       <a href="#cases">実績</a>
       <a href="#pricing">料金</a>
+      <a href="#roi">ROI計算</a>
       <a href="#process">フロー</a>
       <a href="#faq">FAQ</a>
     </div>
@@ -589,6 +628,62 @@ footer a:hover{color:var(--t1)}
       <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">1回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。スクレイピング・AI・通知・DBまで統合構築。</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後3ヶ月サポート</li><li>追加改修1回無料</li></ul><a href="#contact" class="p-btn p-btn-o">相談する</a></div>
     </div>
     <div class="maint"><div style="font-size:2rem">🛡️</div><div><div class="maint-price">¥20,000 <span>/ 月（2h対応）</span></div><div class="maint-desc">月額保守プラン — エラー対応・仕様変更・小改修を月2時間の範囲で優先対応します。</div></div></div>
+  </div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section id="roi">
+  <div class="wrap">
+    <div class="eye">ROI CALCULATOR</div>
+    <h2 class="sec-t">自動化ROI計算ツール</h2>
+    <p class="sec-s">あなたの業務を自動化したら、いくら節約できる？今すぐ試算してみてください。</p>
+    <div class="roi-wrap">
+      <div class="roi-card">
+        <div id="roi-tasks">
+          <div class="roi-task-item">
+            <div class="roi-field" style="flex:2">
+              <label class="roi-label">作業名</label>
+              <input type="text" class="rt-name" placeholder="例：請求書作成">
+            </div>
+            <div class="roi-field">
+              <label class="roi-label">月あたりの時間</label>
+              <input type="number" class="rt-hours" placeholder="10" min="0" step="0.5">
+            </div>
+          </div>
+        </div>
+        <button class="roi-add-btn" onclick="roiAddTask()">＋ 作業を追加</button>
+        <div class="roi-fields-row">
+          <div class="roi-field">
+            <label class="roi-label">時給（円）</label>
+            <input type="number" id="roi-rate" class="roi-inp" value="2000" min="0" step="100">
+            <p class="roi-hint">スタッフの平均時給</p>
+          </div>
+          <div class="roi-field">
+            <label class="roi-label">削減率（%）</label>
+            <input type="number" id="roi-reduction" class="roi-inp" value="90" min="0" max="100" step="5">
+            <p class="roi-hint">一般的に80〜95%を削減</p>
+          </div>
+        </div>
+        <button class="roi-calc-btn" onclick="roiCalc()">ROIを計算する →</button>
+      </div>
+
+      <div class="roi-card roi-result-card" id="roi-result">
+        <div class="roi-result-header">
+          <p class="roi-result-sub">年間の削減額</p>
+          <div class="roi-big-num" id="roi-annual-saving">—</div>
+        </div>
+        <table class="roi-table">
+          <tbody id="roi-breakdown"></tbody>
+          <tr><th>月合計作業時間</th><td id="roi-total-hours">—</td></tr>
+          <tr><th>年間人件費コスト</th><td id="roi-annual-cost">—</td></tr>
+          <tr><th>年間削減額</th><td id="roi-saving-td">—</td></tr>
+          <tr><th>おすすめプラン（年額）</th><td id="roi-plan-cost">—</td></tr>
+          <tr><th>ROI（投資対効果）</th><td id="roi-roi">—</td></tr>
+        </table>
+        <div class="roi-suggestion" id="roi-suggestion"></div>
+        <a href="#contact" class="roi-cta-btn">このプランで相談する →</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -964,6 +1059,55 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendFreeMsg(inp.value)}});
 
 })();
+
+/* =====================================================
+   ROI CALCULATOR
+===================================================== */
+function roiAddTask(){
+  const c=document.getElementById('roi-tasks');
+  const d=document.createElement('div');
+  d.className='roi-task-item';
+  d.innerHTML=`<div class="roi-field" style="flex:2"><label class="roi-label">作業名</label><input type="text" class="rt-name" placeholder="例：データ入力"></div><div class="roi-field"><label class="roi-label">月あたりの時間</label><input type="number" class="rt-hours" placeholder="10" min="0" step="0.5"></div><button class="roi-rem-btn" onclick="this.parentElement.remove()" title="削除">×</button>`;
+  c.appendChild(d);
+}
+function roiFmt(n){return'¥'+Math.round(n).toLocaleString('ja-JP')}
+function roiCalc(){
+  const names=document.querySelectorAll('.rt-name');
+  const hours=document.querySelectorAll('.rt-hours');
+  const rate=parseFloat(document.getElementById('roi-rate').value)||2000;
+  const reduction=(parseFloat(document.getElementById('roi-reduction').value)||90)/100;
+  let total=0,bHTML='';
+  for(let i=0;i<names.length;i++){
+    const n=names[i].value||('作業'+(i+1));
+    const h=parseFloat(hours[i].value)||0;
+    total+=h;
+    if(h>0)bHTML+=`<tr><th>${n}</th><td>${h}h/月（${roiFmt(h*12*rate)}/年）</td></tr>`;
+  }
+  if(total<=0){alert('月あたりの作業時間を入力してください。');return}
+  const annCost=total*12*rate;
+  const saving=annCost*reduction;
+  let planName,planM;
+  if(total<=10){planName='Liteプラン';planM=40000}
+  else if(total<=30){planName='Standardプラン';planM=80000}
+  else{planName='Full Packageプラン';planM=150000}
+  const planY=planM+(20000*12);
+  const roi=((saving-planY)/planY*100);
+  const rc=document.getElementById('roi-result');
+  rc.style.display='block';
+  document.getElementById('roi-annual-saving').textContent=roiFmt(saving);
+  document.getElementById('roi-breakdown').innerHTML=bHTML;
+  document.getElementById('roi-total-hours').textContent=total+'時間/月';
+  document.getElementById('roi-annual-cost').textContent=roiFmt(annCost);
+  document.getElementById('roi-saving-td').textContent=roiFmt(saving);
+  document.getElementById('roi-plan-cost').textContent=`${roiFmt(planY)}（${planName}＋保守）`;
+  let cls=roi>=200?'roi-high':roi>=100?'roi-mid':'roi-low';
+  document.getElementById('roi-roi').innerHTML=`<span class="roi-badge ${cls}">${Math.round(roi)}%</span>`;
+  const sg=document.getElementById('roi-suggestion');
+  if(roi>=200)sg.innerHTML=`<strong>${planName}がおすすめです。</strong><br>年間削減額 <strong>${roiFmt(saving)}</strong> に対し投資額は ${roiFmt(planY)}。<strong>ROI ${Math.round(roi)}%</strong> — 導入初年度から大幅コスト削減が見込めます。`;
+  else if(roi>=0)sg.innerHTML=`<strong>${planName}で投資回収可能です。</strong><br>年間削減額 <strong>${roiFmt(saving)}</strong> で投資額 ${roiFmt(planY)} を回収できます。<strong>ROI ${Math.round(roi)}%</strong>`;
+  else sg.innerHTML=`<strong>スモールスタートを推奨します。</strong><br>まずはLiteプランから効果の高い業務を1つ自動化し、ROI実績を積むのが最善策です。`;
+  rc.scrollIntoView({behavior:'smooth'});
+}
 </script>
 </body>
 </html>
