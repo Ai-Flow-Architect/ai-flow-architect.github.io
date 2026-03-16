@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自動化ROI計算ツール — AI Flow Architect</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+    color: #2d3748;
+  }
+  .subtitle {
+    text-align: center;
+    color: #718096;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+  }
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    color: #4a5568;
+  }
+  input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  input:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66,153,225,0.15);
+  }
+  .hint {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    margin-top: 0.2rem;
+  }
+  button {
+    width: 100%;
+    padding: 0.85rem;
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s;
+  }
+  button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(66,153,225,0.35);
+  }
+  button:active {
+    transform: translateY(0);
+  }
+  .add-btn {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+  .add-btn:hover {
+    box-shadow: 0 4px 12px rgba(72,187,120,0.35);
+  }
+  #result {
+    display: none;
+  }
+  .result-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .result-header h2 {
+    font-size: 1.3rem;
+    color: #2d3748;
+  }
+  .big-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #e53e3e;
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+  .big-number.green {
+    color: #38a169;
+  }
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  .result-table th, .result-table td {
+    padding: 0.7rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+  }
+  .result-table th {
+    color: #718096;
+    font-weight: 500;
+    width: 45%;
+  }
+  .result-table td {
+    font-weight: 600;
+    text-align: right;
+  }
+  .roi-badge {
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .roi-high { background: #c6f6d5; color: #22543d; }
+  .roi-mid { background: #fefcbf; color: #744210; }
+  .roi-low { background: #fed7d7; color: #742a2a; }
+  .task-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: end;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #edf2f7;
+  }
+  .task-item .form-group { margin-bottom: 0; flex: 1; }
+  .task-item .form-group:first-child { flex: 2; }
+  .remove-btn {
+    background: #fc8181;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 36px;
+    height: 38px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .remove-btn:hover { background: #e53e3e; }
+  .plan-suggestion {
+    margin-top: 1.2rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #ebf8ff;
+    border-left: 4px solid #4299e1;
+  }
+  .plan-suggestion strong { color: #2b6cb0; }
+  .footer {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.8rem;
+    margin-top: 2rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>自動化ROI計算ツール</h1>
+  <p class="subtitle">あなたの業務を自動化したら、いくら節約できる？</p>
+
+  <div class="card">
+    <div id="tasks">
+      <div class="task-item">
+        <div class="form-group">
+          <label>作業名</label>
+          <input type="text" class="task-name" placeholder="例：請求書作成">
+        </div>
+        <div class="form-group">
+          <label>月あたりの時間</label>
+          <input type="number" class="task-hours" placeholder="例：10" min="0" step="0.5">
+        </div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addTask()">＋ 作業を追加</button>
+
+    <div class="form-group">
+      <label>時給（円）</label>
+      <input type="number" id="hourlyRate" value="2000" min="0" step="100">
+      <p class="hint">スタッフの平均時給を入力してください</p>
+    </div>
+
+    <div class="form-group">
+      <label>自動化の削減率（%）</label>
+      <input type="number" id="reductionRate" value="90" min="0" max="100" step="5">
+      <p class="hint">一般的な自動化で80〜95%の工数を削減できます</p>
+    </div>
+
+    <button onclick="calculate()">ROIを計算する</button>
+  </div>
+
+  <div class="card" id="result">
+    <div class="result-header">
+      <h2>計算結果</h2>
+    </div>
+
+    <p style="text-align:center;color:#718096;font-size:0.9rem;">年間の削減額</p>
+    <div class="big-number green" id="annualSaving">—</div>
+
+    <table class="result-table">
+      <tbody id="taskBreakdown"></tbody>
+      <tr>
+        <th>月あたりの合計作業時間</th>
+        <td id="totalMonthlyHours">—</td>
+      </tr>
+      <tr>
+        <th>年間の人件費コスト</th>
+        <td id="annualCost">—</td>
+      </tr>
+      <tr>
+        <th>自動化後の残存コスト</th>
+        <td id="remainingCost">—</td>
+      </tr>
+      <tr>
+        <th>年間削減額</th>
+        <td id="annualSavingTable">—</td>
+      </tr>
+      <tr>
+        <th>おすすめプラン費用（年額）</th>
+        <td id="planCost">—</td>
+      </tr>
+      <tr>
+        <th>ROI（投資対効果）</th>
+        <td id="roiValue">—</td>
+      </tr>
+    </table>
+
+    <div class="plan-suggestion" id="planSuggestion"></div>
+  </div>
+
+  <p class="footer">AI Flow Architect — 業務自動化の専門家</p>
+</div>
+
+<script>
+function addTask() {
+  const container = document.getElementById('tasks');
+  const div = document.createElement('div');
+  div.className = 'task-item';
+  div.innerHTML = `
+    <div class="form-group">
+      <label>作業名</label>
+      <input type="text" class="task-name" placeholder="例：データ入力">
+    </div>
+    <div class="form-group">
+      <label>月あたりの時間</label>
+      <input type="number" class="task-hours" placeholder="例：10" min="0" step="0.5">
+    </div>
+    <button class="remove-btn" onclick="this.parentElement.remove()" title="削除">×</button>
+  `;
+  container.appendChild(div);
+}
+
+function fmt(n) {
+  return '¥' + Math.round(n).toLocaleString('ja-JP');
+}
+
+function calculate() {
+  const names = document.querySelectorAll('.task-name');
+  const hours = document.querySelectorAll('.task-hours');
+  const rate = parseFloat(document.getElementById('hourlyRate').value) || 2000;
+  const reduction = (parseFloat(document.getElementById('reductionRate').value) || 90) / 100;
+
+  let totalHours = 0;
+  let breakdownHTML = '';
+
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i].value || ('作業' + (i + 1));
+    const h = parseFloat(hours[i].value) || 0;
+    totalHours += h;
+    if (h > 0) {
+      breakdownHTML += `<tr><th>${name}</th><td>${h}時間/月（${fmt(h * 12 * rate)}/年）</td></tr>`;
+    }
+  }
+
+  if (totalHours <= 0) {
+    alert('月あたりの作業時間を入力してください。');
+    return;
+  }
+
+  const annualCost = totalHours * 12 * rate;
+  const saving = annualCost * reduction;
+  const remaining = annualCost - saving;
+
+  // プラン推定
+  let planName, planMonthly;
+  if (totalHours <= 10) {
+    planName = 'ライトプラン';
+    planMonthly = 40000;
+  } else if (totalHours <= 30) {
+    planName = 'スタンダードプラン';
+    planMonthly = 80000;
+  } else {
+    planName = 'プレミアムプラン';
+    planMonthly = 150000;
+  }
+  const planAnnual = planMonthly * 12;
+  const roi = ((saving - planAnnual) / planAnnual * 100);
+
+  // 表示
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('annualSaving').textContent = fmt(saving);
+  document.getElementById('taskBreakdown').innerHTML = breakdownHTML;
+  document.getElementById('totalMonthlyHours').textContent = totalHours + '時間';
+  document.getElementById('annualCost').textContent = fmt(annualCost);
+  document.getElementById('remainingCost').textContent = fmt(remaining);
+  document.getElementById('annualSavingTable').textContent = fmt(saving);
+  document.getElementById('planCost').textContent = `${fmt(planAnnual)}（${planName}）`;
+
+  let roiClass;
+  if (roi >= 200) roiClass = 'roi-high';
+  else if (roi >= 100) roiClass = 'roi-mid';
+  else roiClass = 'roi-low';
+
+  document.getElementById('roiValue').innerHTML =
+    `<span class="roi-badge ${roiClass}">${Math.round(roi)}%</span>`;
+
+  // プラン提案
+  const suggestion = document.getElementById('planSuggestion');
+  if (roi >= 200) {
+    suggestion.innerHTML = `<strong>${planName}（${fmt(planMonthly)}/月）がおすすめです。</strong><br>
+      自動化による年間削減額 <strong>${fmt(saving)}</strong> に対し、投資額は ${fmt(planAnnual)} 。<br>
+      <strong>ROI ${Math.round(roi)}%</strong> — 導入初年度から大幅なコスト削減が見込めます。`;
+  } else if (roi >= 0) {
+    suggestion.innerHTML = `<strong>${planName}（${fmt(planMonthly)}/月）で投資回収可能です。</strong><br>
+      年間削減額 <strong>${fmt(saving)}</strong> で投資額 ${fmt(planAnnual)} を回収できます。<br>
+      <strong>ROI ${Math.round(roi)}%</strong> — 費用対効果のある投資です。`;
+  } else {
+    suggestion.innerHTML = `<strong>現時点では投資回収が難しい見込みです。</strong><br>
+      ただし、作業品質の向上・ミス削減・スピードアップなど、金額に表れない効果も大きいです。<br>
+      まずはライトプランで効果の高い業務から自動化を始めることをおすすめします。`;
+  }
+
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
