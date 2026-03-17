@@ -23,7 +23,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230c0c0c'/><rect x='4' y='4' width='24' height='24' rx='4' fill='%23f07840' opacity='.15'/><rect x='7' y='7' width='18' height='18' rx='3' fill='%23f07840' opacity='.3'/><rect x='11' y='11' width='10' height='10' rx='2' fill='%23f07840'/><circle cx='16' cy='16' r='3' fill='%230c0c0c'/><line x1='4' y1='11' x2='7' y2='11' stroke='%23f07840' stroke-width='1.5'/><line x1='4' y1='16' x2='7' y2='16' stroke='%23f07840' stroke-width='1.5'/><line x1='4' y1='21' x2='7' y2='21' stroke='%23f07840' stroke-width='1.5'/><line x1='25' y1='11' x2='28' y2='11' stroke='%23f07840' stroke-width='1.5'/><line x1='25' y1='16' x2='28' y2='16' stroke='%23f07840' stroke-width='1.5'/><line x1='25' y1='21' x2='28' y2='21' stroke='%23f07840' stroke-width='1.5'/><line x1='11' y1='4' x2='11' y2='7' stroke='%23f07840' stroke-width='1.5'/><line x1='16' y1='4' x2='16' y2='7' stroke='%23f07840' stroke-width='1.5'/><line x1='21' y1='4' x2='21' y2='7' stroke='%23f07840' stroke-width='1.5'/><line x1='11' y1='25' x2='11' y2='28' stroke='%23f07840' stroke-width='1.5'/><line x1='16' y1='25' x2='16' y2='28' stroke='%23f07840' stroke-width='1.5'/><line x1='21' y1='25' x2='21' y2='28' stroke='%23f07840' stroke-width='1.5'/></svg>" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -53,7 +53,7 @@ ul{list-style:none}
   --or:#f07840;--bl:#4a8ff7;--gr:#3dd68c;--pu:#a78bfa;
   --or-d:rgba(240,120,64,.14);--bl-d:rgba(74,143,247,.12);
   --gr-d:rgba(61,214,140,.12);--pu-d:rgba(167,139,250,.12);
-  --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font:'Space Grotesk','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
 }
 body{font-family:var(--font);background:var(--bg);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
@@ -114,6 +114,7 @@ h1.hero-h1{font-size:clamp(2.6rem,7vw,5.5rem);font-weight:800;letter-spacing:-.0
 .btn-w:hover{opacity:.85;transform:translateY(-1px)}
 .btn-g{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;color:var(--t2);border:1px solid var(--bm);padding:14px 28px;border-radius:999px;transition:color .2s,border-color .2s}
 .btn-g:hover{color:var(--t1);border-color:rgba(255,255,255,.25)}
+.hero-micro{font-size:.68rem;color:var(--t3);margin-top:12px;letter-spacing:.02em}
 
 /* =====================================================
    MARQUEE
@@ -412,6 +413,19 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .avail-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;flex-shrink:0}
 
 /* =====================================================
+   HERO TRUST ROW
+===================================================== */
+.hero-trust-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 12px;margin-bottom:20px;font-size:.72rem;color:var(--t2)}
+.ht-item{display:flex;align-items:center;gap:4px}
+.ht-sep{color:var(--t3)}
+.ht-short{display:none}
+@media(max-width:640px){
+  .hero-trust-row{font-size:.65rem;gap:4px 8px}
+  .ht-full{display:none}
+  .ht-short{display:inline}
+}
+
+/* =====================================================
    HERO SUB-BADGE
 ===================================================== */
 .hero-sub-badge{display:inline-block;margin:12px 0 0;padding:8px 20px;background:rgba(240,120,64,.12);border:1px solid rgba(240,120,64,.3);border-radius:30px;font-size:.85rem;font-weight:600;color:var(--or);letter-spacing:.02em}
@@ -464,6 +478,47 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .cando-ask-btn{background:linear-gradient(135deg,var(--bl),#3273dc);color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
 .cando-ask-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(74,143,247,.4)}
 @media(max-width:900px){.flow-diagram{flex-direction:column;gap:16px}.flow-arrow{display:none}.flow-engine{flex:unset;width:100%}.flow-col{flex:unset;width:100%}}
+/* === FLOW DIAGRAM v2 (n8n/Make.com スタイル) === */
+.fdv2{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;margin:48px 0 32px}
+.fdv2-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);font-size:.78rem;font-weight:600;color:var(--t2);flex-wrap:wrap;gap:8px}
+.fdv2-bar-l{display:flex;align-items:center;gap:8px}
+.fdv2-bar-r{display:flex;align-items:center;gap:14px;font-size:.73rem;color:var(--t3)}
+.fdv2-live-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;flex-shrink:0;animation:fdLivePulse 1.5s ease-in-out infinite}
+@keyframes fdLivePulse{0%,100%{opacity:1}50%{opacity:.3}}
+#fdv2-run-count{color:#22c55e;font-weight:700}
+.fdv2-main{display:flex;align-items:stretch;min-height:270px}
+.fdv2-graph-wrap{flex:1;padding:16px 12px;overflow:hidden;min-width:0}
+#fd-graph{width:100%;height:auto;display:block}
+.fdn-bg{stroke-width:1.5;transition:stroke-opacity .3s,fill .3s}
+.fdn-bg-bl{fill:#050e1b;stroke:#4a8ff7;stroke-opacity:.45}
+.fdn-bg-pu{fill:#080618;stroke:#8b5cf6;stroke-opacity:.45}
+.fdn-bg-or{fill:#150801;stroke:#f07840;stroke-opacity:.45}
+.fdn-bg-gr{fill:#020f05;stroke:#22c55e;stroke-opacity:.45}
+.fdn-stripe{stroke:none}.fdn-s-bl{fill:#4a8ff7}.fdn-s-pu{fill:#8b5cf6}.fdn-s-or{fill:#f07840}.fdn-s-gr{fill:#22c55e}
+.fdn-dot{opacity:.35}.fdn-d-bl{fill:#4a8ff7}.fdn-d-pu{fill:#8b5cf6}.fdn-d-or{fill:#f07840}.fdn-d-gr{fill:#22c55e}
+.fdn-app{font-size:9.5px;font-family:'Space Grotesk','Inter',sans-serif;font-weight:600;opacity:.75}
+.fdn-a-bl{fill:#4a8ff7}.fdn-a-pu{fill:#8b5cf6}.fdn-a-or{fill:#f07840}.fdn-a-gr{fill:#22c55e}
+.fdn-title{font-size:12px;font-family:'Space Grotesk','Inter',sans-serif;font-weight:700;fill:#f0f0f0}
+.fdn-tag{font-size:8.5px;font-family:'Space Grotesk','Inter',sans-serif;font-weight:700;letter-spacing:.08em;opacity:.7}
+.fdn-t-bl{fill:#4a8ff7}.fdn-t-pu{fill:#8b5cf6}.fdn-t-or{fill:#f07840}.fdn-t-gr{fill:#22c55e}
+.fdconn{stroke-width:2;stroke-dasharray:6 4;stroke-linecap:round;animation:fdConnFlow 1.4s linear infinite}
+.fdconn-bl{stroke:#4a8ff7;stroke-opacity:.5}.fdconn-pu{stroke:#8b5cf6;stroke-opacity:.5;animation-delay:.25s}
+.fdconn-or{stroke:#f07840;stroke-opacity:.5;animation-delay:.5s}.fdconn-gr{stroke:#22c55e;stroke-opacity:.5;animation-delay:.75s}
+@keyframes fdConnFlow{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}
+.fdarrow-bl{fill:#4a8ff7;opacity:.75}.fdarrow-pu{fill:#8b5cf6;opacity:.75}.fdarrow-or{fill:#f07840;opacity:.75}.fdarrow-gr{fill:#22c55e;opacity:.75}
+.fd-pkt{transition:opacity .1s}.fd-pkt-bl{fill:#4a8ff7}.fd-pkt-pu{fill:#8b5cf6}.fd-pkt-or{fill:#f07840}.fd-pkt-gr{fill:#22c55e}
+.fdnode--active .fdn-bg-bl{stroke-opacity:1;fill:#0a1e38}.fdnode--active .fdn-bg-pu{stroke-opacity:1;fill:#13093a}
+.fdnode--active .fdn-bg-or{stroke-opacity:1;fill:#2a1002}.fdnode--active .fdn-bg-gr{stroke-opacity:1;fill:#052010}
+.fdnode--active .fdn-dot{opacity:1;animation:fdDotBlink .7s ease-in-out infinite}
+@keyframes fdDotBlink{0%,100%{opacity:1}50%{opacity:.2}}
+.fdv2-log{width:210px;flex-shrink:0;border-left:1px solid rgba(255,255,255,.08);padding:14px 12px;background:rgba(0,0,0,.2);display:flex;flex-direction:column;overflow:hidden}
+.fdv2-log-head{font-size:.67rem;font-weight:800;letter-spacing:.1em;color:var(--t3);text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.07)}
+.fdv2-log-body{display:flex;flex-direction:column;gap:4px;overflow-y:auto;flex:1}
+.fdv2-log-item{font-size:.69rem;color:var(--t2);padding:5px 7px;border-radius:6px;background:rgba(255,255,255,.04);border-left:2.5px solid transparent;animation:fdLogIn .25s ease forwards;line-height:1.4}
+.fdv2-log-item.log-bl{border-left-color:#4a8ff7;color:#93bcf8}.fdv2-log-item.log-pu{border-left-color:#8b5cf6;color:#b9a8f8}
+.fdv2-log-item.log-or{border-left-color:#f07840;color:#f8b898}.fdv2-log-item.log-gr{border-left-color:#22c55e;color:#7de8a4}
+@keyframes fdLogIn{from{opacity:0;transform:translateX(6px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:900px){.fdv2-main{flex-direction:column}.fdv2-log{width:auto;border-left:none;border-top:1px solid rgba(255,255,255,.08);max-height:130px}}
 .cando-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:12px}
 .cando-label{font-size:.9rem;font-weight:700;color:var(--t1);margin-bottom:4px}
 .cando-ex{font-size:.75rem;color:var(--t3);line-height:1.4}
@@ -548,25 +603,12 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .faq-chat-cta p{color:var(--t2);margin-bottom:16px;font-size:.9rem}
 
 /* =====================================================
-   RESPONSIVE additions
+   RESPONSIVE
 ===================================================== */
 @media(max-width:960px){
   .cando-grid{grid-template-columns:repeat(2,1fr)}
   .speed-demo{grid-template-columns:1fr;gap:16px}
   .speed-arrow-col{transform:rotate(90deg);height:60px}
-}
-@media(max-width:640px){
-  .cando-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-  .cando-card{padding:16px}
-  .speed-demo{grid-template-columns:1fr}
-  .speed-arrow-col{display:none}
-  .spcomp-time{font-size:2rem}
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-@media(max-width:960px){
   .oc-grid{grid-template-columns:repeat(2,1fr)}
   .flow-in{grid-template-columns:1fr;gap:48px}
   .bento{grid-template-columns:repeat(2,1fr)}
@@ -625,6 +667,39 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .tp-lc{background:rgba(74,143,247,.12);color:var(--bl)}
 @media(max-width:960px){.testi-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.testi-grid{grid-template-columns:1fr}}
+
+/* =====================================================
+   INLINE CONTACT FORM
+===================================================== */
+.inline-form-wrap{max-width:640px;margin:0 auto 32px;background:var(--bg2);border:1px solid var(--bm);border-radius:20px;padding:32px 36px;position:relative;z-index:1;text-align:left}
+.iform-head{margin-bottom:24px;text-align:center}
+.iform-badge{font-size:.75rem;font-weight:600;color:var(--gr);display:inline-flex;align-items:center;gap:4px;background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.25);padding:5px 14px;border-radius:999px}
+.iform{display:flex;flex-direction:column;gap:16px}
+.iform-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.iform-field{display:flex;flex-direction:column;gap:6px}
+.iform-label{font-size:.78rem;font-weight:600;color:var(--t2)}
+.iform-req{font-size:.65rem;background:rgba(240,120,64,.15);color:var(--or);border:1px solid rgba(240,120,64,.3);padding:1px 6px;border-radius:4px;margin-left:4px;font-weight:700}
+.iform-opt{font-size:.65rem;background:rgba(255,255,255,.05);color:var(--t3);border:1px solid var(--b);padding:1px 6px;border-radius:4px;margin-left:4px}
+.iform-inp,.iform-ta,.iform-sel{background:var(--bg3);border:1px solid var(--b);border-radius:10px;padding:11px 14px;color:var(--t1);font-size:.87rem;font-family:var(--font);outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.iform-ta{resize:vertical;min-height:100px;line-height:1.6}
+.iform-sel{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:36px}
+.iform-inp:focus,.iform-ta:focus,.iform-sel:focus{border-color:var(--or);box-shadow:0 0 0 3px rgba(240,120,64,.12)}
+.iform-btn{background:var(--t1);color:var(--bg);border:none;border-radius:12px;padding:14px;font-size:.95rem;font-weight:800;cursor:pointer;transition:opacity .2s,transform .2s;font-family:var(--font)}
+.iform-btn:hover{opacity:.85;transform:translateY(-1px)}
+.iform-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.iform-note{font-size:.68rem;color:var(--t3);text-align:center;line-height:1.6;margin-top:-4px}
+.iform-success{text-align:center;padding:32px 16px}
+.ifs-icon{width:52px;height:52px;border-radius:50%;background:rgba(61,214,140,.15);border:2px solid rgba(61,214,140,.4);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--gr);margin:0 auto 16px}
+.ifs-title{font-size:1.3rem;font-weight:800;color:var(--gr);margin-bottom:8px}
+.ifs-body{font-size:.87rem;color:var(--t2);line-height:1.75;margin-bottom:20px}
+.ifs-link{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;color:var(--t1);border:1px solid var(--bm);padding:10px 24px;border-radius:999px;transition:border-color .2s}
+.ifs-link:hover{border-color:rgba(255,255,255,.3)}
+.contact-alt-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;z-index:1;margin-top:8px}
+.ca-label{font-size:.72rem;color:var(--t3)}
+.ca-links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ca-link{font-size:.78rem;font-weight:600;color:var(--t2);border:1px solid var(--b);padding:6px 14px;border-radius:8px;transition:border-color .2s,color .2s}
+.ca-link:hover{border-color:var(--bm);color:var(--t1)}
+@media(max-width:640px){.inline-form-wrap{padding:24px 18px}.iform-row{grid-template-columns:1fr}}
 
 /* =====================================================
    CONTACT TRUST ROW
@@ -696,7 +771,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <a href="#process">フロー</a>
       <a href="#faq">FAQ</a>
     </div>
-    <a href="#contact" class="nav-cta">無料相談 →</a>
+    <a href="#contact" class="nav-cta">気軽に無料相談 →</a>
   </div>
 </nav>
 
@@ -708,7 +783,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
   <div class="hero-content">
     <div class="avail-badge">
       <span class="avail-dot"></span>
-      現在 <strong>2件</strong> 受付可能 · 最短1週間で着手 · ⚡ 毎日 −2時間 を実現する自動化を納品
+      中小企業・個人事業主専用 · AI業務自動化 · 最短<strong>1週間</strong>で納品
     </div>
     <h1 class="hero-h1">
       <span class="h1-static">
@@ -724,7 +799,16 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       </span>
       <span class="h1-static" style="color:var(--or)">成果に変える。</span>
     </h1>
-    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">実装します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを納品。<br><span style="font-size:.85rem;color:var(--t3)">技術知識ゼロのご担当者様でも、丁寧にサポートします。</span></p>
+    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t3)">技術知識ゼロでも、中小企業・個人事業主の繰り返し作業を専門に対応します。</span></p>
+    <div class="hero-trust-row">
+      <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
+      <span class="ht-sep">·</span>
+      <span class="ht-item">🔒 <span class="ht-full">NDA対応可</span><span class="ht-short">NDA可</span></span>
+      <span class="ht-sep">·</span>
+      <span class="ht-item">💰 <span class="ht-full">お見積もりまで無料</span><span class="ht-short">相談無料</span></span>
+      <span class="ht-sep">·</span>
+      <span class="ht-item">⚡ <span class="ht-full">迅速返信（12時間以内目安）</span><span class="ht-short">12h返信</span></span>
+    </div>
     <div class="hero-nums">
       <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
       <div class="hn"><div class="hn-n c-bl">24h</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
@@ -732,9 +816,10 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <div class="hn"><div class="hn-n c-pu">20+</div><div class="hn-l">自動化<br>導入実績</div></div>
     </div>
     <div class="hero-btns">
-      <a href="#contact" class="btn-w">無料で相談する →</a>
-      <a href="#cases" class="btn-g">実績を見る</a>
+      <a href="#contact" class="btn-w">無料相談で、業務効率化の可能性を確認する →</a>
+      <a href="#cases" class="btn-g">実績・事例を見る</a>
     </div>
+    <p class="hero-micro">無理な営業は一切ありません · ご相談内容は秘密厳守</p>
   </div>
   <div class="hero-fade"></div>
 </section>
@@ -849,96 +934,118 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <h2 class="sec-t">自動化の流れ — インプットからアウトプットまで</h2>
     <p class="sec-s">Webブラウザ上・API連携・ファイル操作・AIが絡む処理なら、ほぼすべて自動化できます。</p>
 
-    <div class="flow-diagram">
-      <!-- INPUT -->
-      <div class="flow-col flow-in">
-        <div class="flow-col-label">INPUT</div>
-        <div class="flow-node fn-blue sr">
-          <div class="fn-icon">📋</div>
-          <div class="fn-name">データ入力・転記</div>
-          <div class="fn-desc">フォーム / CSV / メール</div>
+    <div class="fdv2" id="fdv2-root">
+      <!-- ステータスバー -->
+      <div class="fdv2-bar">
+        <div class="fdv2-bar-l">
+          <span class="fdv2-live-dot"></span>AutoFlow — <strong>稼働中</strong>
         </div>
-        <div class="flow-node fn-green sr">
-          <div class="fn-icon">🌐</div>
-          <div class="fn-name">スクレイピング・RPA</div>
-          <div class="fn-desc">競合調査 / 求人収集</div>
-        </div>
-        <div class="flow-node fn-purple sr">
-          <div class="fn-icon">🔗</div>
-          <div class="fn-name">SaaS・API連携</div>
-          <div class="fn-desc">外部サービス → 自動取得</div>
+        <div class="fdv2-bar-r">
+          <span>問い合わせ → AI返信 → ログ記録</span>
+          <span>実行数: <strong id="fdv2-run-count">0</strong></span>
         </div>
       </div>
-
-      <!-- ARROW LEFT -->
-      <div class="flow-arrow flow-arrow-anim">
-        <svg viewBox="0 0 80 120" fill="none" class="flow-arrow-svg">
-          <path class="flow-path-anim" d="M10 20 Q40 20 40 60 Q40 100 70 100" stroke="url(#ga1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <path class="flow-path-anim" d="M10 60 L70 60" stroke="url(#ga1)" stroke-width="2.5" stroke-linecap="round" fill="none" stroke-dasharray="4 4"/>
-          <path class="flow-path-anim" d="M10 100 Q40 100 40 60 Q40 20 70 20" stroke="url(#ga1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <defs>
-            <linearGradient id="ga1" x1="0" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#4a8ff7" stop-opacity="0"/>
-              <stop offset="100%" stop-color="#4a8ff7"/>
-            </linearGradient>
-          </defs>
-          <polygon points="68,56 76,60 68,64" fill="#4a8ff7"/>
-        </svg>
-      </div>
-
-      <!-- AI ENGINE CENTER -->
-      <div class="flow-engine sr">
-        <div class="flow-engine-glow"></div>
-        <div class="flow-engine-label">AI ENGINE</div>
-        <div class="flow-engine-icons">
-          <div class="fe-chip">⚙️ Make.com</div>
-          <div class="fe-chip">🤖 GPT-4o</div>
-          <div class="fe-chip">🐍 Python</div>
-          <div class="fe-chip">🔧 Claude</div>
+      <!-- メインコンテンツ -->
+      <div class="fdv2-main">
+        <div class="fdv2-graph-wrap">
+          <svg id="fd-graph" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="fd-glow"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <filter id="fd-pkglow"><feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <!-- 接続線 -->
+            <line class="fdconn fdconn-bl" x1="138" y1="72" x2="194" y2="72"/>
+            <polygon class="fdarrow-bl" points="187,68 196,72 187,76"/>
+            <line class="fdconn fdconn-pu" x1="326" y1="72" x2="382" y2="72"/>
+            <polygon class="fdarrow-pu" points="375,68 384,72 375,76"/>
+            <line class="fdconn fdconn-or" x1="514" y1="72" x2="570" y2="72"/>
+            <polygon class="fdarrow-or" points="563,68 572,72 563,76"/>
+            <line class="fdconn fdconn-gr" x1="261" y1="106" x2="261" y2="166"/>
+            <polygon class="fdarrow-gr" points="257,159 261,168 265,159"/>
+            <line class="fdconn fdconn-gr" x1="326" y1="202" x2="382" y2="202"/>
+            <polygon class="fdarrow-gr" points="375,198 384,202 375,206"/>
+            <!-- N0: フォーム受信 (Trigger) -->
+            <g id="fdn-0" class="fdnode">
+              <rect x="8" y="38" width="130" height="68" rx="9" class="fdn-bg fdn-bg-bl"/>
+              <rect x="8" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-bl"/>
+              <circle cx="129" cy="47" r="4.5" class="fdn-dot fdn-d-bl"/>
+              <text x="73" y="51" text-anchor="middle" class="fdn-app fdn-a-bl">Make.com</text>
+              <text x="73" y="77" text-anchor="middle" class="fdn-title">フォーム受信</text>
+              <text x="73" y="97" text-anchor="middle" class="fdn-tag fdn-t-bl">TRIGGER</text>
+            </g>
+            <!-- N1: AI分類 (Process) -->
+            <g id="fdn-1" class="fdnode">
+              <rect x="196" y="38" width="130" height="68" rx="9" class="fdn-bg fdn-bg-pu"/>
+              <rect x="196" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-pu"/>
+              <circle cx="317" cy="47" r="4.5" class="fdn-dot fdn-d-pu"/>
+              <text x="261" y="51" text-anchor="middle" class="fdn-app fdn-a-pu">Claude API</text>
+              <text x="261" y="77" text-anchor="middle" class="fdn-title">AI分類・判断</text>
+              <text x="261" y="97" text-anchor="middle" class="fdn-tag fdn-t-pu">PROCESS</text>
+            </g>
+            <!-- N2: 返信文生成 (Process) -->
+            <g id="fdn-2" class="fdnode">
+              <rect x="384" y="38" width="130" height="68" rx="9" class="fdn-bg fdn-bg-pu"/>
+              <rect x="384" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-pu"/>
+              <circle cx="505" cy="47" r="4.5" class="fdn-dot fdn-d-pu"/>
+              <text x="449" y="51" text-anchor="middle" class="fdn-app fdn-a-pu">GPT-4o</text>
+              <text x="449" y="77" text-anchor="middle" class="fdn-title">返信文を生成</text>
+              <text x="449" y="97" text-anchor="middle" class="fdn-tag fdn-t-pu">PROCESS</text>
+            </g>
+            <!-- N3: 自動送信 (Action) -->
+            <g id="fdn-3" class="fdnode">
+              <rect x="572" y="38" width="120" height="68" rx="9" class="fdn-bg fdn-bg-or"/>
+              <rect x="572" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-or"/>
+              <circle cx="683" cy="47" r="4.5" class="fdn-dot fdn-d-or"/>
+              <text x="632" y="51" text-anchor="middle" class="fdn-app fdn-a-or">Lark Bot</text>
+              <text x="632" y="77" text-anchor="middle" class="fdn-title">自動送信</text>
+              <text x="632" y="97" text-anchor="middle" class="fdn-tag fdn-t-or">ACTION</text>
+            </g>
+            <!-- N4: ログ記録 (Store) -->
+            <g id="fdn-4" class="fdnode">
+              <rect x="196" y="168" width="130" height="68" rx="9" class="fdn-bg fdn-bg-gr"/>
+              <rect x="196" y="168" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-gr"/>
+              <circle cx="317" cy="177" r="4.5" class="fdn-dot fdn-d-gr"/>
+              <text x="261" y="181" text-anchor="middle" class="fdn-app fdn-a-gr">Sheets API</text>
+              <text x="261" y="207" text-anchor="middle" class="fdn-title">ログを記録</text>
+              <text x="261" y="227" text-anchor="middle" class="fdn-tag fdn-t-gr">STORE</text>
+            </g>
+            <!-- N5: Lark通知 (Notify) -->
+            <g id="fdn-5" class="fdnode">
+              <rect x="384" y="168" width="130" height="68" rx="9" class="fdn-bg fdn-bg-gr"/>
+              <rect x="384" y="168" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-gr"/>
+              <circle cx="505" cy="177" r="4.5" class="fdn-dot fdn-d-gr"/>
+              <text x="449" y="181" text-anchor="middle" class="fdn-app fdn-a-gr">Lark</text>
+              <text x="449" y="207" text-anchor="middle" class="fdn-title">Lark通知</text>
+              <text x="449" y="227" text-anchor="middle" class="fdn-tag fdn-t-gr">NOTIFY</text>
+            </g>
+            <!-- アニメーションパケット -->
+            <circle id="fd-pkt0" r="7" class="fd-pkt fd-pkt-bl" opacity="0" filter="url(#fd-pkglow)">
+              <animateMotion id="fdm0" dur="0.45s" fill="freeze"><mpath href="#fdmp0"/></animateMotion>
+            </circle>
+            <circle id="fd-pkt1" r="7" class="fd-pkt fd-pkt-pu" opacity="0" filter="url(#fd-pkglow)">
+              <animateMotion id="fdm1" dur="0.45s" fill="freeze"><mpath href="#fdmp1"/></animateMotion>
+            </circle>
+            <circle id="fd-pkt2" r="7" class="fd-pkt fd-pkt-or" opacity="0" filter="url(#fd-pkglow)">
+              <animateMotion id="fdm2" dur="0.45s" fill="freeze"><mpath href="#fdmp2"/></animateMotion>
+            </circle>
+            <circle id="fd-pkt3" r="7" class="fd-pkt fd-pkt-gr" opacity="0" filter="url(#fd-pkglow)">
+              <animateMotion id="fdm3" dur="0.55s" fill="freeze"><mpath href="#fdmp3"/></animateMotion>
+            </circle>
+            <circle id="fd-pkt4" r="7" class="fd-pkt fd-pkt-gr" opacity="0" filter="url(#fd-pkglow)">
+              <animateMotion id="fdm4" dur="0.45s" fill="freeze"><mpath href="#fdmp4"/></animateMotion>
+            </circle>
+            <!-- モーションパス（非表示） -->
+            <path id="fdmp0" d="M138,72 L196,72" fill="none" stroke="none"/>
+            <path id="fdmp1" d="M326,72 L384,72" fill="none" stroke="none"/>
+            <path id="fdmp2" d="M514,72 L572,72" fill="none" stroke="none"/>
+            <path id="fdmp3" d="M261,106 L261,168" fill="none" stroke="none"/>
+            <path id="fdmp4" d="M326,202 L384,202" fill="none" stroke="none"/>
+          </svg>
         </div>
-        <div class="flow-engine-pulse"></div>
-      </div>
-
-      <!-- ARROW RIGHT -->
-      <div class="flow-arrow flow-arrow-anim">
-        <svg viewBox="0 0 80 140" fill="none" class="flow-arrow-svg">
-          <path d="M10 70 Q40 70 40 30 Q40 5 70 5" stroke="url(#ga2)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <path d="M10 70 L70 70" stroke="url(#ga2)" stroke-width="2.5" stroke-linecap="round" fill="none" stroke-dasharray="4 4"/>
-          <path d="M10 70 Q40 70 40 105 Q40 135 70 135" stroke="url(#ga2)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <defs>
-            <linearGradient id="ga2" x1="0" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#f07840"/>
-              <stop offset="100%" stop-color="#f07840" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <polygon points="68,66 76,70 68,74" fill="#f07840"/>
-          <polygon points="68,1 76,5 68,9" fill="#f07840"/>
-          <polygon points="68,131 76,135 68,139" fill="#f07840"/>
-        </svg>
-      </div>
-
-      <!-- OUTPUT -->
-      <div class="flow-col flow-out">
-        <div class="flow-col-label">OUTPUT</div>
-        <div class="flow-node fn-orange sr">
-          <div class="fn-icon">🔔</div>
-          <div class="fn-name">通知・アラート</div>
-          <div class="fn-desc">Slack / LINE / メール</div>
-        </div>
-        <div class="flow-node fn-purple sr">
-          <div class="fn-icon">📊</div>
-          <div class="fn-name">レポート・集計</div>
-          <div class="fn-desc">KPI / ダッシュボード</div>
-        </div>
-        <div class="flow-node fn-green sr">
-          <div class="fn-icon">📱</div>
-          <div class="fn-name">SNS自動投稿</div>
-          <div class="fn-desc">X / Instagram 定期配信</div>
-        </div>
-        <div class="flow-node fn-blue sr">
-          <div class="fn-icon">🤖</div>
-          <div class="fn-name">AI文章生成・分類</div>
-          <div class="fn-desc">返信文 / 要約 / 判別</div>
+        <!-- リアルタイムログパネル -->
+        <div class="fdv2-log">
+          <div class="fdv2-log-head">⚡ リアルタイムログ</div>
+          <div class="fdv2-log-body" id="fdv2-log-body"></div>
         </div>
       </div>
     </div>
@@ -1216,10 +1323,18 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <h2 class="sec-t">よくある質問</h2>
     <p class="sec-s">お気軽にご相談ください。</p>
     <div class="fq">
-      <details><summary>どんな業務が自動化できますか？</summary><div class="fq-ans">フォーム入力・データ転記・通知送信・スクレイピング・AI文章生成・レポート作成・SNS投稿など、Webブラウザやアプリ上の繰り返し作業のほとんどが対象です。詳しくはチャットボットに「〇〇を自動化したい」とお気軽にご相談ください。</div></details>
-      <details><summary>技術的な知識がなくても依頼できますか？</summary><div class="fq-ans">はい、問題ありません。「今こんな作業を手作業でやっている」という状況をお伝えいただければ、自動化の可否・方法・費用を丁寧にご説明します。IT知識ゼロのご担当者様からのご依頼も多数あります。</div></details>
-      <details><summary>納期・料金の目安を教えてください。</summary><div class="fq-ans">Liteプラン（¥40,000〜）は3〜5営業日、Standardプラン（¥80,000〜¥150,000）は7〜14日、Full Package（¥150,000〜¥300,000）は14〜30日が目安です。まずROI計算ツールで費用対効果を確認してみてください。</div></details>
-      <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。月額保守プラン（¥20,000/月）にご加入いただくと、月2時間の範囲で優先対応が可能です。</div></details>
+      <details><summary>どんな業務が自動化できますか？</summary><div class="fq-ans">フォーム入力・データ転記・通知送信・スクレイピング・AI文章生成・レポート作成・SNS投稿など、Webブラウザやアプリ上の繰り返し作業のほとんどが対象です。「うちの場合はどうだろう？」という段階でもお気軽にご相談ください。無料でお答えします。</div></details>
+      <details><summary>技術的な知識がなくても依頼できますか？</summary><div class="fq-ans">はい、問題ありません。「今こんな作業を手作業でやっている」とお伝えいただくだけで大丈夫です。自動化の可否・方法・費用を丁寧にご説明します。IT知識ゼロのご担当者様からのご依頼も多数あります。専門用語は一切使わずに説明します。</div></details>
+      <details><summary>料金が高すぎないか不安です。本当に費用対効果はありますか？</summary><div class="fq-ans">Standardプラン（¥80,000〜）の場合、月10時間・時給2,000円の作業を自動化するだけで月2万円の削減になり、4〜5ヶ月で元が取れます。ROI計算ツール（このページ内）で、あなたの業務に当てはめた試算が今すぐできます。まずそちらをお試しください。</div></details>
+      <details><summary>法人契約は対応していますか？請求書は発行できますか？</summary><div class="fq-ans">はい、法人・個人事業主どちらも対応しています。請求書・領収書の発行が可能です。NDA（秘密保持契約）も対応しますので、機密情報を含む業務のご相談もお気軽にどうぞ。</div></details>
+      <details><summary>納期・料金の目安を教えてください。</summary><div class="fq-ans">Liteプラン（¥40,000〜）は3〜5営業日、Standardプラン（¥80,000〜¥150,000）は7〜14日、Full Package（¥150,000〜¥300,000）は14〜30日が目安です。要件が明確な場合は最短1週間での納品実績があります。</div></details>
+      <details><summary>依頼してから動くまでの流れを教えてください。</summary><div class="fq-ans">① 無料相談（ヒアリング・自動化可否の確認）→ ② 要件定義・お見積り（認識齟齬ゼロで着手）→ ③ 設計・構築（進捗随時共有）→ ④ 動作確認・納品（運用手順書同梱）の4ステップです。着手金50%・納品後50%の安心設計で、途中キャンセルリスクを最小化しています。</div></details>
+      <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。月額保守プラン（¥20,000/月）にご加入いただくと、月2時間の範囲で優先対応が可能です。また、各プランに含まれるサポート期間内であれば追加費用なしで対応します。</div></details>
+      <details><summary>「自動化できるか分からない」という状態でも相談できますか？</summary><div class="fq-ans">むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。相談・見積もりは完全無料、断っていただいても構いません。まずお気軽にどうぞ。</div></details>
+    </div>
+    <div class="faq-chat-cta">
+      <p>他にも気になることがあれば、チャットボットに気軽に聞けます</p>
+      <button onclick="document.getElementById('chat-btn').click()" class="cando-ask-btn">AIに質問する →</button>
     </div>
   </div>
 </section>
@@ -1238,13 +1353,62 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <div class="ct-item"><span class="ct-icon">🎯</span><span>自動化の可否・費用を明確回答</span></div>
     </div>
 
-    <div class="chs">
-      <a href="https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef" target="_blank" rel="noopener" class="ch"><span class="ch-ico">📝</span><div class="ch-lb">無料相談フォーム</div><div class="ch-vl">今すぐ送る →</div></a>
-      <a href="https://x.com/Kosuke_free_" target="_blank" rel="noopener" class="ch"><span class="ch-ico">𝕏</span><div class="ch-lb">X (Twitter)</div><div class="ch-vl">@Kosuke_free_</div></a>
-      <a href="https://crowdworks.jp/public/employees/4924931" target="_blank" rel="noopener" class="ch"><span class="ch-ico">💼</span><div class="ch-lb">CrowdWorks</div><div class="ch-vl">プロフィールへ</div></a>
+    <!-- LP内インラインフォーム -->
+    <div class="inline-form-wrap" id="inline-form">
+      <div class="iform-head">
+        <span class="iform-badge"><span class="avail-dot" style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px"></span>受付中 · 通常12時間以内に返信</span>
+      </div>
+      <form class="iform" id="contact-form" onsubmit="submitForm(event)">
+        <div class="iform-row">
+          <div class="iform-field">
+            <label class="iform-label">お名前 <span class="iform-req">必須</span></label>
+            <input type="text" name="name" class="iform-inp" placeholder="山田 太郎" required>
+          </div>
+          <div class="iform-field">
+            <label class="iform-label">会社名・屋号 <span class="iform-opt">任意</span></label>
+            <input type="text" name="company" class="iform-inp" placeholder="株式会社〇〇 / 個人">
+          </div>
+        </div>
+        <div class="iform-field">
+          <label class="iform-label">メールアドレス <span class="iform-req">必須</span></label>
+          <input type="email" name="email" class="iform-inp" placeholder="your@email.com" required>
+        </div>
+        <div class="iform-field">
+          <label class="iform-label">自動化したい業務・お困りごと <span class="iform-req">必須</span></label>
+          <textarea name="message" class="iform-ta" rows="4" placeholder="例：毎日Excelに手入力している作業を自動化したい&#10;例：問い合わせ対応に時間がかかっている&#10;例：SNS投稿を自動化したい" required></textarea>
+        </div>
+        <div class="iform-field">
+          <label class="iform-label">ご予算の目安 <span class="iform-opt">任意</span></label>
+          <select name="budget" class="iform-sel">
+            <option value="">選択してください</option>
+            <option value="lite">¥40,000〜¥75,000（Liteプラン）</option>
+            <option value="standard">¥80,000〜¥150,000（Standardプラン）</option>
+            <option value="full">¥150,000〜（Full Package）</option>
+            <option value="undecided">まだ決めていない / まず相談したい</option>
+          </select>
+        </div>
+        <button type="submit" class="iform-btn" id="iform-submit-btn">
+          <span id="iform-btn-text">無料相談を送信する →</span>
+        </button>
+        <p class="iform-note">送信後、Lark相談フォームにリダイレクトされます。記載内容は参考情報として扱います。</p>
+      </form>
+      <div class="iform-success" id="iform-success" style="display:none">
+        <div class="ifs-icon">✓</div>
+        <div class="ifs-title">送信しました！</div>
+        <div class="ifs-body">通常12時間以内にご連絡します。<br>急ぎの場合はXのDMも利用できます。</div>
+        <a href="https://x.com/Kosuke_free_" target="_blank" rel="noopener" class="ifs-link">@Kosuke_free_ にDMする →</a>
+      </div>
     </div>
-    <a href="https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef" target="_blank" rel="noopener" class="cta-btn">無料相談フォームを開く →</a>
-    <p class="cta-note">現在 <strong style="color:var(--gr)">2件</strong> 受付可能 · 先着順のためお早めに</p>
+
+    <div class="contact-alt-row">
+      <span class="ca-label">または他の方法で</span>
+      <div class="ca-links">
+        <a href="https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef" target="_blank" rel="noopener" class="ca-link">📝 相談フォーム（別タブ）</a>
+        <a href="https://x.com/Kosuke_free_" target="_blank" rel="noopener" class="ca-link">𝕏 X でDM</a>
+        <a href="https://crowdworks.jp/public/employees/4924931" target="_blank" rel="noopener" class="ca-link">💼 CrowdWorks</a>
+      </div>
+    </div>
+    <p class="cta-note" style="margin-top:16px">現在 <strong style="color:var(--gr)">2件</strong> 受付可能 · 先着順のためお早めに</p>
   </div>
 </section>
 
@@ -1692,6 +1856,125 @@ function roiCalc(){
   if(sc)observer.observe(sc);
 })();
 
+/* =====================================================
+   INLINE CONTACT FORM
+===================================================== */
+function submitForm(e){
+  e.preventDefault();
+  var btn=document.getElementById('iform-submit-btn');
+  var txt=document.getElementById('iform-btn-text');
+  btn.disabled=true;
+  txt.textContent='送信中…';
+  // フォームデータ収集
+  var f=document.getElementById('contact-form');
+  var data=new FormData(f);
+  var params=new URLSearchParams();
+  for(var pair of data.entries()){params.append(pair[0],pair[1]);}
+  // 送信成功演出 → 外部フォームへリダイレクト
+  setTimeout(function(){
+    document.getElementById('contact-form').style.display='none';
+    document.getElementById('iform-success').style.display='block';
+    // 3秒後に外部Larkフォームも別タブで開く
+    setTimeout(function(){
+      window.open('https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef','_blank');
+    },2000);
+  },800);
+}
+
+
+// === FLOW DIAGRAM v2 アニメーション ===
+(function(){
+  var nodes=['fdn-0','fdn-1','fdn-2','fdn-3','fdn-4','fdn-5'];
+  var pkts=['fd-pkt0','fd-pkt1','fd-pkt2','fd-pkt3','fd-pkt4'];
+  var motions=['fdm0','fdm1','fdm2','fdm3','fdm4'];
+  var runs=0,busy=false;
+  var logData=[
+    {t:'📬 フォーム受信 #enquiry-087',c:'log-bl'},
+    {t:'🤖 Claude: 業務自動化の相談と分類',c:'log-pu'},
+    {t:'✍️ GPT-4o: 返信文を生成中...',c:'log-pu'},
+    {t:'📤 Lark Bot: 返信送信 ✓',c:'log-or'},
+    {t:'📊 Sheets: ログ記録 ✓',c:'log-gr'},
+    {t:'🔔 Lark: 担当者へ通知 ✓',c:'log-gr'},
+    {t:'✅ 完了 (処理時間: 0.7秒)',c:'log-gr'},
+  ];
+  function setActive(id,on){
+    var el=document.getElementById(id);
+    if(el){on?el.classList.add('fdnode--active'):el.classList.remove('fdnode--active');}
+  }
+  function firePacket(i){
+    var p=document.getElementById(pkts[i]);
+    var m=document.getElementById(motions[i]);
+    if(!p||!m)return;
+    p.setAttribute('opacity','1');
+    m.beginElement();
+    setTimeout(function(){p.setAttribute('opacity','0');},600);
+  }
+  function addLog(item){
+    var b=document.getElementById('fdv2-log-body');
+    if(!b)return;
+    var d=document.createElement('div');
+    d.className='fdv2-log-item '+item.c;
+    d.textContent=item.t;
+    b.appendChild(d);
+    b.scrollTop=b.scrollHeight;
+    while(b.children.length>7)b.removeChild(b.children[0]);
+  }
+  function runFlow(){
+    if(busy)return;
+    busy=true;
+    nodes.forEach(function(n){setActive(n,false);});
+    setActive('fdn-0',true);addLog(logData[0]);
+    setTimeout(function(){
+      firePacket(0);
+      setTimeout(function(){
+        setActive('fdn-0',false);setActive('fdn-1',true);addLog(logData[1]);
+        setTimeout(function(){
+          firePacket(1);firePacket(3);
+          setTimeout(function(){
+            setActive('fdn-1',false);
+            setActive('fdn-2',true);addLog(logData[2]);
+            setActive('fdn-4',true);addLog(logData[4]);
+            setTimeout(function(){
+              firePacket(2);firePacket(4);
+              setTimeout(function(){
+                setActive('fdn-2',false);setActive('fdn-4',false);
+                setActive('fdn-3',true);addLog(logData[3]);
+                setActive('fdn-5',true);addLog(logData[5]);
+                setTimeout(function(){
+                  addLog(logData[6]);
+                  runs++;
+                  var rc=document.getElementById('fdv2-run-count');
+                  if(rc)rc.textContent=runs;
+                  setTimeout(function(){
+                    setActive('fdn-3',false);setActive('fdn-5',false);
+                    busy=false;
+                  },900);
+                },400);
+              },550);
+            },700);
+          },550);
+        },700);
+      },600);
+    },400);
+  }
+  function start(){
+    runFlow();
+    setInterval(runFlow,6500);
+  }
+  function init(){
+    var el=document.getElementById('fdv2-root');
+    if(!el){start();return;}
+    var obs=new IntersectionObserver(function(e){
+      if(e[0].isIntersecting){start();obs.disconnect();}
+    },{threshold:0.2});
+    obs.observe(el);
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init);
+  } else {
+    init();
+  }
+})();
 </script>
 </body>
 </html>
