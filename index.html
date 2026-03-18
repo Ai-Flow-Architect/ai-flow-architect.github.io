@@ -386,6 +386,8 @@ footer a:hover{color:var(--t1)}
 .roi-calc-btn:hover{background:#e06830;transform:translateY(-1px)}
 input.roi-inp,#roi-tasks input{width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--b);border-radius:8px;color:var(--t1);font-size:.9rem;font-family:var(--font)}
 input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(240,120,64,.15)}
+select.roi-inp{width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--b);border-radius:8px;color:var(--t1);font-size:.9rem;font-family:var(--font);appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(240,120,64,.15)}
 .roi-result-header{text-align:center;margin-bottom:20px}
 .roi-result-sub{font-size:.8rem;color:var(--t2);margin-bottom:4px}
 .roi-big-num{font-size:2.8rem;font-weight:800;color:var(--gr)}
@@ -1224,6 +1226,17 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
             <p class="roi-hint">一般的に80〜95%を削減</p>
           </div>
         </div>
+        <div class="roi-fields-row">
+          <div class="roi-field">
+            <label class="roi-label">稼働期間</label>
+            <select id="roi-period" class="roi-inp">
+              <option value="1">1ヶ月</option>
+              <option value="3">3ヶ月</option>
+              <option value="12" selected>1年中（12ヶ月）</option>
+            </select>
+            <p class="roi-hint">自動化を活用する期間</p>
+          </div>
+        </div>
         <button class="roi-calc-btn" onclick="roiCalc()">ROIを計算する →</button>
       </div>
 
@@ -1242,14 +1255,14 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 
       <div class="roi-card roi-result-card" id="roi-result" style="display:none">
         <div class="roi-result-header">
-          <p class="roi-result-sub">年間の削減額</p>
+          <p class="roi-result-sub" id="roi-period-label">年間の削減額</p>
           <div class="roi-big-num" id="roi-annual-saving">—</div>
         </div>
         <table class="roi-table">
           <tbody id="roi-breakdown"></tbody>
           <tr><th>月合計作業時間</th><td id="roi-total-hours">—</td></tr>
-          <tr><th>年間人件費コスト</th><td id="roi-annual-cost">—</td></tr>
-          <tr><th>年間削減額</th><td id="roi-saving-td">—</td></tr>
+          <tr><th id="roi-cost-label">年間人件費コスト</th><td id="roi-annual-cost">—</td></tr>
+          <tr><th id="roi-saving-label">年間削減額</th><td id="roi-saving-td">—</td></tr>
           <tr><th>Standardプラン（初期費用）</th><td id="roi-plan-cost">—</td></tr>
           <tr><th>ROI（投資対効果）</th><td id="roi-roi">—</td></tr>
         </table>
@@ -1769,33 +1782,38 @@ function roiCalc(){
   const hours=document.querySelectorAll('.rt-hours');
   const rate=parseFloat(document.getElementById('roi-rate').value)||2000;
   const reduction=(parseFloat(document.getElementById('roi-reduction').value)||90)/100;
+  const months=parseInt(document.getElementById('roi-period').value)||12;
+  const periodLabel=months===1?'1ヶ月':months===3?'3ヶ月':'1年間（12ヶ月）';
+  const periodShort=months===1?'1ヶ月':months===3?'3ヶ月':'年間';
   let total=0,bHTML='';
   for(let i=0;i<names.length;i++){
     const n=names[i].value||('作業'+(i+1));
     const h=parseFloat(hours[i].value)||0;
     total+=h;
-    if(h>0)bHTML+=`<tr><th>${n}</th><td>${h}h/月（${roiFmt(h*12*rate)}/年）</td></tr>`;
+    if(h>0)bHTML+=`<tr><th>${n}</th><td>${h}h/月（${roiFmt(h*months*rate)}/${periodLabel}）</td></tr>`;
   }
   if(total<=0){alert('月あたりの作業時間を入力してください。');return}
-  const annCost=total*12*rate;
-  const saving=annCost*reduction;
+  const totalCost=total*months*rate;
+  const saving=totalCost*reduction;
   // Standardプランで計算（最もROIが高い）
   const planName='Standardプラン';const planM=80000;
-  const planY=planM; // 初期費用のみ
-  const roi=((saving-planY)/planY*100);
+  const roi=((saving-planM)/planM*100);
   const rc=document.getElementById('roi-result');
   rc.style.display='block';var aw=document.getElementById('roi-await');if(aw)aw.style.display='none';
+  document.getElementById('roi-period-label').textContent=periodLabel+'の削減額';
   document.getElementById('roi-annual-saving').textContent=roiFmt(saving);
   document.getElementById('roi-breakdown').innerHTML=bHTML;
   document.getElementById('roi-total-hours').textContent=total+'時間/月';
-  document.getElementById('roi-annual-cost').textContent=roiFmt(annCost);
+  document.getElementById('roi-cost-label').textContent=periodLabel+'人件費コスト';
+  document.getElementById('roi-saving-label').textContent=periodShort+'削減額';
+  document.getElementById('roi-annual-cost').textContent=roiFmt(totalCost);
   document.getElementById('roi-saving-td').textContent=roiFmt(saving);
-  document.getElementById('roi-plan-cost').textContent=`${roiFmt(planY)}（${planName}）`;
+  document.getElementById('roi-plan-cost').textContent=`${roiFmt(planM)}（${planName}）`;
   let cls=roi>=200?'roi-high':roi>=100?'roi-mid':'roi-low';
   document.getElementById('roi-roi').innerHTML=`<span class="roi-badge ${cls}">${Math.round(roi)}%</span>`;
   const sg=document.getElementById('roi-suggestion');
-  if(roi>=200)sg.innerHTML=`<strong>${planName}がおすすめです。</strong><br>年間削減額 <strong>${roiFmt(saving)}</strong> に対し投資額は ${roiFmt(planY)}。<strong>ROI ${Math.round(roi)}%</strong> — 導入初年度から大幅コスト削減が見込めます。`;
-  else if(roi>=0)sg.innerHTML=`<strong>${planName}で投資回収可能です。</strong><br>年間削減額 <strong>${roiFmt(saving)}</strong> で投資額 ${roiFmt(planY)} を回収できます。<strong>ROI ${Math.round(roi)}%</strong>`;
+  if(roi>=200)sg.innerHTML=`<strong>${planName}がおすすめです。</strong><br>${periodLabel}の削減額 <strong>${roiFmt(saving)}</strong> に対し投資額は ${roiFmt(planM)}。<strong>ROI ${Math.round(roi)}%</strong> — 導入後すぐに大幅コスト削減が見込めます。`;
+  else if(roi>=0)sg.innerHTML=`<strong>${planName}で投資回収可能です。</strong><br>${periodLabel}の削減額 <strong>${roiFmt(saving)}</strong> で投資額 ${roiFmt(planM)} を回収できます。<strong>ROI ${Math.round(roi)}%</strong>`;
   else sg.innerHTML=`<strong>スモールスタートを推奨します。</strong><br>まずはLiteプランから効果の高い業務を1つ自動化し、ROI実績を積むのが最善策です。`;
   rc.scrollIntoView({behavior:'smooth'});
 }
