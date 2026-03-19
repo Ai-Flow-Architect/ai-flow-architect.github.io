@@ -110,7 +110,7 @@ h1.hero-h1{font-size:clamp(2.6rem,7vw,5.5rem);font-weight:800;letter-spacing:-.0
 .c-or{color:var(--or)}.c-bl{color:var(--bl)}.c-gr{color:var(--gr)}.c-pu{color:var(--pu)}
 
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-w{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:var(--bg);background:var(--t1);padding:14px 32px;border-radius:999px;transition:opacity .2s,transform .2s}
+.btn-w{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:#fff;background:var(--or);padding:14px 32px;border-radius:999px;transition:opacity .2s,transform .2s}
 .btn-w:hover{opacity:.85;transform:translateY(-1px)}
 .btn-g{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;color:var(--t2);border:1px solid var(--bm);padding:14px 28px;border-radius:999px;transition:color .2s,border-color .2s}
 .btn-g:hover{color:var(--t1);border-color:rgba(255,255,255,.25)}
@@ -322,7 +322,7 @@ details[open] summary::after{content:'−';color:var(--t2)}
 .ch-ico{font-size:1.4rem;margin-bottom:6px;display:block}
 .ch-lb{font-size:.65rem;color:var(--t3);margin-bottom:3px}
 .ch-vl{font-size:.8rem;font-weight:700}
-.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--t1);color:var(--bg);padding:16px 48px;border-radius:999px;font-weight:800;font-size:.95rem;transition:opacity .2s,transform .2s;position:relative;z-index:1}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--or);color:#fff;padding:16px 48px;border-radius:999px;font-weight:800;font-size:.95rem;transition:opacity .2s,transform .2s;position:relative;z-index:1}
 .cta-btn:hover{opacity:.85;transform:translateY(-2px)}
 .cta-note{margin-top:16px;font-size:.72rem;color:var(--t3);position:relative;z-index:1}
 
@@ -631,14 +631,21 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .hn:last-child{border-bottom:none}
   .oc-grid{grid-template-columns:1fr}
   .bento{grid-template-columns:1fr}
+  .bc.sv{grid-row:span 1}
   .cases{grid-template-columns:1fr}
+  .plans{grid-template-columns:1fr;max-width:100%}
   .cg{grid-template-columns:1fr}
+  .cando-grid{grid-template-columns:1fr}
   .ba{grid-template-columns:1fr}
-  .maint{text-align:center;justify-content:center}
+  .maint{flex-direction:column;text-align:center;justify-content:center}
+  .inline-form-wrap{padding:24px 20px}
   .chs{flex-direction:column;align-items:center}
   .ch{width:100%;max-width:280px}
   #chat-panel{right:8px;left:8px;width:auto;bottom:96px}
   #task-widget{display:none}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn-w,.btn-g{width:100%;max-width:320px;justify-content:center}
+  .faq-chat-cta{padding:20px 16px}
 }
 
 /* =====================================================
