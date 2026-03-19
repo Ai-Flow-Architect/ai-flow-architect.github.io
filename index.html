@@ -92,6 +92,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 .hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:500;letter-spacing:.04em;color:var(--t2);border:1px solid var(--bm);background:rgba(255,255,255,.03);padding:5px 14px;border-radius:999px;margin-bottom:36px;backdrop-filter:blur(8px)}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 2s ease-in-out infinite}
 @keyframes pdot{0%,100%{opacity:1;box-shadow:0 0 6px var(--gr)}50%{opacity:.4;box-shadow:0 0 14px var(--gr)}}
+@keyframes btnwiggle{0%,85%,100%{transform:translateY(-1px) rotate(0)}88%{transform:translateY(-1px) rotate(-2deg)}91%{transform:translateY(-1px) rotate(2deg)}94%{transform:translateY(-1px) rotate(-1.5deg)}97%{transform:translateY(-1px) rotate(1.5deg)}}
+@keyframes tool-glow{0%,100%{box-shadow:0 0 0 0 rgba(240,120,64,0)}50%{box-shadow:0 0 12px 2px rgba(240,120,64,.25)}}
 
 /* Text cycling */
 h1.hero-h1{font-size:clamp(2.6rem,7vw,5.5rem);font-weight:800;letter-spacing:-.045em;line-height:1.05;margin-bottom:24px}
@@ -110,8 +112,8 @@ h1.hero-h1{font-size:clamp(2.6rem,7vw,5.5rem);font-weight:800;letter-spacing:-.0
 .c-or{color:var(--or)}.c-bl{color:var(--bl)}.c-gr{color:var(--gr)}.c-pu{color:var(--pu)}
 
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-w{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:#fff;background:var(--or);padding:14px 32px;border-radius:999px;transition:opacity .2s,transform .2s}
-.btn-w:hover{opacity:.85;transform:translateY(-1px)}
+.btn-w{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:#fff;background:var(--or);padding:14px 32px;border-radius:999px;transition:opacity .2s,transform .2s;animation:btnwiggle 5s ease-in-out infinite}
+.btn-w:hover{opacity:.85;transform:translateY(-2px) !important;animation:none}
 .btn-g{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;color:var(--t2);border:1px solid var(--bm);padding:14px 28px;border-radius:999px;transition:color .2s,border-color .2s}
 .btn-g:hover{color:var(--t1);border-color:rgba(255,255,255,.25)}
 .hero-micro{font-size:.68rem;color:var(--t3);margin-top:12px;letter-spacing:.02em}
@@ -258,7 +260,7 @@ section{padding:96px 32px}
 .ba-aft{background:rgba(61,214,140,.05);border-left:2px solid rgba(61,214,140,.35);color:var(--t2)}
 .ba-lb{font-size:.6rem;font-weight:800;letter-spacing:.08em;margin-bottom:4px;display:block}
 .ba-bef .ba-lb{color:rgba(255,90,90,.8)}.ba-aft .ba-lb{color:var(--gr)}
-.ce{background:rgba(255,255,255,.03);border:1px solid var(--b);border-radius:8px;padding:9px;font-size:.78rem;font-weight:700;text-align:center;margin-bottom:10px}
+.ce{background:rgba(255,255,255,.03);border:1px solid var(--b);border-radius:8px;padding:9px;font-size:.88rem;font-weight:700;text-align:center;margin-bottom:10px;color:var(--t1)}
 .ctags{display:flex;flex-wrap:wrap;gap:5px}
 
 /* =====================================================
@@ -430,8 +432,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 /* =====================================================
    HERO TRUST ROW
 ===================================================== */
-.hero-trust-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 12px;margin-bottom:20px;font-size:.72rem;color:var(--t2)}
-.ht-item{display:flex;align-items:center;gap:4px}
+.hero-trust-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 16px;margin-bottom:24px;font-size:.82rem;color:var(--t1)}
+.ht-item{display:flex;align-items:center;gap:5px;font-weight:500}
 .ht-sep{color:var(--t3)}
 .ht-short{display:none}
 @media(max-width:640px){
@@ -597,6 +599,26 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
    CERTIFICATE CARD
 ===================================================== */
 .crd-cert{padding:0 !important;overflow:hidden;background:transparent !important;border:none !important}
+/* Tool icons in flow section */
+.tool-icons-row{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-top:36px;padding:20px 24px;background:rgba(255,255,255,.02);border-radius:14px;border:1px solid var(--b)}
+.tool-ic{width:40px;height:40px;border-radius:9px;overflow:hidden;filter:grayscale(1) opacity(.4);transition:filter .3s,transform .3s,box-shadow .3s;cursor:default}
+.tool-ic svg{width:100%;height:100%;display:block}
+.tool-ic:hover{filter:grayscale(0) opacity(1);transform:scale(1.15);box-shadow:0 0 18px rgba(255,255,255,.12);animation:tool-glow 1.2s ease-in-out}
+/* Modern process steps */
+.proc-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;position:relative}
+.proc-steps::after{content:'';position:absolute;top:36px;left:calc(10% + 28px);right:calc(10% + 28px);height:1px;background:linear-gradient(to right,var(--or),rgba(240,120,64,.2),var(--or));z-index:0;pointer-events:none}
+.ps{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;padding:0 4px;background:var(--bg);border:1px solid var(--b);border-radius:14px;padding:20px 12px;transition:border-color .2s}
+.ps:hover{border-color:var(--or)}
+.ps-num{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--or);background:rgba(240,120,64,.08);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:var(--or);margin:0 auto 14px;letter-spacing:.05em}
+.ps-title{font-size:.88rem;font-weight:700;margin-bottom:6px;color:var(--t1)}
+.ps-desc{font-size:.73rem;color:var(--t2);line-height:1.55}
+/* Compact creds */
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.crd{background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:18px 16px;transition:border-color .2s}
+.crd:hover{border-color:var(--bm)}
+.crd-ic{font-size:1.3rem;margin-bottom:8px}
+.crd h3{font-size:.82rem;font-weight:700;margin-bottom:4px;line-height:1.3}
+.crd p{font-size:.73rem;color:var(--t2);line-height:1.5}
 .cert-card{background:linear-gradient(135deg,#4a6741,#5c7a52,#4a6741);border-radius:16px;padding:28px;text-align:center;position:relative;overflow:hidden}
 .cert-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(255,255,255,.1),transparent 60%)}
 .cert-header{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px}
@@ -820,9 +842,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
           </span>
         </span>を、
       </span>
-      <span class="h1-static" style="color:var(--or)">成果に変える。</span>
+      <span class="h1-static" style="color:var(--or)">解放する。</span>
     </h1>
-    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t3)">技術知識ゼロでも、中小企業・個人事業主の繰り返し作業を専門に対応します。</span></p>
+    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t2)">技術知識ゼロでも、中小企業・個人事業主の繰り返し作業を専門に対応します。</span></p>
     <div class="hero-trust-row">
       <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
       <span class="ht-sep">·</span>
@@ -847,47 +869,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="hero-fade"></div>
 </section>
 
-<!-- MARQUEE -->
-<div class="mq-wrap">
-  <div class="mq-track">
-    <span class="m-it">⚙️ Make.com</span><span class="m-sep">·</span>
-    <span class="m-it">🤖 GPT-4o</span><span class="m-sep">·</span>
-    <span class="m-it">🐍 Python</span><span class="m-sep">·</span>
-    <span class="m-it">🔗 Claude API</span><span class="m-sep">·</span>
-    <span class="m-it">📊 Lark Bitable</span><span class="m-sep">·</span>
-    <span class="m-it">📱 LINE API</span><span class="m-sep">·</span>
-    <span class="m-it">📋 Google Sheets</span><span class="m-sep">·</span>
-    <span class="m-it">🔔 Slack bot</span><span class="m-sep">·</span>
-    <span class="m-it">🗂️ Notion API</span><span class="m-sep">·</span>
-    <span class="m-it">⚙️ Make.com</span><span class="m-sep">·</span>
-    <span class="m-it">🤖 GPT-4o</span><span class="m-sep">·</span>
-    <span class="m-it">🐍 Python</span><span class="m-sep">·</span>
-    <span class="m-it">🔗 Claude API</span><span class="m-sep">·</span>
-    <span class="m-it">📊 Lark Bitable</span><span class="m-sep">·</span>
-    <span class="m-it">📱 LINE API</span><span class="m-sep">·</span>
-    <span class="m-it">📋 Google Sheets</span><span class="m-sep">·</span>
-    <span class="m-it">🔔 Slack bot</span><span class="m-sep">·</span>
-    <span class="m-it">🗂️ Notion API</span><span class="m-sep">·</span>
-  </div>
-</div>
-
-<!-- LOGOS -->
-<div id="logos">
-  <div class="wrap">
-    <div class="logos-label">対応ツール · 連携実績 · 10+ サービス</div>
-    <div class="logos-row">
-      <div class="logo-chip lc-make"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#0A0014"/><rect x="3" y="6" width="6" height="17" rx="2" fill="#FF00CC" transform="rotate(-12 6 14.5)"/><rect x="11" y="5" width="6" height="19" rx="2" fill="#9933EE"/><rect x="19" y="6" width="6" height="17" rx="2" fill="#440099" transform="rotate(12 22 14.5)"/></svg>Make.com</div>
-      <div class="logo-chip lc-openai"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1a1a1a"/><g transform="translate(2,2)"><path d="M22.28 9.82a5.98 5.98 0 00-.52-4.91 6.05 6.05 0 00-6.51-2.9A6.06 6.06 0 004.98 4.18a5.98 5.98 0 00-4 2.9 6.05 6.05 0 00.74 7.1 5.98 5.98 0 00.51 4.9 6.05 6.05 0 006.51 2.9A5.98 5.98 0 0013.26 24a6.06 6.06 0 005.77-4.2 5.99 5.99 0 004-2.9 6.06 6.06 0 00-.75-7.08zm-9.02 12.61a4.48 4.48 0 01-2.88-1.04l.14-.08 4.78-2.76a.79.79 0 00.39-.68V11.7l2.02 1.17a.07.07 0 01.04.05v5.58a4.5 4.5 0 01-4.49 4.5zm-9.66-4.13a4.47 4.47 0 01-.53-3.01l.14.09 4.78 2.76a.77.77 0 00.78 0l5.84-3.37v2.33a.08.08 0 01-.03.06L9.74 19.95a4.5 4.5 0 01-6.14-1.65zM2.34 7.9a4.49 4.49 0 012.37-1.97v5.56a.77.77 0 00.39.68l5.81 3.35-2.02 1.17a.08.08 0 01-.07 0L3.54 13.9A4.5 4.5 0 012.34 7.9zm16.6 3.86L13.1 8.36l2.02-1.17a.08.08 0 01.07 0l4.83 2.79a4.49 4.49 0 01-.68 8.1v-5.68a.79.79 0 00-.4-.66zm2.01-3.02l-.14-.09-4.77-2.78a.78.78 0 00-.79 0L9.41 9.23V6.9a.07.07 0 01.03-.06l4.83-2.79a4.5 4.5 0 016.68 4.66zM8.31 12.86l-2.02-1.16a.08.08 0 01-.04-.06V6.07a4.5 4.5 0 017.38-3.45l-.14.08-4.78 2.76a.8.8 0 00-.39.68v6.72zm1.1-2.37l2.6-1.5 2.61 1.5v2.99l-2.6 1.5-2.61-1.5V10.5z" fill="white"/><circle cx="12" cy="12" r="2.5" fill="white" opacity=".3"/></g></svg>OpenAI</div>
-      <div class="logo-chip lc-anthropic"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#2a1a14"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(0 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(36 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(72 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(108 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(144 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(180 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(216 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(252 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(288 14 14)"/><rect x="12.6" y="4.5" width="2.8" height="9.5" rx="1.4" fill="#CC785C" transform="rotate(324 14 14)"/></svg>Anthropic</div>
-      <div class="logo-chip lc-google"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1a1f2e"/><g transform="translate(2.3,2.3) scale(0.97)"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></g></svg>Google</div>
-      <div class="logo-chip lc-slack"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1a0d10"/><g transform="translate(2,2)"><path fill="#E01E5A" d="M5.04 15.17a2.52 2.52 0 01-2.52 2.52A2.52 2.52 0 010 15.17a2.52 2.52 0 012.52-2.52h2.52v2.52z"/><path fill="#E01E5A" d="M6.31 15.17a2.52 2.52 0 012.52-2.52 2.52 2.52 0 012.52 2.52v6.31A2.52 2.52 0 018.83 24a2.52 2.52 0 01-2.52-2.52v-6.31z"/><path fill="#36C5F0" d="M8.83 5.04a2.52 2.52 0 01-2.52-2.52A2.52 2.52 0 018.83 0a2.52 2.52 0 012.52 2.52v2.52H8.83z"/><path fill="#36C5F0" d="M8.83 6.31a2.52 2.52 0 012.52 2.52 2.52 2.52 0 01-2.52 2.52H2.52A2.52 2.52 0 010 8.83a2.52 2.52 0 012.52-2.52h6.31z"/><path fill="#2EB67D" d="M18.96 8.83a2.52 2.52 0 012.52-2.52A2.52 2.52 0 0124 8.83a2.52 2.52 0 01-2.52 2.52h-2.52V8.83z"/><path fill="#2EB67D" d="M17.69 8.83a2.52 2.52 0 01-2.52 2.52 2.52 2.52 0 01-2.52-2.52V2.52A2.52 2.52 0 0115.17 0a2.52 2.52 0 012.52 2.52v6.31z"/><path fill="#ECB22E" d="M15.17 18.96a2.52 2.52 0 012.52 2.52A2.52 2.52 0 0115.17 24a2.52 2.52 0 01-2.52-2.52v-2.52h2.52z"/><path fill="#ECB22E" d="M15.17 17.69a2.52 2.52 0 01-2.52-2.52 2.52 2.52 0 012.52-2.52h6.31A2.52 2.52 0 0124 15.17a2.52 2.52 0 01-2.52 2.52h-6.31z"/></g></svg>Slack</div>
-      <div class="logo-chip lc-line"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#06C755"/><path d="M14 3.5C8.2 3.5 3.5 7.6 3.5 12.7c0 4.4 3.5 8.1 8.3 8.9l-.5 3.4 4.1-2.3c.5.1 1 .1 1.6.1 5.8 0 10.5-4.1 10.5-9.1C27.5 7.6 19.8 3.5 14 3.5z" fill="white"/><text x="14" y="15" font-family="Arial Black,Arial,sans-serif" font-size="5.2" font-weight="900" fill="#06C755" text-anchor="middle">LINE</text></svg>LINE</div>
-      <div class="logo-chip lc-notion"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1a1a1a" stroke="#333" stroke-width="1"/><path d="M8.5 8h1.8l7.4 9.5V8h1.8v12h-1.8L10.3 10.5V20H8.5V8z" fill="#f0f0f0"/></svg>Notion</div>
-      <div class="logo-chip lc-lark"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="white"/><path d="M5 17 C7 10 13 6 23 5 C20 10 15 13 8 15.5 Z" fill="#00CCA3"/><path d="M7 22.5 C10.5 17 17.5 15 23.5 14 C21 18.5 16.5 22.5 8 23.5 Z" fill="#1A3D9A"/></svg>Lark</div>
-      <div class="logo-chip lc-python"><svg class="lc-svg" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#3776AB"/><path d="M14 5c-2.4 0-4 .8-4 2.5V9h4V9.5H8c-1.7 0-3 1.4-3 3.5s1.3 3.5 3 3.5h1.5V15c0-1.7 1.3-3 3.5-3H16c1.8 0 3-1.2 3-2.7V7.5c0-1.5-1.5-2.5-4-2.5h-1zm-1.5 1.5a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" fill="#FFD43B"/><path d="M14 23c2.4 0 4-.8 4-2.5V19h-4v-.5H20c1.7 0 3-1.4 3-3.5S21.7 12 20 12h-1.5V13c0 1.7-1.3 3-3.5 3H12c-1.8 0-3 1.2-3 2.7v3.8c0 1.5 1.5 2.5 4 2.5h1zm1.5-1.5a.75.75 0 111.5 0 .75.75 0 01-1.5 0z" fill="white" opacity=".95"/></svg>Python</div>
-    </div>
-  </div>
-</div>
 
 <!-- OUTCOMES -->
 <section id="outcomes">
@@ -928,6 +909,31 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="fn"><div class="fn-ic pu">⚙️</div><div><div class="fn-lb">ワークフロー実行</div><div class="fn-sb">Make.com / Python</div></div><div class="fn-pill pl-auto">AUTO</div></div>
       <div class="fn"><div class="fn-ic gr">📊</div><div><div class="fn-lb">データ書き込み</div><div class="fn-sb">Lark / Google Sheets</div></div><div class="fn-pill pl-auto">AUTO</div></div>
       <div class="fn"><div class="fn-ic bl">🔔</div><div><div class="fn-lb">通知・完了</div><div class="fn-sb">Slack / LINE / メール</div></div><div class="fn-pill pl-live">DONE</div></div>
+    </div>
+  </div>
+  <!-- TOOL ICONS -->
+  <div class="wrap" style="margin-top:48px">
+    <div class="tool-icons-row">
+      <!-- Make.com -->
+      <div class="tool-ic" title="Make.com"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#0A0014"/><rect x="6" y="10" width="8" height="21" rx="3" fill="#FF00CC" transform="rotate(-12 10 20.5)"/><rect x="16" y="8" width="8" height="24" rx="3" fill="#9933EE"/><rect x="26" y="10" width="8" height="21" rx="3" fill="#440099" transform="rotate(12 30 20.5)"/></svg></div>
+      <!-- OpenAI GPT -->
+      <div class="tool-ic" title="OpenAI GPT"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#1a1a1a"/><path d="M20 8a12 12 0 100 24 12 12 0 000-24zm0 3.5a8.5 8.5 0 110 17 8.5 8.5 0 010-17z" fill="white"/></svg></div>
+      <!-- Claude / Anthropic -->
+      <div class="tool-ic" title="Claude API"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#CC785C"/><path d="M25.5 28h4L22 11h-3.8L10.5 28h4l1.8-4.8h7.4L25.5 28zm-7.8-8.2l2.7-6.6 2.7 6.6h-5.4z" fill="white"/></svg></div>
+      <!-- Playwright -->
+      <div class="tool-ic" title="Playwright"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#1a1a2e"/><circle cx="20" cy="20" r="13" fill="none" stroke="#45ba4b" stroke-width="3.5"/><circle cx="20" cy="20" r="7" fill="#d65348"/></svg></div>
+      <!-- Python -->
+      <div class="tool-ic" title="Python"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#3776AB"/><path d="M20 7c-3.6 0-6 1.2-6 3.6v2.4h6v1.2H11c-2.4 0-4.5 2.1-4.5 5.1s2.1 5.1 4.5 5.1h2.1v-2.4c0-2.4 2.1-4.2 5.4-4.2H24c2.7 0 4.5-1.8 4.5-3.9v-6.3c0-2.1-2.1-3.6-6-3.6H20zm-2.1 2.1a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" fill="#FFD43B"/><path d="M20 33c3.6 0 6-1.2 6-3.6v-2.4h-6v-1.2h9c2.4 0 4.5-2.1 4.5-5.1s-2.1-5.1-4.5-5.1h-2.1v2.4c0 2.4-2.1 4.2-5.4 4.2H16c-2.7 0-4.5 1.8-4.5 3.9v6.3c0 2.1 2.1 3.6 6 3.6H20zm2.1-2.1a1.2 1.2 0 110-2.4 1.2 1.2 0 010 2.4z" fill="white"/></svg></div>
+      <!-- Lark -->
+      <div class="tool-ic" title="Lark"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="white"/><path d="M6 25 C8 16 15 10 34 9 C31.5 16 24 21 13.5 22.5 Z" fill="#00CCA3"/><path d="M10 32 C16 25 25 23 36 21 C33 28.5 25.5 34 12 35 Z" fill="#1A3D9A"/></svg></div>
+      <!-- Google Sheets -->
+      <div class="tool-ic" title="Google Sheets"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#0f9d58"/><path d="M11 11h18v4.5H11V11zm0 7.5h18V23H11v-4.5zm0 7.5h18V30.5H11V26z" fill="white" opacity=".9"/></svg></div>
+      <!-- X (Twitter) -->
+      <div class="tool-ic" title="X (Twitter)"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="black"/><path d="M8 8.6l9.6 11.4L7.8 31.4h3.3l7.8-9.3 6.3 9.3H32L22 19.4 31.4 8.6h-3.3L20.5 17.3 14.7 8.6H8z" fill="white"/></svg></div>
+      <!-- Slack -->
+      <div class="tool-ic" title="Slack"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#4A154B"/><path d="M16.5 10a2.5 2.5 0 00-2.5 2.5v4h5V12.5A2.5 2.5 0 0016.5 10zm0 8.5H9a2.5 2.5 0 000 5h7.5v-5zm5 7.5v7.5a2.5 2.5 0 005 0v-7.5h-5zM31 18.5a2.5 2.5 0 000-5h-7.5v5H31zm-7.5-8.5v-2.5a2.5 2.5 0 00-5 0V10h5zM9 21a2.5 2.5 0 000 5h7.5v-5H9zm14.5 7.5H31a2.5 2.5 0 000-5h-7.5v5zM23.5 23a2.5 2.5 0 002.5 2.5V18h-5v5z" fill="white" opacity=".9"/></svg></div>
+      <!-- LINE -->
+      <div class="tool-ic" title="LINE"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#06C755"/><path d="M20 8C13.4 8 8 12.5 8 18c0 3.2 1.9 6.1 4.9 8l-1.4 5.3 6-3.3c.8.1 1.6.2 2.5.2 6.6 0 12-4.5 12-10S26.6 8 20 8zm-5.5 12.5h-2.4v-6.6h2.4v6.6zm4 0h-2.4v-4l-2 4h-2v-6.6h2.4v4l2-4h2v6.6zm5 0h-3.6v-6.6h2.4v4.6h1.2v2zm4-4.6h-1.8v4.6H24v-4.6h-1.8v-2H27.5v2z" fill="white"/></svg></div>
     </div>
   </div>
 </section>
@@ -1092,7 +1098,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <span class="cando-sym">=</span>
       <span class="cando-val c-or">一瞬</span>
     </div>
-    <p class="sec-s" style="margin-bottom:48px">人間が17時間かける作業を、AIは15分で完了させます。<br>データが入ってきた瞬間、分析・加工・出力まで一気に完結。</p>
+    <p class="sec-s" style="margin-bottom:48px">人間が2時間かける作業を、AIは5分で完了させます。<br>データが入ってきた瞬間、分析・加工・出力まで一気に完結。</p>
     <div class="speed-demo">
       <div class="speed-col">
         <div class="speed-icon-wrap sd-in">
@@ -1125,14 +1131,14 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       </div>
     </div>
     <div class="speed-compare">
-      <div class="spcomp spcomp-before"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">17時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
+      <div class="spcomp spcomp-before"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">2時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
       <div class="spcomp-arrow-ani">
         <div class="spa-line"></div>
         <div class="spa-dot"></div>
         <div class="spa-arrow">→</div>
       </div>
-      <div class="spcomp spcomp-after"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">15分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
-      <div class="spcomp-badge">68倍速</div>
+      <div class="spcomp spcomp-after"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">5分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
+      <div class="spcomp-badge">24倍速</div>
     </div>
   </div>
 </section>
@@ -1145,10 +1151,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <p class="sec-s">実際に構築した自動化の成果です。</p>
     <div class="cases">
       <div class="cc"><div class="cc-head">案件スカウト自動化（3プラットフォーム）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">1〜2件/日</span>手動確認・手動応募。毎日2時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">20件/日</span>GPTスコア→文章生成→自動送信</div></div><div class="ce">⚡ 毎日2時間削減・応募数10倍</div><div class="ctags"><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a2e"/><circle cx="7" cy="7" r="4.5" fill="none" stroke="#45ba4b" stroke-width="1.2"/><circle cx="7" cy="7" r="2.5" fill="#d65348"/></svg>Playwright</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
-      <div class="cc"><div class="cc-head">問い合わせ自動分類・返信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/件</span>手動確認・返信。見落とし多発</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0秒</span>AI分類→即返信→Lark通知</div></div><div class="ce">⚡ 返信速度∞倍・見落としゼロ</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#CC785C"/><path d="M8.8 10h1.3L7.5 4.5H6.4L3.8 10h1.3l.6-1.6h2.5L8.8 10zm-2.7-2.7l.9-2.2.9 2.2H6.1z" fill="white"/></svg>Claude API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 9 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 8 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark bot</span></div></div></div>
+      <div class="cc"><div class="cc-head">問い合わせ自動分類・返信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/件</span>手動確認・返信。見落とし多発</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">1分</span>AI分類→即返信→Lark通知</div></div><div class="ce">⚡ 返信速度∞倍・見落としゼロ</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#CC785C"/><path d="M8.8 10h1.3L7.5 4.5H6.4L3.8 10h1.3l.6-1.6h2.5L8.8 10zm-2.7-2.7l.9-2.2.9 2.2H6.1z" fill="white"/></svg>Claude API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 9 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 8 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark bot</span></div></div></div>
       <div class="cc"><div class="cc-head">商品説明文 一括AI生成（100件）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">17時間</span>100件を手書き。月34,000円の人件費</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">15分</span>CSV → GPT一括生成 → シート自動書込</div></div><div class="ce">⚡ 68倍速・月33,500円削減</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#3776AB"/><path d="M7 2.5c-1.2 0-2 .4-2 1.2v.8h2v.4H4c-.8 0-1.5.7-1.5 1.7s.7 1.7 1.5 1.7h.7V7.5c0-.8.7-1.4 1.8-1.4H8c.9 0 1.5-.6 1.5-1.3V3.7c0-.7-.7-1.2-2-1.2H7zm-.7.7a.4.4 0 110 .8.4.4 0 010-.8z" fill="#FFD43B"/><path d="M7 11.5c1.2 0 2-.4 2-1.2v-.8H7v-.4h3c.8 0 1.5-.7 1.5-1.7S10.8 5.7 10 5.7h-.7V6.5c0 .8-.7 1.4-1.8 1.4H6c-.9 0-1.5.6-1.5 1.3v2.1c0 .7.7 1.2 2 1.2H7zm.7-.7a.4.4 0 110-.8.4.4 0 010 .8z" fill="white"/></svg>Python</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0f9d58"/><path d="M4 4h6v1.5H4V4zm0 2.5h6V8H4V6.5zm0 2.5h6V10.5H4V9z" fill="white" opacity=".9"/></svg>Sheets API</span></div></div></div>
-      <div class="cc"><div class="cc-head">AI活動ログ自動集計ダッシュボード</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/週</span>KPI確認・集計に毎週30分</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0分</span>日次自動UPSERT・常時最新表示</div></div><div class="ce">⚡ 年間26時間の集計作業を完全ゼロ化</div><div class="ctags"><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 8.5 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 7.5 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark Bitable</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#6366f1"/><circle cx="4" cy="10" r="2" fill="white" opacity=".9"/><circle cx="10" cy="4" r="2" fill="white" opacity=".9"/><path d="M4 8C4 6 5.5 5 7 5M10 6c0 2-1.5 3-3 3" stroke="white" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/></svg>Webhook</span></div></div></div>
-      <div class="cc"><div class="cc-head">SNS投稿 自動生成・定期配信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/日</span>毎日30分のニュース収集・投稿作業</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0分</span>収集→GPT生成→X自動投稿 2回/日</div></div><div class="ce">⚡ 月15時間削減・投稿頻度2倍</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="black"/><path d="M3 3.2l3.2 3.8L3 11h1.1l2.6-3.1L9 11h1.8L7.5 6.9 10.8 3.2H9.7L7.1 6.1 4.8 3.2H3z" fill="white"/></svg>X API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
+      <div class="cc"><div class="cc-head">AI活動ログ自動集計ダッシュボード</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/週</span>KPI確認・集計に毎週30分</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">1分</span>日次自動UPSERT・常時最新表示</div></div><div class="ce">⚡ 年間26時間の集計作業を完全ゼロ化</div><div class="ctags"><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 8.5 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 7.5 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark Bitable</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#6366f1"/><circle cx="4" cy="10" r="2" fill="white" opacity=".9"/><circle cx="10" cy="4" r="2" fill="white" opacity=".9"/><path d="M4 8C4 6 5.5 5 7 5M10 6c0 2-1.5 3-3 3" stroke="white" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/></svg>Webhook</span></div></div></div>
+      <div class="cc"><div class="cc-head">SNS投稿 自動生成・定期配信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/日</span>毎日30分のニュース収集・投稿作業</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">1分</span>収集→GPT生成→X自動投稿 2回/日</div></div><div class="ce">⚡ 月15時間削減・投稿頻度2倍</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="black"/><path d="M3 3.2l3.2 3.8L3 11h1.1l2.6-3.1L9 11h1.8L7.5 6.9 10.8 3.2H9.7L7.1 6.1 4.8 3.2H3z" fill="white"/></svg>X API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
       <div class="cc"><div class="cc-head">Google Forms → Lark 自動転記・集計</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span>フォーム回答を手動転記。集計1時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span>GAS Webhook → Make.com → Bitable自動転記</div></div><div class="ce">⚡ 転記工数ゼロ・リアルタイム集計</div><div class="ctags"><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#4285F4"/><path d="M7 3.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 1a2.5 2.5 0 012.5 2.5H7V4.5z" fill="white"/></svg>GAS</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 8.5 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 7.5 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark Bitable</span></div></div></div>
     </div>
   </div>
@@ -1334,13 +1340,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <p class="sec-s" style="margin-bottom:48px">シンプルな5ステップ。要件がまとまれば最短1週間も可能です。</p>
     <div class="proc-steps">
       <div class="ps"><div class="ps-num">01</div><div class="ps-title">無料相談</div><div class="ps-desc">現在の課題・業務内容をヒアリング。自動化の可否と費用感をお伝えします。</div></div>
-      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-num">02</div><div class="ps-title">要件定義</div><div class="ps-desc">何を・どこまで自動化するかを文書化。認識齟齬ゼロで着手します。</div></div>
-      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-num">03</div><div class="ps-title">お見積り・契約</div><div class="ps-desc">固定価格でお見積りを提示。着手金50%・納品後50%の安心設計です。</div></div>
-      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-num">04</div><div class="ps-title">設計・構築</div><div class="ps-desc">ドキュメントを作りながら開発。進捗は随時共有します。</div></div>
-      <div class="proc-flow-arrow"><div class="pfa-line"><div class="pfa-dot"></div></div><div class="pfa-head">→</div></div>
       <div class="ps"><div class="ps-num">05</div><div class="ps-title">納品・サポート</div><div class="ps-desc">動作確認後に納品。運用手順書も同梱。継続してのサポートもご相談ください。</div></div>
     </div>
   </div>
@@ -1388,14 +1390,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <h2 class="sec-t">よくある質問</h2>
     <p class="sec-s">お気軽にご相談ください。</p>
     <div class="fq">
-      <details><summary>どんな業務が自動化できますか？</summary><div class="fq-ans">フォーム入力・データ転記・通知送信・スクレイピング・AI文章生成・レポート作成・SNS投稿など、Webブラウザやアプリ上の繰り返し作業のほとんどが対象です。「うちの場合はどうだろう？」という段階でもお気軽にご相談ください。無料でお答えします。</div></details>
-      <details><summary>技術的な知識がなくても依頼できますか？</summary><div class="fq-ans">はい、問題ありません。「今こんな作業を手作業でやっている」とお伝えいただくだけで大丈夫です。自動化の可否・方法・費用を丁寧にご説明します。IT知識ゼロのご担当者様からのご依頼も多数あります。専門用語は一切使わずに説明します。</div></details>
-      <details><summary>料金が高すぎないか不安です。本当に費用対効果はありますか？</summary><div class="fq-ans">Standardプラン（¥80,000〜）の場合、月10時間・時給2,000円の作業を自動化するだけで月2万円の削減になり、4〜5ヶ月で元が取れます。ROI計算ツール（このページ内）で、あなたの業務に当てはめた試算が今すぐできます。まずそちらをお試しください。</div></details>
+      <details><summary>「自動化できるか分からない」という状態でも相談できますか？</summary><div class="fq-ans">むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。相談・見積もりは完全無料、断っていただいても構いません。まずお気軽にどうぞ。</div></details>
       <details><summary>法人契約は対応していますか？請求書は発行できますか？</summary><div class="fq-ans">はい、法人・個人事業主どちらも対応しています。請求書・領収書の発行が可能です。NDA（秘密保持契約）も対応しますので、機密情報を含む業務のご相談もお気軽にどうぞ。</div></details>
       <details><summary>納期・料金の目安を教えてください。</summary><div class="fq-ans">Liteプラン（¥40,000〜）は3〜5営業日、Standardプラン（¥80,000〜¥150,000）は7〜14日、Full Package（¥150,000〜¥300,000）は14〜30日が目安です。要件が明確な場合は最短1週間での納品実績があります。</div></details>
-      <details><summary>依頼してから動くまでの流れを教えてください。</summary><div class="fq-ans">① 無料相談（ヒアリング・自動化可否の確認）→ ② 要件定義・お見積り（認識齟齬ゼロで着手）→ ③ 設計・構築（進捗随時共有）→ ④ 動作確認・納品（運用手順書同梱）の4ステップです。着手金50%・納品後50%の安心設計で、途中キャンセルリスクを最小化しています。</div></details>
       <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。各プランに含まれるサポート期間内であれば追加費用なしで対応します。大規模な改修・システム拡張をご検討の場合はEnterpriseプランへのアップグレードもご相談ください。</div></details>
-      <details><summary>「自動化できるか分からない」という状態でも相談できますか？</summary><div class="fq-ans">むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。相談・見積もりは完全無料、断っていただいても構いません。まずお気軽にどうぞ。</div></details>
     </div>
     <div class="faq-chat-cta">
       <p>他にも気になることがあれば、チャットボットに気軽に聞けます</p>
@@ -1408,8 +1406,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <section id="contact">
   <div class="cta-glow"></div>
   <div class="wrap">
-    <h2>今すぐ相談して、<br>明日から時間を取り戻す</h2>
-    <p>「自動化できるか分からない」という段階でも大歓迎。<br>ご状況をお聞きして、具体的な削減時間と費用をお伝えします。</p>
+    <h2>ムダな時間を<br>取り戻す。</h2>
+    <p>あなたの本来の業務に集中できる時間を最大化する。<br>「自動化できるか分からない」という段階でも大歓迎。</p>
 
     <div class="contact-trust-row">
       <div class="ct-item"><span class="ct-icon">⚡</span><span>通常12時間以内に返信</span></div>
@@ -1468,12 +1466,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <div class="contact-alt-row">
       <span class="ca-label">または他の方法で</span>
       <div class="ca-links">
-        <a href="#contact" class="ca-link">📝 フォームで相談</a>
         <a href="https://x.com/Kosuke_free_" target="_blank" rel="noopener" class="ca-link">𝕏 X でDM</a>
-        <a href="https://crowdworks.jp/public/employees/4924931" target="_blank" rel="noopener" class="ca-link">💼 CrowdWorks</a>
       </div>
     </div>
-    <p class="cta-note" style="margin-top:16px">現在 <strong style="color:var(--gr)">2件</strong> 受付可能 · 先着順のためお早めに</p>
+    <p class="cta-note" style="margin-top:16px">現在 <strong style="color:var(--gr)" id="capacity-count">2件</strong> 受付可能 · 先着順のためお早めに</p>
   </div>
 </section>
 
@@ -1488,19 +1484,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </footer>
 
-<!-- BEAM WIDGET -->
-<div id="task-widget">
-  <div class="tw-head"><span class="tw-dot"></span>AutoFlow — 稼働中</div>
-  <div class="tw-body" id="tw-body">
-    <div class="tw-task" id="tw0"><div class="tw-check"></div><span>問い合わせを受信</span></div>
-    <div class="tw-task" id="tw1"><div class="tw-check"></div><span>Claude APIで分類実行</span></div>
-    <div class="tw-task" id="tw2"><div class="tw-check"></div><span>返信文を生成</span></div>
-    <div class="tw-task" id="tw3"><div class="tw-check"></div><span>自動返信を送信</span></div>
-    <div class="tw-task" id="tw4"><div class="tw-check"></div><span>Larkに完了通知</span></div>
-    <div class="tw-task" id="tw5"><div class="tw-check"></div><span>ログをBitableに記録</span></div>
-  </div>
-</div>
-<button class="tw-toggle" id="tw-toggle" title="稼働状況">⚡</button>
 
 <!-- CHAT -->
 <button id="chat-btn" title="AI相談ボット">💬</button>
@@ -1593,23 +1576,15 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 })();
 
 /* =====================================================
-   BEAM WIDGET — task auto-completion loop
+   CAPACITY COUNTER — dynamic 1〜4件
 ===================================================== */
 (function(){
-  const toggle=document.getElementById('tw-toggle');
-  const widget=document.getElementById('task-widget');
-  let visible=true;
-  toggle.addEventListener('click',()=>{visible=!visible;widget.style.display=visible?'block':'none'});
-  const tasks=['tw0','tw1','tw2','tw3','tw4','tw5'];
-  let idx=0;
-  function reset(){tasks.forEach(id=>{const el=document.getElementById(id);el.classList.remove('done','active')});idx=0;nextTask()}
-  function nextTask(){
-    if(idx>=tasks.length){setTimeout(reset,3000);return}
-    const el=document.getElementById(tasks[idx]);
-    el.classList.add('active');
-    setTimeout(()=>{el.classList.remove('active');el.classList.add('done');el.querySelector('.tw-check').textContent='✓';idx++;setTimeout(nextTask,400+Math.random()*600)},800+Math.random()*800);
-  }
-  setTimeout(()=>nextTask(),1200);
+  const el=document.getElementById('capacity-count');
+  if(!el)return;
+  const counts=['1件','2件','3件','4件'];
+  // deterministic based on hour to appear consistent per visit session
+  const h=new Date().getHours();
+  el.textContent=counts[h%counts.length];
 })();
 
 /* =====================================================
