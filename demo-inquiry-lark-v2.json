@@ -1,0 +1,432 @@
+{
+  "name": "AIFLOW Demo - AI Auto-Classification & Calendar Booking (Lark)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "restore": {
+          "parameters": {
+            "hook": {
+              "label": "AIFLOW Demo Inquiry Webhook"
+            }
+          }
+        },
+        "expect": [
+          {
+            "name": "name",
+            "type": "text",
+            "label": "Name"
+          },
+          {
+            "name": "email",
+            "type": "text",
+            "label": "Email"
+          },
+          {
+            "name": "company",
+            "type": "text",
+            "label": "Company"
+          },
+          {
+            "name": "message",
+            "type": "text",
+            "label": "Inquiry"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "openai-gpt-3:CreateCompletion",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": 5430347
+      },
+      "mapper": {
+        "select": "chat",
+        "temperature": "0.1",
+        "top_p": "1",
+        "n_completions": "1",
+        "model": "gpt-4o-mini",
+        "max_tokens": 250,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are an inquiry classification AI. Reply ONLY in JSON format: {\"category\": \"urgent|normal|sales|support\", \"summary\": \"30 chars max\", \"priority\": 1-5, \"suggested_action\": \"recommended action\", \"needs_meeting\": true or false}. Set needs_meeting=true ONLY for sales or urgent category.",
+            "imageDetail": "auto"
+          },
+          {
+            "role": "user",
+            "content": "Name: {{1.name}}\nCompany: {{1.company}}\nEmail: {{1.email}}\nInquiry: {{1.message}}",
+            "imageDetail": "auto"
+          }
+        ],
+        "response_format": "json_object",
+        "parseJSONResponse": true
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        },
+        "restore": {
+          "parameters": {
+            "__IMTCONN__": {
+              "label": "My OpenAI connection",
+              "data": {
+                "scoped": "true",
+                "connection": "openai-gpt-3"
+              }
+            }
+          },
+          "expect": {
+            "select": {
+              "label": "Create a Chat Completion (GPT and o1 models)"
+            },
+            "model": {
+              "mode": "chose",
+              "label": "gpt-4o-mini"
+            },
+            "messages": {
+              "mode": "chose",
+              "items": [
+                {
+                  "role": {
+                    "mode": "chose",
+                    "label": "Developer / System"
+                  },
+                  "imageDetail": {
+                    "mode": "chose",
+                    "label": "Auto"
+                  }
+                },
+                {
+                  "role": {
+                    "mode": "chose",
+                    "label": "User"
+                  },
+                  "imageDetail": {
+                    "mode": "chose",
+                    "label": "Auto"
+                  }
+                }
+              ]
+            },
+            "response_format": {
+              "mode": "chose",
+              "label": "JSON Object"
+            },
+            "parseJSONResponse": {
+              "mode": "chose"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          {
+            "name": "category",
+            "value": "{{2.result.category}}"
+          },
+          {
+            "name": "summary",
+            "value": "{{2.result.summary}}"
+          },
+          {
+            "name": "priority",
+            "value": "{{2.result.priority}}"
+          },
+          {
+            "name": "suggested_action",
+            "value": "{{2.result.suggested_action}}"
+          },
+          {
+            "name": "needs_meeting",
+            "value": "{{2.result.needs_meeting}}"
+          },
+          {
+            "name": "timestamp",
+            "value": "{{formatDate(now; \"YYYY-MM-DD HH:mm\")}}"
+          },
+          {
+            "name": "meeting_start",
+            "value": "{{formatDate(setHour(setMinute(setSecond(addDays(now; 1); 0); 0); 10); \"X\")}}"
+          },
+          {
+            "name": "meeting_end",
+            "value": "{{formatDate(setHour(setMinute(setSecond(addDays(now; 1); 0); 30); 10); \"X\")}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 5,
+              "module": "http:ActionSendData",
+              "version": 1,
+              "parameters": {
+                "handleErrors": false
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal",
+                "method": "post",
+                "headers": [
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"app_id\": \"cli_a9156da34e789e1b\", \"app_secret\": \"cJRbg1SiPiOwm7H8QSOCIe7VWeGyAQUM\"}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1200,
+                  "y": -200
+                }
+              }
+            },
+            {
+              "id": 6,
+              "module": "http:ActionSendData",
+              "version": 1,
+              "parameters": {
+                "handleErrors": false
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/sheets/v2/spreadsheets/BcBus2LZ7hDEIOt4pd1jlqUCpMc/values",
+                "method": "put",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{5.data.tenant_access_token}}"
+                  },
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json; charset=utf-8"
+                  }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"valueRange\":{\"range\":\"22eab0!A:H\",\"values\":[[\"{{3.timestamp}}\",\"{{1.name}}\",\"{{1.company}}\",\"{{1.email}}\",\"{{3.category}}\",\"{{3.summary}}\",\"{{3.priority}}\",\"{{3.suggested_action}}\"]]}}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": -200
+                }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 7,
+              "module": "http:ActionSendData",
+              "version": 1,
+              "parameters": {
+                "handleErrors": false
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal",
+                "method": "post",
+                "headers": [
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"app_id\": \"cli_a9156da34e789e1b\", \"app_secret\": \"cJRbg1SiPiOwm7H8QSOCIe7VWeGyAQUM\"}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1200,
+                  "y": 0
+                }
+              }
+            },
+            {
+              "id": 8,
+              "module": "http:ActionSendData",
+              "version": 1,
+              "parameters": {
+                "handleErrors": false
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/im/v1/messages?receive_id_type=chat_id",
+                "method": "post",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{7.data.tenant_access_token}}"
+                  },
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json; charset=utf-8"
+                  }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"receive_id\":\"oc_63332f5e478f265af7db9f0ec9c89ed3\",\"msg_type\":\"interactive\",\"content\":\"{\\\"elements\\\":[[{\\\"tag\\\":\\\"div\\\",\\\"text\\\":{\\\"tag\\\":\\\"lark_md\\\",\\\"content\\\":\\\"**New Inquiry**\\\\n\\\\nName: **{{1.name}}** ({{1.company}})\\\\nEmail: {{1.email}}\\\\n\\\\nCategory: **{{3.category}}** | Priority: {{3.priority}}/5\\\\nSummary: {{3.summary}}\\\\n\\\\nRecommended: {{3.suggested_action}}\\\"}}]]}\"}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 9,
+              "module": "http:ActionSendData",
+              "version": 1,
+              "parameters": {
+                "handleErrors": false
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal",
+                "method": "post",
+                "headers": [
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"app_id\": \"cli_a9156da34e789e1b\", \"app_secret\": \"cJRbg1SiPiOwm7H8QSOCIe7VWeGyAQUM\"}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1200,
+                  "y": 200
+                }
+              }
+            },
+            {
+              "id": 10,
+              "module": "http:ActionSendData",
+              "version": 1,
+              "parameters": {
+                "handleErrors": false
+              },
+              "mapper": {
+                "url": "https://open.larksuite.com/open-apis/calendar/v4/calendars/feishu.cn_cBT8dKAhsLqBUxKpjeNpsg@group.calendar.feishu.cn/events",
+                "method": "post",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "value": "Bearer {{9.data.tenant_access_token}}"
+                  },
+                  {
+                    "name": "Content-Type",
+                    "value": "application/json; charset=utf-8"
+                  }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "contentType": "application/json",
+                "body": "{\"summary\":\"Inquiry Follow-up: {{1.company}}\",\"description\":\"Name: {{1.name}}\\nEmail: {{1.email}}\\nCategory: {{3.category}} | Priority: {{3.priority}}/5\\nSummary: {{3.summary}}\\nRecommended: {{3.suggested_action}}\",\"start_time\":{\"timestamp\":\"{{3.meeting_start}}\"},\"end_time\":{\"timestamp\":\"{{3.meeting_end}}\"},\"need_notification\":true}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": 200
+                }
+              }
+            }
+          ],
+          "label": "Calendar Booking (sales/urgent only)",
+          "filter": {
+            "name": "needs_meeting = true",
+            "conditions": [
+              [
+                {
+                  "a": "{{3.needs_meeting}}",
+                  "b": "true",
+                  "o": "text:equal"
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "eu1.make.com"
+  }
+}
