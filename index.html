@@ -1410,7 +1410,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <button type="submit" class="iform-btn" id="iform-submit-btn">
           <span id="iform-btn-text">無料相談を送信する →</span>
         </button>
-        <p class="iform-note">送信後、Lark相談フォームにリダイレクトされます。記載内容は参考情報として扱います。</p>
+        <p class="iform-note">送信完了後、確認メールをお送りします。</p>
       </form>
       <div class="iform-success" id="iform-success" style="display:none">
         <div class="ifs-icon">✓</div>
@@ -1481,7 +1481,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
    ⚠️ 公開GitHubリポジトリに載せる場合は、
       Usageリミット付きの専用キーを使ってください
 ===================================================== */
-const OPENAI_API_KEY='__OPENAI_API_KEY__';
+const OPENAI_API_KEY='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';
 const OPENAI_MODEL   = 'gpt-4o-mini';
 
 /* =====================================================
@@ -1884,26 +1884,30 @@ function roiCalc(){
 /* =====================================================
    INLINE CONTACT FORM
 ===================================================== */
+var GAS_ENDPOINT='https://script.google.com/macros/s/AKfycbxYzTd7B-wha-k-gaWvDLi_Mvt7cLu_8OC0BcHowb1swKy-PBiRbrsXw5Dowzq2hQIM/exec';
 function submitForm(e){
   e.preventDefault();
   var btn=document.getElementById('iform-submit-btn');
   var txt=document.getElementById('iform-btn-text');
   btn.disabled=true;
   txt.textContent='送信中…';
-  // フォームデータ収集
   var f=document.getElementById('contact-form');
-  var data=new FormData(f);
-  var params=new URLSearchParams();
-  for(var pair of data.entries()){params.append(pair[0],pair[1]);}
-  // 送信成功演出 → 外部フォームへリダイレクト
-  setTimeout(function(){
-    document.getElementById('contact-form').style.display='none';
-    document.getElementById('iform-success').style.display='block';
-    // 3秒後に外部Larkフォームも別タブで開く
-    setTimeout(function(){
-      window.open('https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef','_blank');
-    },2000);
-  },800);
+  var body=JSON.stringify({
+    name:f.querySelector('[name="name"]').value,
+    company:f.querySelector('[name="company"]').value,
+    email:f.querySelector('[name="email"]').value,
+    message:f.querySelector('[name="message"]').value,
+    budget:f.querySelector('[name="budget"]').value
+  });
+  fetch(GAS_ENDPOINT,{method:'POST',body:body,mode:'no-cors'})
+    .then(function(){
+      document.getElementById('contact-form').style.display='none';
+      document.getElementById('iform-success').style.display='block';
+    })
+    .catch(function(){
+      txt.textContent='送信に失敗しました。もう一度お試しください。';
+      btn.disabled=false;
+    });
 }
 
 
