@@ -284,10 +284,23 @@ section{padding:96px 32px}
 .p-btn{display:block;text-align:center;padding:12px;border-radius:10px;font-weight:700;font-size:.85rem;transition:all .2s;cursor:pointer}
 .p-btn-w{background:var(--t1);color:var(--bg)}.p-btn-w:hover{opacity:.85}
 .p-btn-o{border:1px solid var(--bm);color:var(--t2)}.p-btn-o:hover{border-color:rgba(255,255,255,.3);color:var(--t1)}
-.maint{max-width:680px;margin:40px auto 0;background:var(--bg3);border:1px solid var(--b);border-radius:16px;padding:32px 36px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;position:relative;z-index:1}
-.maint-price{font-size:1.8rem;font-weight:900;letter-spacing:-.04em}
-.maint-price span{font-size:.9rem;font-weight:400;color:var(--t2)}
-.maint-desc{font-size:.82rem;color:var(--t2);line-height:1.6;margin-top:4px}
+.maint{max-width:900px;margin:48px auto 0;background:var(--bg3);border:1px solid rgba(240,120,64,.25);border-radius:20px;padding:40px 44px;display:flex;gap:48px;flex-wrap:wrap;position:relative;z-index:1}
+.enterprise-plan{background:linear-gradient(135deg,rgba(240,120,64,.06) 0%,var(--bg3) 60%)}
+.ep-left{flex:1;min-width:260px}
+.ep-badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.1em;color:var(--or);border:1px solid rgba(240,120,64,.4);border-radius:999px;padding:4px 12px;margin-bottom:16px}
+.ep-price{font-size:2.4rem;font-weight:900;letter-spacing:-.04em;line-height:1}
+.ep-price span{font-size:1.1rem;font-weight:400;color:var(--t2)}
+.ep-sub{font-size:.82rem;color:var(--t2);line-height:1.6;margin:10px 0 18px}
+.ep-list{display:flex;flex-direction:column;gap:6px;margin-bottom:24px}
+.ep-list li{font-size:.8rem;color:var(--t2);padding-left:16px;position:relative}
+.ep-list li::before{content:'✓';position:absolute;left:0;color:var(--or);font-weight:700}
+.ep-btn{display:inline-block;background:var(--or);color:#fff;border-radius:999px;padding:12px 28px;font-size:.85rem;font-weight:700;transition:opacity .2s}
+.ep-btn:hover{opacity:.85}
+.ep-right{flex:1;min-width:220px;display:flex;flex-direction:column;gap:16px;justify-content:center}
+.ep-range-title{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--t3);margin-bottom:4px}
+.ep-range-row{background:rgba(255,255,255,.03);border:1px solid var(--b);border-radius:10px;padding:14px 16px}
+.ep-range-price{font-size:1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.ep-range-desc{font-size:.75rem;color:var(--t2);line-height:1.5}
 
 /* =====================================================
    CREDS / FAQ
@@ -637,7 +650,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .cg{grid-template-columns:1fr}
   .cando-grid{grid-template-columns:1fr}
   .ba{grid-template-columns:1fr}
-  .maint{flex-direction:column;text-align:center;justify-content:center}
+  .maint{flex-direction:column;padding:28px 24px;gap:28px}
+  .ep-right{width:100%}
   .inline-form-wrap{padding:24px 20px}
   .chs{flex-direction:column;align-items:center}
   .ch{width:100%;max-width:280px}
@@ -1196,7 +1210,38 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="plan ft"><div class="ft-badge">最も選ばれています</div><div class="plan-roi-badge">ROI 400%+</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>80,000<sub>〜</sub></div><div class="p-period">¥80,000〜¥150,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">AI連携・複数ステップを含む本格自動化。最もROIが高いプランです。</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後1ヶ月サポート</li></ul><a href="#contact" class="p-btn p-btn-w">このプランで相談する →</a></div>
       <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">¥150,000〜¥300,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。スクレイピング・AI・通知・DBまで統合構築。</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後3ヶ月サポート</li><li>追加改修1回無料</li></ul><a href="#contact" class="p-btn p-btn-o">全て任せてみる →</a></div>
     </div>
-    <div class="maint"><div style="font-size:2rem">🛡️</div><div><div class="maint-price">¥20,000 <span>/ 月（2h対応）</span></div><div class="maint-desc">月額保守プラン — エラー対応・仕様変更・小改修を月2時間の範囲で優先対応します。</div></div></div>
+    <div class="maint enterprise-plan">
+      <div class="ep-left">
+        <div class="ep-badge">ENTERPRISE / FULL CUSTOM</div>
+        <div class="ep-price">¥500,000<span>〜¥1,900,000</span></div>
+        <div class="ep-sub">複数部門・複数システムにまたがる大規模自動化を一括設計・構築します。</div>
+        <ul class="ep-list">
+          <li>業務フロー全体の設計・ヒアリング（3〜5回）</li>
+          <li>複数システム統合（5サービス以上）</li>
+          <li>AI（GPT/Claude）完全組み込み</li>
+          <li>スクレイピング・RPA・API連携</li>
+          <li>ダッシュボード・レポート自動化</li>
+          <li>運用マニュアル・引き継ぎドキュメント</li>
+          <li>納品後3ヶ月サポート・追加改修2回無料</li>
+        </ul>
+        <a href="#contact" class="p-btn p-btn-or ep-btn">完全カスタムで相談する →</a>
+      </div>
+      <div class="ep-right">
+        <div class="ep-range-title">想定案件の目安</div>
+        <div class="ep-range-row">
+          <div class="ep-range-price">¥50万〜¥80万</div>
+          <div class="ep-range-desc">3〜4システム統合・AI組み込み・ダッシュボード構築</div>
+        </div>
+        <div class="ep-range-row">
+          <div class="ep-range-price">¥80万〜¥130万</div>
+          <div class="ep-range-desc">部門横断・スクレイピング＋自動投稿＋CRM連携</div>
+        </div>
+        <div class="ep-range-row">
+          <div class="ep-range-price c-or">¥130万〜¥190万</div>
+          <div class="ep-range-desc">全社自動化・複数AI連携・運用体制構築まで</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1349,7 +1394,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <details><summary>法人契約は対応していますか？請求書は発行できますか？</summary><div class="fq-ans">はい、法人・個人事業主どちらも対応しています。請求書・領収書の発行が可能です。NDA（秘密保持契約）も対応しますので、機密情報を含む業務のご相談もお気軽にどうぞ。</div></details>
       <details><summary>納期・料金の目安を教えてください。</summary><div class="fq-ans">Liteプラン（¥40,000〜）は3〜5営業日、Standardプラン（¥80,000〜¥150,000）は7〜14日、Full Package（¥150,000〜¥300,000）は14〜30日が目安です。要件が明確な場合は最短1週間での納品実績があります。</div></details>
       <details><summary>依頼してから動くまでの流れを教えてください。</summary><div class="fq-ans">① 無料相談（ヒアリング・自動化可否の確認）→ ② 要件定義・お見積り（認識齟齬ゼロで着手）→ ③ 設計・構築（進捗随時共有）→ ④ 動作確認・納品（運用手順書同梱）の4ステップです。着手金50%・納品後50%の安心設計で、途中キャンセルリスクを最小化しています。</div></details>
-      <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。月額保守プラン（¥20,000/月）にご加入いただくと、月2時間の範囲で優先対応が可能です。また、各プランに含まれるサポート期間内であれば追加費用なしで対応します。</div></details>
+      <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。各プランに含まれるサポート期間内であれば追加費用なしで対応します。大規模な改修・システム拡張をご検討の場合はEnterpriseプランへのアップグレードもご相談ください。</div></details>
       <details><summary>「自動化できるか分からない」という状態でも相談できますか？</summary><div class="fq-ans">むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。相談・見積もりは完全無料、断っていただいても構いません。まずお気軽にどうぞ。</div></details>
     </div>
     <div class="faq-chat-cta">

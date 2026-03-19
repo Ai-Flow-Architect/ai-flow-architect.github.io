@@ -178,17 +178,16 @@ function sendAutoReply(name, email) {
   const subject = 'AI Flow Architect: お問い合わせありがとうございます';
   const body =
     name + ' 様\n\n' +
-    'この度はお問い合わせいただきありがとうございます。\n' +
-    'AI Flow Architect（（担当者） こうすけ）です。\n\n' +
-    'ご連絡の内容を確認いたしました。\n' +
-    '通常12時間以内にご返信いたします。\n\n' +
-    '急ぎのご連絡はXのDM（@Kosuke_free_）もご利用ください。\n\n' +
+    'お問い合わせありがとうございます。\n' +
+    'AI Flow Architect(Aiフローアーキテクト)です。\n\n' +
+    '内容を確認いたしました。通常12時間以内にご返信いたします。\n\n' +
+    '急ぎの場合はXのDM（@Kosuke_free_）もご利用ください。\n\n' +
     '──────────────────────\n' +
     'AI Flow Architect\n' +
     'https://ai-flow-architect.github.io/\n' +
     'X: https://x.com/Kosuke_free_\n' +
     '──────────────────────\n\n' +
-    '※ このメールは自動送信されています。このメールへの返信は確認されません。';
+    '※ このメールは自動送信です。このメールへの返信は確認されません。';
 
   MailApp.sendEmail({
     to: email,
