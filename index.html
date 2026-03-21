@@ -644,29 +644,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 #fdv2-run-count{color:#22c55e;font-weight:700}
 .fdv2-main{display:flex;align-items:stretch;min-height:270px}
 .fdv2-graph-wrap{flex:1;padding:16px 12px;overflow:hidden;min-width:0}
-#fd-graph{width:100%;height:auto;display:block}
-.fdn-bg{stroke-width:1.5;transition:stroke-opacity .3s,fill .3s}
-.fdn-bg-bl{fill:#050e1b;stroke:#4a8ff7;stroke-opacity:.45}
-.fdn-bg-pu{fill:#080618;stroke:#8b5cf6;stroke-opacity:.45}
-.fdn-bg-or{fill:#150801;stroke:#f07840;stroke-opacity:.45}
-.fdn-bg-gr{fill:#020f05;stroke:#22c55e;stroke-opacity:.45}
-.fdn-stripe{stroke:none}.fdn-s-bl{fill:#4a8ff7}.fdn-s-pu{fill:#8b5cf6}.fdn-s-or{fill:#f07840}.fdn-s-gr{fill:#22c55e}
-.fdn-dot{opacity:.35}.fdn-d-bl{fill:#4a8ff7}.fdn-d-pu{fill:#8b5cf6}.fdn-d-or{fill:#f07840}.fdn-d-gr{fill:#22c55e}
-.fdn-app{font-size:9.5px;font-family:'Space Grotesk','Inter',sans-serif;font-weight:600;opacity:.75}
-.fdn-a-bl{fill:#4a8ff7}.fdn-a-pu{fill:#8b5cf6}.fdn-a-or{fill:#f07840}.fdn-a-gr{fill:#22c55e}
-.fdn-title{font-size:12px;font-family:'Space Grotesk','Inter',sans-serif;font-weight:700;fill:#f0f0f0}
-.fdn-tag{font-size:8.5px;font-family:'Space Grotesk','Inter',sans-serif;font-weight:700;letter-spacing:.08em;opacity:.7}
-.fdn-t-bl{fill:#4a8ff7}.fdn-t-pu{fill:#8b5cf6}.fdn-t-or{fill:#f07840}.fdn-t-gr{fill:#22c55e}
-.fdconn{stroke-width:2;stroke-dasharray:6 4;stroke-linecap:round;animation:fdConnFlow 1.4s linear infinite}
-.fdconn-bl{stroke:#4a8ff7;stroke-opacity:.5}.fdconn-pu{stroke:#8b5cf6;stroke-opacity:.5;animation-delay:.25s}
-.fdconn-or{stroke:#f07840;stroke-opacity:.5;animation-delay:.5s}.fdconn-gr{stroke:#22c55e;stroke-opacity:.5;animation-delay:.75s}
-@keyframes fdConnFlow{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}
-.fdarrow-bl{fill:#4a8ff7;opacity:.75}.fdarrow-pu{fill:#8b5cf6;opacity:.75}.fdarrow-or{fill:#f07840;opacity:.75}.fdarrow-gr{fill:#22c55e;opacity:.75}
-.fd-pkt{transition:opacity .1s}.fd-pkt-bl{fill:#4a8ff7}.fd-pkt-pu{fill:#8b5cf6}.fd-pkt-or{fill:#f07840}.fd-pkt-gr{fill:#22c55e}
-.fdnode--active .fdn-bg-bl{stroke-opacity:1;fill:#0a1e38}.fdnode--active .fdn-bg-pu{stroke-opacity:1;fill:#13093a}
-.fdnode--active .fdn-bg-or{stroke-opacity:1;fill:#2a1002}.fdnode--active .fdn-bg-gr{stroke-opacity:1;fill:#052010}
-.fdnode--active .fdn-dot{opacity:1;animation:fdDotBlink .7s ease-in-out infinite}
-@keyframes fdDotBlink{0%,100%{opacity:1}50%{opacity:.2}}
+#fd-canvas{width:100%;display:block;border-radius:8px}
 .fdv2-log{width:210px;flex-shrink:0;border-left:1px solid rgba(255,255,255,.08);padding:14px 12px;background:rgba(0,0,0,.2);display:flex;flex-direction:column;overflow:hidden}
 .fdv2-log-head{font-size:.67rem;font-weight:800;letter-spacing:.1em;color:var(--t3);text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.07)}
 .fdv2-log-body{display:flex;flex-direction:column;gap:4px;overflow-y:auto;flex:1}
@@ -1095,99 +1073,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <!-- メインコンテンツ -->
       <div class="fdv2-main">
         <div class="fdv2-graph-wrap">
-          <svg id="fd-graph" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <filter id="fd-glow"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              <filter id="fd-pkglow"><feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            </defs>
-            <!-- 接続線 -->
-            <line class="fdconn fdconn-bl" x1="138" y1="72" x2="194" y2="72"/>
-            <polygon class="fdarrow-bl" points="187,68 196,72 187,76"/>
-            <line class="fdconn fdconn-pu" x1="326" y1="72" x2="382" y2="72"/>
-            <polygon class="fdarrow-pu" points="375,68 384,72 375,76"/>
-            <line class="fdconn fdconn-or" x1="514" y1="72" x2="570" y2="72"/>
-            <polygon class="fdarrow-or" points="563,68 572,72 563,76"/>
-            <line class="fdconn fdconn-gr" x1="261" y1="106" x2="261" y2="166"/>
-            <polygon class="fdarrow-gr" points="257,159 261,168 265,159"/>
-            <line class="fdconn fdconn-gr" x1="326" y1="202" x2="382" y2="202"/>
-            <polygon class="fdarrow-gr" points="375,198 384,202 375,206"/>
-            <!-- N0: フォーム受信 (Trigger) -->
-            <g id="fdn-0" class="fdnode">
-              <rect x="8" y="38" width="130" height="68" rx="9" class="fdn-bg fdn-bg-bl"/>
-              <rect x="8" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-bl"/>
-              <circle cx="129" cy="47" r="4.5" class="fdn-dot fdn-d-bl"/>
-              <text x="73" y="51" text-anchor="middle" class="fdn-app fdn-a-bl">Make.com</text>
-              <text x="73" y="77" text-anchor="middle" class="fdn-title">フォーム受信</text>
-              <text x="73" y="97" text-anchor="middle" class="fdn-tag fdn-t-bl">TRIGGER</text>
-            </g>
-            <!-- N1: AI分類 (Process) -->
-            <g id="fdn-1" class="fdnode">
-              <rect x="196" y="38" width="130" height="68" rx="9" class="fdn-bg fdn-bg-pu"/>
-              <rect x="196" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-pu"/>
-              <circle cx="317" cy="47" r="4.5" class="fdn-dot fdn-d-pu"/>
-              <text x="261" y="51" text-anchor="middle" class="fdn-app fdn-a-pu">Claude API</text>
-              <text x="261" y="77" text-anchor="middle" class="fdn-title">AI分類・判断</text>
-              <text x="261" y="97" text-anchor="middle" class="fdn-tag fdn-t-pu">PROCESS</text>
-            </g>
-            <!-- N2: 返信文生成 (Process) -->
-            <g id="fdn-2" class="fdnode">
-              <rect x="384" y="38" width="130" height="68" rx="9" class="fdn-bg fdn-bg-pu"/>
-              <rect x="384" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-pu"/>
-              <circle cx="505" cy="47" r="4.5" class="fdn-dot fdn-d-pu"/>
-              <text x="449" y="51" text-anchor="middle" class="fdn-app fdn-a-pu">GPT-4o</text>
-              <text x="449" y="77" text-anchor="middle" class="fdn-title">返信文を生成</text>
-              <text x="449" y="97" text-anchor="middle" class="fdn-tag fdn-t-pu">PROCESS</text>
-            </g>
-            <!-- N3: 自動送信 (Action) -->
-            <g id="fdn-3" class="fdnode">
-              <rect x="572" y="38" width="120" height="68" rx="9" class="fdn-bg fdn-bg-or"/>
-              <rect x="572" y="38" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-or"/>
-              <circle cx="683" cy="47" r="4.5" class="fdn-dot fdn-d-or"/>
-              <text x="632" y="51" text-anchor="middle" class="fdn-app fdn-a-or">Lark Bot</text>
-              <text x="632" y="77" text-anchor="middle" class="fdn-title">自動送信</text>
-              <text x="632" y="97" text-anchor="middle" class="fdn-tag fdn-t-or">ACTION</text>
-            </g>
-            <!-- N4: ログ記録 (Store) -->
-            <g id="fdn-4" class="fdnode">
-              <rect x="196" y="168" width="130" height="68" rx="9" class="fdn-bg fdn-bg-gr"/>
-              <rect x="196" y="168" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-gr"/>
-              <circle cx="317" cy="177" r="4.5" class="fdn-dot fdn-d-gr"/>
-              <text x="261" y="181" text-anchor="middle" class="fdn-app fdn-a-gr">Sheets API</text>
-              <text x="261" y="207" text-anchor="middle" class="fdn-title">ログを記録</text>
-              <text x="261" y="227" text-anchor="middle" class="fdn-tag fdn-t-gr">STORE</text>
-            </g>
-            <!-- N5: Lark通知 (Notify) -->
-            <g id="fdn-5" class="fdnode">
-              <rect x="384" y="168" width="130" height="68" rx="9" class="fdn-bg fdn-bg-gr"/>
-              <rect x="384" y="168" width="4.5" height="68" rx="2.5" class="fdn-stripe fdn-s-gr"/>
-              <circle cx="505" cy="177" r="4.5" class="fdn-dot fdn-d-gr"/>
-              <text x="449" y="181" text-anchor="middle" class="fdn-app fdn-a-gr">Lark</text>
-              <text x="449" y="207" text-anchor="middle" class="fdn-title">Lark通知</text>
-              <text x="449" y="227" text-anchor="middle" class="fdn-tag fdn-t-gr">NOTIFY</text>
-            </g>
-            <!-- アニメーションパケット -->
-            <circle id="fd-pkt0" r="7" class="fd-pkt fd-pkt-bl" opacity="0" filter="url(#fd-pkglow)">
-              <animateMotion id="fdm0" dur="0.45s" fill="freeze"><mpath href="#fdmp0"/></animateMotion>
-            </circle>
-            <circle id="fd-pkt1" r="7" class="fd-pkt fd-pkt-pu" opacity="0" filter="url(#fd-pkglow)">
-              <animateMotion id="fdm1" dur="0.45s" fill="freeze"><mpath href="#fdmp1"/></animateMotion>
-            </circle>
-            <circle id="fd-pkt2" r="7" class="fd-pkt fd-pkt-or" opacity="0" filter="url(#fd-pkglow)">
-              <animateMotion id="fdm2" dur="0.45s" fill="freeze"><mpath href="#fdmp2"/></animateMotion>
-            </circle>
-            <circle id="fd-pkt3" r="7" class="fd-pkt fd-pkt-gr" opacity="0" filter="url(#fd-pkglow)">
-              <animateMotion id="fdm3" dur="0.55s" fill="freeze"><mpath href="#fdmp3"/></animateMotion>
-            </circle>
-            <circle id="fd-pkt4" r="7" class="fd-pkt fd-pkt-gr" opacity="0" filter="url(#fd-pkglow)">
-              <animateMotion id="fdm4" dur="0.45s" fill="freeze"><mpath href="#fdmp4"/></animateMotion>
-            </circle>
-            <!-- モーションパス（非表示） -->
-            <path id="fdmp0" d="M138,72 L196,72" fill="none" stroke="none"/>
-            <path id="fdmp1" d="M326,72 L384,72" fill="none" stroke="none"/>
-            <path id="fdmp2" d="M514,72 L572,72" fill="none" stroke="none"/>
-            <path id="fdmp3" d="M261,106 L261,168" fill="none" stroke="none"/>
-            <path id="fdmp4" d="M326,202 L384,202" fill="none" stroke="none"/>
-          </svg>
+          <canvas id="fd-canvas"></canvas>
         </div>
         <!-- リアルタイムログパネル -->
         <div class="fdv2-log">
@@ -2150,12 +2036,35 @@ function submitForm(e){
 }
 
 
-// === FLOW DIAGRAM v2 アニメーション ===
+// === FLOW DIAGRAM Canvas アニメーション (Color C: Blue→Orange→Green) ===
 (function(){
-  var nodes=['fdn-0','fdn-1','fdn-2','fdn-3','fdn-4','fdn-5'];
-  var pkts=['fd-pkt0','fd-pkt1','fd-pkt2','fd-pkt3','fd-pkt4'];
-  var motions=['fdm0','fdm1','fdm2','fdm3','fdm4'];
-  var runs=1247,busy=false;
+  var canvas=document.getElementById('fd-canvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var LW=700,LH=260;
+
+  var CB=[74,143,247],CO=[240,120,64],CG=[74,213,130];
+  function lerp(a,b,t){return[Math.round(a[0]+(b[0]-a[0])*t),Math.round(a[1]+(b[1]-a[1])*t),Math.round(a[2]+(b[2]-a[2])*t)];}
+  function rgb(c){return'rgb('+c[0]+','+c[1]+','+c[2]+')';}
+  function rgba(c,a){return'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';}
+  function rrect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+
+  var NS=[
+    {x:8,  y:38,w:130,h:68,l1:'Make.com',  l2:'TRIGGER', col:CB,active:false,glow:0},
+    {x:196,y:38,w:130,h:68,l1:'Claude API',l2:'PROCESS',  col:CO,active:false,glow:0},
+    {x:384,y:38,w:130,h:68,l1:'GPT-4o',    l2:'PROCESS',  col:CO,active:false,glow:0},
+    {x:572,y:38,w:120,h:68,l1:'Lark Bot',  l2:'ACTION',   col:CG,active:false,glow:0},
+    {x:196,y:168,w:130,h:68,l1:'Sheets',   l2:'STORE',    col:CG,active:false,glow:0},
+    {x:384,y:168,w:130,h:68,l1:'Lark',     l2:'NOTIFY',   col:CG,active:false,glow:0},
+  ];
+  var CS=[
+    {sx:138,sy:72, ex:196,ey:72, col:lerp(CB,CO,0.5)},
+    {sx:326,sy:72, ex:384,ey:72, col:CO},
+    {sx:514,sy:72, ex:572,ey:72, col:lerp(CO,CG,0.5)},
+    {sx:261,sy:106,ex:261,ey:168,col:lerp(CO,CG,0.5)},
+    {sx:326,sy:202,ex:384,ey:202,col:CG},
+  ];
+  var particles=[],runs=1247,busy=false;
   var logData=[
     {t:'📬 フォーム受信 #enquiry-087',c:'log-bl'},
     {t:'🤖 Claude: 業務自動化の相談と分類',c:'log-pu'},
@@ -2165,18 +2074,6 @@ function submitForm(e){
     {t:'🔔 Lark: 担当者へ通知 ✓',c:'log-gr'},
     {t:'✅ 完了 (処理時間: 0.7秒)',c:'log-gr'},
   ];
-  function setActive(id,on){
-    var el=document.getElementById(id);
-    if(el){on?el.classList.add('fdnode--active'):el.classList.remove('fdnode--active');}
-  }
-  function firePacket(i){
-    var p=document.getElementById(pkts[i]);
-    var m=document.getElementById(motions[i]);
-    if(!p||!m)return;
-    p.setAttribute('opacity','1');
-    m.beginElement();
-    setTimeout(function(){p.setAttribute('opacity','0');},600);
-  }
   function addLog(item){
     var b=document.getElementById('fdv2-log-body');
     if(!b)return;
@@ -2187,48 +2084,136 @@ function submitForm(e){
     b.scrollTop=b.scrollHeight;
     while(b.children.length>7)b.removeChild(b.children[0]);
   }
+  function resize(){
+    var rect=canvas.getBoundingClientRect();
+    if(!rect.width)return;
+    var dpr=window.devicePixelRatio||1;
+    canvas.width=rect.width*dpr;
+    var h=Math.round(rect.width*LH/LW);
+    canvas.height=h*dpr;
+    canvas.style.height=h+'px';
+  }
+  function S(){return canvas.width/LW;}
+  function drawNode(n){
+    var s=S(),x=n.x*s,y=n.y*s,w=n.w*s,h=n.h*s,r=6*s,c=n.col;
+    var g=n.glow;
+    if(g>0){ctx.save();ctx.shadowColor=rgb(c);ctx.shadowBlur=20*s*g;rrect(x,y,w,h,r);ctx.strokeStyle=rgba(c,0.85*g);ctx.lineWidth=2*s;ctx.stroke();ctx.restore();}
+    rrect(x,y,w,h,r);
+    ctx.fillStyle=g>0?rgba(c,0.15*g+0.04):'rgba(255,255,255,0.04)';
+    ctx.fill();
+    ctx.strokeStyle=rgba(c,g>0?0.65*g+0.25:0.28);
+    ctx.lineWidth=1.5*s;
+    ctx.stroke();
+    ctx.fillStyle=rgba(c,g>0?0.9*g+0.5:0.55);
+    ctx.font='bold '+(12*s)+'px ui-sans-serif,sans-serif';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText(n.l1,x+w/2,y+h*0.38);
+    ctx.fillStyle=rgba(c,g>0?0.75*g+0.35:0.38);
+    ctx.font=(9*s)+'px ui-sans-serif,sans-serif';
+    ctx.fillText(n.l2,x+w/2,y+h*0.68);
+  }
+  function drawConn(c){
+    var s=S();
+    ctx.save();
+    ctx.strokeStyle=rgba(c.col,0.22);
+    ctx.lineWidth=1.5*s;
+    ctx.beginPath();ctx.moveTo(c.sx*s,c.sy*s);ctx.lineTo(c.ex*s,c.ey*s);ctx.stroke();
+    var dx=c.ex-c.sx,dy=c.ey-c.sy,len=Math.sqrt(dx*dx+dy*dy);
+    var ux=dx/len,uy=dy/len,ex=c.ex*s,ey=c.ey*s;
+    ctx.fillStyle=rgba(c.col,0.38);
+    ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-ux*7*s-uy*4*s,ey-uy*7*s+ux*4*s);ctx.lineTo(ex-ux*7*s+uy*4*s,ey-uy*7*s-ux*4*s);ctx.closePath();ctx.fill();
+    ctx.restore();
+  }
+  function drawParticles(){
+    var s=S();
+    particles.forEach(function(p){
+      if(p.trail&&p.trail.length>1){
+        for(var i=1;i<p.trail.length;i++){
+          ctx.save();
+          ctx.strokeStyle=rgba(p.col,(i/p.trail.length)*0.35);
+          ctx.lineWidth=2.5*s;
+          ctx.beginPath();ctx.moveTo(p.trail[i-1].x*s,p.trail[i-1].y*s);ctx.lineTo(p.trail[i].x*s,p.trail[i].y*s);ctx.stroke();
+          ctx.restore();
+        }
+      }
+      ctx.save();
+      ctx.shadowColor=rgb(p.col);ctx.shadowBlur=14*s;
+      ctx.fillStyle=rgb(p.col);
+      ctx.beginPath();ctx.arc(p.x*s,p.y*s,4.5*s,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    });
+  }
+  function draw(){
+    var s=S();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    CS.forEach(drawConn);
+    NS.forEach(function(n){
+      if(n.active&&n.glow<1)n.glow=Math.min(n.glow+0.08,1);
+      else if(!n.active&&n.glow>0)n.glow=Math.max(n.glow-0.05,0);
+      drawNode(n);
+    });
+    drawParticles();
+  }
+  function spawnParticle(conn,col,dur,cb){
+    var sx=conn.sx,sy=conn.sy,ex=conn.ex,ey=conn.ey,t0=performance.now();
+    var p={x:sx,y:sy,col:col,trail:[]};
+    particles.push(p);
+    function tick(now){
+      var t=Math.min((now-t0)/dur,1);
+      t=t<0.5?2*t*t:-1+(4-2*t)*t;
+      p.trail.push({x:p.x,y:p.y});
+      if(p.trail.length>10)p.trail.shift();
+      p.x=sx+(ex-sx)*t;p.y=sy+(ey-sy)*t;
+      if(t<1){requestAnimationFrame(tick);}
+      else{particles.splice(particles.indexOf(p),1);if(cb)cb();}
+    }
+    requestAnimationFrame(tick);
+  }
   function runFlow(){
     if(busy)return;
     busy=true;
-    nodes.forEach(function(n){setActive(n,false);});
-    setActive('fdn-0',true);addLog(logData[0]);
+    NS.forEach(function(n){n.active=false;n.glow=0;});
+    particles=[];
+    NS[0].active=true;addLog(logData[0]);
     setTimeout(function(){
-      firePacket(0);
-      setTimeout(function(){
-        setActive('fdn-0',false);setActive('fdn-1',true);addLog(logData[1]);
+      spawnParticle(CS[0],lerp(CB,CO,0.35),520,function(){
+        NS[0].active=false;NS[1].active=true;addLog(logData[1]);
         setTimeout(function(){
-          firePacket(1);firePacket(3);
-          setTimeout(function(){
-            setActive('fdn-1',false);
-            setActive('fdn-2',true);addLog(logData[2]);
-            setActive('fdn-4',true);addLog(logData[4]);
+          // N1→N2
+          spawnParticle(CS[1],CO,520,function(){
+            NS[2].active=true;addLog(logData[2]);
             setTimeout(function(){
-              firePacket(2);firePacket(4);
-              setTimeout(function(){
-                setActive('fdn-2',false);setActive('fdn-4',false);
-                setActive('fdn-3',true);addLog(logData[3]);
-                setActive('fdn-5',true);addLog(logData[5]);
-                setTimeout(function(){
-                  addLog(logData[6]);
-                  runs++;
-                  var rc=document.getElementById('fdv2-run-count');
-                  if(rc)rc.textContent=runs.toLocaleString();
-                  setTimeout(function(){
-                    setActive('fdn-3',false);setActive('fdn-5',false);
-                    busy=false;
-                  },900);
-                },400);
-              },550);
-            },700);
-          },550);
-        },700);
-      },600);
-    },400);
+              spawnParticle(CS[2],lerp(CO,CG,0.5),520,function(){
+                NS[3].active=true;addLog(logData[3]);
+              });
+            },200);
+          });
+          // N1→N4 (branch)
+          spawnParticle(CS[3],lerp(CO,CG,0.5),680,function(){
+            NS[4].active=true;addLog(logData[4]);
+            setTimeout(function(){
+              spawnParticle(CS[4],CG,500,function(){
+                NS[4].active=false;NS[5].active=true;addLog(logData[5]);
+              });
+            },150);
+          });
+        },420);
+      });
+    },380);
+    setTimeout(function(){
+      addLog(logData[6]);runs++;
+      var rc=document.getElementById('fdv2-run-count');
+      if(rc)rc.textContent=runs.toLocaleString();
+      setTimeout(function(){
+        NS.forEach(function(n){n.active=false;});NS[1].active=false;
+        busy=false;
+      },900);
+    },3900);
   }
-  function start(){
-    runFlow();
-    setInterval(runFlow,6500);
-  }
+  function loop(){draw();requestAnimationFrame(loop);}
+  function start(){resize();loop();runFlow();setInterval(runFlow,7200);}
+  window.addEventListener('resize',resize);
   function init(){
     var el=document.getElementById('fdv2-root');
     if(!el){start();return;}
@@ -2237,11 +2222,8 @@ function submitForm(e){
     },{threshold:0.2});
     obs.observe(el);
   }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',init);
-  } else {
-    init();
-  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}
+  else{init();}
 })();
 </script>
 </body>
