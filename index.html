@@ -77,6 +77,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 .nav-links a:hover{color:var(--t1);transition:color .2s}
 .nav-cta{font-size:.78rem;font-weight:700;color:var(--bg);background:var(--t1);padding:8px 20px;border-radius:999px;transition:opacity .2s}
 .nav-cta:hover{opacity:.85}
+.nav-capacity{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:600;color:var(--gr);border:1px solid rgba(74,213,130,.25);background:rgba(74,213,130,.08);padding:5px 12px;border-radius:999px;white-space:nowrap}
+@media(max-width:640px){.nav-capacity{display:none}}
 
 /* =====================================================
    HERO
@@ -447,6 +449,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
    HERO SUB-BADGE
 ===================================================== */
 .hero-sub-badge{display:inline-block;margin:12px 0 0;padding:8px 20px;background:rgba(240,120,64,.12);border:1px solid rgba(240,120,64,.3);border-radius:30px;font-size:.85rem;font-weight:600;color:var(--or);letter-spacing:.02em}
+.hero-capacity-badge{display:inline-flex;align-items:center;gap:8px;margin:0 auto 28px;padding:10px 24px;background:rgba(74,213,130,.07);border:1px solid rgba(74,213,130,.28);border-radius:999px;font-size:.88rem;font-weight:600;color:var(--t1)}
 
 /* =====================================================
    LOGOS: Brand colored SVG chips
@@ -817,6 +820,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <a href="#process">フロー</a>
       <a href="#faq">FAQ</a>
     </div>
+    <span class="nav-capacity" id="nav-capacity-status"><span class="avail-dot" style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</span>
     <a href="#contact" class="nav-cta">気軽に無料相談 →</a>
   </div>
 </nav>
@@ -846,6 +850,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <span class="h1-static" style="color:var(--or)">解放する。</span>
     </h1>
     <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t2)">技術知識ゼロでも、中小企業・個人事業主の繰り返し作業を専門に対応します。</span></p>
+    <div class="hero-capacity-badge" id="hero-capacity-status2"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</div>
     <div class="hero-trust-row">
       <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
       <span class="ht-sep">·</span>
@@ -1587,16 +1592,25 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   var REAL_ACTIVE = 0;      // ← 実案件数をここに入れる（0=ダミー）
   var MAX_CAPACITY = 5;     // ← 同時受付の上限目安
 
-  var el = document.getElementById('capacity-status');
-  if(!el) return;
-
   // ダミー稼働数: 曜日ごとに2〜4の範囲で固定値（同じ日は同じ数字）
   var dummyByDay = [3,2,4,3,4,2,3]; // 日〜土
   var active = REAL_ACTIVE > 0 ? REAL_ACTIVE : dummyByDay[new Date().getDay()];
   var available = Math.max(MAX_CAPACITY - active, 2); // 最低2件は受付中に見せる
 
-  var dot = '<span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>';
-  el.innerHTML = dot + '現在 <strong style="color:var(--gr)">' + active + '件</strong>稼働中 · あと<strong style="color:var(--gr)">' + available + '件</strong>受付可能';
+  var dot7 = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>';
+  var label = '現在 <strong style="color:var(--gr)">' + active + '件</strong>稼働中 · あと<strong style="color:var(--gr)">' + available + '件</strong>受付可能';
+
+  // CTA下（既存）
+  var elCta = document.getElementById('capacity-status');
+  if(elCta) elCta.innerHTML = dot7 + label;
+
+  // ヒーロー中央バッジ
+  var elHero = document.getElementById('hero-capacity-status2');
+  if(elHero) elHero.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>' + label;
+
+  // ナビバーバッジ（短縮表示）
+  var elNav = document.getElementById('nav-capacity-status');
+  if(elNav) elNav.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>' + active + '件稼働中 · あと' + available + '件';
 })();
 
 /* =====================================================
