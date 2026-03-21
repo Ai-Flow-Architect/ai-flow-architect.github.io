@@ -37,7 +37,142 @@
     "areaServed": "JP",
     "sameAs": ["https://x.com/Kosuke_free_"]
   }
-  </script>
+  
+/* =====================================================
+   SPARK CANVAS — Vercel風グリーン電気エフェクト (speed-compareセクション)
+===================================================== */
+(function(){
+  var cv = document.getElementById('spark-canvas');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var sparks = [];
+  var W, H;
+  function rsz(){
+    W = cv.width = cv.offsetWidth;
+    H = cv.height = cv.offsetHeight;
+  }
+  window.addEventListener('resize', rsz);
+  rsz();
+  function spawnSpark(){
+    var x = Math.random() * W;
+    var y = Math.random() * H;
+    var angle = Math.random() * Math.PI * 2;
+    var speed = 1.5 + Math.random() * 2.5;
+    sparks.push({
+      x: x, y: y,
+      dx: Math.cos(angle) * speed,
+      dy: Math.sin(angle) * speed,
+      life: 0,
+      maxLife: 40 + Math.random() * 30,
+      size: 1.5 + Math.random() * 2
+    });
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    for(var i = sparks.length - 1; i >= 0; i--){
+      var s = sparks[i];
+      s.x += s.dx; s.y += s.dy; s.life++;
+      var prog = s.life / s.maxLife;
+      var alpha = Math.max(0, (1 - prog) * 0.7);
+      var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 3);
+      g.addColorStop(0, 'rgba(61,214,140,' + alpha + ')');
+      g.addColorStop(0.5, 'rgba(61,214,140,' + (alpha * 0.4) + ')');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.size * 3, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(61,214,140,' + (alpha * 1.5) + ')';
+      ctx.fill();
+      if(s.life >= s.maxLife) sparks.splice(i, 1);
+    }
+    if(sparks.length < 18 && Math.random() < 0.35) spawnSpark();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* =====================================================
+   BEAM CANVAS — AnimatedBeam風 アプリ間接続エフェクト (tool-icons-row)
+   Color C: ブルー→オレンジ→グリーン（データ変換感）
+===================================================== */
+(function(){
+  var cv = document.getElementById('beam-canvas');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var W, H;
+  var beams = [];
+  // Color C: Blue→Orange→Green の3ステップカラー
+  var COLOR_C = [[74,143,247],[240,120,64],[74,213,130]];
+  function rc(c, a){ return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+  // tp(0〜1)の位置に応じてBlue→Orange→Greenを補間
+  function colorAtPos(tp){
+    if(tp < 0.5){
+      var t = tp / 0.5;
+      var a = COLOR_C[0], b = COLOR_C[1];
+      return [Math.round(a[0]+(b[0]-a[0])*t), Math.round(a[1]+(b[1]-a[1])*t), Math.round(a[2]+(b[2]-a[2])*t)];
+    } else {
+      var t = (tp - 0.5) / 0.5;
+      var a = COLOR_C[1], b = COLOR_C[2];
+      return [Math.round(a[0]+(b[0]-a[0])*t), Math.round(a[1]+(b[1]-a[1])*t), Math.round(a[2]+(b[2]-a[2])*t)];
+    }
+  }
+  function rsz(){
+    W = cv.width = cv.offsetWidth;
+    H = cv.height = cv.offsetHeight;
+  }
+  window.addEventListener('resize', rsz);
+  rsz();
+  function spawnBeam(){
+    var ax = Math.random() * W * 0.3;
+    var ay = H * (0.2 + Math.random() * 0.6);
+    var bx = W * (0.7 + Math.random() * 0.3);
+    var by = H * (0.2 + Math.random() * 0.6);
+    beams.push({ ax:ax, ay:ay, bx:bx, by:by, t:0, life:120 + Math.random()*80 });
+  }
+  var tick = 0;
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    tick++;
+    for(var i = beams.length - 1; i >= 0; i--){
+      var b = beams[i];
+      b.t++;
+      var prog = b.t / b.life;
+      var fade = Math.min(1, prog * 5) * Math.max(0, 1 - (prog - 0.7) * 4);
+      // ベースライン: グラデーション（青→緑）
+      var lineGrad = ctx.createLinearGradient(b.ax, b.ay, b.bx, b.by);
+      lineGrad.addColorStop(0, rc(COLOR_C[0], fade * 0.18));
+      lineGrad.addColorStop(0.5, rc(COLOR_C[1], fade * 0.18));
+      lineGrad.addColorStop(1, rc(COLOR_C[2], fade * 0.18));
+      ctx.beginPath();
+      ctx.moveTo(b.ax, b.ay);
+      ctx.lineTo(b.bx, b.by);
+      ctx.strokeStyle = lineGrad;
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+      // 走るパーティクル: 位置に応じて色変化
+      var tp = (prog * 1.3) % 1;
+      var px = b.ax + (b.bx - b.ax) * tp;
+      var py = b.ay + (b.by - b.ay) * tp;
+      var col = colorAtPos(tp);
+      var gl = ctx.createRadialGradient(px, py, 0, px, py, 10);
+      gl.addColorStop(0, rc(col, 0.9 * fade));
+      gl.addColorStop(0.4, rc(col, 0.3 * fade));
+      gl.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(px, py, 10, 0, Math.PI * 2);
+      ctx.fillStyle = gl;
+      ctx.fill();
+      if(b.t >= b.life) beams.splice(i, 1);
+    }
+    if(tick % 45 === 0 && beams.length < 6) spawnBeam();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
   <style>
 /* =====================================================
    RESET & VARS
@@ -605,7 +740,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 .crd-cert{padding:0 !important;overflow:hidden;background:transparent !important;border:none !important}
 /* Tool icons in flow section */
 .tool-icons-row{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-top:36px;padding:20px 24px;background:rgba(255,255,255,.02);border-radius:14px;border:1px solid var(--b)}
-.tool-ic{width:40px;height:40px;border-radius:9px;overflow:hidden;filter:grayscale(1) opacity(.4);transition:filter .3s,transform .3s,box-shadow .3s;cursor:default}
+.tool-ic{width:40px;height:40px;border-radius:9px;overflow:hidden;filter:grayscale(1) opacity(.4);transition:filter .3s,transform .3s,box-shadow .3s;cursor:default;position:relative;z-index:1}
 .tool-ic svg{width:100%;height:100%;display:block}
 .tool-ic:hover{filter:grayscale(0) opacity(1);transform:scale(1.15);box-shadow:0 0 18px rgba(255,255,255,.12);animation:tool-glow 1.2s ease-in-out}
 /* Modern process steps */
@@ -812,13 +947,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <div class="logo">AI Flow<span> Architect</span></div>
     <div class="nav-links">
       <a href="#bento">サービス</a>
-      <a href="#cando">できること</a>
       <a href="#cases">実績</a>
-      <a href="#testimonials">お客様の声</a>
       <a href="#pricing">料金</a>
-      <a href="#roi">ROI計算</a>
-      <a href="#process">フロー</a>
       <a href="#faq">FAQ</a>
+      <a href="#contact">相談</a>
     </div>
     <span class="nav-capacity" id="nav-capacity-status"><span class="avail-dot" style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</span>
     <a href="#contact" class="nav-cta">気軽に無料相談 →</a>
@@ -833,7 +965,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="hero-content">
     <div class="avail-badge">
       <span class="avail-dot"></span>
-      中小企業・個人事業主専用 · AI業務自動化 · 最短<strong>1週間</strong>で納品
+      3名以上のチームで繰り返し作業に困っている方 · 最短<strong>1週間</strong>で納品
     </div>
     <h1 class="hero-h1">
       <span class="h1-static">
@@ -849,7 +981,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       </span>
       <span class="h1-static" style="color:var(--or)">解放する。</span>
     </h1>
-    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t2)">技術知識ゼロでも、中小企業・個人事業主の繰り返し作業を専門に対応します。</span></p>
+    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t2)">3名以上のチームで、毎日繰り返している業務を専門に自動化します。技術知識は一切不要です。</span></p>
     <div class="hero-capacity-badge" id="hero-capacity-status2"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</div>
     <div class="hero-trust-row">
       <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
@@ -876,22 +1008,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 </section>
 
 
-<!-- OUTCOMES -->
-<section id="outcomes">
-  <div class="wrap">
-    <div class="eye">OUTCOMES</div>
-    <h2 class="sec-t">手段ではなく、成果を届ける</h2>
-    <p class="sec-s">「何を使うか」ではなく「何が変わるか」だけを約束します。</p>
-    <div class="oc-grid">
-      <div class="oc"><div class="oc-num c-or">−80%</div><div class="oc-title">業務コスト削減</div><div class="oc-desc">手作業・転記・確認の繰り返しをすべて自動化。人件費と工数を最大80%カットした実績があります。<span style="display:block;font-size:.72rem;color:var(--t3);margin-top:6px">※手作業工数との比較、削減幅は業務内容により異なります</span></div></div>
-      <div class="oc"><div class="oc-num c-bl">24h</div><div class="oc-title">365日ノンストップ稼働</div><div class="oc-desc">深夜も休日も祝日も止まらない。エラー検知・自動リトライ・通知まで設計。人が寝ている間も動き続けます。<span style="display:block;font-size:.72rem;color:var(--t3);margin-top:6px">※cron自動実行＋エラー通知設計を含む構成の場合</span></div></div>
-      <div class="oc"><div class="oc-num c-gr">×68</div><div class="oc-title">処理速度向上</div><div class="oc-desc">100件の商品説明を17時間→15分へ。定型処理をAIに委ねることで驚異的な速度向上を実現。<span style="display:block;font-size:.72rem;color:var(--t3);margin-top:6px">※ECサイト商品説明文100件の処理時間（手動17h→自動15分）</span></div></div>
-      <div class="oc"><div class="oc-num c-pu">0件</div><div class="oc-title">見落とし・漏れ</div><div class="oc-desc">問い合わせ自動分類・返信で、見落とし・返信漏れをゼロに。AI判断で安全カテゴリは即応します。</div></div>
-      <div class="oc"><div class="oc-num c-or">95%</div><div class="oc-title">応答時間短縮</div><div class="oc-desc">問い合わせ受信から返信まで、平均30分→即時対応へ。顧客満足度向上と見落としゼロを同時に実現。</div></div>
-      <div class="oc"><div class="oc-num c-bl">∞</div><div class="oc-title">スケーラビリティ</div><div class="oc-desc">1件でも1,000件でも同じコスト。人員を増やさずに処理量を無限にスケールできる設計を提供します。</div></div>
-    </div>
-  </div>
-</section>
 
 <!-- FLOW DIAGRAM -->
 <section id="flow">
@@ -919,7 +1035,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
   <!-- TOOL ICONS -->
   <div class="wrap" style="margin-top:48px">
-    <div class="tool-icons-row">
+    <div class="tool-icons-row" style="position:relative"><canvas id="beam-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;border-radius:14px"></canvas>
       <!-- Make.com -->
       <div class="tool-ic" title="Make.com"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="8" fill="#0A0014"/><rect x="6" y="10" width="8" height="21" rx="3" fill="#FF00CC" transform="rotate(-12 10 20.5)"/><rect x="16" y="8" width="8" height="24" rx="3" fill="#9933EE"/><rect x="26" y="10" width="8" height="21" rx="3" fill="#440099" transform="rotate(12 30 20.5)"/></svg></div>
       <!-- OpenAI GPT -->
@@ -944,7 +1060,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </section>
 
-<!-- BENTO -->
+<!-- BENTO + FLOW DEMO -->
 <section id="bento">
   <div class="wrap">
     <div class="eye">SERVICES</div>
@@ -958,15 +1074,11 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="bc gp"><div class="b-ic pu">💬</div><div class="b-t">chatbot / 通知bot</div><div class="b-d">LINE・Slack・Telegramへの自動通知・AI応答ボットを構築。</div><div class="b-tags"><span class="btag bt-pu">LINE API</span><span class="btag bt-pu">Slack bot</span></div></div>
       <div class="bc go"><div class="b-ic or">🔗</div><div class="b-t">SaaS・API連携開発</div><div class="b-d">使っているサービス同士をつなぎ、手動コピペを撲滅します。</div><div class="b-tags"><span class="btag bt-or">REST API</span><span class="btag bt-or">OAuth 2.0</span></div></div>
     </div>
-  </div>
-</section>
 
-
-<!-- CAN DO: できること = ほぼ全て -->
-<section id="cando">
-  <div class="wrap">
-    <div class="eye">CAN DO</div>
-    <h2 class="sec-t">自動化の流れ — インプットからアウトプットまで</h2>
+    <!-- FLOW DEMO (統合) -->
+    <div style="margin-top:64px">
+    <div class="eye" style="margin-bottom:14px">LIVE DEMO</div>
+    <h3 class="sec-t" style="font-size:clamp(1.4rem,3vw,2rem);margin-bottom:8px">自動化の流れ — リアルタイム動作デモ</h3>
     <p class="sec-s">Webブラウザ上・API連携・ファイル操作・AIが絡む処理なら、ほぼすべて自動化できます。</p>
 
     <div class="fdv2" id="fdv2-root">
@@ -1092,6 +1204,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <button onclick="document.getElementById('chat-btn').click()" class="cando-ask-btn">AIに聞く →</button>
       </div>
     </div>
+    </div><!-- /FLOW DEMO -->
   </div>
 </section>
 
@@ -1136,15 +1249,15 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         </div>
       </div>
     </div>
-    <div class="speed-compare">
-      <div class="spcomp spcomp-before"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">2時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
-      <div class="spcomp-arrow-ani">
+    <div class="speed-compare" style="position:relative;overflow:hidden"><canvas id="spark-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
+      <div class="spcomp spcomp-before" style="position:relative;z-index:1"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">2時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
+      <div class="spcomp-arrow-ani" style="position:relative;z-index:1">
         <div class="spa-line"></div>
         <div class="spa-dot"></div>
         <div class="spa-arrow">→</div>
       </div>
-      <div class="spcomp spcomp-after"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">5分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
-      <div class="spcomp-badge">24倍速</div>
+      <div class="spcomp spcomp-after" style="position:relative;z-index:1"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">5分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
+      <div class="spcomp-badge" style="z-index:1">24倍速</div>
     </div>
   </div>
 </section>
@@ -1156,12 +1269,39 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <h2 class="sec-t">Before / After</h2>
     <p class="sec-s">実際に構築した自動化の成果です。</p>
     <div class="cases">
-      <div class="cc"><div class="cc-head">案件スカウト自動化（3プラットフォーム）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">1〜2件/日</span>手動確認・手動応募。毎日2時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">20件/日</span>GPTスコア→文章生成→自動送信</div></div><div class="ce">⚡ 毎日2時間削減・応募数10倍</div><div class="ctags"><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a2e"/><circle cx="7" cy="7" r="4.5" fill="none" stroke="#45ba4b" stroke-width="1.2"/><circle cx="7" cy="7" r="2.5" fill="#d65348"/></svg>Playwright</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
       <div class="cc"><div class="cc-head">問い合わせ自動分類・返信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/件</span>手動確認・返信。見落とし多発</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">1分</span>AI分類→即返信→Lark通知</div></div><div class="ce">⚡ 返信速度∞倍・見落としゼロ</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#CC785C"/><path d="M8.8 10h1.3L7.5 4.5H6.4L3.8 10h1.3l.6-1.6h2.5L8.8 10zm-2.7-2.7l.9-2.2.9 2.2H6.1z" fill="white"/></svg>Claude API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 9 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 8 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark bot</span></div></div></div>
       <div class="cc"><div class="cc-head">商品説明文 一括AI生成（100件）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">17時間</span>100件を手書き。月34,000円の人件費</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">15分</span>CSV → GPT一括生成 → シート自動書込</div></div><div class="ce">⚡ 68倍速・月33,500円削減</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#3776AB"/><path d="M7 2.5c-1.2 0-2 .4-2 1.2v.8h2v.4H4c-.8 0-1.5.7-1.5 1.7s.7 1.7 1.5 1.7h.7V7.5c0-.8.7-1.4 1.8-1.4H8c.9 0 1.5-.6 1.5-1.3V3.7c0-.7-.7-1.2-2-1.2H7zm-.7.7a.4.4 0 110 .8.4.4 0 010-.8z" fill="#FFD43B"/><path d="M7 11.5c1.2 0 2-.4 2-1.2v-.8H7v-.4h3c.8 0 1.5-.7 1.5-1.7S10.8 5.7 10 5.7h-.7V6.5c0 .8-.7 1.4-1.8 1.4H6c-.9 0-1.5.6-1.5 1.3v2.1c0 .7.7 1.2 2 1.2H7zm.7-.7a.4.4 0 110-.8.4.4 0 010 .8z" fill="white"/></svg>Python</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0f9d58"/><path d="M4 4h6v1.5H4V4zm0 2.5h6V8H4V6.5zm0 2.5h6V10.5H4V9z" fill="white" opacity=".9"/></svg>Sheets API</span></div></div></div>
       <div class="cc"><div class="cc-head">AI活動ログ自動集計ダッシュボード</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/週</span>KPI確認・集計に毎週30分</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">1分</span>日次自動UPSERT・常時最新表示</div></div><div class="ce">⚡ 年間26時間の集計作業を完全ゼロ化</div><div class="ctags"><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 8.5 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 7.5 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark Bitable</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#6366f1"/><circle cx="4" cy="10" r="2" fill="white" opacity=".9"/><circle cx="10" cy="4" r="2" fill="white" opacity=".9"/><path d="M4 8C4 6 5.5 5 7 5M10 6c0 2-1.5 3-3 3" stroke="white" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".8"/></svg>Webhook</span></div></div></div>
       <div class="cc"><div class="cc-head">SNS投稿 自動生成・定期配信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/日</span>毎日30分のニュース収集・投稿作業</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">1分</span>収集→GPT生成→X自動投稿 2回/日</div></div><div class="ce">⚡ 月15時間削減・投稿頻度2倍</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="black"/><path d="M3 3.2l3.2 3.8L3 11h1.1l2.6-3.1L9 11h1.8L7.5 6.9 10.8 3.2H9.7L7.1 6.1 4.8 3.2H3z" fill="white"/></svg>X API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
       <div class="cc"><div class="cc-head">Google Forms → Lark 自動転記・集計</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span>フォーム回答を手動転記。集計1時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span>GAS Webhook → Make.com → Bitable自動転記</div></div><div class="ce">⚡ 転記工数ゼロ・リアルタイム集計</div><div class="ctags"><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#4285F4"/><path d="M7 3.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm0 1a2.5 2.5 0 012.5 2.5H7V4.5z" fill="white"/></svg>GAS</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 8.5 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 7.5 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark Bitable</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- OWN CASE STUDY -->
+<section id="own-case" style="background:var(--bg);padding:72px 32px 60px">
+  <div class="wrap">
+    <div class="eye">FOUNDER'S CASE</div>
+    <h2 class="sec-t">自社事例</h2>
+    <p class="sec-s">自分自身でも毎日稼働させている自動化システムです。</p>
+    <div style="max-width:680px">
+      <div class="cc" style="background:linear-gradient(135deg,rgba(61,214,140,.06),var(--bg2));border-color:rgba(61,214,140,.25)">
+        <div class="cc-head" style="background:rgba(61,214,140,.08);color:var(--gr)">自社事例：案件スカウト自動化（3プラットフォーム同時）</div>
+        <div class="cc-body">
+          <div class="ba">
+            <div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">1、2件/日</span>手動確認・手動応募。毎日2時間の作業</div>
+            <div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">20件/日</span>GPTスコアリング→文章生成→自動送信</div>
+          </div>
+          <div class="ce">毎日2時間削減・応募数 10倍 — 自分自身で毎日稼働させているシステム</div>
+          <p style="font-size:.78rem;color:var(--t2);line-height:1.7;margin:10px 0 12px">CrowdWorks・ランサーズ・OffersなどのPFから案件を自動収集し、GPT-4oがスコアリング。間値を超えた案件に対して応募文を自動生成・送信。毎日稼働中。</p>
+          <div class="ctags">
+            <span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a2e"/><circle cx="7" cy="7" r="4.5" fill="none" stroke="#45ba4b" stroke-width="1.2"/><circle cx="7" cy="7" r="2.5" fill="#d65348"/></svg>Playwright</span>
+            <span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span>
+            <span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1217,10 +1357,16 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <div class="eye">PRICING</div>
     <h2 class="sec-t">料金プラン</h2>
     <p class="sec-s">スモールスタートから本格導入まで。</p>
+    <div style="margin-bottom:28px;padding:14px 20px;background:rgba(74,143,247,.07);border:1px solid rgba(74,143,247,.2);border-radius:12px;font-size:.85rem;color:var(--t2);line-height:1.8">
+      <strong style="color:var(--t1)">プラン選びの目安：</strong>
+      1業務だけ試したいなら <strong style="color:var(--or)">Lite</strong> ／
+      AI連携や複数ステップを本格導入するなら <strong style="color:var(--t1)">Standard</strong>（最もROIが高い）／
+      複数システムをまとめて任せたいなら <strong style="color:var(--gr)">Full Package</strong>
+    </div>
     <div class="plans">
-      <div class="plan"><div class="p-lbl">Lite</div><div class="p-price"><sup>¥</sup>40,000<sub>〜</sub></div><div class="p-period">¥40,000〜¥75,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">単一の繰り返し作業を自動化。まず試したい方に最適。<span class="p-saving-hint">月5〜10時間削減の目安</span></div><ul class="p-list"><li>1トリガー・1処理の自動化</li><li>Make.com or Pythonスクリプト</li><li>基本エラー通知設定</li><li>運用手順書</li><li>納品後1週間サポート</li></ul><a href="#contact" class="p-btn p-btn-o">まず試してみる →</a></div>
-      <div class="plan ft"><div class="ft-badge">最も選ばれています</div><div class="plan-roi-badge">ROI 400%+</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>80,000<sub>〜</sub></div><div class="p-period">¥80,000〜¥150,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">AI連携・複数ステップを含む本格自動化。最もROIが高いプランです。</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後1ヶ月サポート</li></ul><a href="#contact" class="p-btn p-btn-w">このプランで相談する →</a></div>
-      <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">¥150,000〜¥300,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。スクレイピング・AI・通知・DBまで統合構築。</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後3ヶ月サポート</li><li>追加改修1回無料</li></ul><a href="#contact" class="p-btn p-btn-o">全て任せてみる →</a></div>
+      <div class="plan"><div class="p-lbl">Lite</div><div class="p-price"><sup>¥</sup>40,000<sub>〜</sub></div><div class="p-period">¥40,000〜¥75,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">単一の繰り返し作業を自動化。まず試したい方に最適。<span class="p-saving-hint">月5〜10時間削減の目安</span></div><div style="font-size:.75rem;color:var(--bl);background:rgba(74,143,247,.07);border:1px solid rgba(74,143,247,.2);border-radius:8px;padding:7px 10px;margin-bottom:14px">👉 <strong>こんな方に</strong>：まず1つの作業だけ試したい・スモールスタートしたい方</div><ul class="p-list"><li>1トリガー・1処理の自動化</li><li>Make.com or Pythonスクリプト</li><li>基本エラー通知設定</li><li>運用手順書</li><li>納品後1週間サポート</li></ul><a href="#contact" class="p-btn p-btn-o">まず試してみる →</a></div>
+      <div class="plan ft"><div class="ft-badge">最も選ばれています</div><div class="plan-roi-badge">ROI 400%+</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>80,000<sub>〜</sub></div><div class="p-period">¥80,000〜¥150,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">AI連携・複数ステップを含む本格自動化。最もROIが高いプランです。</div><div style="font-size:.75rem;color:var(--or);background:rgba(240,120,64,.07);border:1px solid rgba(240,120,64,.2);border-radius:8px;padding:7px 10px;margin-bottom:14px">👉 <strong>こんな方に</strong>：AI連携＋複数ステップの自動化を本格導入したい方</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後1ヶ月サポート</li></ul><a href="#contact" class="p-btn p-btn-w">このプランで相談する →</a></div>
+      <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">¥150,000〜¥300,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。スクレイピング・AI・通知・DBまで統合構築。</div><div style="font-size:.75rem;color:var(--gr);background:rgba(61,214,140,.07);border:1px solid rgba(61,214,140,.2);border-radius:8px;padding:7px 10px;margin-bottom:14px">👉 <strong>こんな方に</strong>：複数システムを一気に連携・全部任せたい方</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後3ヶ月サポート</li><li>追加改修1回無料</li></ul><a href="#contact" class="p-btn p-btn-o">全て任せてみる →</a></div>
     </div>
     <div class="maint enterprise-plan">
       <div class="ep-left">
@@ -1396,7 +1542,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <h2 class="sec-t">よくある質問</h2>
     <p class="sec-s">お気軽にご相談ください。</p>
     <div class="fq">
-      <details><summary>「自動化できるか分からない」という状態でも相談できますか？</summary><div class="fq-ans">むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。相談・見積もりは完全無料、断っていただいても構いません。まずお気軽にどうぞ。</div></details>
+      <details><summary>「自動化できるか分からない」という状態でも相談できますか？</summary><div class="fq-ans">むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。相談・見積もりは完全無料です。まずお気軽にどうぞ。</div></details>
       <details><summary>法人契約は対応していますか？請求書は発行できますか？</summary><div class="fq-ans">はい、法人・個人事業主どちらも対応しています。請求書・領収書の発行が可能です。NDA（秘密保持契約）も対応しますので、機密情報を含む業務のご相談もお気軽にどうぞ。</div></details>
       <details><summary>納期・料金の目安を教えてください。</summary><div class="fq-ans">Liteプラン（¥40,000〜）は3〜5営業日、Standardプラン（¥80,000〜¥150,000）は7〜14日、Full Package（¥150,000〜¥300,000）は14〜30日が目安です。要件が明確な場合は最短1週間での納品実績があります。</div></details>
       <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。各プランに含まれるサポート期間内であれば追加費用なしで対応します。大規模な改修・システム拡張をご検討の場合はEnterpriseプランへのアップグレードもご相談ください。</div></details>
@@ -1544,38 +1690,87 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 })();
 
 /* =====================================================
-   PARTICLE CANVAS
+   HERO CANVAS — Effect 1: 回路グリッド＋ノード発光（Schematic風）
+   グリッド線上を光のパルスが走り、ノード（交点）が次々と点灯
 ===================================================== */
 (function(){
   const cv=document.getElementById('hero-canvas');
   const ctx=cv.getContext('2d');
-  let W,H,pts=[],pks=[];
-  function rsz(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;buildPts()}
-  window.addEventListener('resize',rsz);rsz();
-  function buildPts(){pts=[];for(let i=0;i<6;i++)for(let j=0;j<4;j++)pts.push({x:W*(.08+i*.18),y:H*(.1+j*.27)})}
-  function spawnPk(){
-    const a=pts[Math.floor(Math.random()*pts.length)];
-    const b=pts[Math.floor(Math.random()*pts.length)];
-    if(a===b)return;
-    const cols=['rgba(74,143,247,','rgba(240,120,64,','rgba(61,214,140,','rgba(167,139,250,'];
-    pks.push({x:a.x,y:a.y,tx:b.x,ty:b.y,p:0,spd:.003+Math.random()*.005,col:cols[Math.floor(Math.random()*cols.length)]});
+  const CELL=40;
+  let W,H,nodes=[],pulses=[];
+
+  function rsz(){
+    W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;
+    nodes=[];
+    const cols=Math.ceil(W/CELL)+1;
+    const rows=Math.ceil(H/CELL)+1;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
+      nodes.push({x:c*CELL,y:r*CELL,lit:0});
   }
+  window.addEventListener('resize',rsz);rsz();
+
+  function spawnPulse(){
+    const n=nodes[Math.floor(Math.random()*nodes.length)];
+    const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+    const d=dirs[Math.floor(Math.random()*dirs.length)];
+    const steps=3+Math.floor(Math.random()*7);
+    pulses.push({x:n.x,y:n.y,dx:d[0]*CELL,dy:d[1]*CELL,step:0,steps,progress:0,
+      color:Math.random()<.55?'#4ad582':'#f07840'});
+  }
+
+  let frame=0;
   function draw(){
     ctx.clearRect(0,0,W,H);
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
-      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
-      if(d<W*.28){const a=(1-d/(W*.28))*.09;ctx.strokeStyle=`rgba(255,255,255,${a})`;ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke()}
-    }
-    pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,.1)';ctx.fill()});
-    pks.forEach((p,i)=>{
-      p.p+=p.spd;
-      const x=p.x+(p.tx-p.x)*p.p,y=p.y+(p.ty-p.y)*p.p;
-      const a=Math.sin(p.p*Math.PI)*.85;
-      ctx.beginPath();ctx.arc(x,y,2.5,0,Math.PI*2);ctx.fillStyle=p.col+a+')';ctx.fill();
-      ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fillStyle=p.col+(a*.25)+')';ctx.fill();
-      if(p.p>=1)pks.splice(i,1);
+    ctx.fillStyle='#080808';
+    ctx.fillRect(0,0,W,H);
+
+    /* 1. Grid lines */
+    ctx.strokeStyle='rgba(255,255,255,.032)';ctx.lineWidth=.5;
+    for(let x=0;x<=W;x+=CELL){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<=H;y+=CELL){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    /* 2. Nodes */
+    nodes.forEach(n=>{
+      if(n.lit>0){
+        ctx.shadowColor=n.lit>0.5?'#4ad582':'rgba(74,213,130,0.4)';
+        ctx.shadowBlur=n.lit*14;
+        ctx.beginPath();ctx.arc(n.x,n.y,n.lit>0.5?3:2,0,Math.PI*2);
+        ctx.fillStyle=`rgba(74,213,130,${n.lit})`;ctx.fill();
+        ctx.shadowBlur=0;
+        n.lit=Math.max(0,n.lit-.014);
+      } else {
+        ctx.beginPath();ctx.arc(n.x,n.y,1.5,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,.07)';ctx.fill();
+      }
     });
-    if(Math.random()<.07)spawnPk();
+
+    /* 3. Pulses along grid lines */
+    for(let i=pulses.length-1;i>=0;i--){
+      const p=pulses[i];
+      p.progress+=0.055;
+      if(p.progress>=1){
+        p.step++;p.progress=0;
+        p.x+=p.dx;p.y+=p.dy;
+        const cols=Math.ceil(W/CELL)+1;
+        const nx=Math.round(p.x/CELL),ny=Math.round(p.y/CELL);
+        const ni=ny*cols+nx;
+        if(nodes[ni]) nodes[ni].lit=1;
+        if(p.step>=p.steps){pulses.splice(i,1);continue;}
+      }
+      const sx=p.x-p.dx*(1-p.progress);
+      const sy=p.y-p.dy*(1-p.progress);
+      const grad=ctx.createLinearGradient(sx,sy,p.x,p.y);
+      grad.addColorStop(0,'rgba(74,213,130,0)');
+      grad.addColorStop(1,p.color+'cc');
+      ctx.strokeStyle=grad;ctx.lineWidth=1.5;
+      ctx.shadowColor=p.color;ctx.shadowBlur=7;
+      ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(p.x,p.y);ctx.stroke();
+      ctx.shadowBlur=0;
+    }
+
+    frame++;
+    if(frame%6===0) spawnPulse();
+    if(frame%3===0) spawnPulse();
     requestAnimationFrame(draw);
   }
   draw();
@@ -1595,10 +1790,10 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   // ダミー稼働数: 曜日ごとに2〜4の範囲で固定値（同じ日は同じ数字）
   var dummyByDay = [3,2,4,3,4,2,3]; // 日〜土
   var active = REAL_ACTIVE > 0 ? REAL_ACTIVE : dummyByDay[new Date().getDay()];
-  var available = Math.max(MAX_CAPACITY - active, 2); // 最低2件は受付中に見せる
+  // 受付状況は稼働数に応じて動的表示
 
   var dot7 = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>';
-  var label = '現在 <strong style="color:var(--gr)">' + active + '件</strong>稼働中 · あと<strong style="color:var(--gr)">' + available + '件</strong>受付可能';
+  var label = '現在 <strong style="color:var(--gr)">' + active + '件</strong>稼働中 · <strong style="color:var(--gr)">受付中</strong>';
 
   // CTA下（既存）
   var elCta = document.getElementById('capacity-status');
@@ -1610,7 +1805,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 
   // ナビバーバッジ（短縮表示）
   var elNav = document.getElementById('nav-capacity-status');
-  if(elNav) elNav.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>' + active + '件稼働中 · あと' + available + '件';
+  if(elNav) elNav.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>' + active + '件稼働中 · 受付中';
 })();
 
 /* =====================================================
