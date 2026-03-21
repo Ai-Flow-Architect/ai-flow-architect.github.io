@@ -1470,7 +1470,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <a href="https://x.com/Kosuke_free_" target="_blank" rel="noopener" class="ca-link">𝕏 X でDM</a>
       </div>
     </div>
-    <p class="cta-note" style="margin-top:16px"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>受付中</p>
+    <p class="cta-note" id="capacity-status" style="margin-top:16px"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>受付中</p>
   </div>
 </section>
 
@@ -1577,15 +1577,26 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 })();
 
 /* =====================================================
-   CAPACITY COUNTER — dynamic 1〜4件
+   CAPACITY STATUS — 稼働数 & 受付可能数表示
+   -------------------------------------------------------
+   ★ 実案件が増えたらここだけ更新する ★
+   REAL_ACTIVE = 0  → 曜日ベースのダミー稼働数を自動表示
+   REAL_ACTIVE = 3  → 「3件稼働中」をそのまま表示
 ===================================================== */
 (function(){
-  const el=document.getElementById('capacity-count');
-  if(!el)return;
-  const counts=['1件','2件','3件','4件'];
-  // deterministic based on hour to appear consistent per visit session
-  const h=new Date().getHours();
-  el.textContent=counts[h%counts.length];
+  var REAL_ACTIVE = 0;      // ← 実案件数をここに入れる（0=ダミー）
+  var MAX_CAPACITY = 5;     // ← 同時受付の上限目安
+
+  var el = document.getElementById('capacity-status');
+  if(!el) return;
+
+  // ダミー稼働数: 曜日ごとに2〜4の範囲で固定値（同じ日は同じ数字）
+  var dummyByDay = [3,2,4,3,4,2,3]; // 日〜土
+  var active = REAL_ACTIVE > 0 ? REAL_ACTIVE : dummyByDay[new Date().getDay()];
+  var available = Math.max(MAX_CAPACITY - active, 2); // 最低2件は受付中に見せる
+
+  var dot = '<span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>';
+  el.innerHTML = dot + '現在 <strong style="color:var(--gr)">' + active + '件</strong>稼働中 · あと<strong style="color:var(--gr)">' + available + '件</strong>受付可能';
 })();
 
 /* =====================================================
