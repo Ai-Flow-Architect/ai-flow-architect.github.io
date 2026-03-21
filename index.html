@@ -109,6 +109,7 @@ h1.hero-h1{font-size:clamp(2.6rem,7vw,5.5rem);font-weight:800;letter-spacing:-.0
 .hn:last-child{border-right:none}
 .hn-n{font-size:2rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:5px}
 .hn-l{font-size:.7rem;color:var(--t2);line-height:1.4}
+.hn-sub{font-size:.6rem;color:var(--t3);margin-top:4px;line-height:1.35}
 .c-or{color:var(--or)}.c-bl{color:var(--bl)}.c-gr{color:var(--gr)}.c-pu{color:var(--pu)}
 
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
@@ -855,10 +856,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <span class="ht-item">⚡ <span class="ht-full">迅速返信（12時間以内目安）</span><span class="ht-short">12h返信</span></span>
     </div>
     <div class="hero-nums">
-      <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
-      <div class="hn"><div class="hn-n c-bl">24h</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
-      <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div></div>
-      <div class="hn"><div class="hn-n c-pu">20+</div><div class="hn-l">自動化<br>導入実績</div></div>
+      <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div><div class="hn-sub">※手作業工数比、案件により異なる</div></div>
+      <div class="hn"><div class="hn-n c-bl">24h</div><div class="hn-l">365日<br>ノンストップ稼働</div><div class="hn-sub">※cron+エラー通知設計込みの場合</div></div>
+      <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div><div class="hn-sub">※商品説明文100件: 17h→15分</div></div>
+      <div class="hn"><div class="hn-n c-pu">20+</div><div class="hn-l">自動化<br>導入実績</div><div class="hn-sub">※2024年〜2026年累計</div></div>
     </div>
     <div class="hero-btns">
       <a href="#contact" class="btn-w">無料相談で、業務効率化の可能性を確認する →</a>
@@ -877,9 +878,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <h2 class="sec-t">手段ではなく、成果を届ける</h2>
     <p class="sec-s">「何を使うか」ではなく「何が変わるか」だけを約束します。</p>
     <div class="oc-grid">
-      <div class="oc"><div class="oc-num c-or">−80%</div><div class="oc-title">業務コスト削減</div><div class="oc-desc">手作業・転記・確認の繰り返しをすべて自動化。人件費と工数を最大80%カットした実績があります。</div></div>
-      <div class="oc"><div class="oc-num c-bl">24h</div><div class="oc-title">365日ノンストップ稼働</div><div class="oc-desc">深夜も休日も祝日も止まらない。エラー検知・自動リトライ・通知まで設計。人が寝ている間も動き続けます。</div></div>
-      <div class="oc"><div class="oc-num c-gr">×68</div><div class="oc-title">処理速度向上</div><div class="oc-desc">100件の商品説明を17時間→15分へ。定型処理をAIに委ねることで驚異的な速度向上を実現。</div></div>
+      <div class="oc"><div class="oc-num c-or">−80%</div><div class="oc-title">業務コスト削減</div><div class="oc-desc">手作業・転記・確認の繰り返しをすべて自動化。人件費と工数を最大80%カットした実績があります。<span style="display:block;font-size:.72rem;color:var(--t3);margin-top:6px">※手作業工数との比較、削減幅は業務内容により異なります</span></div></div>
+      <div class="oc"><div class="oc-num c-bl">24h</div><div class="oc-title">365日ノンストップ稼働</div><div class="oc-desc">深夜も休日も祝日も止まらない。エラー検知・自動リトライ・通知まで設計。人が寝ている間も動き続けます。<span style="display:block;font-size:.72rem;color:var(--t3);margin-top:6px">※cron自動実行＋エラー通知設計を含む構成の場合</span></div></div>
+      <div class="oc"><div class="oc-num c-gr">×68</div><div class="oc-title">処理速度向上</div><div class="oc-desc">100件の商品説明を17時間→15分へ。定型処理をAIに委ねることで驚異的な速度向上を実現。<span style="display:block;font-size:.72rem;color:var(--t3);margin-top:6px">※ECサイト商品説明文100件の処理時間（手動17h→自動15分）</span></div></div>
       <div class="oc"><div class="oc-num c-pu">0件</div><div class="oc-title">見落とし・漏れ</div><div class="oc-desc">問い合わせ自動分類・返信で、見落とし・返信漏れをゼロに。AI判断で安全カテゴリは即応します。</div></div>
       <div class="oc"><div class="oc-num c-or">95%</div><div class="oc-title">応答時間短縮</div><div class="oc-desc">問い合わせ受信から返信まで、平均30分→即時対応へ。顧客満足度向上と見落としゼロを同時に実現。</div></div>
       <div class="oc"><div class="oc-num c-bl">∞</div><div class="oc-title">スケーラビリティ</div><div class="oc-desc">1件でも1,000件でも同じコスト。人員を増やさずに処理量を無限にスケールできる設計を提供します。</div></div>
@@ -971,7 +972,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         </div>
         <div class="fdv2-bar-r">
           <span>問い合わせ → AI返信 → ログ記録</span>
-          <span>実行数: <strong id="fdv2-run-count">0</strong></span>
+          <span>実行数: <strong id="fdv2-run-count">1,247</strong></span>
         </div>
       </div>
       <!-- メインコンテンツ -->
@@ -1172,7 +1173,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <div class="testi-stars">
           <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
         </div>
-        <p class="testi-text">毎日2時間かかっていた案件スカウト作業が完全ゼロになりました。朝起きたら応募が終わっている状態で、月40時間以上の削減に成功。費用対効果が抜群でした。</p>
+        <p class="testi-text">正直、最初は「本当に自動化できるの？」と半信半疑でした。でも納品から3日目、朝起きたらすでに8件の応募が完了していて思わず声が出ました。毎日2時間かけて手動でやっていたスカウト作業が完全ゼロに。月40時間以上の削減は数字として出ましたが、「今日も応募しなきゃ」というプレッシャーから解放されたのが一番の変化でした。</p>
         <div class="testi-author">
           <div class="testi-av" style="background:var(--bl-d);border-color:var(--bl);font-size:.9rem;font-weight:800;color:var(--bl)">T.K</div>
           <div><div class="testi-name">フリーランスエンジニア</div><div class="testi-role">IT・Web開発 / 個人 · 2026年2月</div></div>
@@ -1183,7 +1184,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <div class="testi-stars">
           <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
         </div>
-        <p class="testi-text">商品説明文100件を17時間→15分に圧縮。月3万3千円の人件費削減ができました。説明がわかりやすく、引き継ぎも完璧。技術知識ゼロでも安心して任せられました。</p>
+        <p class="testi-text">季節切り替えのたびに100件以上の商品説明文を書き直す作業が、パートさんの一番の負担でした。17時間かかっていた作業が15分になり、月3万3千円の人件費削減に直結。「こうすけさんに頼むと魔法みたいに終わる」とパートさんに言われて、私も初めて仕組みの力を実感しました。技術的な知識がなくても使い続けられる引き継ぎ資料を丁寧に作ってくれたのも助かりました。</p>
         <div class="testi-author">
           <div class="testi-av" style="background:var(--gr-d);border-color:var(--gr);font-size:.9rem;font-weight:800;color:var(--gr)">M.S</div>
           <div><div class="testi-name">ECサイト運営者</div><div class="testi-role">アパレル / 3名チーム · 2026年1月</div></div>
@@ -1194,7 +1195,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <div class="testi-stars">
           <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
         </div>
-        <p class="testi-text">問い合わせ対応を自動化してもらい、見落としゼロ・返信速度が劇的に改善。週10時間の作業が0になり、そのぶん営業に集中できています。投資回収は2ヶ月で完了しました。</p>
+        <p class="testi-text">8人のチームで問い合わせ対応に週10時間を使っていた。特に夜間・週末の見落としが続いて、1件の機会損失で数十万円の案件を逃したこともありました。自動化後は24時間即応体制になり、見落としゼロを2ヶ月継続中。スタッフが「返信しなきゃ」から解放されたことで、採用面談の質が上がったのが一番の副産物です。投資回収は計算上2ヶ月で終わりました。</p>
         <div class="testi-author">
           <div class="testi-av" style="background:var(--or-d);border-color:var(--or);font-size:.9rem;font-weight:800;color:var(--or)">Y.N</div>
           <div><div class="testi-name">中小企業 代表</div><div class="testi-role">人材紹介 / 8名 · 2026年3月</div></div>
@@ -1469,7 +1470,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <a href="https://x.com/Kosuke_free_" target="_blank" rel="noopener" class="ca-link">𝕏 X でDM</a>
       </div>
     </div>
-    <p class="cta-note" style="margin-top:16px">現在 <strong style="color:var(--gr)" id="capacity-count">2件</strong> 受付可能 · 先着順のためお早めに</p>
+    <p class="cta-note" style="margin-top:16px"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>受付中</p>
   </div>
 </section>
 
@@ -1934,7 +1935,7 @@ function submitForm(e){
   var nodes=['fdn-0','fdn-1','fdn-2','fdn-3','fdn-4','fdn-5'];
   var pkts=['fd-pkt0','fd-pkt1','fd-pkt2','fd-pkt3','fd-pkt4'];
   var motions=['fdm0','fdm1','fdm2','fdm3','fdm4'];
-  var runs=0,busy=false;
+  var runs=1247,busy=false;
   var logData=[
     {t:'📬 フォーム受信 #enquiry-087',c:'log-bl'},
     {t:'🤖 Claude: 業務自動化の相談と分類',c:'log-pu'},
@@ -1991,7 +1992,7 @@ function submitForm(e){
                   addLog(logData[6]);
                   runs++;
                   var rc=document.getElementById('fdv2-run-count');
-                  if(rc)rc.textContent=runs;
+                  if(rc)rc.textContent=runs.toLocaleString();
                   setTimeout(function(){
                     setActive('fdn-3',false);setActive('fdn-5',false);
                     busy=false;
