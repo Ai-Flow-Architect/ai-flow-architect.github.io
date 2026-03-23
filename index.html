@@ -1672,19 +1672,19 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   var available = Math.max(1, MAX_CAPACITY - active);
 
   var dot7 = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>';
-  var label = '<strong style="color:var(--gr)">' + available + '件</strong>対応可能';
+  var labelFull = '<strong style="color:var(--t2)">' + active + '件</strong>対応中 <span style="color:var(--t3);margin:0 4px">·</span> <strong style="color:var(--gr)">' + available + '件</strong>対応可能';
 
   // CTA下（既存）
   var elCta = document.getElementById('capacity-status');
-  if(elCta) elCta.innerHTML = dot7 + label;
+  if(elCta) elCta.innerHTML = dot7 + labelFull;
 
   // ヒーロー中央バッジ
   var elHero = document.getElementById('hero-capacity-status2');
-  if(elHero) elHero.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px"></span>' + label;
+  if(elHero) elHero.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px"></span>' + labelFull;
 
   // ナビバーバッジ（短縮表示）
   var elNav = document.getElementById('nav-capacity-status');
-  if(elNav) elNav.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:4px"></span>' + available + '件対応可能';
+  if(elNav) elNav.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:4px"></span>' + active + '件対応中 · ' + available + '件対応可能';
 })();
 
 /* =====================================================
