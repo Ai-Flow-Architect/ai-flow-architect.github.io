@@ -1668,10 +1668,11 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   // ダミー稼働数: 曜日ごとに2〜4の範囲で固定値（同じ日は同じ数字）
   var dummyByDay = [3,2,4,3,4,2,3]; // 日〜土
   var active = REAL_ACTIVE > 0 ? REAL_ACTIVE : dummyByDay[new Date().getDay()];
-  // 受付状況は稼働数に応じて動的表示
+  // 対応可能数: 最低1件を保証
+  var available = Math.max(1, MAX_CAPACITY - active);
 
   var dot7 = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>';
-  var label = '現在 <strong style="color:var(--gr)">' + active + '件</strong>稼働中 · <strong style="color:var(--gr)">受付中</strong>';
+  var label = '<strong style="color:var(--gr)">' + available + '件</strong>対応可能';
 
   // CTA下（既存）
   var elCta = document.getElementById('capacity-status');
@@ -1679,11 +1680,11 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 
   // ヒーロー中央バッジ
   var elHero = document.getElementById('hero-capacity-status2');
-  if(elHero) elHero.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>' + label;
+  if(elHero) elHero.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px"></span>' + label;
 
   // ナビバーバッジ（短縮表示）
   var elNav = document.getElementById('nav-capacity-status');
-  if(elNav) elNav.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>' + active + '件稼働中 · 受付中';
+  if(elNav) elNav.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:4px"></span>' + available + '件対応可能';
 })();
 
 /* =====================================================
