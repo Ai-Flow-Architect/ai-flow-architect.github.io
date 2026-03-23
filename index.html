@@ -943,12 +943,12 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="hero-content">
     <div class="avail-badge">
       <span class="avail-dot"></span>
-      3名以上のチームで繰り返し作業に困っている方 · 最短<strong>1週間</strong>で納品
+      3名以上のチームで繰り返し作業に困っている方 · 最短<strong>１週間</strong>で納品
     </div>
     <h1 class="hero-h1">
       AIが１分でできる作業に、<br>２時間使っていませんか？
     </h1>
-    <p class="hero-sub"><strong style="color:var(--t1)">その時間、1週間で取り戻せます。</strong><br>コンサルではなく、動く自動化を納品します。<br><span style="font-size:.85rem;color:var(--t2)">一度設定すれば24時間・365日・人手ゼロで稼働。技術知識は一切不要です。</span></p>
+    <p class="hero-sub"><strong style="color:var(--t1)">その時間、１週間で取り戻せます。</strong><br>コンサルではなく、動く自動化を納品します。<br><span style="font-size:.85rem;color:var(--t2)">一度設定すれば24時間・365日・人手ゼロで稼働。技術知識は一切不要です。</span></p>
     <div class="hero-capacity-badge" id="hero-capacity-status2"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</div>
     <div class="hero-trust-row">
       <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
@@ -963,7 +963,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div><div class="hn-sub">※手作業工数比、案件により異なる</div></div>
       <div class="hn"><div class="hn-n c-bl">24h</div><div class="hn-l">365日<br>ノンストップ稼働</div><div class="hn-sub">※cron+エラー通知設計込みの場合</div></div>
       <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div><div class="hn-sub">※商品説明文100件: 17h→15分</div></div>
-      <div class="hn"><div class="hn-n c-pu">20+</div><div class="hn-l">自動化<br>導入実績</div><div class="hn-sub">※2024年〜2026年累計</div></div>
+      <div class="hn"><div class="hn-n c-pu">50+</div><div class="hn-l">自動化<br>導入実績</div><div class="hn-sub">※2024年〜2026年累計</div></div>
     </div>
     <div class="hero-btns">
       <a href="#contact" class="btn-w">無料相談で、業務効率化の可能性を確認する →</a>
@@ -1559,6 +1559,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 ===================================================== */
 (function(){
   const el=document.getElementById('h1cycle');
+  if(!el) return;
   const words=el.querySelectorAll('.h1-word');
   const h=words[0].offsetHeight||50;
   let i=0;
