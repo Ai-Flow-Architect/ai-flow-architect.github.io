@@ -988,14 +988,28 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <li>すべての処理をダッシュボードで可視化</li>
       </ul>
     </div>
-    <div class="flow-diagram">
-      <div class="scan"></div>
-      <div class="pkt pkt1"></div><div class="pkt pkt2"></div><div class="pkt pkt3"></div>
-      <div class="fn"><div class="fn-ic bl">📥</div><div><div class="fn-lb">トリガー検知</div><div class="fn-sb">フォーム / Webhook / スケジュール</div></div><div class="fn-pill pl-live">LIVE</div></div>
-      <div class="fn"><div class="fn-ic or">🤖</div><div><div class="fn-lb">AI処理・判断</div><div class="fn-sb">GPT-4o / Claude API</div></div><div class="fn-pill pl-ai">AI</div></div>
-      <div class="fn"><div class="fn-ic pu">⚙️</div><div><div class="fn-lb">ワークフロー実行</div><div class="fn-sb">Make.com / Python</div></div><div class="fn-pill pl-auto">AUTO</div></div>
-      <div class="fn"><div class="fn-ic gr">📊</div><div><div class="fn-lb">データ書き込み</div><div class="fn-sb">Lark / Google Sheets</div></div><div class="fn-pill pl-auto">AUTO</div></div>
-      <div class="fn"><div class="fn-ic bl">🔔</div><div><div class="fn-lb">通知・完了</div><div class="fn-sb">Slack / LINE / メール</div></div><div class="fn-pill pl-live">DONE</div></div>
+    <div class="fdv2" id="fdv2-root" style="margin:0">
+      <!-- ステータスバー -->
+      <div class="fdv2-bar">
+        <div class="fdv2-bar-l">
+          <span class="fdv2-live-dot"></span>AutoFlow — <strong>稼働中</strong>
+        </div>
+        <div class="fdv2-bar-r">
+          <span>問い合わせ → AI返信 → ログ記録</span>
+          <span>実行数: <strong id="fdv2-run-count">1,247</strong></span>
+        </div>
+      </div>
+      <!-- メインコンテンツ -->
+      <div class="fdv2-main">
+        <div class="fdv2-graph-wrap">
+          <canvas id="fd-canvas"></canvas>
+        </div>
+        <!-- リアルタイムログパネル -->
+        <div class="fdv2-log">
+          <div class="fdv2-log-head">⚡ リアルタイムログ</div>
+          <div class="fdv2-log-body" id="fdv2-log-body"></div>
+        </div>
+      </div>
     </div>
   </div>
   <!-- TOOL ICONS -->
@@ -1041,44 +1055,13 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="bc go"><div class="b-ic or">🔗</div><div class="b-t">SaaS・API連携開発</div><div class="b-d">使っているサービス同士をつなぎ、手動コピペを撲滅します。</div><div class="b-tags"><span class="btag bt-or">REST API</span><span class="btag bt-or">OAuth 2.0</span></div></div>
     </div>
 
-    <!-- FLOW DEMO (統合) -->
-    <div style="margin-top:64px">
-    <div class="eye" style="margin-bottom:14px">LIVE DEMO</div>
-    <h3 class="sec-t" style="font-size:clamp(1.4rem,3vw,2rem);margin-bottom:8px">自動化の流れ — リアルタイム動作デモ</h3>
-    <p class="sec-s">Webブラウザ上・API連携・ファイル操作・AIが絡む処理なら、ほぼすべて自動化できます。</p>
-
-    <div class="fdv2" id="fdv2-root">
-      <!-- ステータスバー -->
-      <div class="fdv2-bar">
-        <div class="fdv2-bar-l">
-          <span class="fdv2-live-dot"></span>AutoFlow — <strong>稼働中</strong>
-        </div>
-        <div class="fdv2-bar-r">
-          <span>問い合わせ → AI返信 → ログ記録</span>
-          <span>実行数: <strong id="fdv2-run-count">1,247</strong></span>
-        </div>
-      </div>
-      <!-- メインコンテンツ -->
-      <div class="fdv2-main">
-        <div class="fdv2-graph-wrap">
-          <canvas id="fd-canvas"></canvas>
-        </div>
-        <!-- リアルタイムログパネル -->
-        <div class="fdv2-log">
-          <div class="fdv2-log-head">⚡ リアルタイムログ</div>
-          <div class="fdv2-log-body" id="fdv2-log-body"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cando-bottom">
+    <div class="cando-bottom" style="margin-top:32px">
       <div class="cando-plus-card">
         <span class="cando-plus-icon">＋</span>
         <span class="cando-plus-text">他、どんなことでも相談ください。</span>
         <button onclick="document.getElementById('chat-btn').click()" class="cando-ask-btn">AIに聞く →</button>
       </div>
     </div>
-    </div><!-- /FLOW DEMO -->
   </div>
 </section>
 
