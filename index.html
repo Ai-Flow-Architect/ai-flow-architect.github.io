@@ -1672,7 +1672,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   var available = Math.max(1, MAX_CAPACITY - active);
 
   var dot7 = '<span style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px;vertical-align:middle"></span>';
-  var labelFull = '<strong style="color:var(--t2)">' + active + '件</strong>対応中 <span style="color:var(--t3);margin:0 4px">·</span> <strong style="color:var(--gr)">' + available + '件</strong>対応可能';
+  var labelFull = '<strong style="color:var(--or)">' + active + '件</strong>対応中 <span style="color:var(--t3);margin:0 4px">·</span> <strong style="color:var(--gr)">' + available + '件</strong>対応可能';
 
   // CTA下（既存）
   var elCta = document.getElementById('capacity-status');
