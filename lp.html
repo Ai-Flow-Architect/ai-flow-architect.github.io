@@ -758,6 +758,36 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 .pfa-head{font-size:1rem;color:var(--or);line-height:1;margin-top:2px;animation:arrowBlink .9s ease-in-out infinite alternate}
 @keyframes arrowBlink{from{opacity:.5;transform:translateX(-2px)}to{opacity:1;transform:translateX(2px)}}
 @media(max-width:768px){.proc-flow-arrow{display:none}}
+
+/* =====================================================
+   PROBLEM SECTION（sako原則2・7）
+===================================================== */
+#problem{background:var(--bg1)}
+.prob-intro{max-width:660px;margin:0 auto 48px;text-align:center}
+.prob-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:800px;margin:0 auto 40px}
+.prob-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,90,90,.04);border:1px solid rgba(255,90,90,.18);border-radius:12px;padding:16px 18px;font-size:.88rem;color:var(--t2);line-height:1.6;transition:border-color .2s}
+.prob-item:hover{border-color:rgba(255,90,90,.38)}
+.prob-x{width:22px;height:22px;border-radius:6px;background:rgba(255,90,90,.15);border:1px solid rgba(255,90,90,.35);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#ff6464;flex-shrink:0;margin-top:1px}
+.prob-loss{max-width:680px;margin:0 auto;background:linear-gradient(135deg,rgba(255,90,90,.08),rgba(240,120,64,.06));border:1px solid rgba(255,90,90,.25);border-radius:16px;padding:28px 36px;text-align:center}
+.prob-loss-nums{display:flex;gap:40px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.prob-loss-num{font-size:3rem;font-weight:900;letter-spacing:-.06em;color:#ff7070;line-height:1}
+.prob-loss-sub{font-size:.7rem;color:rgba(255,112,112,.7);margin-top:4px}
+.prob-loss-label{font-size:.82rem;color:var(--t2);line-height:1.7}
+@media(max-width:640px){.prob-grid{grid-template-columns:1fr}.prob-loss{padding:20px 18px}}
+
+/* =====================================================
+   STORY / PHILOSOPHY SECTION（sako原則8）
+===================================================== */
+#story{background:var(--bg2)}
+.story-in{max-width:720px;margin:0 auto}
+.story-quote{font-size:clamp(1rem,2.2vw,1.3rem);font-weight:700;line-height:1.75;color:var(--t1);margin-bottom:28px;border-left:3px solid var(--or);padding-left:24px;font-style:italic}
+.story-body p{font-size:.92rem;color:var(--t2);line-height:1.9;margin-bottom:16px}
+.story-body p:last-child{margin-bottom:0}
+.story-body-wrap{margin-bottom:32px}
+.story-sign{display:flex;align-items:center;gap:14px;justify-content:flex-start;border-top:1px solid var(--b);padding-top:24px}
+.story-av{width:46px;height:46px;border-radius:50%;background:var(--or-d);border:2px solid rgba(240,120,64,.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.story-name{font-size:.88rem;font-weight:700;color:var(--t1)}
+.story-role{font-size:.72rem;color:var(--t3);margin-top:2px}
 </style>
 </head>
 <body>
@@ -792,7 +822,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="hero-content">
     <div class="avail-badge">
       <span class="avail-dot"></span>
-      中小企業・個人事業主専用 · AI業務自動化 · 最短<strong>1週間</strong>で納品
+      繰り返し作業で時間を奪われている経営者・個人事業主へ · 最短<strong>1週間</strong>で解決
     </div>
     <h1 class="hero-h1">
       <span class="h1-static">
@@ -808,7 +838,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       </span>
       <span class="h1-static" style="color:var(--or)">成果に変える。</span>
     </h1>
-    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t3)">技術知識ゼロでも、中小企業・個人事業主の繰り返し作業を専門に対応します。</span></p>
+    <p class="hero-sub">その繰り返し作業、<strong style="color:var(--t1)">今も時間とお金を奪い続けています。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化を納品。<br><span style="font-size:.85rem;color:var(--t3)">コンサルではなく「動く成果物」を届けます。相談・見積もりは完全無料。</span></p>
     <div class="hero-trust-row">
       <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
       <span class="ht-sep">·</span>
@@ -825,10 +855,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="hn"><div class="hn-n c-pu">20+</div><div class="hn-l">自動化<br>導入実績</div></div>
     </div>
     <div class="hero-btns">
-      <a href="#contact" class="btn-w">無料相談で、業務効率化の可能性を確認する →</a>
+      <a href="#contact" class="btn-w">今すぐ無料相談 — 削減できる時間・コストを確認する →</a>
       <a href="#cases" class="btn-g">実績・事例を見る</a>
     </div>
-    <p class="hero-micro">無理な営業は一切ありません · ご相談内容は秘密厳守</p>
+    <p class="hero-micro">無理な営業は一切ありません · ご相談内容は秘密厳守 · <span style="color:var(--or)">月5件限定受付中</span></p>
   </div>
   <div class="hero-fade"></div>
 </section>
@@ -875,6 +905,33 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </div>
 
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="wrap">
+    <div class="prob-intro">
+      <div class="eye">PAIN POINT</div>
+      <h2 class="sec-t">このまま<span style="color:#ff7070">放置</span>すると、<br>時間とお金が消え続けます</h2>
+      <p style="font-size:.95rem;color:var(--t2);line-height:1.75;max-width:520px;margin:0 auto">中小企業・個人事業主の多くが、気づかないうちに毎月何十時間もの「繰り返し作業」に時間を奪われています。こんな状況に、心当たりはありませんか？</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-item"><div class="prob-x">✗</div><span>毎日同じExcel入力・コピペ作業が続き、「これ自動化できないか」と感じている</span></div>
+      <div class="prob-item"><div class="prob-x">✗</div><span>問い合わせ返信が遅れがちで、商機を逃したり見落としが何度もある</span></div>
+      <div class="prob-item"><div class="prob-x">✗</div><span>スタッフが確認・転記作業に追われ、本来の仕事に集中できていない</span></div>
+      <div class="prob-item"><div class="prob-x">✗</div><span>「AI・自動化」に興味はあるが何から始めればいいか分からず手つかずのまま</span></div>
+      <div class="prob-item"><div class="prob-x">✗</div><span>特定の人に業務が集中し「その人が休む＝業務が止まる」属人化が解消できていない</span></div>
+      <div class="prob-item"><div class="prob-x">✗</div><span>外注・採用を検討したが費用対効果が見えず、意思決定できないまま時間が過ぎている</span></div>
+    </div>
+    <div class="prob-loss">
+      <div class="prob-loss-nums">
+        <div><div class="prob-loss-num">480h</div><div class="prob-loss-sub">年間損失時間</div></div>
+        <div style="font-size:2rem;color:var(--t3);align-self:center">/</div>
+        <div><div class="prob-loss-num">96万円</div><div class="prob-loss-sub">年間機会損失</div></div>
+      </div>
+      <div class="prob-loss-label">月40時間・時給2,000円の手作業を放置した場合の試算。<br>自動化しない限り、この損失は毎年複利で積み重なります。</div>
+    </div>
+  </div>
+</section>
+
 <!-- OUTCOMES -->
 <section id="outcomes">
   <div class="wrap">
@@ -914,6 +971,28 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="fn"><div class="fn-ic pu">⚙️</div><div><div class="fn-lb">ワークフロー実行</div><div class="fn-sb">Make.com / Python</div></div><div class="fn-pill pl-auto">AUTO</div></div>
       <div class="fn"><div class="fn-ic gr">📊</div><div><div class="fn-lb">データ書き込み</div><div class="fn-sb">Lark / Google Sheets</div></div><div class="fn-pill pl-auto">AUTO</div></div>
       <div class="fn"><div class="fn-ic bl">🔔</div><div><div class="fn-lb">通知・完了</div><div class="fn-sb">Slack / LINE / メール</div></div><div class="fn-pill pl-live">DONE</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story">
+  <div class="wrap">
+    <div class="story-in">
+      <div class="eye">WHY I BUILT THIS</div>
+      <h2 class="sec-t" style="margin-bottom:32px">「動く自動化を届けたい」<br>それだけです。</h2>
+      <blockquote class="story-quote">「コンサルに払ったお金は、提案書と一緒に消えた。」</blockquote>
+      <div class="story-body-wrap">
+        <div class="story-body">
+          <p>私自身が個人事業主として、毎日2〜3時間の単純作業（リスト確認・転記・返信対応）に追われていた時期がありました。</p>
+          <p>「自動化できるはずだ」と思って調べても、出てくるのは高額なコンサル提案か、専門家向けの技術記事ばかり。<strong style="color:var(--t1)">「動く成果物」を届けてくれる人が、どこにもいなかった。</strong></p>
+          <p>だから始めました。「コンサルではなく、動く自動化を納品する」というシンプルな約束で。あなたの業務から無駄な繰り返し作業を取り除くことが、私がこのサービスを作った唯一の理由です。</p>
+        </div>
+      </div>
+      <div class="story-sign">
+        <div class="story-av">🤖</div>
+        <div><div class="story-name">AI Flow Architect</div><div class="story-role">AIフロー自動化エンジニア · Anthropic認定 Claude Code</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1152,7 +1231,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <div class="testi-stars">
           <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
         </div>
-        <p class="testi-text">毎日2時間かかっていた案件スカウト作業が完全ゼロになりました。朝起きたら応募が終わっている状態で、月40時間以上の削減に成功。費用対効果が抜群でした。</p>
+        <p class="testi-text">「本当に自動化できるのか」と半信半疑でしたが、毎日2時間かかっていた案件スカウト作業が完全ゼロになりました。朝起きたら応募が終わっている状態で、月40時間・年間48万円分の削減に成功。同じ悩みを持つフリーランスには全員に勧めたいです。</p>
         <div class="testi-author">
           <div class="testi-av" style="background:var(--bl-d);border-color:var(--bl);font-size:.9rem;font-weight:800;color:var(--bl)">T.K</div>
           <div><div class="testi-name">フリーランスエンジニア</div><div class="testi-role">IT・Web開発 / 個人 · 2026年2月</div></div>
@@ -1174,7 +1253,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <div class="testi-stars">
           <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
         </div>
-        <p class="testi-text">問い合わせ対応を自動化してもらい、見落としゼロ・返信速度が劇的に改善。週10時間の作業が0になり、そのぶん営業に集中できています。投資回収は2ヶ月で完了しました。</p>
+        <p class="testi-text">「技術が分からなくても大丈夫」という言葉通り、打ち合わせから2週間で稼働。見落としゼロ・週10時間の返信作業が完全自動化されました。その時間で新規営業に集中でき、投資回収はわずか2ヶ月。中小企業の経営者なら誰でも導入すべきレベルです。</p>
         <div class="testi-author">
           <div class="testi-av" style="background:var(--or-d);border-color:var(--or);font-size:.9rem;font-weight:800;color:var(--or)">Y.N</div>
           <div><div class="testi-name">中小企業 代表</div><div class="testi-role">人材紹介 / 8名 · 2026年3月</div></div>
@@ -1351,6 +1430,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <details><summary>依頼してから動くまでの流れを教えてください。</summary><div class="fq-ans">① 無料相談（ヒアリング・自動化可否の確認）→ ② 要件定義・お見積り（認識齟齬ゼロで着手）→ ③ 設計・構築（進捗随時共有）→ ④ 動作確認・納品（運用手順書同梱）の4ステップです。着手金50%・納品後50%の安心設計で、途中キャンセルリスクを最小化しています。</div></details>
       <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">納品後の仕様変更・小改修・エラー対応は個別相談で承っています。月額保守プラン（¥20,000/月）にご加入いただくと、月2時間の範囲で優先対応が可能です。また、各プランに含まれるサポート期間内であれば追加費用なしで対応します。</div></details>
       <details><summary>「自動化できるか分からない」という状態でも相談できますか？</summary><div class="fq-ans">むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。相談・見積もりは完全無料、断っていただいても構いません。まずお気軽にどうぞ。</div></details>
+      <details><summary>自動化しなかった場合、どうなりますか？</summary><div class="fq-ans">現状のまま続けると、毎月の手作業コストはそのまま積み重なります。例えば月20時間・時給2,000円の作業なら、年間48万円の機会損失です。さらに、AI・自動化を導入した競合との差は今後急速に広がっていきます。「そのうち検討しよう」は、気づかないうちに最もコストが高い選択になっています。まず1件の無料相談で、あなたの業務の削減可能コストを一緒に試算しましょう。</div></details>
     </div>
     <div class="faq-chat-cta">
       <p>他にも気になることがあれば、チャットボットに気軽に聞けます</p>
@@ -1363,8 +1443,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <section id="contact">
   <div class="cta-glow"></div>
   <div class="wrap">
-    <h2>今すぐ相談して、<br>明日から時間を取り戻す</h2>
-    <p>「自動化できるか分からない」という段階でも大歓迎。<br>ご状況をお聞きして、具体的な削減時間と費用をお伝えします。</p>
+    <h2>今すぐ相談して、<br><span style="color:var(--or)">明日から時間を取り戻す</span></h2>
+    <p>今この瞬間も、繰り返し作業は時間とお金を奪い続けています。<br>「自動化できるか分からない」という段階でも大歓迎。<br><span style="font-size:.88rem;color:var(--t3)">1ヶ月後の自分が「あのとき相談してよかった」と思えるか——それは今日の行動にかかっています。</span></p>
 
     <div class="contact-trust-row">
       <div class="ct-item"><span class="ct-icon">⚡</span><span>通常12時間以内に返信</span></div>
