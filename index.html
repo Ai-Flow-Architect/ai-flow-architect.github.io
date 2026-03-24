@@ -941,7 +941,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .bc.row-gr:hover{border-color:rgba(61,214,140,.6);box-shadow:0 0 20px rgba(61,214,140,.08)}
   /* === AnimatedBeam === */
   .bc-split{display:flex;flex-direction:row;flex:1;min-height:0}
-  .bc-split>.bc-inner{flex:0 0 54%;border-right:1px solid rgba(255,255,255,.06)}
+  .bc-col{display:flex;flex-direction:column;flex:0 0 54%;border-right:1px solid rgba(255,255,255,.06)}
+  .bc-col>.bc-inner{flex:1}
   .beam-wrap{flex:1;position:relative;overflow:hidden}
   .bnode{position:absolute;width:34px;height:34px;border-radius:10px;border:1px solid var(--bm);background:var(--bg3);display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:2}
   .bnode img{width:22px;height:22px;object-fit:contain}
@@ -1059,6 +1060,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <!-- 1. 業務フロー自動化 (span2) -->
       <div class="bc s2 row-bl">
         <div class="bc-split">
+        <div class="bc-col">
         <div class="bc-inner">
           <div class="b-ic pu" style="padding:7px;overflow:hidden"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGEAAABFCAYAAABaO4iDAAAMoklEQVR4nNVdT2gc5xX/7SJ5ZdkERQp2DXZqmzYicU03oi2YQpBPzUFOIfjQU3RLIafVYW/CB3VvOqxOBR/ls0/WBnwxNQYT0sJ6D7KLXGPLyBCsRrJQY/2xjNTD6O2+ffPeN9/MfFLrH4iZnVntDt9vfu/f977Zwh8qYzhsNGq39vcKGJu8Evyzm9VXdXo9Mv3+BFAAgGDf1ajNBfkcup7CYZPQqN3C9xd/2lsqbWLj7EbrV+feuzsy/f7E2OQXAT57DjeuLj7415P1Mj/+y1+81wIA+q7oaHpiGrU5NKur9fln66O5LxbAVzd//ilQOFwSaJD6F/vLZ7aPYqm0CQDByJjanq3fu/NjZWV3C0PFPqzsbpnv5cQAfoqZ2p6tX//2SSXzBSq4/ui3hZ6QH5iEZnW1PrwwVAbQJgAA+hf7y08X35bnrz4fnTo3e3dkenAiq+ngBAwV+2LHCPcfLZf59uM7A5XB80daABBdQ6QYflOEUgBHs/qqXgz9oRYatTnMP1sfXSptYqm0iTPbR3Fm+ygAtLf9i/3lp397W7lxdfHB1PZsveM7/D4fQHvgLSXQ+RNH+tp/APDPrTXcf7Rcvv9ouXz92yeVP3/yj70bV58/oGsI5Qc0HBoJXAVApAQig6sC4GQ83yfDbwDkncoVQYRoxEhCaP/+o+UyOfnQAQTHoZBAKgDQVgDd/ZIAwovdNfQv9pd3bvcyZbjI2MPq0zdlfoSbpKFiX3vfBSJi+U2HrEZt7t1XgvQF9AcgZpIIp4sDAIDven9QzJQ+IKeLA113OvcJtE0igwafyAAiFbzTSuAqIHA1EBmWIogMUsa9Oz9WZkYe70l/0ay+qr/YXVMHWJolIkV7r1RCJ6Q9OBw4CdIXELhPAOJK4Hixu9Ym43RxAKeLA7j5m3/vTW3P1s1/2gcfcGmeXCEsAHzcN9Def2fNEVcBNz988LkSLCK4Gmj7YncN88/WR8leW+GjDFPpWBIBABCFrHruwM1VXhwoCVwFfND5YPN9yyQRuBqAKNGKBifulCWSIiQNlMgBcSVwx50XB0rCzu3eCu1LJUgkmSWpgks7p9r2msJIIkcDVwLQiZaSIiZSwDupBGmvLSVIx5zkoGnb+/nOjKvEIQnRsmeXIk4c6etyypZPCEHGgZDgstGSDKkAfszC6eKAGrWQWuQ+B3fQvr4B6FYCH/gQZulASNAiInmnW8kazyEkaGDPX+6ZGZv8AppTTjJJQHJJA6ACX6H9mith+c0Wlt9sBTNJwUlo1Oawc7u3cuHlsa7j/E6XEZF252vHaIBHpgf3i2uRU+5f7C/zCMoigg++VATQ7bA7Tj8OKmuEIiI4Cc3qah0AHp58HTvnin74OZc5On+5Z0YeI2ctQ1mNDG3AfUwSJ4QrIQQRQUvZjdocvr/4n4p1XrP/gO2sNURzDp0B4ZGRJMLyCwBikRLQIWP5zVbkcyb1/w0ZGQGBlUAq8IE0SZbP4OSQLyCQneYESFVYkDkDV8PvPznR4lOk/LsIIdUQjARykOQLpE/gsMoVViZN0CKi+Wfro5wAH5MExOtJMl+4VhpPrBlxAvJEScFIaFZX61/e+7BMvkDzCQQ+0PzOtzJpgHxBAd2IMmWeQ0gV+JgknxK3hCTgf64EiogennztVABBDjy/67l54kRoU549xzqkWIMtkzwJStq4Gni5giC/Ww48vc5CRhASmtXVOg0+KcBFhmWCrPK2FhEBwN+/Wa1rg6yZJVfyJhM3zeyRT+CzbzJfyJo/5CbBUkESGdIB0zEtk5YRkQbuA6RZ8nXSQKcLQ0KGqEA8X9Bm5XyQmwSKiC68PAbNHFlkWKVsUgIdt2pEPFPW7nwLcvZNc8px39NRgrzzAcQc86EqgVTAj1mDbjlqLUoiMjbObrQoO46jU75OypZlTcnKEYaKfWamTMf4AP9flC3IF5AKgM7gu6IjCemYCZqD5Li0c6rrtSSDtj5miROjVUy5ErQtR1q/kJkE7gsIGhlJ+QLQPdtGilgYXmm5fEGz+qouM2uZG/DkjZ/XwEvbLv/DHTPfyvekISIzCZoKOAFavmD5Bb5PAxupIG6bAbu2r0VEmhKsmtJQsQ+W+XMRI/MFrhIfIjKR0KjN4aPZgQofdPoDEHPQaUzUme2j+ypwt0Ja8xWuqMiliJXdLVAbpAbX9KYc6LSRUiYSmtXVOg30w5Ovu+56ro40uQNhqbSZ6AuAqEtPO+7KDzgp1sybL+TAcxVovUsuRaSuojZqc/jpxG4FgDrQ/G6Xd76vEkamj5sqiO7IPXWuWqshEbQiH8fK7hY+O/eBOYeggZsbK4mTxGhIrQStUsoVwM0S3/fBUmkzce54bPKK6pSBTrREAy33JThRkT94f8LyNxo5PtOcmiokUpPw0exAhfa52eFK0EwVvZ9vJdx5QQQ5SNY8hCscdSV2bgXa4A5Zm3kLpoSp7dm6FQlxIjikw+ZbCR9fAERO2dVQLJOzJFMEdDd6aSByXL5DqyH5REjeJFBExO9mOZia+eFqkOfka58aEQAMLwyVXR17l3ZOqTkD38p9wB2GkhJ8pkKlEpKI8CZB8wUuQrifkO/RQtYkX9DBXntPKwLScat1kiB9ha8KAVsNWhbtQ4QXCaQCfkxGQTJHkMRY+xdeHmvnBT7XQk5Z697QIBuJuVni59PAUoMWKQVTQtLcsTbg3E9oiRt/b5q7ENCdsU/7JNAdqnIyRqYHzciIw6d10lKC5ZwTSdBUAMRLE3KgNYdtlbt9fYHs8vbp0JB1JL5PZFCm7LoGOpfUPgnEkzQtn+BIJMGlAssnWFGSRpq/L4gg171ZbTQatCaApPkHCa4El2/Q6keWaTIzZpImZccaNJOj5QBaGYMIGZkeNPt74oicsqsrwwpZtdI2EeDqtiPsr8H26mPVlMCPS7NkKiHKTJN9Ad8SXA45roIr3qtgqBfIZ60DhzXR02mrtDNlDXLwk9bAyQYAqQSTBMsXuKDlDa73dfeU+sNa3+C7yESrLfleA1eBj5OWpW2+JZgkpOmm0yZytLkFXlsiFaSBnErVmovpuAucjKRMWULOT1uOWit1y/XSBJWERu1WKhVYkzj0Wpv88c0LouuJWuAXhldaQPfga2uirWxazrJlyREAfSmuVIRV3NNCVZUE2YfpAyv81LLptCqgFngeGcmuDOkbrCqrDFnT5iiyld5nsQl3yFqoGiMhiy8A4rmCPM63aVRAoBvDZ7Wn1WZPx3mI6puj8DyBttrKUAvWFCigkJDGF3Bos2haQ1gWX8Bh2X2rm1tTBDdDvJXSBYqeft3zM/WpMb4JnJYrdJGQ1hdokJmzDEuzqEBbA2d1algPLaH38uRs4+xG661/Zw6AeN8SkNxYbLXFELpIyOILJLTCHpHR+/nOTNbPHV4YKhORMllztdNz8OpqVmh3fJI50jr2uBLaGTOfO84DV8fF8eli6odJ0ZzywvBKa6m0WbZa6DUf4Vo7/WJ3DZ+d++BuqouBfrdrS7A0WBFTWwlZfQHBVdoGgMfja5l8Ac0pDy8Mla31z9wE8b8kv5D34SFy8LOudygC2SMiDqtcnccXWJ8PuHtYNXVYkVTeR+jIxelp1kYTikB+FWjgiVlWFRDmn62PylxDC0O1Oz7JT+SFfKiV9rwlDq37ohgiInLhwstjuVTQqM11OWWCNbGjrXGQ7weiyChNuSLpJpKDbylCq6QWQ0REGmjQ8qqAnLLrHVoZw/IL9NqnfM3hqrJq0ZFvxAQAxYNUAZDfFzSrr7oWJEpoj2mQeYM8HxppMmcNxcfjazOBr6mN/CqI4LsSVDtmOeQ8kZFrWS6gP4fVheK10vjEQRGRVwVp1ka7ui985hrSwJoSdT20RCoklidcK41P/OnrPxZCkhFKBbxymtRQ7OpD4iTRmujQz7WTj3fTnstK4FlzV9kiJBkhVEBO2XfplWaa5Lpofi7LTeK7LtrHN5Aa1PmEvGSEUAH9/5f3PizLc77LcmWYyhWR9fpk85iEDE/lvgZny0tWMvKqoIMCHo+vzSwMr7S0NdIS2uMatFA1b7kiqU3GmmuwHLXXIpFrpfEJfI2Jqe3ZelJI+3h8beba5LjPxyZibPIKUMJE42b0wxS96CyT0p61SnBFR0nzz0m4tHMK3/X+AMDuW7KUYCHT7ye4yDi+XCwc5CONO850r116l8Ro3XnkDzbObrS+unn20yzXSL/PALgbx5KSN07KX1oXC7l+xEKScXy5UAjxiyBpkUQMJ+H85Z4Zn8foWN8Tss72u78OTrx9HejnXKLnVof/fZw80IgJ+bMxsmmNv/Y5x8fqv8QrtRsSvsqTAAAAAElFTkSuQmCC" alt="Make.com"></div>
           <div class="b-t">業務フロー自動化</div>
@@ -1075,9 +1077,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
             </span>
           </div>
         </div>
+        <div class="result-strip bl">⚡ 実績<span class="arrow">転記・コピペ 1時間/日 → ゼロ</span></div>
+        </div>
         <div class="beam-wrap" id="beam1"></div>
         </div>
-        <div class="result-strip bl">⚡ 実績<span class="arrow">転記・コピペ 1時間/日 → ゼロ</span></div>
       </div>
     
       <!-- 2. データパイプライン -->
@@ -1121,6 +1124,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <!-- 4. AI文章生成・分類 (span2) -->
       <div class="bc s2 row-gr">
         <div class="bc-split">
+        <div class="bc-col">
         <div class="bc-inner">
           <div class="b-ic bl" style="background:#1a1a1a;border-color:#333"><img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmZmZmIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+T3BlbkFJPC90aXRsZT48cGF0aCBkPSJNMjIuMjgxOSA5LjgyMTFhNS45ODQ3IDUuOTg0NyAwIDAgMC0uNTE1Ny00LjkxMDggNi4wNDYyIDYuMDQ2MiAwIDAgMC02LjUwOTgtMi45QTYuMDY1MSA2LjA2NTEgMCAwIDAgNC45ODA3IDQuMTgxOGE1Ljk4NDcgNS45ODQ3IDAgMCAwLTMuOTk3NyAyLjkgNi4wNDYyIDYuMDQ2MiAwIDAgMCAuNzQyNyA3LjA5NjYgNS45OCA1Ljk4IDAgMCAwIC41MTEgNC45MTA3IDYuMDUxIDYuMDUxIDAgMCAwIDYuNTE0NiAyLjkwMDFBNS45ODQ3IDUuOTg0NyAwIDAgMCAxMy4yNTk5IDI0YTYuMDU1NyA2LjA1NTcgMCAwIDAgNS43NzE4LTQuMjA1OCA1Ljk4OTQgNS45ODk0IDAgMCAwIDMuOTk3Ny0yLjkwMDEgNi4wNTU3IDYuMDU1NyAwIDAgMC0uNzQ3NS03LjA3Mjl6bS05LjAyMiAxMi42MDgxYTQuNDc1NSA0LjQ3NTUgMCAwIDEtMi44NzY0LTEuMDQwOGwuMTQxOS0uMDgwNCA0Ljc3ODMtMi43NTgyYS43OTQ4Ljc5NDggMCAwIDAgLjM5MjctLjY4MTN2LTYuNzM2OWwyLjAyIDEuMTY4NmEuMDcxLjA3MSAwIDAgMSAuMDM4LjA1MnY1LjU4MjZhNC41MDQgNC41MDQgMCAwIDEtNC40OTQ1IDQuNDk0NHptLTkuNjYwNy00LjEyNTRhNC40NzA4IDQuNDcwOCAwIDAgMS0uNTM0Ni0zLjAxMzdsLjE0Mi4wODUyIDQuNzgzIDIuNzU4MmEuNzcxMi43NzEyIDAgMCAwIC43ODA2IDBsNS44NDI4LTMuMzY4NXYyLjMzMjRhLjA4MDQuMDgwNCAwIDAgMS0uMDMzMi4wNjE1TDkuNzQgMTkuOTUwMmE0LjQ5OTIgNC40OTkyIDAgMCAxLTYuMTQwOC0xLjY0NjR6TTIuMzQwOCA3Ljg5NTZhNC40ODUgNC40ODUgMCAwIDEgMi4zNjU1LTEuOTcyOFYxMS42YS43NjY0Ljc2NjQgMCAwIDAgLjM4NzkuNjc2NWw1LjgxNDQgMy4zNTQzLTIuMDIwMSAxLjE2ODVhLjA3NTcuMDc1NyAwIDAgMS0uMDcxIDBsLTQuODMwMy0yLjc4NjVBNC41MDQgNC41MDQgMCAwIDEgMi4zNDA4IDcuODcyem0xNi41OTYzIDMuODU1OEwxMy4xMDM4IDguMzY0IDE1LjExOTIgNy4yYS4wNzU3LjA3NTcgMCAwIDEgLjA3MSAwbDQuODMwMyAyLjc5MTNhNC40OTQ0IDQuNDk0NCAwIDAgMS0uNjc2NSA4LjEwNDJ2LTUuNjc3MmEuNzkuNzkgMCAwIDAtLjQwNy0uNjY3em0yLjAxMDctMy4wMjMxbC0uMTQyLS4wODUyLTQuNzczNS0yLjc4MThhLjc3NTkuNzc1OSAwIDAgMC0uNzg1NCAwTDkuNDA5IDkuMjI5N1Y2Ljg5NzRhLjA2NjIuMDY2MiAwIDAgMSAuMDI4NC0uMDYxNWw0LjgzMDMtMi43ODY2YTQuNDk5MiA0LjQ5OTIgMCAwIDEgNi42ODAyIDQuNjZ6TTguMzA2NSAxMi44NjNsLTIuMDItMS4xNjM4YS4wODA0LjA4MDQgMCAwIDEtLjAzOC0uMDU2N1Y2LjA3NDJhNC40OTkyIDQuNDk5MiAwIDAgMSA3LjM3NTctMy40NTM3bC0uMTQyLjA4MDVMOC43MDQgNS40NTlhLjc5NDguNzk0OCAwIDAgMC0uMzkyNy42ODEzem0xLjA5NzYtMi4zNjU0bDIuNjAyLTEuNDk5OCAyLjYwNjkgMS40OTk4djIuOTk5NGwtMi41OTc0IDEuNDk5Ny0yLjYwNjctMS40OTk3WiIvPjwvc3ZnPg==" alt="OpenAI"></div>
           <div class="b-t">AI文章生成・分類</div>
@@ -1134,9 +1138,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
             </span>
           </div>
         </div>
+        <div class="result-strip gr">⚡ 実績<span class="arrow">17時間 → 15分・月33,500円削減</span></div>
+        </div>
         <div class="beam-wrap" id="beam2"></div>
         </div>
-        <div class="result-strip gr">⚡ 実績<span class="arrow">17時間 → 15分・月33,500円削減</span></div>
       </div>
     
       <!-- ROW 3: ORANGE -->
@@ -1144,6 +1149,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <!-- 5. スクレイピング / RPA (span2) -->
       <div class="bc s2">
         <div class="bc-split">
+        <div class="bc-col">
         <div class="bc-inner">
           <div class="b-ic or" style="padding:7px;overflow:hidden"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAACQCAYAAADnRuK4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAJoklEQVR4nO2de4xdRR3HZ+bundnalrYgEuMb3xBAokSJiopotUZFpSKtGjHS1EfTSLszdzVwkWAQ0xhpTHwQH8UHsJYYi6wpd2bPzN12AW1racEoIkpKLVKLoSAFdtmfOWcXAffevbt7d89vTu/vk3xD+scNZ3+/T86de2bODGMEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEgUxlcAmr1M4QFXeB0O4Sbuy13LgBoe1uYew+oe1DQruHhXEgtHtq/N/3C+3+zLVLuLabuLGXC2M/yYw7jVX7JPafRMwVa5PFJT2wVGhb5cb1C2MPZmLMauyTQrvfce02lMzAB9iqHWXsP5toh2r/McK4T3Ptfiu0HZ59YVpmvzD2UlapHYddCmI6VJMFXLuvCeMeRZAGJkTbB7OvOSJ+Stq+Rxh7AF0aMzHcuOtonBQxoqe2Umj3BLYoYjKJtKuxdVvnY9eK+H9M7fRsEBuBJKK1RNdjl4t4Nqt2lIWxd2KLIaaTil2NXTZinJKxH0QXwkw39t/powXs2hGMsfQrAV8INxOJLsWuHZEOniP91SVaC7QPu3bE2mQxvghuxmHanYxdws6mMvDGFk26O53ryp4GV5NuppO3cGNvxBZHPJM12CXsbHoG3tG0OdrtajZQ5cZdEcnDxavyLxrxP0oVt6xxc+woW29PbfrBalUIY/+ALpC2m3ItGPFcSj323CbN2dPqs8K4HnSBjPtVPpUipiUQ1/bmVp8Vldr5JFCHM8kd6I5WnxXarSeBOpzmAtlRZmqnTDoG0m4XCdThTHIHSrOTmdqiRp8bXy+EKo8ggaIXaOJzoErtzJieA3ESKHqBog4ngXAhgYi2IIGItiCBiLYggYi2IIGIjpaVNxEI6vJcCAqmFK9GIcgHIKg94NVmCOozUFtILzPGRrQChYZSPQleboQhdmz+lSKKL1B4OvJf4OX7868WcZQIpNKMgFer8q8YcbQIBNk4qS7Py79qxNEhUMgkOgxevp4VmkrtRKHdRVy77wrjbhfa/i3buMnY0dluThHC8xRobEx0KwDjrFCs6Vfpq7xCu6FOFUVEI1B6J5LLWbFeO7b3YDcq1nAMgYL8CwATLGrW9Kv0jQPsBsUejiJQdhdaxqKlt3680PY27OYUIRxLoKC2sIi3WvHYjSlKOJ5AI1FOd3DtrsFuSpHC8QQCCOWVLCZKldo52A0pWjiqQOoXLB6AC213YDekaOHG/QxNIC//yWKhVHHLsZtRxHDtNjSqJwT5sRzuQACJejmLAW7sr7GbUcj01BqOQ8Crz+YiUL38CRbJjvCPozejaNF2mF2cPL9RScHLai4CBfVtho0wbgV6MwoYbtwvm9UUgurLRyCZMGy4tt/HbkYB8zjrtSc1qmc62ZkOcHMS6CDDRmi7N4KGFCva9TarJ/juM3P6+hrL9vkvYGiY2qLsLC3shhQo3LhbWDXpalZS8PJ7uQoUus9iWJSMOxu7IUUKN9ayLw/Na1ZPsPNPAK/+k6tASfkChoUwdi12U4oSrt2PWXXL8yarJwR1db53n2wctJ5hQXNfU4k9kC6HbVVLGCyfBkEN5y6QV99iWAhjb8VvUKyx6UK6z0/2lfU0kLBu8Gp3/nef7A70A4aF0O4B/EbFEHtQaHdXdrymcZV0A/R0G72p1DD72R7ktTjyZHNiP2Voa51jXeOs7RFu3E1C2y+x3oG3povc0utlEQJeXYkmz9hX2Ga8NyziE+dBUbGm2RRBTAAwkU4loMozJhDSAXjpmevYwjyTkWxmu2fbQlYAoLbwOAiqH12esTHQj+I7pyLf7Gem9jZWACAb75TPH99NIwJ5sjHQdyI7pyLX7GFfCS9kkQMJ6wIvPwJe3Y4uzMRchlKUUo/7EKo82u7Ntu+N8S4zyJZAvXwq+PIK8PIaCPJABKI0y+dQClWquPciCnSIVZJXTfVawc57ESTqQgjq5xDULvByf7aHDn7zIIIsZSgYdxaSPCMlbae05w0k6p3ZYDXbxQu9URBl6vI1DO+s9vwF4tp9vdWlpWt9IcgB9OaEyOPVY9DHSgyFXnsCgkD3tZ6QLK8Erx5Gb04oQLzamZ8wE1vFc18LXbGrJ72ioL5IX1dqGgLJnzBMhHH35ijQoezAlCZAoi4iedQ0BVJfYJiMTx7mNfZp+sALtsnXQlBH0BsSChZfPp1hkk4f5CVQSQ8sbTqn5OV29GaEwuXR9AEnw0Rod2FOAo2wdVvnN7oGCPLDETQDihd5C0Mnt5/y9p5mlwBe/Qa/Gap4iWLr3+V9JaHtIzmMfxq+AAd3MkljHzWTDEOyII4lL2lz51wg425q9P/O5pvwmwEFTDw7lHFjr0TbRyeopRE0AwoVr55C//WV96Qq8kZMR1nkJhYVY2ujD5NAKv54eV/68iKLjbTBJJCKf+I06XoTi5G53qGMBFLtynMYEvU+Fi3VpCtdm0wCqQgj90U1aG4GN+4yEkjFE6+eyN61r7FFrBD0bFsotP0HCaQiuOOob4LrfhkrGqIysIoEUnnlEQjyfghqb/pyIHipwXe/Pf6DVCajWhVc25sLLZBXdBQ3KpXBJbN9xBMJ1Gms2/oKYeyfSCCivWOfZunkHhKoY8kW3q8Qxu4jgYiZs7yvVOqx7+LabhTGbhfG/j3dw4cEIlAp/M94T7KiQgIRbUECEW1BAhFtQQIRbUECEUeTQHen505kG2hmG4d3nQFeXUcCRUw0Anm1s9m6G/DyqyRQpEQhkFej4MunTL4zq/o9CRQhkQh0R8vr9PJiEihCohAoqP6W1+nLHyeBIiQSgfa2vM4g15NAEQJBnR2BQABJ+Q0tzsTY1eSzN+RbMeI5wGD5ZHR5wtg4CIbYsQ2v0avL4zungsiAhC2OZl9EL++FpPtTUF9wPAyxeeOnL9/Y4nNXY9ew48mewWDLE2b61afWYNev44GgriiwQOdg16/jAadeWchzL7x6DG5jx2DXjxj7mfzDAgp0PXbdiHEgmfdiCPIguhRhyhmB+rw3Y9eNeBZQV+/OGoMvB0whG7DrRTQAglpdAIlugH4W5QnSxNj0xnmRbv07DEF9o9ibH3QI4OWrIzsvbAsk8nXYdSGmQbYOx8uPQpAJkjR/hCAvgURN+WhOIlKgLk8CL9dldwKvDs2BLEeyRWNebswOvBtUJ2L/zcQcAqH7JeDlMgiyJz03fVys3eDlXzPB0od8qRjpf716KDvn3au7IMg6eLUZgroqPWsiWw0w2P3S9G6H/TcRBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBBvjvxo4hz84WJKbAAAAAElFTkSuQmCC" alt="Python"></div>
           <div class="b-t">スクレイピング / RPA</div>
@@ -1157,9 +1163,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
             </span>
           </div>
         </div>
+        <div class="result-strip or">⚡ 実績<span class="arrow">月15時間削減・投稿頻度2倍</span></div>
+        </div>
         <div class="beam-wrap" id="beam3"></div>
         </div>
-        <div class="result-strip or">⚡ 実績<span class="arrow">月15時間削減・投稿頻度2倍</span></div>
       </div>
     
       <!-- 6. SaaS・API連携開発 -->
