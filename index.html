@@ -2653,9 +2653,11 @@ function submitForm(e){
         +'width:'+NW+'px;height:'+NH+'px;display:flex;align-items:center;justify-content:center;'
         +'gap:3px;z-index:2;overflow:hidden;padding:0 3px;';
       if(n.useImg){
+        el.style.flexDirection='column';
+        el.style.gap='2px';
         var im=document.createElement('img');
         im.src=n.imgSrc;
-        im.style.cssText='width:'+(NH*.7)+'px;height:'+(NH*.7)+'px;object-fit:contain;flex-shrink:0';
+        im.style.cssText='width:'+(NH*.62)+'px;height:'+(NH*.62)+'px;object-fit:contain;display:block;margin:0 auto';
         el.appendChild(im);
       } else {
         var ic=document.createElementNS(ns,'svg');
