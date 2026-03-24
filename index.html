@@ -347,7 +347,7 @@ section{padding:96px 32px}
 ===================================================== */
 #bento{background:var(--bg1)}
 .bento{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.bc{background:var(--bg2);border:1px solid var(--b);border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:border-color .2s,background .2s}
+.bc{background:var(--bg2);border:1px solid var(--b);border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:border-color .2s,background .2s;display:flex;flex-direction:column}
 .bc:hover{border-color:var(--bm);background:var(--bg3)}
 .bc::before{content:'';position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .3s}
 .bc:hover::before{opacity:1}
