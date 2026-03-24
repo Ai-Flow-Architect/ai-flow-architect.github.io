@@ -696,6 +696,16 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 @keyframes arrowPulse{from{transform:translateX(-4px);opacity:.6}to{transform:translateX(4px);opacity:1}}
 .spcomp-badge{position:absolute;top:-14px;right:20px;background:var(--or);color:#fff;padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:800}
 .spcomp-before .spcomp-time{color:rgba(255,100,80,.8)}
+.speed-why{margin-top:28px;padding:24px;background:var(--bg2);border:1px solid var(--b);border-radius:16px}
+.sw-title{text-align:center;font-size:.85rem;font-weight:700;color:var(--t2);margin-bottom:20px;letter-spacing:.03em}
+.sw-title sup{font-size:.65em;vertical-align:super}
+.sw-num{font-size:1.1rem;font-weight:900;color:var(--or)}
+.sw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.sw-item{background:var(--bg3);border:1px solid var(--b);border-radius:12px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.sw-idx{font-size:1.3rem;font-weight:900;color:var(--bl)}
+.sw-label{font-size:.78rem;font-weight:700;color:var(--t1);line-height:1.4}
+.sw-desc{font-size:.7rem;color:var(--t2);line-height:1.6}
+@media(max-width:580px){.sw-grid{grid-template-columns:1fr}}
 .ctag-chip{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:5px;border:1px solid}
 .ctag-chip svg{width:14px;height:14px;flex-shrink:0;border-radius:3px}
 
@@ -1079,6 +1089,26 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       </div>
       <div class="spcomp spcomp-after" style="position:relative;z-index:1"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">5分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
       <div class="spcomp-badge" style="z-index:1">24倍速</div>
+    </div>
+    <div class="speed-why">
+      <div class="sw-title">AIが <span class="sw-num">10<sup>12</sup></span>〜 の処理速度な理由</div>
+      <div class="sw-grid">
+        <div class="sw-item">
+          <div class="sw-idx">①</div>
+          <div class="sw-label">同時並列処理</div>
+          <div class="sw-desc">人間が1件ずつ処理する間に、AIは数千件を同時に並列処理</div>
+        </div>
+        <div class="sw-item">
+          <div class="sw-idx">②</div>
+          <div class="sw-label">瞬時の記憶<br>メモリアクセス</div>
+          <div class="sw-desc">必要なデータを0.001秒以下で検索・呼び出し・適用</div>
+        </div>
+        <div class="sw-item">
+          <div class="sw-idx">③</div>
+          <div class="sw-label">常時100%の<br>パフォーマンスを維持</div>
+          <div class="sw-desc">疲労・集中力低下なし。24時間365日、常に最大出力で稼働</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
