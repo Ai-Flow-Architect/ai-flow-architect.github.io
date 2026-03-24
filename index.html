@@ -2305,6 +2305,7 @@ function submitForm(e){
       el.style.top  = (y-sz/2)+'px';
       var img = document.createElement('img');
       img.src = n.icon; img.alt = n.label;
+      if(n.hub){ img.style.width='38px'; img.style.height='38px'; }
       el.appendChild(img);
       wrap.appendChild(el);
 
@@ -2467,6 +2468,7 @@ function submitForm(e){
       el.style.top  = (y-sz/2)+'px';
       var img = document.createElement('img');
       img.src = n.icon; img.alt = n.label;
+      if(n.hub){ img.style.width='38px'; img.style.height='38px'; }
       el.appendChild(img);
       wrap.appendChild(el);
 
