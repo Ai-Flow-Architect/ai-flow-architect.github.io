@@ -1048,7 +1048,16 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <span class="cando-sym">=</span>
       <span class="cando-val c-or">一瞬</span>
     </div>
-    <p class="sec-s" style="margin-bottom:48px">人間が2時間かける作業を、AIは5分で完了させます。<br>データが入ってきた瞬間、分析・加工・出力まで一気に完結。</p>
+    <div class="speed-compare" style="position:relative;overflow:hidden;margin-bottom:32px"><canvas id="spark-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
+      <div class="spcomp spcomp-before" style="position:relative;z-index:1"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">2時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
+      <div class="spcomp-arrow-ani" style="position:relative;z-index:1">
+        <div class="spa-line"></div>
+        <div class="spa-dot"></div>
+        <div class="spa-arrow">→</div>
+      </div>
+      <div class="spcomp spcomp-after" style="position:relative;z-index:1"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">5分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
+      <div class="spcomp-badge" style="z-index:1">24倍速</div>
+    </div>
     <div class="speed-demo">
       <div class="speed-col">
         <div class="speed-icon-wrap sd-in">
@@ -1079,16 +1088,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
           <div class="speed-sub">Slack・LINE・メール</div>
         </div>
       </div>
-    </div>
-    <div class="speed-compare" style="position:relative;overflow:hidden"><canvas id="spark-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
-      <div class="spcomp spcomp-before" style="position:relative;z-index:1"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">2時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
-      <div class="spcomp-arrow-ani" style="position:relative;z-index:1">
-        <div class="spa-line"></div>
-        <div class="spa-dot"></div>
-        <div class="spa-arrow">→</div>
-      </div>
-      <div class="spcomp spcomp-after" style="position:relative;z-index:1"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">5分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
-      <div class="spcomp-badge" style="z-index:1">24倍速</div>
     </div>
     <div class="speed-why">
       <div class="sw-title">AIが <span class="sw-num">10<sup>12</sup></span>〜 の処理速度な理由</div>
