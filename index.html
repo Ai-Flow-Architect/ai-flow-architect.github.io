@@ -697,14 +697,14 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 .spcomp-badge{position:absolute;top:-14px;right:20px;background:var(--or);color:#fff;padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:800}
 .spcomp-before .spcomp-time{color:rgba(255,100,80,.8)}
 .speed-why{margin-top:28px;padding:24px;background:var(--bg2);border:1px solid var(--b);border-radius:16px}
-.sw-title{text-align:center;font-size:.85rem;font-weight:700;color:var(--t2);margin-bottom:20px;letter-spacing:.03em}
+.sw-title{text-align:center;font-size:1.28rem;font-weight:700;color:var(--t2);margin-bottom:20px;letter-spacing:.03em}
 .sw-title sup{font-size:.65em;vertical-align:super}
-.sw-num{font-size:1.1rem;font-weight:900;color:var(--or)}
+.sw-num{font-size:1.65rem;font-weight:900;color:var(--or)}
 .sw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .sw-item{background:var(--bg3);border:1px solid var(--b);border-radius:12px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
 .sw-idx{font-size:1.3rem;font-weight:900;color:var(--bl)}
-.sw-label{font-size:.78rem;font-weight:700;color:var(--t1);line-height:1.4}
-.sw-desc{font-size:.7rem;color:var(--t2);line-height:1.6}
+.sw-label{font-size:1.01rem;font-weight:700;color:var(--t1);line-height:1.4}
+.sw-desc{font-size:.91rem;color:var(--t2);line-height:1.6}
 @media(max-width:580px){.sw-grid{grid-template-columns:1fr}}
 .ctag-chip{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:5px;border:1px solid}
 .ctag-chip svg{width:14px;height:14px;flex-shrink:0;border-radius:3px}
@@ -1047,47 +1047,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <span class="cando-word">かかる時間</span>
       <span class="cando-sym">=</span>
       <span class="cando-val c-or">一瞬</span>
-    </div>
-    <div class="speed-compare" style="position:relative;overflow:hidden;margin-bottom:32px"><canvas id="spark-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
-      <div class="spcomp spcomp-before" style="position:relative;z-index:1"><div class="spcomp-label">BEFORE（手作業）</div><div class="spcomp-time" id="cnt-before">2時間</div><div class="spcomp-detail">100件の商品説明を手書き</div></div>
-      <div class="spcomp-arrow-ani" style="position:relative;z-index:1">
-        <div class="spa-line"></div>
-        <div class="spa-dot"></div>
-        <div class="spa-arrow">→</div>
-      </div>
-      <div class="spcomp spcomp-after" style="position:relative;z-index:1"><div class="spcomp-label">AFTER（自動化）</div><div class="spcomp-time c-or" id="cnt-after">5分</div><div class="spcomp-detail">GPT一括生成・シート自動書込</div></div>
-      <div class="spcomp-badge" style="z-index:1">24倍速</div>
-    </div>
-    <div class="speed-demo">
-      <div class="speed-col">
-        <div class="speed-icon-wrap sd-in">
-          <div class="speed-icon">📥</div>
-          <div class="speed-label">データ入力</div>
-          <div class="speed-sub">CSV・フォーム・メール・API</div>
-        </div>
-      </div>
-      <div class="speed-arrow-col">
-        <div class="speed-proc">
-          <div class="speed-proc-dot spd1"></div>
-          <div class="speed-proc-dot spd2"></div>
-          <div class="speed-proc-dot spd3"></div>
-          <div class="speed-proc-line"></div>
-          <div class="speed-proc-label">AI処理</div>
-          <div class="speed-proc-time">0.3秒</div>
-        </div>
-      </div>
-      <div class="speed-col">
-        <div class="speed-icon-wrap sd-out">
-          <div class="speed-icon">📊</div>
-          <div class="speed-label">グラフ・レポート</div>
-          <div class="speed-sub">ダッシュボード・スプレッドシート</div>
-        </div>
-        <div class="speed-icon-wrap sd-out" style="margin-top:12px">
-          <div class="speed-icon">🔔</div>
-          <div class="speed-label">通知・完了</div>
-          <div class="speed-sub">Slack・LINE・メール</div>
-        </div>
-      </div>
     </div>
     <div class="speed-why">
       <div class="sw-title">AIが <span class="sw-num">10<sup>12</sup></span>〜 の処理速度な理由</div>
