@@ -220,14 +220,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 ===================================================== */
 #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 32px 80px;overflow:hidden;text-align:center}
 #hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.delorean-canvas-container{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.delorean-canvas-container{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;opacity:0.75}
 .delorean-canvas-container canvas{display:block;width:100%;height:100%}
 .hg{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;mix-blend-mode:lighten}
 .hg1{width:500px;height:500px;top:-120px;left:-80px;background:radial-gradient(circle,rgba(240,120,64,.08) 0%,transparent 70%)}
 .hg2{width:600px;height:600px;bottom:-100px;right:-100px;background:radial-gradient(circle,rgba(74,143,247,.07) 0%,transparent 70%)}
 .hero-fade{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
 
-.hero-content{position:relative;z-index:2;max-width:900px}
+.hero-content{position:relative;z-index:2;max-width:900px;padding:48px 60px;border-radius:32px;background:radial-gradient(ellipse at center,rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0) 75%)}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:500;letter-spacing:.04em;color:var(--t2);border:1px solid var(--bm);background:rgba(0,0,0,.5);padding:5px 14px;border-radius:999px;margin-bottom:36px;backdrop-filter:blur(12px)}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 2s ease-in-out infinite}
 @keyframes pdot{0%,100%{opacity:1;box-shadow:0 0 6px var(--gr)}50%{opacity:.4;box-shadow:0 0 14px var(--gr)}}
@@ -235,7 +235,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
 @keyframes tool-glow{0%,100%{box-shadow:0 0 0 0 rgba(240,120,64,0)}50%{box-shadow:0 0 12px 2px rgba(240,120,64,.25)}}
 
 /* Text cycling */
-h1.hero-h1{font-size:clamp(1.6rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:24px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9),0 0 160px rgba(0,0,0,0.7)}
+h1.hero-h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:24px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9),0 0 160px rgba(0,0,0,0.7)}
 .h1-static{display:block;color:var(--t1)}
 .h1-cycle-wrap{display:inline-block;position:relative;overflow:hidden;height:1.1em;vertical-align:bottom}
 .h1-cycle{display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.77,0,.18,1)}
@@ -252,8 +252,8 @@ h1.hero-h1{font-size:clamp(1.6rem,4vw,3rem);font-weight:800;letter-spacing:-.03e
 .c-or{color:var(--or)}.c-bl{color:var(--bl)}.c-gr{color:var(--gr)}.c-pu{color:var(--pu)}
 
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-w{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:#fff;background:var(--or);padding:14px 32px;border-radius:999px;transition:opacity .2s,transform .2s;animation:btnwiggle 5s ease-in-out infinite}
-.btn-w:hover{opacity:.85;transform:translateY(-2px) !important;animation:none}
+.btn-w{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;color:#fff;background:linear-gradient(180deg,#4ae89a 0%,#2cb870 50%,#1a9a58 100%);padding:14px 32px;border-radius:999px;transition:all .2s;animation:btnwiggle 5s ease-in-out infinite;box-shadow:0 4px 0 #167a45,0 6px 20px rgba(61,214,140,0.4),inset 0 1px 0 rgba(255,255,255,0.25);text-shadow:0 1px 2px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1)}
+.btn-w:hover{opacity:.95;transform:translateY(2px) !important;animation:none;box-shadow:0 1px 0 #167a45,0 2px 10px rgba(61,214,140,0.3),inset 0 1px 0 rgba(255,255,255,0.25)}
 .btn-g{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;color:var(--t2);border:1px solid var(--bm);padding:14px 28px;border-radius:999px;transition:color .2s,border-color .2s}
 .btn-g:hover{color:var(--t1);border-color:rgba(255,255,255,.25)}
 .hero-micro{font-size:.68rem;color:var(--t3);margin-top:12px;letter-spacing:.02em}
@@ -815,6 +815,26 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .hero-btns{flex-direction:column;align-items:center}
   .btn-w,.btn-g{width:100%;max-width:320px;justify-content:center}
   .faq-chat-cta{padding:20px 16px}
+  /* DeLoreanエフェクト: モバイルではcanvasをヒーロー内に収める */
+  .delorean-canvas-container{height:100vh!important;max-height:100vh!important}
+  /* h1の改行を制御 */
+  h1.hero-h1{font-size:clamp(1.5rem,7vw,2.2rem)}
+  /* hero-content の背景パディングを調整 */
+  .hero-content{padding:32px 20px}
+  /* バッジを小さく+改行許可 */
+  .hero-badge{font-size:.62rem;padding:4px 10px;text-align:center;line-height:1.4}
+  .hero-capacity-badge{font-size:.78rem;padding:8px 16px}
+  /* trust-row */
+  .hero-trust-row{flex-wrap:wrap;justify-content:center}
+  .ht-item{font-size:.75rem}
+  /* SPEEDセクション sw-grid */
+  .sw-grid{grid-template-columns:1fr!important}
+  /* モバイルCTA固定表示 */
+  .hero-btns-mobile-fixed{position:fixed!important;bottom:0;left:0;right:0;z-index:999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:12px 16px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:8px;justify-content:center}
+  .hero-btns-mobile-fixed .btn-g{display:none}
+  .hero-btns-mobile-fixed .btn-w{font-size:.85rem;padding:12px 20px}
+  /* 固定CTAの分だけ下部にパディング */
+  body{padding-bottom:64px}
 }
 
 /* =====================================================
@@ -997,12 +1017,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <!-- hero-sub 一時削除 -->
     <div class="hero-capacity-badge" id="hero-capacity-status2"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</div>
     <!-- trust-row moved below hero-sub -->
-    <div class="hero-nums">
-      <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
-      <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
-      <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div></div>
-      <div class="hn"><div class="hn-n c-pu">50+</div><div class="hn-l">自動化<br>導入実績</div></div>
-    </div>
     <p class="hero-sub" style="margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)">一回の設定で24時間・365日・人手ゼロで稼働。</p>
     <div class="hero-trust-row" style="margin-bottom:28px;">
       <span class="ht-item">✅ <span class="ht-full">知識は一切不要</span><span class="ht-short">知識不要</span></span>
@@ -1012,10 +1026,16 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <span class="ht-item">⚡ <span class="ht-full">最短１週間スピード納品</span><span class="ht-short">最短1週間</span></span>
     </div>
     <div class="hero-btns">
-      <a href="#contact" class="btn-w">無料相談で、業務効率化の可能性を確認する →</a>
+      <a href="#contact" class="btn-w">80%のコスト削減を無料相談で確認 →</a>
       <a href="#cases" class="btn-g">実績・事例を見る</a>
     </div>
     <p class="hero-micro">無理な営業は一切ありません · ご相談内容は秘密厳守</p>
+    <div class="hero-nums" style="margin-top:32px;">
+      <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
+      <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
+      <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div></div>
+      <div class="hn"><div class="hn-n c-pu">50+</div><div class="hn-l">自動化<br>導入実績</div></div>
+    </div>
   </div>
   <div class="hero-fade"></div>
 </section>
@@ -2674,6 +2694,11 @@ function submitForm(e){
     setTimeout(initBeam, 100);
     setTimeout(initBeam2, 100);
     setTimeout(initBeam3, 100);
+    // モバイルCTA固定
+    if(window.innerWidth <= 640) {
+      var btns = document.querySelector('.hero-btns');
+      if(btns) btns.classList.add('hero-btns-mobile-fixed');
+    }
   });
 })();
 </script>
