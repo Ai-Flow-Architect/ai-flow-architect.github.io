@@ -219,29 +219,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
    HERO
 ===================================================== */
 #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 32px 80px;overflow:hidden;text-align:center}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.delorean-canvas-container{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.delorean-canvas-container canvas{display:block;width:100%;height:100%}
 .hg{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;mix-blend-mode:lighten}
 .hg1{width:500px;height:500px;top:-120px;left:-80px;background:radial-gradient(circle,rgba(240,120,64,.08) 0%,transparent 70%)}
 .hg2{width:600px;height:600px;bottom:-100px;right:-100px;background:radial-gradient(circle,rgba(74,143,247,.07) 0%,transparent 70%)}
 .hero-fade{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
 
 .hero-content{position:relative;z-index:2;max-width:900px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:500;letter-spacing:.04em;color:var(--t2);border:1px solid var(--bm);background:rgba(255,255,255,.03);padding:5px 14px;border-radius:999px;margin-bottom:36px;backdrop-filter:blur(8px)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:500;letter-spacing:.04em;color:var(--t2);border:1px solid var(--bm);background:rgba(0,0,0,.5);padding:5px 14px;border-radius:999px;margin-bottom:36px;backdrop-filter:blur(12px)}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 2s ease-in-out infinite}
 @keyframes pdot{0%,100%{opacity:1;box-shadow:0 0 6px var(--gr)}50%{opacity:.4;box-shadow:0 0 14px var(--gr)}}
 @keyframes btnwiggle{0%,85%,100%{transform:translateY(-1px) rotate(0)}88%{transform:translateY(-1px) rotate(-2deg)}91%{transform:translateY(-1px) rotate(2deg)}94%{transform:translateY(-1px) rotate(-1.5deg)}97%{transform:translateY(-1px) rotate(1.5deg)}}
 @keyframes tool-glow{0%,100%{box-shadow:0 0 0 0 rgba(240,120,64,0)}50%{box-shadow:0 0 12px 2px rgba(240,120,64,.25)}}
 
 /* Text cycling */
-h1.hero-h1{font-size:clamp(1.6rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:24px}
+h1.hero-h1{font-size:clamp(1.6rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin-bottom:24px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9),0 0 160px rgba(0,0,0,0.7)}
 .h1-static{display:block;color:var(--t1)}
 .h1-cycle-wrap{display:inline-block;position:relative;overflow:hidden;height:1.1em;vertical-align:bottom}
 .h1-cycle{display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.77,0,.18,1)}
 .h1-word{color:var(--or);display:block;height:1.1em;line-height:1.1}
 
-.hero-sub{font-size:clamp(.95rem,2vw,1.1rem);color:var(--t2);max-width:520px;margin:0 auto 48px;line-height:1.75;font-weight:400}
+.hero-sub{font-size:clamp(.95rem,2vw,1.1rem);color:var(--t2);max-width:520px;margin:0 auto 48px;line-height:1.75;font-weight:400;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)}
 
-.hero-nums{display:flex;border:1px solid var(--b);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02);backdrop-filter:blur(8px);max-width:640px;margin:0 auto 48px}
+.hero-nums{display:flex;border:1px solid var(--b);border-radius:16px;overflow:hidden;background:rgba(0,0,0,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);max-width:640px;margin:0 auto 48px}
 .hn{flex:1;padding:24px 16px;border-right:1px solid var(--b);text-align:center}
 .hn:last-child{border-right:none}
 .hn-n{font-size:2rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:5px}
@@ -584,7 +586,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
    HERO SUB-BADGE
 ===================================================== */
 .hero-sub-badge{display:inline-block;margin:12px 0 0;padding:8px 20px;background:rgba(240,120,64,.12);border:1px solid rgba(240,120,64,.3);border-radius:30px;font-size:.85rem;font-weight:600;color:var(--or);letter-spacing:.02em}
-.hero-capacity-badge{display:inline-flex;align-items:center;gap:8px;margin:0 auto 28px;padding:10px 24px;background:rgba(74,213,130,.07);border:1px solid rgba(74,213,130,.28);border-radius:999px;font-size:.88rem;font-weight:600;color:var(--t1)}
+.hero-capacity-badge{display:inline-flex;align-items:center;gap:8px;margin:0 auto 28px;padding:10px 24px;background:rgba(74,213,130,.07);border:1px solid rgba(74,213,130,.28);border-radius:999px;font-size:.88rem;font-weight:600;color:var(--t1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 
 /* =====================================================
    LOGOS: Brand colored SVG chips
@@ -980,6 +982,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 
 <!-- HERO -->
 <section id="hero">
+  <div class="delorean-canvas-container" id="delorean-container"></div>
   <canvas id="hero-canvas"></canvas>
   <div class="hg hg1"></div>
   <div class="hg hg2"></div>
@@ -991,20 +994,22 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <h1 class="hero-h1">
       ２時間のイライラを<br>１分で処理させませんか？
     </h1>
-    <p class="hero-sub">AIでその時間、すぐに取り戻せます。<br>技術知識は一切不要です。<br><span style="font-size:.85rem;color:var(--t2)">一度設定すれば24時間・365日・人手ゼロで稼働。</span></p>
+    <!-- hero-sub 一時削除 -->
     <div class="hero-capacity-badge" id="hero-capacity-status2"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</div>
-    <div class="hero-trust-row">
-      <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
+    <!-- trust-row moved below hero-sub -->
+    <div class="hero-nums">
+      <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
+      <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
+      <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div></div>
+      <div class="hn"><div class="hn-n c-pu">50+</div><div class="hn-l">自動化<br>導入実績</div></div>
+    </div>
+    <p class="hero-sub" style="margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)">一回の設定で24時間・365日・人手ゼロで稼働。</p>
+    <div class="hero-trust-row" style="margin-bottom:28px;">
+      <span class="ht-item">✅ <span class="ht-full">知識は一切不要</span><span class="ht-short">知識不要</span></span>
       <span class="ht-sep">·</span>
       <span class="ht-item">💰 <span class="ht-full">お見積もりまで無料</span><span class="ht-short">相談無料</span></span>
       <span class="ht-sep">·</span>
       <span class="ht-item">⚡ <span class="ht-full">最短１週間スピード納品</span><span class="ht-short">最短1週間</span></span>
-    </div>
-    <div class="hero-nums">
-      <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div><div class="hn-sub">※手作業工数比、案件により異なる</div></div>
-      <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>ノンストップ稼働</div><div class="hn-sub">※cron+エラー通知設計込みの場合</div></div>
-      <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div><div class="hn-sub">※商品説明文100件: 17h→15分</div></div>
-      <div class="hn"><div class="hn-n c-pu">50+</div><div class="hn-l">自動化<br>導入実績</div><div class="hn-sub">※2024年〜2026年累計</div></div>
     </div>
     <div class="hero-btns">
       <a href="#contact" class="btn-w">無料相談で、業務効率化の可能性を確認する →</a>
@@ -1156,8 +1161,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 </div>
 
 <!-- SPEED: かかる時間 = 一瞬 -->
-<section id="speed">
-  <div class="wrap">
+<section id="speed" style="position:relative;overflow:hidden;">
+  <canvas id="speed-circuit-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+  <div class="wrap" style="position:relative;z-index:1;">
     <div class="eye">SPEED</div>
     <div class="cando-eq">
       <span class="cando-word">かかる時間</span>
@@ -1566,6 +1572,31 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 })();
 
 /* =====================================================
+   SPEED CIRCUIT CANVAS — SPEEDセクション用回路グリッド
+===================================================== */
+(function(){
+  const cv=document.getElementById('speed-circuit-canvas');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const CELL=40;
+  let W,H,nodes=[],pulses=[];
+  function rsz(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;nodes=[];const cols=Math.ceil(W/CELL)+1;const rows=Math.ceil(H/CELL)+1;for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)nodes.push({x:c*CELL,y:r*CELL,lit:0});}
+  window.addEventListener('resize',rsz);rsz();
+  function spawnPulse(){const n=nodes[Math.floor(Math.random()*nodes.length)];const dirs=[[1,0],[-1,0],[0,1],[0,-1]];const d=dirs[Math.floor(Math.random()*dirs.length)];const steps=3+Math.floor(Math.random()*7);pulses.push({x:n.x,y:n.y,dx:d[0]*CELL,dy:d[1]*CELL,step:0,steps,progress:0,color:Math.random()<.55?'#4ad582':'#f07840'});}
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(255,255,255,.032)';ctx.lineWidth=.5;
+    for(let x=0;x<=W;x+=CELL){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<=H;y+=CELL){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    nodes.forEach(n=>{if(n.lit>0){ctx.shadowColor=n.lit>0.5?'#4ad582':'rgba(74,213,130,0.4)';ctx.shadowBlur=n.lit*14;ctx.beginPath();ctx.arc(n.x,n.y,n.lit>0.5?3:2,0,Math.PI*2);ctx.fillStyle='rgba(74,213,130,'+n.lit+')';ctx.fill();ctx.shadowBlur=0;n.lit=Math.max(0,n.lit-.014);}else{ctx.beginPath();ctx.arc(n.x,n.y,1.5,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,.07)';ctx.fill();}});
+    for(let i=pulses.length-1;i>=0;i--){const p=pulses[i];p.progress+=0.055;if(p.progress>=1){p.step++;p.progress=0;p.x+=p.dx;p.y+=p.dy;const cols=Math.ceil(W/CELL)+1;const nx=Math.round(p.x/CELL),ny=Math.round(p.y/CELL);const ni=ny*cols+nx;if(nodes[ni])nodes[ni].lit=1;if(p.step>=p.steps){pulses.splice(i,1);continue;}}const sx=p.x-p.dx*(1-p.progress);const sy=p.y-p.dy*(1-p.progress);const grad=ctx.createLinearGradient(sx,sy,p.x,p.y);grad.addColorStop(0,'rgba(74,213,130,0)');grad.addColorStop(1,p.color+'cc');ctx.strokeStyle=grad;ctx.lineWidth=1.5;ctx.shadowColor=p.color;ctx.shadowBlur=7;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.shadowBlur=0;}
+    frame++;if(frame%6===0)spawnPulse();if(frame%3===0)spawnPulse();requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* =====================================================
    HERO CANVAS — Effect 1: 回路グリッド＋ノード発光（Schematic風）
    グリッド線上を光のパルスが走り、ノード（交点）が次々と点灯
 ===================================================== */
@@ -1597,8 +1628,6 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   let frame=0;
   function draw(){
     ctx.clearRect(0,0,W,H);
-    ctx.fillStyle='#080808';
-    ctx.fillRect(0,0,W,H);
 
     /* 1. Grid lines */
     ctx.strokeStyle='rgba(255,255,255,.032)';ctx.lineWidth=.5;
@@ -2647,6 +2676,456 @@ function submitForm(e){
     setTimeout(initBeam3, 100);
   });
 })();
+</script>
+<!-- DeLorean Neon Streams — Three.js -->
+<script type="importmap">
+{
+  "imports": {
+    "three":          "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+    "three/addons/":  "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer }  from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass }      from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass }      from 'three/addons/postprocessing/ShaderPass.js';
+import { OutputPass }      from 'three/addons/postprocessing/OutputPass.js';
+
+/*
+  DeLorean Neon Streams v3 — LP統合版
+  描画先: #delorean-container（heroセクション背景）
+*/
+
+// ── コンテナ取得 ────────────────────────────────────────────
+const container = document.getElementById('delorean-container');
+if (!container) throw new Error('delorean-container not found');
+
+// ── Renderer ────────────────────────────────────────────────
+let W = container.clientWidth, H = container.clientHeight;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.LinearToneMapping;
+renderer.toneMappingExposure = 1;
+renderer.setClearColor(0x0c0c0c);
+container.appendChild(renderer.domElement);
+
+// ── Scene / Camera ──────────────────────────────────────────
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0c0c0c);
+
+const fovT = THREE.MathUtils.clamp(THREE.MathUtils.mapLinear(H, 250, 1024, 0, 1), 0, 1);
+const fov = THREE.MathUtils.lerp(15, 45, fovT);
+const camera = new THREE.PerspectiveCamera(fov, W / H, 0.1, 1000);
+camera.position.set(0, 0, 5);
+camera.lookAt(0, 0, 0);
+
+// ══════════════════════════════════════════════════════════════
+//  Block System: Corner + Line → CatmullRomCurve3 → TubeGeometry
+// ══════════════════════════════════════════════════════════════
+
+function createCornerPoints() {
+  const pts = [];
+  const startAngle = THREE.MathUtils.degToRad(270);
+  for (let t = 0; t <= 25; t++) {
+    const angle = startAngle + THREE.MathUtils.degToRad(t / 25 * 90);
+    const x = 0.5 * Math.cos(angle) - 0.5;
+    const z = 0.5 * Math.sin(angle) + 0.5;
+    pts.push([x, 0, z]);
+  }
+  return pts;
+}
+
+function createLinePoints() {
+  const pts = [];
+  for (let i = 0; i < 5; i++) {
+    const t = i / 4;
+    const x = THREE.MathUtils.lerp(-0.5, 0.5, t);
+    pts.push([x, 0, 0]);
+  }
+  return pts;
+}
+
+function getBlockWorldPoints(blockData) {
+  const isCorner = blockData.type === 'corner';
+  let rawPoints = isCorner ? createCornerPoints() : createLinePoints();
+  if (blockData.reverse) rawPoints.reverse();
+  let pts = rawPoints.map(p => new THREE.Vector3(p[0], p[1], p[2]));
+  const euler = new THREE.Euler(
+    THREE.MathUtils.degToRad(blockData.rotation[0]),
+    THREE.MathUtils.degToRad(blockData.rotation[1]),
+    THREE.MathUtils.degToRad(blockData.rotation[2])
+  );
+  const rotMatrix = new THREE.Matrix4().makeRotationFromEuler(euler);
+  const pos = new THREE.Vector3().fromArray(blockData.position);
+  pts = pts.map(p => { p.applyMatrix4(rotMatrix); p.add(pos); return p; });
+  return pts;
+}
+
+function createTubeFromBlocks(blocks, settings) {
+  const { tubularSegments, radialSegments, thickness } = settings;
+  const allPoints = blocks.flatMap(b => getBlockWorldPoints(b));
+  const curve1 = new THREE.CatmullRomCurve3(allPoints);
+  const smoothCurve = new THREE.CatmullRomCurve3(curve1.getPoints(200));
+  return new THREE.TubeGeometry(smoothCurve, tubularSegments, thickness, radialSegments, false);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  カーブデータ
+// ══════════════════════════════════════════════════════════════
+
+const BLOCKS_S_CURVE = [
+  { type: "line",   position: [-10, 0, 0], rotation: [0, 0, 0],   reverse: false },
+  { type: "line",   position: [-3, 0, 0],  rotation: [0, 0, 0],   reverse: false },
+  { type: "line",   position: [-1.5, 0, 0], rotation: [0, 0, 0],  reverse: false },
+  { type: "corner", position: [0, 0, 0],   rotation: [0, 0, 0],   reverse: false },
+  { type: "line",   position: [0, 0, 1.5], rotation: [0, 270, 0], reverse: false },
+  { type: "corner", position: [0, 0, 3],   rotation: [0, 180, 0], reverse: true  },
+  { type: "line",   position: [1.5, 0, 3], rotation: [0, 0, 0],   reverse: false },
+  { type: "line",   position: [3, 0, 3],   rotation: [0, 0, 0],   reverse: false },
+  { type: "line",   position: [10, 0, 3],  rotation: [0, 0, 0],   reverse: false },
+];
+
+const EXTRUSION = { tubularSegments: 600, radialSegments: 8, thickness: 0.07 };
+
+// ══════════════════════════════════════════════════════════════
+//  Fresnel ShaderMaterial
+// ══════════════════════════════════════════════════════════════
+
+const GLSL_MAP_LINEAR = `
+float mapLinear(float value, float in_min, float in_max, float out_min, float out_max) {
+  return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+`;
+
+const fresnelVertexShader = `
+varying vec3 vWorldNormal;
+varying vec3 vViewDirection;
+varying vec2 vUv;
+void main() {
+  vUv = uv;
+  vWorldNormal = normalize(modelMatrix * vec4(normal, 0.0)).xyz;
+  vec3 worldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+  vViewDirection = normalize(cameraPosition - worldPos);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`;
+
+const fresnelFragmentShader = `
+uniform vec3 color;
+uniform float intensity;
+uniform float fresnelPower;
+uniform float gradientLength;
+uniform vec2 gradientStartEnd;
+uniform float gradientAnimation;
+uniform float gradientBrightness;
+uniform vec2 occlusionLeftMask;
+uniform vec2 occlusionRightMask;
+uniform float revealLength;
+uniform vec2 revealStartEnd;
+uniform float revealAnimation;
+uniform float revealBrightness;
+varying vec2 vUv;
+varying vec3 vWorldNormal;
+varying vec3 vViewDirection;
+${GLSL_MAP_LINEAR}
+float computeGradientMask(float animation, float len, vec2 startEnd, float uvX) {
+  float t = mapLinear(animation, 0.0, 1.0, -len, 1.0 + len);
+  float tStart = clamp(t - len, 0.0, 1.0);
+  float tEnd = clamp(t + len, 0.0, 1.0);
+  float x = mapLinear(uvX, tStart, animation, 0.0, 1.0);
+  float y = mapLinear(uvX, animation, tEnd, 1.0, 0.0);
+  float visibleBand = clamp(x * y, 0.0, 1.0);
+  float start = mapLinear(uvX, startEnd.x, startEnd.y, 0.0, 1.0);
+  float end = mapLinear(uvX, 1.0 - startEnd.x, 1.0 - startEnd.y, 0.0, 1.0);
+  return visibleBand * start * end;
+}
+void main() {
+  float fresnelFactor = abs(dot(vViewDirection, normalize(vWorldNormal)));
+  fresnelFactor = pow(fresnelFactor, fresnelPower);
+  float gradientPulseMask = computeGradientMask(gradientAnimation, gradientLength, gradientStartEnd, vUv.x) * gradientBrightness;
+  float gradientPulseAlpha = fresnelFactor * gradientPulseMask * gradientBrightness;
+  float occlusionLeft = clamp(mapLinear(vUv.x, occlusionLeftMask.x, occlusionLeftMask.y, 0.0, 1.0), 0.0, 1.0);
+  float occlusionRight = clamp(mapLinear(vUv.x, occlusionRightMask.x, occlusionRightMask.y, 1.0, 0.0), 0.0, 1.0);
+  float revealMask = clamp(computeGradientMask(revealAnimation, revealLength, revealStartEnd, vUv.x), 0.0, 1.0);
+  float occlusion = revealMask * occlusionLeft * occlusionRight;
+  float alpha = mix(fresnelFactor, gradientPulseAlpha, gradientPulseMask) * occlusion;
+  vec3 outgoingColor = color * intensity;
+  gl_FragColor = vec4(outgoingColor, alpha);
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
+}
+`;
+
+function createFresnelUniforms() {
+  return THREE.UniformsUtils.clone({
+    color:              { value: new THREE.Color(0xffffff) },
+    intensity:          { value: 30 },
+    cameraPosition:     { value: new THREE.Vector3() },
+    fresnelPower:       { value: 10 },
+    gradientAnimation:  { value: 0 },
+    gradientStartEnd:   { value: new THREE.Vector2(0, 0.25) },
+    gradientLength:     { value: 0.09 },
+    gradientBrightness: { value: 1 },
+    revealAnimation:    { value: 0 },
+    revealStartEnd:     { value: new THREE.Vector2(0, 0.25) },
+    revealLength:       { value: 0.5 },
+    revealBrightness:   { value: 1 },
+    occlusionLeftMask:  { value: new THREE.Vector2(0.15, 0.5) },
+    occlusionRightMask: { value: new THREE.Vector2(0.75, 0.9) },
+  });
+}
+
+function createFresnelMaterial() {
+  return new THREE.ShaderMaterial({
+    uniforms: createFresnelUniforms(),
+    vertexShader: fresnelVertexShader,
+    fragmentShader: fresnelFragmentShader,
+    transparent: true,
+    depthWrite: false,
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  Line Set 構築 (7チューブ × Y ±1.75 配置)
+// ══════════════════════════════════════════════════════════════
+
+const LINE_SETS = [
+  {
+    blocks: BLOCKS_S_CURVE,
+    transform: { position: [0, 1.5, -5.5], rotation: [0, 0, 0] },
+    scrollRotation: { start: [62.6086956522, 31.3043478261, 0], end: [46.95652173913038, 23.478260869565247, 0] },
+    colors: ["#858585", "#5a9e78", "#14de5a", "#3cf27a", "#5a9e78", "#596959", "#1c1c1c"],
+    occlusionLeft:  { x: 0.2, y: 0.4 },
+    occlusionRight: { x: 0.5, y: 0.75 },
+    height: 1.75,
+  },
+];
+
+const allLineGroups = [];
+
+LINE_SETS.forEach((setData, setIndex) => {
+  const geometry = createTubeFromBlocks(setData.blocks, EXTRUSION);
+  const ctnr = new THREE.Group();
+  ctnr.name = `LineSet-${setIndex}`;
+  ctnr.position.fromArray(setData.transform.position);
+  const startRot = setData.scrollRotation.start;
+  ctnr.rotation.set(
+    THREE.MathUtils.degToRad(startRot[0]),
+    THREE.MathUtils.degToRad(startRot[1]),
+    THREE.MathUtils.degToRad(startRot[2])
+  );
+  const lines = [];
+  for (let i = 0; i < 7; i++) {
+    const mat = createFresnelMaterial();
+    mat.uniforms.color.value.setStyle(setData.colors[i] || "#DE1E14");
+    mat.uniforms.occlusionLeftMask.value.set(
+      THREE.MathUtils.lerp(setData.occlusionLeft.x, setData.occlusionLeft.y, i / 6),
+      setData.occlusionLeft.y
+    );
+    mat.uniforms.occlusionRightMask.value.copy(
+      new THREE.Vector2(setData.occlusionRight.x, setData.occlusionRight.y)
+    );
+    mat.uniforms.revealAnimation.value = 0.5;
+    const mesh = new THREE.Mesh(geometry, mat);
+    mesh.renderOrder = 1;
+    mesh.position.y = THREE.MathUtils.lerp(setData.height, -setData.height, i / 6);
+    lines.push(mesh);
+    ctnr.add(mesh);
+  }
+  scene.add(ctnr);
+  allLineGroups.push({ container: ctnr, lines, setData, startRot, endRot: setData.scrollRotation.end });
+});
+
+// ══════════════════════════════════════════════════════════════
+//  Post-processing
+// ══════════════════════════════════════════════════════════════
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+
+const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.25, 0.65, 1);
+composer.addPass(bloom);
+
+const TINT_SHADER = {
+  uniforms: {
+    tDiffuse:   { value: null },
+    transition: { value: 0.2 },
+    color:      { value: new THREE.Color(0x0c0c0c) },
+  },
+  vertexShader: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }`,
+  fragmentShader: `
+    uniform float transition;
+    uniform vec3 color;
+    uniform sampler2D tDiffuse;
+    varying vec2 vUv;
+    void main() {
+      vec4 texel = texture2D(tDiffuse, vUv);
+      gl_FragColor.rgb = mix(color, texel.rgb, transition);
+      gl_FragColor.a = 1.0;
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`,
+};
+const tintPass = new ShaderPass(TINT_SHADER);
+composer.addPass(tintPass);
+
+const BLEND_OVERLAY = `
+vec3 blendOverlay(vec3 base, vec3 blend) {
+  return mix(1.0 - 2.0 * (1.0 - base) * (1.0 - blend), 2.0 * base * blend, step(base, vec3(0.5)));
+}
+`;
+
+const NOISE_SHADER = {
+  uniforms: {
+    tDiffuse:   { value: null },
+    intensity:  { value: 0.3 },
+    transition: { value: 1.0 },
+    tintColor:  { value: new THREE.Color(0xffffff) },
+    sceneColor: { value: new THREE.Color(0x0c0c0c) },
+  },
+  vertexShader: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }`,
+  fragmentShader: `
+    #include <common>
+    uniform float intensity;
+    uniform float transition;
+    uniform vec3 tintColor;
+    uniform vec3 sceneColor;
+    uniform sampler2D tDiffuse;
+    varying vec2 vUv;
+    ${BLEND_OVERLAY}
+    void main() {
+      vec4 base = texture2D(tDiffuse, vUv);
+      float noise = clamp(rand(fract(vUv)), 0.0, 1.0);
+      vec3 color = mix(base.rgb, blendOverlay(base.rgb, tintColor * noise), intensity);
+      gl_FragColor.rgb = mix(sceneColor, color, transition);
+      gl_FragColor.a = base.a;
+    }`,
+};
+const noisePass = new ShaderPass(NOISE_SHADER);
+composer.addPass(noisePass);
+
+composer.addPass(new OutputPass());
+
+// ══════════════════════════════════════════════════════════════
+//  パルスアニメーション
+// ══════════════════════════════════════════════════════════════
+
+const pulseStates = [];
+allLineGroups.forEach((group) => {
+  const states = group.lines.map(() => ({
+    animation: 0,
+    delay: Math.random() * 3,
+    duration: 3,
+    elapsed: 0,
+    waiting: true,
+  }));
+  pulseStates.push(states);
+});
+
+function updatePulseAnimation(dt) {
+  allLineGroups.forEach((group, gi) => {
+    group.lines.forEach((mesh, li) => {
+      const state = pulseStates[gi][li];
+      if (state.waiting) {
+        state.delay -= dt;
+        if (state.delay <= 0) { state.waiting = false; state.elapsed = 0; }
+      } else {
+        state.elapsed += dt;
+        const t = Math.min(state.elapsed / state.duration, 1);
+        const eased = t * (2 - t);
+        mesh.material.uniforms.gradientAnimation.value = eased;
+        if (t >= 1) {
+          mesh.material.uniforms.gradientAnimation.value = 0;
+          state.waiting = true;
+          state.delay = Math.random() * 3;
+        }
+      }
+    });
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  リビールアニメーション
+// ══════════════════════════════════════════════════════════════
+
+let revealTime = 0;
+const REVEAL_DURATION = 1.5;
+let revealDone = false;
+
+function updateRevealAnimation(dt) {
+  if (revealDone) return;
+  revealTime += dt;
+  const t = Math.min(revealTime / REVEAL_DURATION, 1);
+  allLineGroups.forEach((group, gi) => {
+    group.lines.forEach((mesh, li) => {
+      const delay = gi * 0.1 + li * 0.025;
+      const localT = Math.max(0, Math.min((revealTime - delay) / 1.0, 0.5));
+      mesh.material.uniforms.revealAnimation.value = localT;
+    });
+  });
+  if (t >= 1) revealDone = true;
+  tintPass.uniforms.transition.value = THREE.MathUtils.lerp(0.2, 1.0, Math.min(t * 2, 1));
+  noisePass.uniforms.transition.value = Math.min(t * 1.5, 1);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  アニメーションループ
+// ══════════════════════════════════════════════════════════════
+
+const clock = new THREE.Clock();
+const qStart = new THREE.Quaternion();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+  updatePulseAnimation(dt);
+  updateRevealAnimation(dt);
+  allLineGroups.forEach((group) => {
+    const { startRot, container: ctnr } = group;
+    const eStart = new THREE.Euler(
+      THREE.MathUtils.degToRad(startRot[0]),
+      THREE.MathUtils.degToRad(startRot[1]),
+      THREE.MathUtils.degToRad(startRot[2])
+    );
+    qStart.setFromEuler(eStart);
+    ctnr.rotation.setFromQuaternion(qStart);
+    group.lines.forEach((mesh) => {
+      mesh.material.uniforms.cameraPosition.value.copy(camera.position);
+    });
+  });
+  camera.position.set(0, 0, 5);
+  camera.lookAt(0, 0, 0);
+  composer.render();
+}
+
+animate();
+
+// ── リサイズ ──────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  W = container.clientWidth;
+  H = container.clientHeight;
+  camera.aspect = W / H;
+  const t = THREE.MathUtils.clamp(THREE.MathUtils.mapLinear(H, 250, 1024, 0, 1), 0, 1);
+  camera.fov = THREE.MathUtils.lerp(15, 45, t);
+  camera.updateProjectionMatrix();
+  renderer.setSize(W, H);
+  composer.setSize(W, H);
+  bloom.resolution.set(W, H);
+});
 </script>
 </body>
 </html>
