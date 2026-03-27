@@ -1874,7 +1874,9 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   /* ---- 質問判定：「？」か質問ワードを含むか ---- */
   function isQuestion(text){
     if(text.includes('？')||text.includes('?'))return true;
-    return /何件|いくら|どのくらい|どんな|できます|できる|教えて|ありますか|ですか|でしょう|いつ|なぜ|なんで|どうやって|どうすれば|どれくらい|対応中|空き|枠|稼働|料金|費用|納期|期間/.test(text);
+    // 質問ワードが先頭3文字に来る場合も検知（「今何件」「今いくら」等）
+    if(/^(今|現在|いま)/.test(text))return true;
+    return /何件|いくら|どのくらい|どんな|できます|できる|教えて|ありますか|ですか|でしょう|いつ|なぜ|なんで|どうやって|どうすれば|どれくらい|対応中|空き|枠|稼働|料金|費用|納期|期間|実績|事例|サンプル/.test(text);
   }
 
   const FLOW=[
@@ -1886,6 +1888,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     {q:'ご予算感はどのくらいをお考えですか？',opts:['💴 〜5万円','💴 5〜10万円','💴 10〜20万円','💴 20万円以上','🤔 まだわからない','✏️ 自由に入力する']},
     {q:'いつ頃から動かしたいですか？',opts:['🚀 今すぐ（1週間以内）','📅 1ヶ月以内','📅 3ヶ月以内','🤔 まだ検討中','✏️ 自由に入力する']},
     {q:'最後に一つ。自動化・システム開発を外注したことはありますか？',opts:['✅ はい、経験あり','❌ いいえ、初めて','🔧 社内で試みたことはある','🤔 よくわからない']},
+    {q:'ありがとうございます！参考までに教えてください。あなたの時給はどのくらいですか？（投資回収期間の試算に使います）',opts:['💴 〜1,000円/時','💴 1,000〜2,000円/時','💴 2,000〜3,000円/時','💴 3,000円以上/時','💼 会社員（月給制）','✏️ 自由に入力する']},
   ];
 
   function togglePanel(){
@@ -1956,14 +1959,34 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     }
   }
 
+  /* ROI試算ヘルパー */
+  function calcROI(a){
+    const hoursMap={'1〜3':2,'3〜10':6,'10〜20':15,'20時間以上':25};
+    const rateMap={'〜1,000':800,'1,000〜2,000':1500,'2,000〜3,000':2500,'3,000円以上':4000,'会社員':2000,'月給制':2000};
+    const planMap={'5万':40000,'5〜10':80000,'10〜20':80000,'20万以上':150000};
+    let hrs=6,rate=1500,planCost=80000;
+    const timeStr=a.q2||'';
+    for(const[k,v]of Object.entries(hoursMap)){if(timeStr.includes(k)){hrs=v;break;}}
+    const rateStr=a.q8||'';
+    for(const[k,v]of Object.entries(rateMap)){if(rateStr.includes(k)){rate=v;break;}}
+    const budgetStr=a.q5||'';
+    for(const[k,v]of Object.entries(planMap)){if(budgetStr.includes(k)){planCost=v;break;}}
+    const monthlySave=Math.round(hrs*4*rate*0.8/1000)*1000;
+    const yearlySave=monthlySave*12;
+    const paybackMonths=monthlySave>0?Math.ceil(planCost/monthlySave):999;
+    return{hrs,rate,monthlySave,yearlySave,paybackMonths,planCost};
+  }
+
   async function analyzeAndRecommend(){
     showTyping();
+    const roi=calcROI(answers);
     const summary=Object.entries(answers).map(([k,v])=>`${k}: ${v}`).join('\n');
-    history.push({role:'system',content:SYS+'\n\n【追加指示】お客様の回答から最適なプランを1つ推薦し、理由を1文で説明してください。空き枠（残り'+BOT_AVAILABLE+'枠）を使って今すぐ申し込む理由を添えてください。'});
-    history.push({role:'user',content:'お客様の回答:\n'+summary+'\n\nこの情報をもとに最適なプランを推薦してください。'});
+    const roiStr=`\n\n【ROI試算】週${roi.hrs}時間削減想定・時給${roi.rate.toLocaleString()}円 → 月${roi.monthlySave.toLocaleString()}円節約・年${roi.yearlySave.toLocaleString()}円節約・投資回収${roi.paybackMonths}ヶ月`;
+    history.push({role:'system',content:SYS+'\n\n【追加指示】①最適プランを1つ推薦し理由を1文 ②ROI（月'+roi.monthlySave.toLocaleString()+'円節約・年'+roi.yearlySave.toLocaleString()+'円・投資回収'+roi.paybackMonths+'ヶ月）を具体的に伝える ③空き枠残り'+BOT_AVAILABLE+'枠で今すぐ申し込む理由を添える。全体200文字以内。'});
+    history.push({role:'user',content:'お客様の回答:\n'+summary+roiStr+'\n\nこの情報をもとに最適なプランとROI（節約額・投資回収期間）を推薦してください。'});
 
-    let botMsg=await callLLM(history,300);
-    if(!botMsg)botMsg=fallbackMsg(answers);
+    let botMsg=await callLLM(history,350);
+    if(!botMsg)botMsg=fallbackMsg(answers,roi);
     history.push({role:'assistant',content:botMsg});
     removeTyping();
     addMsg(botMsg);
@@ -1971,13 +1994,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     step='result';
   }
 
-  function fallbackMsg(a){
+  function fallbackMsg(a,roi){
+    if(!roi)roi=calcROI(a);
     const budget=a.q5||'';
-    const time=a.q1||'';
     let plan='Standardプラン（¥80,000〜）';
     if(budget.includes('5万'))plan='Liteプラン（¥40,000〜）';
-    if(budget.includes('20万')||time.includes('20時間'))plan='Full Packageプラン（¥150,000〜）';
-    return `ご回答ありがとうございました！\n\nお客様の課題には「${plan}」が最適です。週の作業時間を大幅に削減できる見込みです。\n\n次のステップを選んでください 👇`;
+    if(budget.includes('20万')||((a.q2||'').includes('20時間')))plan='Full Packageプラン（¥150,000〜）';
+    return `ご回答ありがとうございました！\n\nお客様には「${plan}」が最適です。\n\n💰 ROI試算：\n・月${roi.monthlySave.toLocaleString()}円の節約（年${roi.yearlySave.toLocaleString()}円）\n・投資回収：約${roi.paybackMonths}ヶ月\n\n残り${BOT_AVAILABLE}枠です。詳しいご提案はフォームからどうぞ 👇`;
   }
 
   function handleResult(val){
