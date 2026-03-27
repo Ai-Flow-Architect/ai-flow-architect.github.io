@@ -1942,33 +1942,6 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     inp.dataset.freeMode='';
     addMsg(text,'usr');
 
-    // メールアドレス取得
-    if(stepMode==='email'){
-      const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRegex.test(text)){
-        addMsg('メールアドレスの形式が正しくないようです。もう一度入力してください。','bot');
-        inpRow.style.display='flex';
-        inp.dataset.freeMode='email';
-        inp.focus();
-        return;
-      }
-      answers.email=text;
-      inpRow.style.display='none';
-      inp.placeholder='メッセージを入力...';
-      showTyping();
-      setTimeout(()=>{
-        removeTyping();
-        addMsg('ありがとうございます！ご入力いただいたアドレスに、24時間以内に詳しいご提案をお送りします。');
-        setTimeout(()=>{
-          addMsg('他にもご質問があれば、このままお気軽にどうぞ！');
-          setTimeout(()=>enterFreeMode(),400);
-        },500);
-      },600);
-      // TODO: メールアドレスをバックエンドに送信する処理をここに追加
-      console.log('[ChatBot] Lead captured:',{email:text,answers});
-      return;
-    }
-
     // ルート内ステップの自由入力 → 次のステップへ
     if(stepMode==='route-step'){
       const route=ROUTES[currentRoute];
