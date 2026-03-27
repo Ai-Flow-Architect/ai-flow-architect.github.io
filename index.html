@@ -1556,12 +1556,15 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 
 <script>
 /* =====================================================
-   OPENAI CONFIG
+   LLM CONFIG
    ⚠️ 公開GitHubリポジトリに載せる場合は、
       Usageリミット付きの専用キーを使ってください
+   冗長構成: OpenAI → Gemini → 静的FAQ → 問い合わせ誘導
 ===================================================== */
 const OPENAI_API_KEY='__OPENAI_API_KEY__';
-const OPENAI_MODEL   = 'gpt-4o-mini';
+const OPENAI_MODEL  ='gpt-4o-mini';
+const GEMINI_API_KEY='__GEMINI_API_KEY__';
+const GEMINI_MODEL  ='gemini-1.5-flash';
 
 /* =====================================================
    CUSTOM CURSOR
@@ -1748,7 +1751,90 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   const closeBtn=document.getElementById('cp-close');
 
   let open=false,step=0,answers={},freeMode=false;
-  const history=[];// GPT conversation history
+  const history=[];// LLM conversation history
+
+  /* ---- ユーティリティ ---- */
+  function fetchWithTimeout(url,options,ms){
+    return Promise.race([
+      fetch(url,options),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))
+    ]);
+  }
+
+  /* ---- 冗長LLM呼び出し: OpenAI → Gemini → null ---- */
+  async function callLLM(messages,maxTokens){
+    maxTokens=maxTokens||300;
+    // ① OpenAI
+    if(OPENAI_API_KEY&&OPENAI_API_KEY!=='__OPENAI_API_KEY__'){
+      try{
+        const r=await fetchWithTimeout('https://api.openai.com/v1/chat/completions',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
+          body:JSON.stringify({model:OPENAI_MODEL,messages:messages,max_tokens:maxTokens,temperature:.7})
+        },5000);
+        const d=await r.json();
+        const t=d.choices?.[0]?.message?.content;
+        if(t)return t;
+      }catch(e){}
+    }
+    // ② Gemini fallback
+    if(GEMINI_API_KEY&&GEMINI_API_KEY!=='__GEMINI_API_KEY__'){
+      try{
+        const sys=messages.filter(m=>m.role==='system').map(m=>m.content).join('\n');
+        const contents=messages.filter(m=>m.role!=='system').map(m=>({
+          role:m.role==='user'?'user':'model',
+          parts:[{text:m.content}]
+        }));
+        const body={contents:contents,generationConfig:{maxOutputTokens:maxTokens,temperature:.7}};
+        if(sys)body.systemInstruction={parts:[{text:sys}]};
+        const r=await fetchWithTimeout(
+          'https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent?key='+GEMINI_API_KEY,
+          {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)},5000
+        );
+        const d=await r.json();
+        const t=d.candidates?.[0]?.content?.parts?.[0]?.text;
+        if(t)return t;
+      }catch(e){}
+    }
+    return null; // 両方失敗
+  }
+
+  /* ---- 静的FAQ（③層目）: キーワードマッチ → 定型回答 ---- */
+  const FAQ_DB=[
+    {keys:['料金','費用','いくら','価格','コスト'],ans:'料金はLiteプラン¥40,000〜、Standardプラン¥80,000〜、Full Packageプラン¥150,000〜です。お見積もりは無料なので、まずお気軽にご相談ください😊'},
+    {keys:['期間','納期','どのくらい','いつ','スケジュール'],ans:'規模によりますが、Liteプランは約1〜2週間、Standardは2〜4週間、Full Packageは4〜8週間が目安です。お急ぎの場合も対応できますので、ご相談ください。'},
+    {keys:['修正','変更','仕様','アフター','納品後'],ans:'納品後の仕様変更・小改修・エラー対応は個別相談で承ります。月額保守プラン（¥20,000/月）では月2時間の優先対応が可能です。'},
+    {keys:['Make','make','メイク','Zapier','n8n'],ans:'Make.com、Zapier、n8nなど主要な自動化ツールに対応しています。どのツールが最適かは業務内容と予算に応じてご提案します。'},
+    {keys:['Lark','lark','Notion','notion','Slack','slack'],ans:'Lark・Notion・Slack・Google Workspace・kintoneなど多数のSaaSと連携実績があります。「うちのツールで使えるか？」も無料相談でご確認いただけます。'},
+    {keys:['LINE','line','メール','Email','email'],ans:'LINE・メール・Slack・Discordなど各種通知・メッセージ自動化に対応しています。API連携で既存フローに組み込むことも可能です。'},
+    {keys:['Excel','エクセル','スプレッドシート','Google Sheets'],ans:'ExcelやGoogleスプレッドシートへの自動入力・集計・レポート生成は最も得意とする分野です。手動作業を大幅に削減できます。'},
+    {keys:['AI','ChatGPT','GPT','チャット','生成AI'],ans:'ChatGPT・Claude・Geminiなど生成AIを業務フローに組み込む自動化も対応しています。問い合わせ自動返信・要約・分類などの用途が多いです。'},
+    {keys:['初めて','初心者','わからない','知識なし','素人'],ans:'ご安心ください！「どんな作業を自動化したいか」だけ教えていただければ、技術的なことはすべてお任せください。初めての方こそ、無料相談から始めることをおすすめします😊'},
+    {keys:['個人','一人','フリー','副業'],ans:'個人・フリーランスの方の案件も多数対応しています。小規模から大規模まで、ご予算に合わせたプランをご提案します。'},
+    {keys:['企業','会社','チーム','組織'],ans:'中小企業・スタートアップのチーム導入も多数実績があります。複数メンバーが使う自動化フローの設計・構築が得意です。'},
+    {keys:['セキュリティ','安全','情報漏洩','個人情報'],ans:'セキュリティは最重要事項として対応しています。データの取り扱いポリシーについては無料相談でご説明します。'},
+    {keys:['保守','運用','サポート','メンテ'],ans:'月額保守プラン（¥20,000/月）で継続サポートを承っています。エラー対応・小改修・月次レポートが含まれます。'},
+    {keys:['実績','事例','ポートフォリオ','経験'],ans:'ページ内の「実績」セクションに事例を掲載しています！業界・規模・ツール別の事例をご確認ください。'},
+    {keys:['相談','質問','問い合わせ','連絡'],ans:'無料相談はページ下部の「無料相談フォーム」からどうぞ。24時間以内にご返信します😊 まずお気軽にどんなことでも！'},
+    {keys:['何ができる','どんな','どういう','できること'],ans:'Excel転記・メール自動返信・SNS投稿・レポート生成・問い合わせ振り分けなど、繰り返し作業のほとんどを自動化できます。「これできる？」という質問だけでもどうぞ！'},
+    {keys:['無料','タダ','0円','試し'],ans:'初回の無料相談では、自動化可否の診断と概算費用のご案内まで行っています。費用は一切かかりません。お気軽にどうぞ😊'},
+    {keys:['見積もり','見積','概算','いくら'],ans:'お見積もりは無料です！業務内容と使用ツールを教えていただければ、最短当日中に概算をお伝えします。'},
+    {keys:['失敗','不具合','バグ','壊れ','動かない'],ans:'納品後のトラブルは迅速に対応します。保守プランご加入の方は優先対応。その他の方も別途サポート対応が可能です。'},
+    {keys:['海外','英語','グローバル'],ans:'日本語・英語での対応が可能です。海外ツール（Airtable・HubSpotなど）との連携実績もあります。'},
+    {keys:['急ぎ','急いで','すぐ','今すぐ','急いでる'],ans:'お急ぎの場合はご相談ください！スケジュールによっては優先対応が可能な場合があります。まずはお問い合わせからどうぞ。'},
+    {keys:['複数','いくつも','組み合わせ'],ans:'複数のツールを連携させる複合的な自動化も得意です。「AのデータをBに転送してCに通知する」のような複雑なフローも対応します。'},
+    {keys:['試作','プロト','テスト','PoC'],ans:'まず小規模なPoC（概念実証）から始めることも可能です。Liteプランで1つの自動化を試してみることをおすすめします。'},
+    {keys:['契約','支払い','請求','支払'],ans:'お支払いは納品後のご請求となります。銀行振込・クレジットカードに対応しています。分割払いについてはご相談ください。'},
+    {keys:['ありがとう','ありがとうございます','感謝'],ans:'こちらこそ、ありがとうございます😊 他にも気になることがあれば、何でも聞いてください！無料相談フォームもいつでもどうぞ。'},
+  ];
+
+  function staticFAQ(text){
+    const lower=text.toLowerCase();
+    for(const f of FAQ_DB){
+      if(f.keys.some(k=>lower.includes(k.toLowerCase())))return f.ans;
+    }
+    return null;
+  }
 
   const FLOW=[
     {q:'こんにちは！😊 AI Flow Architectです。\n\nまずお気軽に教えてください。一番気になることはどれですか？',opts:['💰 料金・費用を知りたい','🤔 自分の業務が自動化できるか確認したい','⏱ 納期・スケジュールを知りたい','🔧 具体的な業務について相談したい','✨ 何ができるか見てみたい','✏️ 自由に入力する']},
@@ -1832,23 +1918,11 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   async function analyzeAndRecommend(){
     showTyping();
     const summary=Object.entries(answers).map(([k,v])=>`${k}: ${v}`).join('\n');
-    history.push({role:'system',content:`あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。フレンドリーに、でも的確に回答してください。提供サービス:\n- Liteプラン: ¥40,000〜（1トリガー・1処理の自動化）\n- Standardプラン: ¥80,000〜（AI連携・複数ステップの本格自動化）\n- Full Packageプラン: ¥150,000〜（エンドツーエンドの統合システム）\n\n回答は必ず日本語で、200文字以内で簡潔に。プランを1つ推薦し、理由を1文で説明。最後にLarkフォームへの誘導か「もっと質問したい」を促してください。`});
-    history.push({role:'user',content:`お客様の回答:\n${summary}\n\nこの情報をもとに最適なプランを推薦してください。`});
+    history.push({role:'system',content:'あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。目的は「無料相談フォームへの誘導」です。提供サービス:\n- Liteプラン: ¥40,000〜（1トリガー・1処理の自動化）\n- Standardプラン: ¥80,000〜（AI連携・複数ステップの本格自動化）\n- Full Packageプラン: ¥150,000〜（エンドツーエンドの統合システム）\n\n必ず守ること:\n1. 回答は日本語・200文字以内・フレンドリーなトーン\n2. プランを1つ推薦し理由を1文で\n3. 最後に必ず「詳しい提案を受け取る」ボタンまたは無料相談フォームへ誘導する一言を添える'});
+    history.push({role:'user',content:'お客様の回答:\n'+summary+'\n\nこの情報をもとに最適なプランを推薦してください。'});
 
-    let botMsg='';
-    if(OPENAI_API_KEY){
-      try{
-        const res=await fetch('https://api.openai.com/v1/chat/completions',{
-          method:'POST',
-          headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_API_KEY}`},
-          body:JSON.stringify({model:OPENAI_MODEL,messages:history,max_tokens:300,temperature:.7})
-        });
-        const data=await res.json();
-        botMsg=data.choices?.[0]?.message?.content||fallbackMsg(answers);
-      }catch(e){botMsg=fallbackMsg(answers);}
-    } else {
-      botMsg=fallbackMsg(answers);
-    }
+    let botMsg=await callLLM(history,300);
+    if(!botMsg)botMsg=fallbackMsg(answers);
     history.push({role:'assistant',content:botMsg});
     removeTyping();
     addMsg(botMsg);
@@ -1882,7 +1956,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     opts.innerHTML='';
     inpRow.style.display='flex';
     addMsg('ご自由にご質問ください。どんな内容でもお答えします！😊');
-    history.push({role:'system',content:'以降はお客様の質問に自由に答えてください。AI業務自動化に関する質問に日本語で答えてください。回答は150文字以内で簡潔に。'});
+    history.push({role:'system',content:'あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。目的は「無料相談フォームへの誘導」と「見積もり依頼の獲得」です。お客様の質問に日本語・150文字以内・フレンドリーに答え、回答の最後には自然な流れでフォームへの誘導または「詳しい提案を受け取る」を促してください。AI業務自動化以外の話題は「自動化のご相談はお気軽にどうぞ！」と返してください。'});
   }
 
   async function sendFreeMsg(text){
@@ -1906,20 +1980,12 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     }
     history.push({role:'user',content:text});
     showTyping();
-    let reply='';
-    if(OPENAI_API_KEY){
-      try{
-        const res=await fetch('https://api.openai.com/v1/chat/completions',{
-          method:'POST',
-          headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_API_KEY}`},
-          body:JSON.stringify({model:OPENAI_MODEL,messages:history,max_tokens:200,temperature:.7})
-        });
-        const data=await res.json();
-        reply=data.choices?.[0]?.message?.content||'少々お待ちください。詳しくはお問い合わせフォームからご相談ください。';
-      }catch(e){reply='申し訳ありません。エラーが発生しました。お問い合わせフォームからご連絡ください。';}
-    } else {
-      reply='ご質問ありがとうございます。APIキーが未設定のため、お問い合わせフォームからご連絡いただけると詳しくお答えできます。';
-    }
+    // ① LLM呼び出し（OpenAI → Gemini）
+    let reply=await callLLM(history,200);
+    // ② 静的FAQフォールバック
+    if(!reply)reply=staticFAQ(text);
+    // ③ 最終フォールバック
+    if(!reply)reply='ご質問ありがとうございます！詳しくはページ下部の無料相談フォームからお気軽にどうぞ😊 24時間以内にご返信します。';
     history.push({role:'assistant',content:reply});
     removeTyping();addMsg(reply);
   }
