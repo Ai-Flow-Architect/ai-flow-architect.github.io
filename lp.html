@@ -1668,7 +1668,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   };
 
   /* --- 共通CTA選択肢 --- */
-  const CTA_OPTS=['📝 無料で提案を受け取る（メールで）','🔧 もっと詳しく相談したい','❓ 他にも質問がある'];
+  const CTA_OPTS=['📝 無料で提案を受け取る（LINE）','🔧 もっと詳しく相談したい','❓ 他にも質問がある'];
 
   const chatLabel=document.getElementById('chat-label');
   function togglePanel(){
@@ -1892,15 +1892,27 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   /* --- CTA選択肢の処理 --- */
   function handleCTA(val){
     if(val.includes('提案を受け取る')){
-      currentRoute='collect-email';
       opts.innerHTML='';
-      addMsg('ありがとうございます！メールアドレスを教えていただければ、24時間以内に詳しいご提案をお送りします。','bot');
+      addMsg('ありがとうございます！公式LINEで詳しいご提案をお送りします。','bot');
       setTimeout(()=>{
-        addMsg('※メールアドレスだけでOKです。営業メールは送りません。','bot');
-        inpRow.style.display='flex';
-        inp.placeholder='メールアドレスを入力...';
-        inp.focus();
-        inp.dataset.freeMode='email';
+        addMsg('下のボタンから友だち追加してください。追加後にメッセージをいただければ、24時間以内にご提案いたします！','bot');
+        setTimeout(()=>{
+          // LINEリンクボタンを表示
+          const lineBtn=document.createElement('a');
+          lineBtn.href='https://lin.ee/6oiBlzj';
+          lineBtn.target='_blank';
+          lineBtn.rel='noopener';
+          lineBtn.className='cp-opt';
+          lineBtn.style.cssText='display:inline-block;background:#06C755;color:#fff;border:none;font-weight:700;text-align:center;padding:10px 20px;';
+          lineBtn.textContent='📱 LINE友だち追加';
+          opts.appendChild(lineBtn);
+          // 追加で「他にも質問」ボタン
+          const moreBtn=document.createElement('button');
+          moreBtn.className='cp-opt';
+          moreBtn.textContent='❓ 他にも質問がある';
+          moreBtn.addEventListener('click',()=>{addMsg('❓ 他にも質問がある','usr');opts.innerHTML='';enterFreeMode();});
+          opts.appendChild(moreBtn);
+        },400);
       },500);
     } else if(val.includes('詳しく相談')){
       addMsg('もちろんです！どんなことでもお気軽にどうぞ。','bot');
