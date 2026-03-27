@@ -1887,6 +1887,18 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     {keys:['キャンセル','断る','やめる','断っても','断れる','やめてもいい'],ans:'もちろん、無料相談後に「やっぱりやめる」でも全く問題ありません😊 費用は一切かかりませんし、強引な営業もしません。気軽な雑談感覚でどうぞ！'},
     // [Gemini C] 「もっと詳しく」→ 直前コンテキストを補完
     {keys:['もっと詳しく','詳細を','具体的に','もう少し','教えてください','もっと知りたい'],ans:'もう少し詳しくお聞かせいただけますか？😊 例えば「どの作業について」「どんな点が気になりますか？」など、何でもお気軽にどうぞ。無料相談でもっと詳しくお答えできます！'},
+    // [Fix#追加] 担当者・本人対応
+    {keys:['こうすけ','担当者','本人','直接話したい','直接連絡'],ans:'こうすけは本人が対応します😊 このチャットで確認後、フォームからご連絡いただければ直接やり取りできます！無理な営業は一切しないのでお気軽にどうぞ。'},
+    // [Fix#追加] 会社員・サラリーマン向け
+    {keys:['会社員','サラリーマン','正社員','会社で','社内','部署'],ans:'会社員の方からのご依頼も多数対応しています😊 「社内業務の自動化を提案したい」「上司に稟議を通したい」などの状況もご相談ください。ROI試算資料もご用意できます。'},
+    // [Fix#追加] 規模・対応可能範囲
+    {keys:['小さい','小規模','ちょっとだけ','少しだけ','小さな'],ans:'小規模案件も大歓迎です！まずLiteプラン（¥40,000〜）で「1つだけ自動化」から始めることをおすすめしています😊 スモールスタートで効果を確認してから拡張するケースが多いです。'},
+    // [Fix#追加] API・システム連携
+    {keys:['API','api','連携','webhook','Webhook','接続'],ans:'API連携・Webhook・他システム接続も得意分野です！既存システムとどう繋ぐかもご相談ください。Standardプラン以上で対応可能です😊'},
+    // [Fix#追加] ROI・投資回収説明
+    {keys:['ROI','投資回収','元が取れる','費用対効果','コスパ','節約'],ans:'ROI（投資回収）の試算は無料です！「週○時間×時給」から月間節約額を計算し、何ヶ月で元が取れるか具体的にお伝えします😊 診断フローを完走するとROI試算を自動でお出しします。'},
+    // [Fix#追加] 稼働開始・スケジュール
+    {keys:['いつ始められる','いつから','スタート','着手','開始'],ans:'お見積もり合意後、通常1〜2週間でキックオフできます😊 現在残り'+BOT_AVAILABLE+'枠が空いています。早めにご連絡いただくほどスムーズにスタートできます！'},
   ];
 
   function staticFAQ(text){
@@ -1901,8 +1913,8 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   function isQuestion(text){
     if(text.includes('？')||text.includes('?'))return true;
     // 質問ワードが先頭3文字に来る場合も検知（「今何件」「今いくら」等）
-    if(/^(今|現在|いま)/.test(text))return true;
-    return /何件|いくら|どのくらい|どんな|できます|できる|教えて|ありますか|ですか|でしょう|いつ|なぜ|なんで|どうやって|どうすれば|どれくらい|対応中|空き|枠|稼働|料金|費用|納期|期間|実績|事例|サンプル/.test(text);
+    if(/^(今|現在|いま|教えて|どう|なぜ|なんで|どんな|何が|いくら)/.test(text))return true;
+    return /何件|いくら|どのくらい|どんな|できます|できる|教えて|ありますか|ですか|でしょう|いつ|なぜ|なんで|どうやって|どうすれば|どれくらい|対応中|空き|枠|稼働|料金|費用|納期|期間|実績|事例|サンプル|サポート|保証|安全|信頼|実績|経験|対応/.test(text);
   }
 
   const FLOW=[
@@ -1914,7 +1926,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     {q:'ご予算感はどのくらいをお考えですか？',opts:['💴 〜5万円','💴 5〜10万円','💴 10〜20万円','💴 20万円以上','🤔 まだわからない','✏️ 自由に入力する']},
     {q:'いつ頃から動かしたいですか？',opts:['🚀 今すぐ（1週間以内）','📅 1ヶ月以内','📅 3ヶ月以内','🤔 まだ検討中','✏️ 自由に入力する']},
     {q:'最後に一つ。自動化・システム開発を外注したことはありますか？',opts:['✅ はい、経験あり','❌ いいえ、初めて','🔧 社内で試みたことはある','🤔 よくわからない']},
-    {q:'ありがとうございます！参考までに教えてください。あなたの時給はどのくらいですか？（投資回収期間の試算に使います）',opts:['💴 〜1,000円/時','💴 1,000〜2,000円/時','💴 2,000〜3,000円/時','💴 3,000円以上/時','💼 会社員（月給制）','✏️ 自由に入力する']},
+    {q:'ありがとうございます！参考までに教えてください。あなたの時間単価（目安）はどのくらいですか？\n※会社員の方は年収÷2000で概算できます。ROI試算に使います😊',opts:['💴 〜1,000円/時','💴 1,000〜2,000円/時','💴 2,000〜3,000円/時','💴 3,000円以上/時','💼 会社員（月給制）','✏️ 自由に入力する']},
   ];
 
   function togglePanel(){
@@ -1965,7 +1977,18 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     },300);
   }
 
+  /* ---- フロー完全リセット ---- */
+  function resetFlow(){
+    step=0;answers={};freeMode=false;frustrationCount=0;
+    history.length=0;
+    opts.innerHTML='';inpRow.style.display='none';
+    addMsg('✨ 最初からやり直します！気になることをまた教えてください😊');
+    setTimeout(()=>{addMsg(FLOW[0].q);showOpts(FLOW[0].opts);},700);
+  }
+
   function handleOpt(val){
+    // [Fix#1] result段階のボタンはdelegatedリスナーに任せる（二重発火防止）
+    if(step==='result')return;
     if(val==='✏️ 自由に入力する'){
       opts.innerHTML='';
       inpRow.style.display='flex';
@@ -1973,6 +1996,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       inp.dataset.freeMode='step';
       return;
     }
+    if(val==='🔄 診断をやり直す'){resetFlow();return;}
     addMsg(val,'usr');
     opts.innerHTML='';
     answers[`q${step}`]=val;
@@ -2048,7 +2072,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     history.push({role:'assistant',content:botMsg});
     removeTyping();
     addMsg(botMsg);
-    showOpts(['📝 詳しい提案を受け取る','❓ もっと質問したい','💰 料金を確認する']);
+    showOpts(['📝 詳しい提案を受け取る','❓ もっと質問したい','💰 料金を確認する','🔄 診断をやり直す']);
     step='result';
   }
 
@@ -2065,14 +2089,39 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     return msg; // [Bug#1修正] return 追加
   }
 
+  const FORM_URL='https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb';
+
+  /* [Fix#5] フォームリンクをメッセージにも表示（ポップアップブロック対策） */
+  function addMsgWithLink(text,url,linkLabel){
+    const d=document.createElement('div');
+    d.className='msg msg-bot';
+    d.style.whiteSpace='pre-wrap';
+    d.textContent=text;
+    const a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';
+    a.textContent='👉 '+linkLabel;
+    a.style.cssText='display:block;margin-top:10px;color:#00e676;font-weight:bold;text-decoration:underline;word-break:break-all;';
+    d.appendChild(a);
+    msgs.appendChild(d);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+
   function handleResult(val){
-    if(val.includes('詳しい')){
-      // [Issue#10修正] フォーム誘導後の次ステップを詳細説明
-      addMsg('📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にこうすけから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nお気軽にどうぞ😊','bot');
-      setTimeout(()=>{window.open('https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb','_blank')},800);
+    if(val.includes('詳しい')||val.includes('見積もり')){
+      // [Fix#5] ポップアップブロック対策：リンクもメッセージに表示
+      addMsgWithLink(
+        '📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にこうすけから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nポップアップがブロックされた場合は下のリンクから👇',
+        FORM_URL,'無料相談フォームを開く'
+      );
+      try{window.open(FORM_URL,'_blank');}catch(e){}
+      setTimeout(()=>{showOpts(['❓ 他にも質問する','🔄 診断をやり直す']);step='result';},1200);
     } else if(val.includes('料金')){
       addMsg('💰 料金プランをご確認ください！\n\n・Liteプラン ¥40,000〜（1〜2週間）\n・Standardプラン ¥80,000〜（2〜4週間）\n・Full Package ¥150,000〜（4〜8週間）\n\n初回見積もりは完全無料です😊','bot');
-      setTimeout(()=>{document.getElementById('pricing').scrollIntoView({behavior:'smooth'})},800);
+      const pricingEl=document.getElementById('pricing');
+      if(pricingEl)setTimeout(()=>pricingEl.scrollIntoView({behavior:'smooth'}),800);
+      setTimeout(()=>{showOpts(['📝 詳しい提案を受け取る','❓ 他にも質問する','🔄 診断をやり直す']);step='result';},1200);
+    } else if(val.includes('やり直')||val.includes('診断')){
+      resetFlow();
     } else {
       enterFreeMode();
     }
@@ -2082,8 +2131,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     freeMode=true;
     opts.innerHTML='';
     inpRow.style.display='flex';
-    addMsg('ご自由にご質問ください。どんな内容でもお答えします！😊');
-    history.push({role:'system',content:SYS});
+    addMsg('ご自由にご質問ください。どんな内容でもお答えします！😊\n診断に戻りたい場合は「やり直し」と入力してください。');
+    // [Fix#4] systemメッセージの重複追加を防止
+    if(!history.some(m=>m.role==='system')){
+      history.push({role:'system',content:SYS});
+    }
   }
 
   async function sendFreeMsg(text){
@@ -2099,8 +2151,23 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     inp.value='';
     inp.dataset.freeMode='';
     addMsg(text,'usr');
+    // [Fix#2] FLOW[step]への安全なアクセスヘルパー
+    const reShowFlowStep=()=>{
+      if(typeof step==='number'&&step>=0&&step<FLOW.length){
+        showTyping();
+        setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);},600);
+      }
+      inpRow.style.display='none';
+    };
+
     // step-mode: 質問なら先に回答→同ステップを再表示。回答なら次ステップへ
     if(stepMode==='step'){
+      // [Fix#2] stepが無効な場合（'result'等）はfreeModeに移行
+      if(typeof step!=='number'||step>=FLOW.length){enterFreeMode();return;}
+
+      // やり直し指示
+      if(/やり直し|最初|リセット/.test(text)){resetFlow();return;}
+
       if(isQuestion(text)){
         // 質問と判定：答えてからフローを再提示
         inp.dataset.freeMode='step';
@@ -2109,13 +2176,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
         if(faqAns){
           setTimeout(()=>{
             removeTyping();addMsg(faqAns);
-            setTimeout(()=>{addMsg(FLOW[step].q);showOpts(FLOW[step].opts);inpRow.style.display='none';},900);
+            setTimeout(()=>reShowFlowStep(),900);
           },600);
         } else {
           const llmReply=await callLLM([{role:'system',content:SYS},{role:'user',content:text}],200);
           removeTyping();
           addMsg(llmReply||'詳しくはお問い合わせフォームからどうぞ！😊');
-          setTimeout(()=>{addMsg(FLOW[step].q);showOpts(FLOW[step].opts);inpRow.style.display='none';},900);
+          setTimeout(()=>reShowFlowStep(),900);
         }
         return;
       }
@@ -2131,31 +2198,38 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       }
       return;
     }
+
+    // やり直し指示（freeMode中）
+    if(/やり直し|最初から|リセット/.test(text)){resetFlow();return;}
+
     history.push({role:'user',content:text});
     showTyping();
     // ① LLM呼び出し（OpenAI → Gemini）
     let reply=await callLLM(history,200);
+    // [Fix#3] 不満カウンター：LLM応答の有無に関わらず先にカウント・エスカレート
+    const frustrationWords=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
+    if(frustrationWords.test(text)){
+      frustrationCount++;
+      if(frustrationCount>=2){
+        reply='何度もご不満をおかけして申し訳ありません🙇\n\nチャットより直接ご連絡いただく方が早いかもしれません。\n\nフォームに「急ぎ」とご記入いただければ最優先でこうすけからご連絡します。';
+        frustrationCount=0;
+      }
+    }
     // ② 静的FAQフォールバック
     if(!reply)reply=staticFAQ(text);
-    // ③ 不満カウンター：同じフォールバックループを検知 [Gemini E-02修正]
-    const frustrationWords=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
-    if(frustrationWords.test(text))frustrationCount++;
-    if(frustrationCount>=2&&!reply){
-      reply='何度もご不満をおかけして申し訳ありません🙇 チャットより直接のご連絡が早いかもしれません。フォームに「急ぎ」とご記入いただければ最優先でご連絡します。';
-      frustrationCount=0;
-    }
-    // ④ 最終フォールバック
+    // ③ 最終フォールバック
     if(!reply)reply='ご質問ありがとうございます！詳しくはページ下部の無料相談フォームからお気軽にどうぞ😊 24時間以内にご返信します。';
     history.push({role:'assistant',content:reply});
     removeTyping();addMsg(reply);
   }
 
-  // Option click handling (post-analysis)
+  // Option click handling (post-analysis) [Fix#1] delegatedで一元管理、handleOptは素通り
   document.getElementById('cp-opts').addEventListener('click',e=>{
     if(e.target.classList.contains('cp-opt')&&step==='result'){
-      addMsg(e.target.textContent,'usr');
+      const v=e.target.textContent;
+      addMsg(v,'usr');
       opts.innerHTML='';
-      handleResult(e.target.textContent);
+      handleResult(v);
     }
   });
 
