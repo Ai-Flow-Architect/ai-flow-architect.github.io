@@ -1750,7 +1750,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   const sendBtn= document.getElementById('cp-send');
   const closeBtn=document.getElementById('cp-close');
 
-  let open=false,step=0,answers={},freeMode=false;
+  let open=false,step=0,answers={},freeMode=false,frustrationCount=0;
   const history=[];// LLM conversation history
 
   /* ---- 稼働数（Capacity Statusと同じロジック） ---- */
@@ -1875,6 +1875,18 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     {keys:['高すぎ','たか','騙','信用できない','怪しい','詐欺','本当に','ちゃんと'],ans:'ご不安にさせてしまい申し訳ございません🙇 実績はLPの事例セクションでご確認いただけます。初回の無料相談は費用0円・断っても問題なしなので、お気軽にどうぞ。'},
     // [Issue#10] フォーム後の流れ
     {keys:['フォーム送った','送信した','送りました','何日','いつ返信','返信はいつ'],ans:'フォーム送信ありがとうございます！24時間以内（土日も）にこうすけから直接ご返信します📩 LINEのようなカジュアルなやり取りで進められますので、ご安心ください😊'},
+    // [Gemini D-01/D-02] プラン別機能説明・最安プラン
+    {keys:['Liteプラン','ライトプラン','lite','一番安い','最安','最低価格','安いプラン'],ans:'一番安いのはLiteプラン（¥40,000〜）です！\n\n✅ Liteプランでできること：\n・1つのトリガー（メール受信・フォーム送信等）\n・1つの処理（データ転記・通知送信等）\n・納期1〜2週間\n\nシンプルな自動化ならLiteで十分対応できます😊'},
+    {keys:['Standardプラン','スタンダード','standard','中くらい'],ans:'Standardプラン（¥80,000〜）の内容です！\n\n✅ できること：\n・複数ステップの自動化（A→B→Cと連携）\n・AI（ChatGPT/Claude）を組み込んだ処理\n・複数トリガー・複数アクション\n・納期2〜4週間\n\n「AI自動返信+データ集計+通知」のような本格的な自動化に向いています😊'},
+    {keys:['Fullプラン','Full Package','フルパッケージ','全部','エンドツーエンド'],ans:'Full Packageプラン（¥150,000〜）はエンドツーエンドの統合システムです！\n\n✅ できること：\n・複数部署にまたがる全社的な自動化\n・ダッシュボード・レポートの構築\n・既存システム（kintone等）との連携\n・月額保守込みの長期サポート\n・納期4〜8週間\n\n「全部まとめてお任せしたい」方向けです😊'},
+    // [Gemini A-01] 戻る・リセット
+    {keys:['戻る','やり直す','最初から','リセット','最初に戻','もう一度'],ans:'もちろんです！最初からやり直す場合は、チャットを閉じてもう一度💬ボタンを押してください😊 最初の質問からご案内します。'},
+    // [Gemini E-02] 深刻な不満・ループ対応
+    {keys:['使えない','最悪','最低','絶対','ひどい','だめ','無駄'],ans:'ご不満をおかけして大変申し訳ございません🙇\n\nチャットより直接こうすけに連絡する方が早いかもしれません。\n\n📩 フォームから「急ぎ」とご記入いただければ、最優先でご連絡します。無料なのでご遠慮なくどうぞ。'},
+    // [Gemini D] キャンセル・断り
+    {keys:['キャンセル','断る','やめる','断っても','断れる','やめてもいい'],ans:'もちろん、無料相談後に「やっぱりやめる」でも全く問題ありません😊 費用は一切かかりませんし、強引な営業もしません。気軽な雑談感覚でどうぞ！'},
+    // [Gemini C] 「もっと詳しく」→ 直前コンテキストを補完
+    {keys:['もっと詳しく','詳細を','具体的に','もう少し','教えてください','もっと知りたい'],ans:'もう少し詳しくお聞かせいただけますか？😊 例えば「どの作業について」「どんな点が気になりますか？」など、何でもお気軽にどうぞ。無料相談でもっと詳しくお答えできます！'},
   ];
 
   function staticFAQ(text){
@@ -2125,7 +2137,14 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     let reply=await callLLM(history,200);
     // ② 静的FAQフォールバック
     if(!reply)reply=staticFAQ(text);
-    // ③ 最終フォールバック
+    // ③ 不満カウンター：同じフォールバックループを検知 [Gemini E-02修正]
+    const frustrationWords=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
+    if(frustrationWords.test(text))frustrationCount++;
+    if(frustrationCount>=2&&!reply){
+      reply='何度もご不満をおかけして申し訳ありません🙇 チャットより直接のご連絡が早いかもしれません。フォームに「急ぎ」とご記入いただければ最優先でご連絡します。';
+      frustrationCount=0;
+    }
+    // ④ 最終フォールバック
     if(!reply)reply='ご質問ありがとうございます！詳しくはページ下部の無料相談フォームからお気軽にどうぞ😊 24時間以内にご返信します。';
     history.push({role:'assistant',content:reply});
     removeTyping();addMsg(reply);
