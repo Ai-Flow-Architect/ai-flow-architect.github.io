@@ -1753,6 +1753,40 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   let open=false,step=0,answers={},freeMode=false;
   const history=[];// LLM conversation history
 
+  /* ---- 稼働数（Capacity Statusと同じロジック） ---- */
+  const _REAL_ACTIVE=0,_MAX=5,_dmy=[3,2,4,3,4,2,3];
+  const BOT_ACTIVE   = _REAL_ACTIVE>0 ? _REAL_ACTIVE : _dmy[new Date().getDay()];
+  const BOT_AVAILABLE= Math.max(1,_MAX-BOT_ACTIVE);
+
+  /* ---- 共通システムプロンプト ---- */
+  const SYS = `あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。
+
+【こうすけについて】
+AI業務自動化エンジニア。Make.com・OpenAI・Claude・Gemini・Google Workspaceなどを使い、繰り返し作業を自動化する専門家。
+
+【稼働状況】（重要：積極的に使うこと）
+現在 ${BOT_ACTIVE}件 対応中 / 残り ${BOT_AVAILABLE}枠 が空き（上限5件）
+
+【料金プラン】
+- Liteプラン: ¥40,000〜（1トリガー・1処理、1〜2週間）
+- Standardプラン: ¥80,000〜（AI連携・複数ステップ、2〜4週間）
+- Full Packageプラン: ¥150,000〜（エンドツーエンド統合、4〜8週間）
+- 月額保守: ¥20,000/月（月2時間優先サポート）
+- 初回見積もり・相談: 完全無料
+
+【無料相談フォームURL】
+https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb
+
+【対応ツール】
+Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark / ChatGPT / Claude
+
+【回答ルール】
+1. 日本語・フレンドリー・絵文字を適度に使う
+2. 200文字以内で簡潔に答える
+3. 稼働数・空き枠を自然に使って希少性・緊急性を演出する
+4. 毎回の最後に「無料相談フォームへ」または「詳しい提案を受け取る」へ誘導する一言を入れる
+5. AI業務自動化と無関係な話題は「自動化のご相談はお気軽にどうぞ！」と返す`;
+
   /* ---- ユーティリティ ---- */
   function fetchWithTimeout(url,options,ms){
     return Promise.race([
@@ -1825,6 +1859,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     {keys:['複数','いくつも','組み合わせ'],ans:'複数のツールを連携させる複合的な自動化も得意です。「AのデータをBに転送してCに通知する」のような複雑なフローも対応します。'},
     {keys:['試作','プロト','テスト','PoC'],ans:'まず小規模なPoC（概念実証）から始めることも可能です。Liteプランで1つの自動化を試してみることをおすすめします。'},
     {keys:['契約','支払い','請求','支払'],ans:'お支払いは納品後のご請求となります。銀行振込・クレジットカードに対応しています。分割払いについてはご相談ください。'},
+    {keys:['何件','稼働','対応中','空き','枠','受付','受け付け','今いくつ'],ans:`現在 ${BOT_ACTIVE}件 対応中です！残り ${BOT_AVAILABLE}枠 が空いています😊 先着順なのでお早めにどうぞ。無料相談フォームからご連絡いただければすぐにお見積もりをお出しします。`},
     {keys:['ありがとう','ありがとうございます','感謝'],ans:'こちらこそ、ありがとうございます😊 他にも気になることがあれば、何でも聞いてください！無料相談フォームもいつでもどうぞ。'},
   ];
 
@@ -1918,7 +1953,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   async function analyzeAndRecommend(){
     showTyping();
     const summary=Object.entries(answers).map(([k,v])=>`${k}: ${v}`).join('\n');
-    history.push({role:'system',content:'あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。目的は「無料相談フォームへの誘導」です。提供サービス:\n- Liteプラン: ¥40,000〜（1トリガー・1処理の自動化）\n- Standardプラン: ¥80,000〜（AI連携・複数ステップの本格自動化）\n- Full Packageプラン: ¥150,000〜（エンドツーエンドの統合システム）\n\n必ず守ること:\n1. 回答は日本語・200文字以内・フレンドリーなトーン\n2. プランを1つ推薦し理由を1文で\n3. 最後に必ず「詳しい提案を受け取る」ボタンまたは無料相談フォームへ誘導する一言を添える'});
+    history.push({role:'system',content:SYS+'\n\n【追加指示】お客様の回答から最適なプランを1つ推薦し、理由を1文で説明してください。空き枠（残り'+BOT_AVAILABLE+'枠）を使って今すぐ申し込む理由を添えてください。'});
     history.push({role:'user',content:'お客様の回答:\n'+summary+'\n\nこの情報をもとに最適なプランを推薦してください。'});
 
     let botMsg=await callLLM(history,300);
@@ -1956,7 +1991,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     opts.innerHTML='';
     inpRow.style.display='flex';
     addMsg('ご自由にご質問ください。どんな内容でもお答えします！😊');
-    history.push({role:'system',content:'あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。目的は「無料相談フォームへの誘導」と「見積もり依頼の獲得」です。お客様の質問に日本語・150文字以内・フレンドリーに答え、回答の最後には自然な流れでフォームへの誘導または「詳しい提案を受け取る」を促してください。AI業務自動化以外の話題は「自動化のご相談はお気軽にどうぞ！」と返してください。'});
+    history.push({role:'system',content:SYS});
   }
 
   async function sendFreeMsg(text){
