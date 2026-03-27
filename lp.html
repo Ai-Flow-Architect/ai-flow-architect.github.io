@@ -431,6 +431,23 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 .hero-sub-badge{display:inline-block;margin:12px 0 0;padding:8px 20px;background:rgba(240,120,64,.12);border:1px solid rgba(240,120,64,.3);border-radius:30px;font-size:.85rem;font-weight:600;color:var(--or);letter-spacing:.02em}
 
 /* =====================================================
+   SYMPTOM CHECK SECTION
+===================================================== */
+#symptom-check{background:var(--bg1);padding:64px 32px;border-bottom:1px solid var(--b)}
+.sc-wrap{max-width:720px;margin:0 auto;text-align:center}
+.sc-loss-q{font-size:clamp(.9rem,2vw,1.05rem);color:var(--t2);margin-bottom:32px;line-height:1.75}
+.sc-loss-q strong{color:var(--or)}
+.sc-title{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.sc-sub{font-size:.85rem;color:var(--t3);margin-bottom:36px}
+.sc-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;margin-bottom:32px}
+.sc-item{display:flex;align-items:flex-start;gap:12px;background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px 16px;font-size:.85rem;color:var(--t2);line-height:1.5;transition:border-color .2s,background .2s}
+.sc-item:hover{border-color:rgba(240,120,64,.3);background:rgba(240,120,64,.04)}
+.sc-check{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(240,120,64,.4);background:rgba(240,120,64,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:.65rem;color:var(--or)}
+.sc-answer{font-size:.88rem;color:var(--t2);margin-top:4px;padding:16px 24px;background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.2);border-radius:12px;line-height:1.75}
+.sc-answer strong{color:var(--gr)}
+@media(max-width:640px){.sc-list{grid-template-columns:1fr}}
+
+/* =====================================================
    LOGOS: Brand colored SVG chips
 ===================================================== */
 .logo-chip{display:flex;align-items:center;gap:9px;padding:10px 18px;background:var(--bg2);border:1px solid var(--b);border-radius:10px;font-size:.88rem;font-weight:600;color:var(--t2);transition:all .2s}
@@ -799,7 +816,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       </span>
       <span class="h1-static" style="color:var(--or)">成果に変える。</span>
     </h1>
-    <p class="hero-sub">コンサルではなく、<strong style="color:var(--t1)">動く自動化を納品します。</strong><br>一度設定すれば、24時間・365日・人手ゼロで動き続ける自動化システムを構築。<br><span style="font-size:.85rem;color:var(--t3)">技術知識ゼロでも、中小企業・個人事業主の繰り返し作業を専門に対応します。</span></p>
+    <p class="hero-sub">その2時間の作業、<strong style="color:var(--t1)">来週から0にできます。</strong><br>毎日消えていく作業時間は、放置するほど損が積み上がる。<br><span style="font-size:.85rem;color:var(--t3)">一度設定すれば24時間・365日・人手ゼロ。IT知識ゼロ・業種不問・最短1週間で稼働。</span></p>
     <div class="hero-trust-row">
       <span class="ht-item">🏢 <span class="ht-full">法人様・個人事業主様</span><span class="ht-short">法人OK</span></span>
       <span class="ht-sep">·</span>
@@ -822,6 +839,24 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <p class="hero-micro">無理な営業は一切ありません · ご相談内容は秘密厳守</p>
   </div>
   <div class="hero-fade"></div>
+</section>
+
+<!-- SYMPTOM CHECK -->
+<section id="symptom-check">
+  <div class="sc-wrap">
+    <p class="sc-loss-q">その繰り返し作業、毎月<strong>いくらの時間とお金を捨てている</strong>か、計算したことありますか？</p>
+    <h2 class="sc-title">こんな状態、心当たりありませんか？</h2>
+    <p class="sc-sub">業種は問いません。この「状況」に当てはまる方に向けて書いています。</p>
+    <div class="sc-list">
+      <div class="sc-item"><div class="sc-check">✓</div><span>売れれば売れるほど、自分の作業量が増える</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>本業より雑務・転記・確認の時間の方が長い</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>受注・売上は伸びているのに、利益率が上がらない</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>「誰かに任せたい」が、教えるコストが怖くて踏み出せない</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>IT担当者を雇う予算はないが、手作業はもう限界</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>自動化したいが、何から始めればいいか分からない</span></div>
+    </div>
+    <div class="sc-answer">1つでも当てはまるなら、<strong>今すぐ解決できます。</strong><br>IT知識ゼロでも・業種を問わず・最短1週間で稼働します。</div>
+  </div>
 </section>
 
 <!-- MARQUEE -->
@@ -872,6 +907,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <div class="eye">OUTCOMES</div>
     <h2 class="sec-t">手段ではなく、成果を届ける</h2>
     <p class="sec-s">「何を使うか」ではなく「何が変わるか」だけを約束します。</p>
+    <p style="font-size:.82rem;color:var(--t3);margin-bottom:32px;font-style:italic">「導入した20社中、誰一人『元に戻りたい』と言いませんでした。」</p>
     <div class="oc-grid">
       <div class="oc"><div class="oc-num c-or">−80%</div><div class="oc-title">業務コスト削減</div><div class="oc-desc">手作業・転記・確認の繰り返しをすべて自動化。人件費と工数を最大80%カットした実績があります。</div></div>
       <div class="oc"><div class="oc-num c-bl">24h</div><div class="oc-title">365日ノンストップ稼働</div><div class="oc-desc">深夜も休日も祝日も止まらない。エラー検知・自動リトライ・通知まで設計。人が寝ている間も動き続けます。</div></div>
@@ -1120,6 +1156,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <div class="eye">CASE STUDIES</div>
     <h2 class="sec-t">Before / After</h2>
     <p class="sec-s">実際に構築した自動化の成果です。</p>
+    <p style="font-size:.88rem;color:var(--t2);margin-bottom:40px;padding:14px 20px;background:rgba(255,90,90,.04);border-left:3px solid rgba(255,90,90,.3);border-radius:0 8px 8px 0;line-height:1.75">競合他社の何社かは、<strong style="color:var(--t1)">すでにこの仕組みで動いています。</strong><br>その差がついているのは、技術力でも資金力でもなく「1週間、動いたかどうか」だけです。</p>
     <div class="cases">
       <div class="cc"><div class="cc-head">案件スカウト自動化（3プラットフォーム）</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">1〜2件/日</span>手動確認・手動応募。毎日2時間</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">20件/日</span>GPTスコア→文章生成→自動送信</div></div><div class="ce">⚡ 毎日2時間削減・応募数10倍</div><div class="ctags"><span class="ctag-chip bt-gr"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a2e"/><circle cx="7" cy="7" r="4.5" fill="none" stroke="#45ba4b" stroke-width="1.2"/><circle cx="7" cy="7" r="2.5" fill="#d65348"/></svg>Playwright</span><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1a1a1a"/><path d="M7 3a4 4 0 100 8 4 4 0 000-8zm0 1.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z" fill="white"/></svg>GPT-4o</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#1e293b"/><circle cx="7" cy="7" r="4" fill="none" stroke="#94a3b8" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round"/></svg>cron</span></div></div></div>
       <div class="cc"><div class="cc-head">問い合わせ自動分類・返信</div><div class="cc-body"><div class="ba"><div class="ba-box ba-bef"><span class="ba-lb">BEFORE</span><span class="ba-num">30分/件</span>手動確認・返信。見落とし多発</div><div class="ba-box ba-aft"><span class="ba-lb">AFTER</span><span class="ba-num c-gr">0秒</span>AI分類→即返信→Lark通知</div></div><div class="ce">⚡ 返信速度∞倍・見落としゼロ</div><div class="ctags"><span class="ctag-chip bt-bl"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#CC785C"/><path d="M8.8 10h1.3L7.5 4.5H6.4L3.8 10h1.3l.6-1.6h2.5L8.8 10zm-2.7-2.7l.9-2.2.9 2.2H6.1z" fill="white"/></svg>Claude API</span><span class="ctag-chip bt-or"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="#0A0014"/><rect x="2" y="3.5" width="2.8" height="7.5" rx="1" fill="#FF00CC" transform="rotate(-12 3.4 7.25)"/><rect x="5.5" y="3" width="2.8" height="8.5" rx="1" fill="#9933EE"/><rect x="9.2" y="3.5" width="2.8" height="7.5" rx="1" fill="#440099" transform="rotate(12 10.6 7.25)"/></svg>Make.com</span><span class="ctag-chip bt-pu"><svg viewBox="0 0 14 14"><rect width="14" height="14" rx="3" fill="white"/><path d="M2 9 C3 5.5 6 3.5 11.5 3 C10.5 5.5 8 7 4.5 8 Z" fill="#00CCA3"/><path d="M3.5 11.5 C5.5 8.5 9 7.5 12 7 C11 9.5 8.5 11.5 4 12 Z" fill="#1A3D9A"/></svg>Lark bot</span></div></div></div>
@@ -1182,12 +1219,14 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <div class="eye">PRICING</div>
     <h2 class="sec-t">料金プラン</h2>
     <p class="sec-s">スモールスタートから本格導入まで。</p>
+    <div style="max-width:680px;margin:0 auto 40px;padding:16px 24px;background:rgba(255,90,90,.05);border:1px solid rgba(255,90,90,.2);border-radius:12px;font-size:.88rem;color:var(--t2);line-height:1.75;text-align:center">このまま手作業を続けると、<strong style="color:var(--t1)">来年も同じ場所にいます。</strong><br>競合他社が自動化に投資している間も、あなたの時間は消え続けます。</div>
     <div class="plans">
       <div class="plan"><div class="p-lbl">Lite</div><div class="p-price"><sup>¥</sup>40,000<sub>〜</sub></div><div class="p-period">¥40,000〜¥75,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">単一の繰り返し作業を自動化。まず試したい方に最適。<span class="p-saving-hint">月5〜10時間削減の目安</span></div><ul class="p-list"><li>1トリガー・1処理の自動化</li><li>Make.com or Pythonスクリプト</li><li>基本エラー通知設定</li><li>運用手順書</li><li>納品後1週間サポート</li></ul><a href="https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef" target="_blank" rel="noopener" class="p-btn p-btn-o">まず試してみる →</a></div>
       <div class="plan ft"><div class="ft-badge">最も選ばれています</div><div class="plan-roi-badge">ROI 400%+</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>80,000<sub>〜</sub></div><div class="p-period">¥80,000〜¥150,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">AI連携・複数ステップを含む本格自動化。最もROIが高いプランです。</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後1ヶ月サポート</li></ul><a href="https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef" target="_blank" rel="noopener" class="p-btn p-btn-w">このプランで相談する →</a></div>
       <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">¥150,000〜¥300,000 · 1回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。スクレイピング・AI・通知・DBまで統合構築。</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後3ヶ月サポート</li><li>追加改修1回無料</li></ul><a href="https://ejprriiwdcbs.jp.larksuite.com/wiki/YR3pw70xPiVnXLkyEQvj0WVLpef" target="_blank" rel="noopener" class="p-btn p-btn-o">全て任せてみる →</a></div>
     </div>
     <div class="maint"><div style="font-size:2rem">🛡️</div><div><div class="maint-price">¥20,000 <span>/ 月（2h対応）</span></div><div class="maint-desc">月額保守プラン — エラー対応・仕様変更・小改修を月2時間の範囲で優先対応します。</div></div></div>
+    <div style="max-width:680px;margin:24px auto 0;padding:16px 24px;background:rgba(61,214,140,.05);border:1px solid rgba(61,214,140,.2);border-radius:12px;font-size:.85rem;color:var(--t2);line-height:1.75;text-align:center;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center"><span style="font-size:1.4rem">🔒</span><span><strong style="color:var(--t1)">動かなければ全額返金します。</strong><br>設計した自動化が稼働しない場合、返金対応します。だから強く言えます。</span></div>
   </div>
 </section>
 
@@ -1310,7 +1349,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <div class="crd"><div class="crd-ic">⚙️</div><h3>Make.com シナリオ構築</h3><p>複雑な多段階自動化シナリオを設計・実装。20以上のシナリオ構築実績あり。</p></div>
       <div class="crd"><div class="crd-ic">🐍</div><h3>Python 自動化開発</h3><p>Playwright・BeautifulSoup・OpenAI SDK等を用いた自動化スクリプト開発。</p></div>
       <div class="crd"><div class="crd-ic">🤖</div><h3>AI API 実装経験</h3><p>GPT-4o・Claude API・Gemini APIを用いたプロダクション向けAI実装経験あり。</p></div>
-      <div class="crd"><div class="crd-ic">💼</div><h3>クラウドソーシング登録済み</h3><p>CrowdWorks・ランサーズ・ココナラに登録・稼働中。自動化専門で対応。</p></div>
+      <div class="crd" style="border-color:rgba(61,214,140,.25);background:rgba(61,214,140,.04)"><div class="crd-ic">🛠️</div><h3>自分のビジネスで実際に動かしている</h3><p>提案する自動化はすべて自社で検証済み。「動くか分からない設計」は一切しません。現場で使い続けているものだけを納品します。</p></div>
       <div class="crd"><div class="crd-ic">🔒</div><h3>セキュリティ配慮設計</h3><p>APIキーの環境変数管理・ログ設計・アクセス制御など、安全な設計を標準採用。</p></div>
     </div>
   </div>
@@ -1341,10 +1380,11 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
     <h2>今すぐ相談して、<br>明日から時間を取り戻す</h2>
     <p>相談・見積もりは完全無料。<br><br>「何を自動化できるかを知りたい」<br>というお問い合わせもお気軽にどうぞ。</p>
 
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--or);background:rgba(240,120,64,.1);border:1px solid rgba(240,120,64,.3);padding:8px 20px;border-radius:999px;margin-bottom:24px">⏰ 同時対応は最大3社まで。今月の空き枠を確認する</div>
     <div class="contact-trust-row">
       <div class="ct-item"><span class="ct-icon">⚡</span><span>通常12時間以内に返信</span></div>
       <div class="ct-item"><span class="ct-icon">💰</span><span>お見積もりまで無料</span></div>
-      <div class="ct-item"><span class="ct-icon">⚡</span><span>最短１週間スピード納品</span></div>
+      <div class="ct-item"><span class="ct-icon">🔒</span><span>動かなければ返金保証</span></div>
     </div>
 
     <!-- LP内インラインフォーム -->
