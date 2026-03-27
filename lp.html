@@ -1668,7 +1668,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   };
 
   /* --- 共通CTA選択肢 --- */
-  const CTA_OPTS=['📝 無料で提案を受け取る','🔧 もっと詳しく相談したい','❓ 他にも質問がある'];
+  const CTA_OPTS=['📝 無料で提案を受け取る（メールで）','🔧 もっと詳しく相談したい','❓ 他にも質問がある'];
 
   const chatLabel=document.getElementById('chat-label');
   function togglePanel(){
@@ -1815,12 +1815,32 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     setTimeout(()=>{removeTyping();addMsg(step.q);showOpts(step.opts);},600);
   }
 
-  /* --- GPT分析＋プラン推薦 --- */
+  /* --- ROI計算 --- */
+  function calcROI(){
+    const h=answers.hours||'';
+    let weeklyH=5; // デフォルト
+    if(h.includes('1〜3'))weeklyH=2;
+    else if(h.includes('3〜10'))weeklyH=6;
+    else if(h.includes('10〜20'))weeklyH=15;
+    else if(h.includes('20時間'))weeklyH=25;
+    const monthlyH=weeklyH*4;
+    const savedH=Math.round(monthlyH*0.9);
+    const annualSaved=savedH*12;
+    const annualYen=annualSaved*2000; // 時給2,000円換算
+    let plan='Standard',price=80000;
+    if(weeklyH<=3){plan='Lite';price=40000;}
+    if(weeklyH>=10){plan='Full Package';price=150000;}
+    const roi=Math.round((annualYen-price)/price*100);
+    return {weeklyH,monthlyH,savedH,annualSaved,annualYen,plan,price,roi};
+  }
+
+  /* --- GPT分析＋プラン推薦＋ROI表示 --- */
   async function analyzeAndRecommend(){
     showTyping();
+    const roi=calcROI();
     const summary=Object.entries(answers).map(([k,v])=>`${k}: ${v}`).join('\n');
-    history.push({role:'system',content:`あなたはAI Flow ArchitectのLPに設置されたAI相談ボットです。フレンドリーに、でも的確に回答してください。導入実績50社以上、平均90%の作業時間削減。提供サービス:\n- Liteプラン: ¥40,000〜（1トリガー・1処理の自動化）\n- Standardプラン: ¥80,000〜（AI連携・複数ステップの本格自動化）\n- Full Packageプラン: ¥150,000〜（エンドツーエンドの統合システム）\n\n回答は必ず日本語で、200文字以内で簡潔に。プランを1つ推薦し、理由を1文で説明。最後に「無料で詳しい提案もできますよ」と促してください。`});
-    history.push({role:'user',content:`お客様の回答:\n${summary}\n\nこの情報をもとに最適なプランを推薦してください。`});
+    history.push({role:'system',content:`あなたはAI Flow ArchitectのLPに設置されたAI相談ボットです。フレンドリーに、でも的確に回答してください。導入実績50社以上、平均90%の作業時間削減。提供サービス:\n- Liteプラン: ¥40,000〜（1トリガー・1処理の自動化）\n- Standardプラン: ¥80,000〜（AI連携・複数ステップの本格自動化）\n- Full Packageプラン: ¥150,000〜（エンドツーエンドの統合システム）\n\n回答は必ず日本語で、200文字以内で簡潔に。プランを1つ推薦し、理由を1文で説明。ROI試算も含めてください。最後に「無料で詳しい提案もできますよ」と促してください。`});
+    history.push({role:'user',content:`お客様の回答:\n${summary}\n\nROI試算: 週${roi.weeklyH}時間→月${roi.savedH}時間削減→年間${roi.annualSaved}時間削減→年間約¥${roi.annualYen.toLocaleString()}のコスト削減見込み。推薦プラン: ${roi.plan}（¥${roi.price.toLocaleString()}〜）、ROI: ${roi.roi}%。\n\nこの情報をもとに最適なプランを推薦してください。`});
 
     let botMsg='';
     if(OPENAI_API_KEY&&OPENAI_API_KEY!=='__OPENAI_API_KEY__'){
@@ -1828,28 +1848,39 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
         const res=await fetch('https://api.openai.com/v1/chat/completions',{
           method:'POST',
           headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_API_KEY}`},
-          body:JSON.stringify({model:OPENAI_MODEL,messages:history,max_tokens:300,temperature:.7})
+          body:JSON.stringify({model:OPENAI_MODEL,messages:history,max_tokens:400,temperature:.7})
         });
         const data=await res.json();
-        botMsg=data.choices?.[0]?.message?.content||fallbackMsg();
-      }catch(e){botMsg=fallbackMsg();}
+        botMsg=data.choices?.[0]?.message?.content||fallbackMsg(roi);
+      }catch(e){botMsg=fallbackMsg(roi);}
     } else {
-      botMsg=fallbackMsg();
+      botMsg=fallbackMsg(roi);
     }
     history.push({role:'assistant',content:botMsg});
     removeTyping();
     addMsg(botMsg);
-    setTimeout(()=>showCTA(),400);
+
+    // ROIサマリーを別メッセージで表示
+    setTimeout(()=>{
+      showTyping();
+      setTimeout(()=>{
+        removeTyping();
+        addMsg(`📊 あなたの削減シミュレーション:\n・月${roi.savedH}時間の作業を自動化\n・年間 ¥${roi.annualYen.toLocaleString()} のコスト削減\n・投資回収率（ROI）: ${roi.roi}%`);
+        // 差別化メッセージ
+        setTimeout(()=>{
+          showTyping();
+          setTimeout(()=>{
+            removeTyping();
+            addMsg('✅ AI Flow Architectが選ばれる理由:\n① 50社以上の導入実績・平均90%削減\n② Make.com×GPT×Playwrightの独自スタック\n③ 成果が出なければ追加費用なしで修正対応');
+            setTimeout(()=>showCTA(),400);
+          },500);
+        },300);
+      },500);
+    },400);
   }
 
-  function fallbackMsg(){
-    const hours=answers.hours||'';
-    let plan='Standardプラン（¥80,000〜）';
-    let saving='週3〜10時間';
-    if(hours.includes('1〜3')){plan='Liteプラン（¥40,000〜）';saving='週1〜3時間';}
-    if(hours.includes('20時間')){plan='Full Packageプラン（¥150,000〜）';saving='週20時間以上';}
-    if(hours.includes('10〜20')){plan='Full Packageプラン（¥150,000〜）';saving='週10〜20時間';}
-    return `ご回答ありがとうございます！\n\n${saving}の手作業を自動化するなら「${plan}」がおすすめです。導入後は作業時間を最大90%削減できる見込みです。\n\n無料で詳しい提案もできますよ！`;
+  function fallbackMsg(roi){
+    return `ご回答ありがとうございます！\n\nお客様の場合、「${roi.plan}プラン（¥${roi.price.toLocaleString()}〜）」がおすすめです。\n\n月${roi.savedH}時間の作業を自動化でき、年間約¥${roi.annualYen.toLocaleString()}のコスト削減が見込めます（ROI: ${roi.roi}%）。`;
   }
 
   /* --- 共通CTA表示 --- */
@@ -1861,10 +1892,15 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   /* --- CTA選択肢の処理 --- */
   function handleCTA(val){
     if(val.includes('提案を受け取る')){
-      addMsg('ありがとうございます！24時間以内にご連絡いたします。','bot');
+      currentRoute='collect-email';
+      opts.innerHTML='';
+      addMsg('ありがとうございます！メールアドレスを教えていただければ、24時間以内に詳しいご提案をお送りします。','bot');
       setTimeout(()=>{
-        addMsg('下記フォームが開きます。お名前とメールだけでOKです！','bot');
-        setTimeout(()=>{window.open('https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb','_blank')},800);
+        addMsg('※メールアドレスだけでOKです。営業メールは送りません。','bot');
+        inpRow.style.display='flex';
+        inp.placeholder='メールアドレスを入力...';
+        inp.focus();
+        inp.dataset.freeMode='email';
       },500);
     } else if(val.includes('詳しく相談')){
       addMsg('もちろんです！どんなことでもお気軽にどうぞ。','bot');
@@ -1893,6 +1929,33 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     inp.value='';
     inp.dataset.freeMode='';
     addMsg(text,'usr');
+
+    // メールアドレス取得
+    if(stepMode==='email'){
+      const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(text)){
+        addMsg('メールアドレスの形式が正しくないようです。もう一度入力してください。','bot');
+        inpRow.style.display='flex';
+        inp.dataset.freeMode='email';
+        inp.focus();
+        return;
+      }
+      answers.email=text;
+      inpRow.style.display='none';
+      inp.placeholder='メッセージを入力...';
+      showTyping();
+      setTimeout(()=>{
+        removeTyping();
+        addMsg('ありがとうございます！ご入力いただいたアドレスに、24時間以内に詳しいご提案をお送りします。');
+        setTimeout(()=>{
+          addMsg('他にもご質問があれば、このままお気軽にどうぞ！');
+          setTimeout(()=>enterFreeMode(),400);
+        },500);
+      },600);
+      // TODO: メールアドレスをバックエンドに送信する処理をここに追加
+      console.log('[ChatBot] Lead captured:',{email:text,answers});
+      return;
+    }
 
     // ルート内ステップの自由入力 → 次のステップへ
     if(stepMode==='route-step'){
