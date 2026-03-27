@@ -1582,7 +1582,11 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
 })();
 
 /* =====================================================
-   CHATBOT
+   CHATBOT — Q1分岐ロジック搭載版
+   料金/納期/概要 → 即回答+CTA（最短導線）
+   自動化確認 → 2問 → GPT推薦+CTA
+   具体的相談 → 3問 → GPT推薦+CTA
+   自由入力 → 即フリーモード
 ===================================================== */
 (function(){
   const btn    = document.getElementById('chat-btn');
@@ -1594,24 +1598,77 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   const sendBtn= document.getElementById('cp-send');
   const closeBtn=document.getElementById('cp-close');
 
-  let open=false,step=0,answers={},freeMode=false;
-  const history=[];// GPT conversation history
+  let open=false,answers={},freeMode=false,currentRoute=null,routeStep=0;
+  const history=[];
 
-  const FLOW=[
-    {q:'こんにちは！😊 AI Flow Architectです。\n\nまずお気軽に教えてください。一番気になることはどれですか？',opts:['💰 料金・費用を知りたい','🤔 自分の業務が自動化できるか確認したい','⏱ 納期・スケジュールを知りたい','🔧 具体的な業務について相談したい','✨ 何ができるか見てみたい','✏️ 自由に入力する']},
-    {q:'ありがとうございます！現在どんな作業を繰り返し手作業でやっていますか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
-    {q:'週にどのくらい時間がかかっていますか？',opts:['⏱ 1〜3時間','⏱ 3〜10時間','⏱ 10〜20時間','⏱ 20時間以上','✏️ 自由に入力する']},
-    {q:'現在使っているツールを教えてください',opts:['📋 Google Sheets / Excel','🗂️ Notion','🔔 Slack','📱 LINE','⚙️ 独自システム・基幹システム','✏️ 自由に入力する']},
-    {q:'チームで使いますか？それとも個人で？',opts:['👤 個人で使う','👥 チーム（2〜5人）','🏢 チーム（6人以上）','🏭 部署・全社規模','✏️ 自由に入力する']},
-    {q:'ご予算感はどのくらいをお考えですか？',opts:['💴 〜5万円','💴 5〜10万円','💴 10〜20万円','💴 20万円以上','🤔 まだわからない','✏️ 自由に入力する']},
-    {q:'いつ頃から動かしたいですか？',opts:['🚀 今すぐ（1週間以内）','📅 1ヶ月以内','📅 3ヶ月以内','🤔 まだ検討中','✏️ 自由に入力する']},
-    {q:'最後に一つ。自動化・システム開発を外注したことはありますか？',opts:['✅ はい、経験あり','❌ いいえ、初めて','🔧 社内で試みたことはある','🤔 よくわからない']},
-  ];
+  /* --- 分岐ルート定義 --- */
+  const ROUTES={
+    pricing:{ // 即回答：料金
+      steps:[]
+    },
+    check:{ // 自動化できるか確認 → 2問
+      steps:[
+        {key:'task',q:'どんな作業を手作業で繰り返していますか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
+        {key:'hours',q:'その作業に週どのくらい時間がかかっていますか？',opts:['⏱ 1〜3時間','⏱ 3〜10時間','⏱ 10〜20時間','⏱ 20時間以上','✏️ 自由に入力する']}
+      ]
+    },
+    schedule:{ // 即回答：納期
+      steps:[]
+    },
+    consult:{ // 具体的相談 → 3問
+      steps:[
+        {key:'task',q:'自動化したい作業を教えてください',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
+        {key:'hours',q:'週にどのくらい時間がかかっていますか？',opts:['⏱ 1〜3時間','⏱ 3〜10時間','⏱ 10〜20時間','⏱ 20時間以上','✏️ 自由に入力する']},
+        {key:'tools',q:'現在使っているツールを教えてください',opts:['📋 Google Sheets / Excel','🗂️ Notion','🔔 Slack','📱 LINE','⚙️ 独自システム・基幹システム','✏️ 自由に入力する']}
+      ]
+    },
+    overview:{ // 即回答：何ができるか
+      steps:[]
+    },
+    free:{ // 即フリーモード
+      steps:[]
+    }
+  };
+
+  /* --- Q1 選択肢 → ルートマッピング --- */
+  const Q1_MAP={
+    '💰 料金・費用を知りたい':'pricing',
+    '🤔 自動化できるか確認したい':'check',
+    '⏱ 納期・スケジュールを知りたい':'schedule',
+    '🔧 具体的な業務について相談したい':'consult',
+    '✨ 何ができるか見てみたい':'overview',
+    '✏️ 自由に入力する':'free'
+  };
+
+  /* --- 即回答テンプレート --- */
+  const INSTANT_ANSWERS={
+    pricing:[
+      '料金プランは3つご用意しています：',
+      '◾ Liteプラン ¥40,000〜\n　1トリガー・1処理のシンプル自動化。まず1つ試したい方に。',
+      '◾ Standardプラン ¥80,000〜\n　AI連携・複数ステップの本格自動化。一番人気です。',
+      '◾ Full Packageプラン ¥150,000〜\n　エンドツーエンドの統合システム。業務全体を変えたい方に。',
+      'どのプランが合いそうか、無料でご提案できます。お気軽にどうぞ！'
+    ],
+    schedule:[
+      '納期の目安はこちらです：',
+      '◾ Liteプラン → 最短3〜5営業日\n◾ Standardプラン → 約1〜2週間\n◾ Full Package → 約2〜4週間',
+      '「今すぐ動かしたい」にも対応可能です。まずはお気軽にご相談ください！'
+    ],
+    overview:[
+      'AI Flow Architectでは、こんな業務を自動化しています：',
+      '◾ データ入力・転記の完全自動化\n◾ 問い合わせの自動分類＋返信\n◾ 日次レポートの自動生成\n◾ 複数ツール間のデータ連携\n◾ 在庫・商品の自動管理',
+      '使用ツール：Make.com / GPT API / Playwright 等\n月17時間の手作業 → 15分に短縮した実績もあります。',
+      'あなたの業務でも使えるか、チャットで確認できます！'
+    ]
+  };
+
+  /* --- 共通CTA選択肢 --- */
+  const CTA_OPTS=['📝 無料で提案を受け取る','🔧 もっと詳しく相談したい','❓ 他にも質問がある'];
 
   function togglePanel(){
     open=!open;
     panel.classList.toggle('open',open);
-    if(open&&step===0)startFlow();
+    if(open&&!currentRoute&&routeStep===0)startFlow();
   }
   btn.addEventListener('click',togglePanel);
   closeBtn.addEventListener('click',()=>{open=false;panel.classList.remove('open')});
@@ -1642,48 +1699,117 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     });
   }
 
+  /* --- 開始：挨拶 → Q1 --- */
   function startFlow(){
     setTimeout(()=>{
       showTyping();
       setTimeout(()=>{
         removeTyping();
-        addMsg('こんにちは！👋 AI Flow Architect の相談ボットです。');
+        addMsg('こんにちは！業務自動化エンジニアの「こうすけ」です。');
         setTimeout(()=>{
           showTyping();
-          setTimeout(()=>{removeTyping();addMsg(FLOW[0].q);showOpts(FLOW[0].opts);},700);
-        },400);
-      },600);
-    },300);
+          setTimeout(()=>{
+            removeTyping();
+            addMsg('お気軽にどうぞ。何が気になりますか？');
+            showOpts(Object.keys(Q1_MAP));
+          },500);
+        },300);
+      },500);
+    },200);
   }
 
+  /* --- 選択肢クリック処理（統合ハンドラー） --- */
   function handleOpt(val){
+    /* 自由入力モード切替 */
     if(val==='✏️ 自由に入力する'){
       opts.innerHTML='';
-      inpRow.style.display='flex';
-      inp.focus();
-      inp.dataset.freeMode='step';
+      if(!currentRoute){
+        // Q1で自由入力 → 即フリーモード
+        addMsg(val,'usr');
+        currentRoute='free';
+        enterFreeMode();
+      } else {
+        // ルート内ステップで自由入力
+        inpRow.style.display='flex';
+        inp.focus();
+        inp.dataset.freeMode='route-step';
+      }
       return;
     }
+
     addMsg(val,'usr');
     opts.innerHTML='';
-    answers[`q${step}`]=val;
-    step++;
-    if(step<FLOW.length){
-      showTyping();
-      setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);},900);
-    } else {
-      analyzeAndRecommend();
+
+    /* CTA選択肢の処理 */
+    if(currentRoute==='cta'){
+      handleCTA(val);
+      return;
+    }
+
+    /* Q1：ルート振り分け */
+    if(!currentRoute){
+      const route=Q1_MAP[val];
+      currentRoute=route;
+      answers.q1=val;
+      routeStep=0;
+
+      if(route==='pricing'||route==='schedule'||route==='overview'){
+        showInstantAnswer(route);
+      } else if(route==='free'){
+        enterFreeMode();
+      } else {
+        nextRouteStep();
+      }
+      return;
+    }
+
+    /* ルート内ステップの処理 */
+    const route=ROUTES[currentRoute];
+    if(route&&routeStep<route.steps.length){
+      answers[route.steps[routeStep].key]=val;
+      routeStep++;
+      if(routeStep<route.steps.length){
+        nextRouteStep();
+      } else {
+        analyzeAndRecommend();
+      }
     }
   }
 
+  /* --- 即回答表示 → CTA --- */
+  function showInstantAnswer(type){
+    const lines=INSTANT_ANSWERS[type];
+    let delay=400;
+    lines.forEach((line,i)=>{
+      setTimeout(()=>{
+        showTyping();
+        setTimeout(()=>{removeTyping();addMsg(line);
+          if(i===lines.length-1){
+            setTimeout(()=>showCTA(),300);
+          }
+        },400);
+      },delay);
+      delay+=700;
+    });
+  }
+
+  /* --- ルート内の次の質問を表示 --- */
+  function nextRouteStep(){
+    const route=ROUTES[currentRoute];
+    const step=route.steps[routeStep];
+    showTyping();
+    setTimeout(()=>{removeTyping();addMsg(step.q);showOpts(step.opts);},600);
+  }
+
+  /* --- GPT分析＋プラン推薦 --- */
   async function analyzeAndRecommend(){
     showTyping();
     const summary=Object.entries(answers).map(([k,v])=>`${k}: ${v}`).join('\n');
-    history.push({role:'system',content:`あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。フレンドリーに、でも的確に回答してください。提供サービス:\n- Liteプラン: ¥40,000〜（1トリガー・1処理の自動化）\n- Standardプラン: ¥80,000〜（AI連携・複数ステップの本格自動化）\n- Full Packageプラン: ¥150,000〜（エンドツーエンドの統合システム）\n\n回答は必ず日本語で、200文字以内で簡潔に。プランを1つ推薦し、理由を1文で説明。最後にLarkフォームへの誘導か「もっと質問したい」を促してください。`});
+    history.push({role:'system',content:`あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。フレンドリーに、でも的確に回答してください。提供サービス:\n- Liteプラン: ¥40,000〜（1トリガー・1処理の自動化）\n- Standardプラン: ¥80,000〜（AI連携・複数ステップの本格自動化）\n- Full Packageプラン: ¥150,000〜（エンドツーエンドの統合システム）\n\n回答は必ず日本語で、200文字以内で簡潔に。プランを1つ推薦し、理由を1文で説明。最後に「無料で詳しい提案もできますよ」と促してください。`});
     history.push({role:'user',content:`お客様の回答:\n${summary}\n\nこの情報をもとに最適なプランを推薦してください。`});
 
     let botMsg='';
-    if(OPENAI_API_KEY){
+    if(OPENAI_API_KEY&&OPENAI_API_KEY!=='__OPENAI_API_KEY__'){
       try{
         const res=await fetch('https://api.openai.com/v1/chat/completions',{
           method:'POST',
@@ -1691,94 +1817,105 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
           body:JSON.stringify({model:OPENAI_MODEL,messages:history,max_tokens:300,temperature:.7})
         });
         const data=await res.json();
-        botMsg=data.choices?.[0]?.message?.content||fallbackMsg(answers);
-      }catch(e){botMsg=fallbackMsg(answers);}
+        botMsg=data.choices?.[0]?.message?.content||fallbackMsg();
+      }catch(e){botMsg=fallbackMsg();}
     } else {
-      botMsg=fallbackMsg(answers);
+      botMsg=fallbackMsg();
     }
     history.push({role:'assistant',content:botMsg});
     removeTyping();
     addMsg(botMsg);
-    showOpts(['📝 詳しい提案を受け取る','❓ もっと質問したい','💰 料金を確認する']);
-    step='result';
+    setTimeout(()=>showCTA(),400);
   }
 
-  function fallbackMsg(a){
-    const budget=a.q5||'';
-    const time=a.q1||'';
+  function fallbackMsg(){
+    const hours=answers.hours||'';
     let plan='Standardプラン（¥80,000〜）';
-    if(budget.includes('5万'))plan='Liteプラン（¥40,000〜）';
-    if(budget.includes('20万')||time.includes('20時間'))plan='Full Packageプラン（¥150,000〜）';
-    return `ご回答ありがとうございました！\n\nお客様の課題には「${plan}」が最適です。週の作業時間を大幅に削減できる見込みです。\n\n次のステップを選んでください 👇`;
+    let saving='週3〜10時間';
+    if(hours.includes('1〜3')){plan='Liteプラン（¥40,000〜）';saving='週1〜3時間';}
+    if(hours.includes('20時間')){plan='Full Packageプラン（¥150,000〜）';saving='週20時間以上';}
+    if(hours.includes('10〜20')){plan='Full Packageプラン（¥150,000〜）';saving='週10〜20時間';}
+    return `ご回答ありがとうございます！\n\n${saving}の手作業を自動化するなら「${plan}」がおすすめです。導入後は作業時間を最大90%削減できる見込みです。\n\n無料で詳しい提案もできますよ！`;
   }
 
-  function handleResult(val){
-    if(val.includes('詳しい')){
-      addMsg('📝 Larkフォームでより詳しい情報をお伝えください。24時間以内にご連絡いたします！','bot');
-      setTimeout(()=>{window.open('https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb','_blank')},600);
-    } else if(val.includes('料金')){
-      addMsg('💰 ページ内の「料金プラン」セクションをご確認ください！','bot');
-      setTimeout(()=>{document.getElementById('pricing').scrollIntoView({behavior:'smooth'})},600);
+  /* --- 共通CTA表示 --- */
+  function showCTA(){
+    currentRoute='cta';
+    showOpts(CTA_OPTS);
+  }
+
+  /* --- CTA選択肢の処理 --- */
+  function handleCTA(val){
+    if(val.includes('提案を受け取る')){
+      addMsg('ありがとうございます！24時間以内にご連絡いたします。','bot');
+      setTimeout(()=>{
+        addMsg('下記フォームが開きます。お名前とメールだけでOKです！','bot');
+        setTimeout(()=>{window.open('https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb','_blank')},800);
+      },500);
+    } else if(val.includes('詳しく相談')){
+      addMsg('もちろんです！どんなことでもお気軽にどうぞ。','bot');
+      setTimeout(()=>enterFreeMode(),400);
     } else {
       enterFreeMode();
     }
   }
 
+  /* --- 自由質問モード --- */
   function enterFreeMode(){
     freeMode=true;
+    currentRoute='free-active';
     opts.innerHTML='';
     inpRow.style.display='flex';
-    addMsg('ご自由にご質問ください。どんな内容でもお答えします！😊');
-    history.push({role:'system',content:'以降はお客様の質問に自由に答えてください。AI業務自動化に関する質問に日本語で答えてください。回答は150文字以内で簡潔に。'});
+    addMsg('ご自由にご質問ください。業務自動化のことなら何でもお答えします！');
+    if(history.length===0){
+      history.push({role:'system',content:'あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。AI業務自動化に関する質問に日本語で答えてください。フレンドリーに、でも的確に。回答は200文字以内で簡潔に。サービス: Liteプラン¥40,000〜、Standardプラン¥80,000〜、Full Packageプラン¥150,000〜。適切なタイミングで無料提案フォームへの案内を促してください。'});
+    }
   }
 
+  /* --- 自由入力送信 --- */
   async function sendFreeMsg(text){
     if(!text.trim())return;
     const stepMode=inp.dataset.freeMode;
     inp.value='';
     inp.dataset.freeMode='';
     addMsg(text,'usr');
-    // step-mode: free input feeds back into the flow
-    if(stepMode==='step'){
-      answers[`q${step}`]=text;
-      step++;
-      inpRow.style.display='none';
-      if(step<FLOW.length){
-        showTyping();
-        setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);},900);
-      } else {
-        analyzeAndRecommend();
+
+    // ルート内ステップの自由入力 → 次のステップへ
+    if(stepMode==='route-step'){
+      const route=ROUTES[currentRoute];
+      if(route&&routeStep<route.steps.length){
+        answers[route.steps[routeStep].key]=text;
+        routeStep++;
+        inpRow.style.display='none';
+        if(routeStep<route.steps.length){
+          nextRouteStep();
+        } else {
+          analyzeAndRecommend();
+        }
       }
       return;
     }
+
+    // フリーモード → GPT回答
     history.push({role:'user',content:text});
     showTyping();
     let reply='';
-    if(OPENAI_API_KEY){
+    if(OPENAI_API_KEY&&OPENAI_API_KEY!=='__OPENAI_API_KEY__'){
       try{
         const res=await fetch('https://api.openai.com/v1/chat/completions',{
           method:'POST',
           headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_API_KEY}`},
-          body:JSON.stringify({model:OPENAI_MODEL,messages:history,max_tokens:200,temperature:.7})
+          body:JSON.stringify({model:OPENAI_MODEL,messages:history,max_tokens:300,temperature:.7})
         });
         const data=await res.json();
-        reply=data.choices?.[0]?.message?.content||'少々お待ちください。詳しくはお問い合わせフォームからご相談ください。';
+        reply=data.choices?.[0]?.message?.content||'申し訳ありません。こちらのフォームからご相談いただけるとスムーズです！';
       }catch(e){reply='申し訳ありません。エラーが発生しました。お問い合わせフォームからご連絡ください。';}
     } else {
-      reply='ご質問ありがとうございます。APIキーが未設定のため、お問い合わせフォームからご連絡いただけると詳しくお答えできます。';
+      reply='ご質問ありがとうございます！詳しくは無料相談フォームからお気軽にご連絡ください。24時間以内にお返事いたします。';
     }
     history.push({role:'assistant',content:reply});
     removeTyping();addMsg(reply);
   }
-
-  // Option click handling (post-analysis)
-  document.getElementById('cp-opts').addEventListener('click',e=>{
-    if(e.target.classList.contains('cp-opt')&&step==='result'){
-      addMsg(e.target.textContent,'usr');
-      opts.innerHTML='';
-      handleResult(e.target.textContent);
-    }
-  });
 
   sendBtn.addEventListener('click',()=>sendFreeMsg(inp.value));
   inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendFreeMsg(inp.value)}});
