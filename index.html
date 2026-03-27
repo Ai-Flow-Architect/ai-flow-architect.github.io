@@ -259,6 +259,23 @@ h1.hero-h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.03e
 .hero-micro{font-size:.68rem;color:var(--t3);margin-top:12px;letter-spacing:.02em}
 
 /* =====================================================
+   SYMPTOM CHECK SECTION
+===================================================== */
+#symptom-check{background:var(--bg1);padding:64px 32px;border-bottom:1px solid var(--b)}
+.sc-wrap{max-width:720px;margin:0 auto;text-align:center}
+.sc-loss-q{font-size:clamp(.9rem,2vw,1.05rem);color:var(--t2);margin-bottom:32px;line-height:1.75}
+.sc-loss-q strong{color:var(--or)}
+.sc-title{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.sc-sub{font-size:.85rem;color:var(--t3);margin-bottom:36px}
+.sc-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;margin-bottom:32px}
+.sc-item{display:flex;align-items:flex-start;gap:12px;background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px 16px;font-size:.85rem;color:var(--t2);line-height:1.5;transition:border-color .2s,background .2s}
+.sc-item:hover{border-color:rgba(240,120,64,.3);background:rgba(240,120,64,.04)}
+.sc-check{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(240,120,64,.4);background:rgba(240,120,64,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:.65rem;color:var(--or)}
+.sc-answer{font-size:.88rem;color:var(--t2);padding:16px 24px;background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.2);border-radius:12px;line-height:1.75}
+.sc-answer strong{color:var(--gr)}
+@media(max-width:640px){.sc-list{grid-template-columns:1fr}}
+
+/* =====================================================
    MARQUEE
 ===================================================== */
 .mq-wrap{border-top:1px solid var(--b);border-bottom:1px solid var(--b);background:rgba(255,255,255,.015);padding:14px 0;overflow:hidden}
@@ -1017,7 +1034,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <!-- hero-sub 一時削除 -->
     <div class="hero-capacity-badge" id="hero-capacity-status2"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</div>
     <!-- trust-row moved below hero-sub -->
-    <p class="hero-sub" style="margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)">一回の設定で24時間・365日・人手ゼロで稼働。</p>
+    <p class="hero-sub" style="margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)">その2時間の作業、<strong style="color:var(--t1)">来週から0にできます。</strong><br><span style="font-size:.88rem">毎日消えていく作業時間は、放置するほど損が積み上がる。</span></p>
     <div class="hero-trust-row" style="margin-bottom:28px;">
       <span class="ht-item">✅ <span class="ht-full">知識は一切不要</span><span class="ht-short">知識不要</span></span>
       <span class="ht-sep">·</span>
@@ -1040,7 +1057,23 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="hero-fade"></div>
 </section>
 
-
+<!-- SYMPTOM CHECK -->
+<section id="symptom-check">
+  <div class="sc-wrap">
+    <p class="sc-loss-q">その繰り返し作業、毎月<strong>いくらの時間とお金を捨てている</strong>か、計算したことありますか？</p>
+    <h2 class="sc-title">こんな状態、心当たりありませんか？</h2>
+    <p class="sc-sub">業種は問いません。この「状況」に当てはまる方に向けて書いています。</p>
+    <div class="sc-list">
+      <div class="sc-item"><div class="sc-check">✓</div><span>売れれば売れるほど、自分の作業量が増える</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>本業より雑務・転記・確認の時間の方が長い</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>受注・売上は伸びているのに、利益率が上がらない</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>「誰かに任せたい」が、教えるコストが怖くて踏み出せない</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>IT担当者を雇う予算はないが、手作業はもう限界</span></div>
+      <div class="sc-item"><div class="sc-check">✓</div><span>自動化したいが、何から始めればいいか分からない</span></div>
+    </div>
+    <div class="sc-answer">1つでも当てはまるなら、<strong>今すぐ解決できます。</strong><br>IT知識ゼロでも・業種を問わず・最短1週間で稼働します。</div>
+  </div>
+</section>
 
 <!-- FLOW DIAGRAM -->
 <section id="flow">
@@ -1215,6 +1248,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 
 <!-- CASES -->
 
+<div style="max-width:1140px;margin:0 auto;padding:0 32px 8px">
+  <p style="font-size:.88rem;color:var(--t2);padding:14px 20px;background:rgba(255,90,90,.04);border-left:3px solid rgba(255,90,90,.3);border-radius:0 8px 8px 0;line-height:1.75">競合他社の何社かは、<strong style="color:var(--t1)">すでにこの仕組みで動いています。</strong><br>その差がついているのは、技術力でも資金力でもなく「1週間、動いたかどうか」だけです。</p>
+</div>
 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
@@ -1274,6 +1310,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <div class="eye">PRICING</div>
     <h2 class="sec-t">料金プラン</h2>
     <p class="sec-s">「まず1つだけ試したい」から「全部まとめて任せたい」まで対応。初月で投資回収できた実績あり。</p>
+    <div style="max-width:680px;margin:0 auto 24px;padding:14px 24px;background:rgba(255,90,90,.05);border:1px solid rgba(255,90,90,.2);border-radius:12px;font-size:.88rem;color:var(--t2);line-height:1.75;text-align:center">このまま手作業を続けると、<strong style="color:var(--t1)">来年も同じ場所にいます。</strong><br>競合他社が自動化に投資している間も、あなたの時間は消え続けます。</div>
     <div style="margin-bottom:28px;padding:14px 20px;background:rgba(74,143,247,.07);border:1px solid rgba(74,143,247,.2);border-radius:12px;font-size:.85rem;color:var(--t2);line-height:1.8">
       <strong style="color:var(--t1)">プラン選びの目安：</strong>
       1業務だけ試したいなら <strong style="color:var(--or)">Lite</strong> ／
@@ -1439,7 +1476,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       </div>
       <div class="crd"><div class="crd-ic"><img src="data:image/png;base64,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" alt="Python" style="width:1.7rem;height:1.7rem;object-fit:contain;display:block"></div><h3>Python 自動化開発</h3><p>Playwright・BeautifulSoup・OpenAI SDK等を用いた自動化スクリプト開発。</p><p style="font-size:.75rem;color:var(--gr);margin-top:6px;font-weight:600">→ だからブラウザ操作・スクレイピングも含めた複雑な自動化に対応できます</p></div>
       <div class="crd"><div class="crd-ic">🔒</div><h3>セキュリティ配慮設計</h3><p>APIキーの環境変数管理・ログ設計・アクセス制御など、安全な設計を標準採用。</p><p style="font-size:.75rem;color:var(--gr);margin-top:6px;font-weight:600">→ だから機密情報を含む業務でも安全に導入できます</p></div>
+      <div class="crd" style="border-color:rgba(61,214,140,.25);background:rgba(61,214,140,.04)"><div class="crd-ic">🛠️</div><h3>自分のビジネスで実際に動かしている</h3><p>提案する自動化はすべて自社で検証済み。「動くか分からない設計」は一切しません。現場で使い続けているものだけを納品します。</p><p style="font-size:.75rem;color:var(--gr);margin-top:6px;font-weight:600">→ だから「設計ミスで動かない」というリスクがありません</p></div>
     </div>
+    <div style="max-width:680px;margin:28px auto 0;padding:16px 24px;background:rgba(61,214,140,.05);border:1px solid rgba(61,214,140,.2);border-radius:12px;font-size:.85rem;color:var(--t2);line-height:1.75;text-align:center;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center"><span style="font-size:1.4rem">🔒</span><span><strong style="color:var(--t1)">動かなければ全額返金します。</strong><br>設計した自動化が稼働しない場合、返金対応します。だから強く言えます。</span></div>
   </div>
 </section>
 
@@ -1451,10 +1490,11 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <h2>その2時間、<br>今週中に取り戻せます。</h2>
     <p>相談・見積もりは完全無料。<br><br>「何を自動化できるかを知りたい」<br>というお問い合わせもお気軽にどうぞ。</p>
 
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--or);background:rgba(240,120,64,.1);border:1px solid rgba(240,120,64,.3);padding:8px 20px;border-radius:999px;margin-bottom:24px">⏰ 同時対応は最大3社まで。今月の空き枠を確認する</div>
     <div class="contact-trust-row">
       <div class="ct-item"><span class="ct-icon">📨</span><span>24時間以内のご返信</span></div>
       <div class="ct-item"><span class="ct-icon">💰</span><span>お見積もりまで無料</span></div>
-      <div class="ct-item"><span class="ct-icon">⚡</span><span>最短１週間スピード納品</span></div>
+      <div class="ct-item"><span class="ct-icon">🔒</span><span>動かなければ返金保証</span></div>
     </div>
 
     <!-- LP内インラインフォーム -->
