@@ -1785,7 +1785,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 2. 200文字以内で簡潔に答える
 3. 稼働数・空き枠を自然に使って希少性・緊急性を演出する
 4. 毎回の最後に「無料相談フォームへ」または「詳しい提案を受け取る」へ誘導する一言を入れる
-5. AI業務自動化と無関係な話題は「自動化のご相談はお気軽にどうぞ！」と返す`;
+5. AI業務自動化と無関係な話題は「それはちょっと専門外ですが、自動化のご相談はお気軽にどうぞ！」と返す
+6. 怒り・不信感・クレームには「ご不安にさせてしまい申し訳ありません」から始めて誠実に対応する
+7. 「高すぎ」「無料で」など予算不満には「まずは無料相談で費用感を一緒に確認しましょう」と提案する
+8. 1〜2文字の短い入力（「あ」「？」「…」等）には「もう少し詳しく教えていただけますか？」と聞き返す
+9. 競合比較には自社の強みだけ伝え、競合の批判はしない`;
 
   /* ---- ユーティリティ ---- */
   function fetchWithTimeout(url,options,ms){
@@ -1861,6 +1865,16 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     {keys:['契約','支払い','請求','支払'],ans:'お支払いは納品後のご請求となります。銀行振込・クレジットカードに対応しています。分割払いについてはご相談ください。'},
     {keys:['何件','稼働','対応中','空き','枠','受付','受け付け','今いくつ'],ans:`現在 ${BOT_ACTIVE}件 対応中です！残り ${BOT_AVAILABLE}枠 が空いています😊 先着順なのでお早めにどうぞ。無料相談フォームからご連絡いただければすぐにお見積もりをお出しします。`},
     {keys:['ありがとう','ありがとうございます','感謝'],ans:'こちらこそ、ありがとうございます😊 他にも気になることがあれば、何でも聞いてください！無料相談フォームもいつでもどうぞ。'},
+    // [Issue#8] 競合・比較
+    {keys:['他の業者','競合','他社','比較','どこが安い','安い業者'],ans:'他社との比較は難しいですが、こうすけの強みは「Make.com×AI連携の実績」と「納品後も相談できる保守体制」です😊 まず無料相談で費用感を比べてみてください！'},
+    // [Issue#8] 範囲外の質問
+    {keys:['天気','恋愛','株','競馬','ギャンブル','政治','宗教','ゲーム','アニメ'],ans:'それはちょっと専門外でして…😅 業務自動化のご相談でしたら、何でもお気軽にどうぞ！'},
+    // [Issue#7] 低予算対応
+    {keys:['1万','無料でやって','タダでやって','無料で作って','0円','お金がない','予算がない'],ans:'ご予算が限られている場合も、まずご相談ください😊 Liteプラン（¥40,000〜）からスモールスタートも可能ですし、優先度の高い部分だけに絞ることで費用を抑えられる場合があります。'},
+    // [Issue#5/CONVERT] 怒り・不信
+    {keys:['高すぎ','たか','騙','信用できない','怪しい','詐欺','本当に','ちゃんと'],ans:'ご不安にさせてしまい申し訳ございません🙇 実績はLPの事例セクションでご確認いただけます。初回の無料相談は費用0円・断っても問題なしなので、お気軽にどうぞ。'},
+    // [Issue#10] フォーム後の流れ
+    {keys:['フォーム送った','送信した','送りました','何日','いつ返信','返信はいつ'],ans:'フォーム送信ありがとうございます！24時間以内（土日も）にこうすけから直接ご返信します📩 LINEのようなカジュアルなやり取りで進められますので、ご安心ください😊'},
   ];
 
   function staticFAQ(text){
@@ -1950,6 +1964,18 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     addMsg(val,'usr');
     opts.innerHTML='';
     answers[`q${step}`]=val;
+    // [Issue#6修正] q0で「料金」を選択→即料金提示してフォームへ誘導（離脱防止）
+    if(step===0&&val.includes('料金')){
+      step=FLOW.length; // フロー終端へ
+      showTyping();
+      setTimeout(()=>{
+        removeTyping();
+        addMsg('料金についてご説明します！😊\n\n・Liteプラン ¥40,000〜（1トリガー1処理、1〜2週間）\n・Standardプラン ¥80,000〜（AI連携・複数ステップ、2〜4週間）\n・Full Package ¥150,000〜（エンドツーエンド統合、4〜8週間）\n・月額保守 ¥20,000/月\n\n💡 初回見積もりは完全無料です！業務内容を教えていただければ最短当日に概算をお伝えします。残り'+BOT_AVAILABLE+'枠空いています😊');
+        showOpts(['📝 無料で見積もりを依頼する','❓ もっと詳しく聞きたい','🔧 具体的な業務について相談したい']);
+        step='result';
+      },900);
+      return;
+    }
     step++;
     if(step<FLOW.length){
       showTyping();
@@ -2024,15 +2050,17 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       msg+=`\n\n⚡ 3ヶ月以内に回収したい方には\n「${altName}」なら投資回収 約${roi.altPayback}ヶ月でスタートできます`;
     }
     msg+=`\n\n残り${BOT_AVAILABLE}枠です。詳しいご提案はフォームからどうぞ 👇`;
+    return msg; // [Bug#1修正] return 追加
   }
 
   function handleResult(val){
     if(val.includes('詳しい')){
-      addMsg('📝 Larkフォームでより詳しい情報をお伝えください。24時間以内にご連絡いたします！','bot');
-      setTimeout(()=>{window.open('https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb','_blank')},600);
+      // [Issue#10修正] フォーム誘導後の次ステップを詳細説明
+      addMsg('📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にこうすけから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nお気軽にどうぞ😊','bot');
+      setTimeout(()=>{window.open('https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb','_blank')},800);
     } else if(val.includes('料金')){
-      addMsg('💰 ページ内の「料金プラン」セクションをご確認ください！','bot');
-      setTimeout(()=>{document.getElementById('pricing').scrollIntoView({behavior:'smooth'})},600);
+      addMsg('💰 料金プランをご確認ください！\n\n・Liteプラン ¥40,000〜（1〜2週間）\n・Standardプラン ¥80,000〜（2〜4週間）\n・Full Package ¥150,000〜（4〜8週間）\n\n初回見積もりは完全無料です😊','bot');
+      setTimeout(()=>{document.getElementById('pricing').scrollIntoView({behavior:'smooth'})},800);
     } else {
       enterFreeMode();
     }
@@ -2048,6 +2076,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
   async function sendFreeMsg(text){
     if(!text.trim())return;
+    // [Issue#5修正] 短すぎる/意味不明な入力を検知して聞き返す
+    const trimmed=text.trim();
+    if(trimmed.length<=2&&!/[？?]/.test(trimmed)){
+      addMsg(trimmed,'usr');
+      addMsg('もう少し詳しく教えていただけますか？😊 例：「Excelの転記作業を自動化したい」など、気になることをお気軽に！','bot');
+      return;
+    }
     const stepMode=inp.dataset.freeMode;
     inp.value='';
     inp.dataset.freeMode='';
