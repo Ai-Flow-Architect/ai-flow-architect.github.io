@@ -1871,6 +1871,12 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     return null;
   }
 
+  /* ---- 質問判定：「？」か質問ワードを含むか ---- */
+  function isQuestion(text){
+    if(text.includes('？')||text.includes('?'))return true;
+    return /何件|いくら|どのくらい|どんな|できます|できる|教えて|ありますか|ですか|でしょう|いつ|なぜ|なんで|どうやって|どうすれば|どれくらい|対応中|空き|枠|稼働|料金|費用|納期|期間/.test(text);
+  }
+
   const FLOW=[
     {q:'こんにちは！😊 AI Flow Architectです。\n\nまずお気軽に教えてください。一番気になることはどれですか？',opts:['💰 料金・費用を知りたい','🤔 自分の業務が自動化できるか確認したい','⏱ 納期・スケジュールを知りたい','🔧 具体的な業務について相談したい','✨ 何ができるか見てみたい','✏️ 自由に入力する']},
     {q:'ありがとうございます！現在どんな作業を繰り返し手作業でやっていますか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
@@ -2000,8 +2006,27 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     inp.value='';
     inp.dataset.freeMode='';
     addMsg(text,'usr');
-    // step-mode: free input feeds back into the flow
+    // step-mode: 質問なら先に回答→同ステップを再表示。回答なら次ステップへ
     if(stepMode==='step'){
+      if(isQuestion(text)){
+        // 質問と判定：答えてからフローを再提示
+        inp.dataset.freeMode='step';
+        showTyping();
+        const faqAns=staticFAQ(text);
+        if(faqAns){
+          setTimeout(()=>{
+            removeTyping();addMsg(faqAns);
+            setTimeout(()=>{addMsg(FLOW[step].q);showOpts(FLOW[step].opts);inpRow.style.display='none';},900);
+          },600);
+        } else {
+          const llmReply=await callLLM([{role:'system',content:SYS},{role:'user',content:text}],200);
+          removeTyping();
+          addMsg(llmReply||'詳しくはお問い合わせフォームからどうぞ！😊');
+          setTimeout(()=>{addMsg(FLOW[step].q);showOpts(FLOW[step].opts);inpRow.style.display='none';},900);
+        }
+        return;
+      }
+      // 回答として処理→次ステップへ
       answers[`q${step}`]=text;
       step++;
       inpRow.style.display='none';
