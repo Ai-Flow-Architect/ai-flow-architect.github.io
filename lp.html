@@ -359,6 +359,9 @@ footer a:hover{color:var(--t1)}
 .cp-opts{padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px;flex-shrink:0;border-top:1px solid var(--b)}
 .cp-opt{background:var(--bg3);border:1px solid var(--b);color:var(--t2);font-size:.75rem;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .cp-opt:hover{border-color:var(--or);color:var(--or);background:var(--or-d)}
+.cp-nav{padding:6px 16px;display:flex;gap:6px;border-top:1px solid var(--b);flex-shrink:0}
+.cp-nav-btn{background:none;border:1px solid var(--b);color:var(--t2);font-size:.68rem;padding:5px 10px;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:3px}
+.cp-nav-btn:hover{border-color:var(--or);color:var(--or)}
 .cp-inp-row{padding:10px 12px;border-top:1px solid var(--b);display:flex;gap:8px;flex-shrink:0}
 .cp-inp{flex:1;background:var(--bg3);border:1px solid var(--b);border-radius:10px;padding:9px 12px;color:var(--t1);font-size:.82rem;font-family:var(--font);outline:none;resize:none}
 .cp-inp:focus{border-color:var(--bm)}
@@ -1486,6 +1489,10 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
   </div>
   <div class="cp-msgs" id="cp-msgs"></div>
   <div class="cp-opts" id="cp-opts"></div>
+  <div class="cp-nav" id="cp-nav" style="display:none">
+    <button class="cp-nav-btn" id="cp-back">← 戻る</button>
+    <button class="cp-nav-btn" id="cp-home">🏠 メニュー</button>
+  </div>
   <div class="cp-inp-row" id="cp-inp-row" style="display:none">
     <textarea class="cp-inp" id="cp-inp" rows="1" placeholder="メッセージを入力..."></textarea>
     <button class="cp-send" id="cp-send">↑</button>
@@ -1602,9 +1609,13 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   const inp    = document.getElementById('cp-inp');
   const sendBtn= document.getElementById('cp-send');
   const closeBtn=document.getElementById('cp-close');
+  const navRow = document.getElementById('cp-nav');
+  const backBtn= document.getElementById('cp-back');
+  const homeBtn= document.getElementById('cp-home');
 
   let open=false,answers={},freeMode=false,currentRoute=null,routeStep=0;
   const history=[];
+  const stateStack=[]; // 戻る用の状態履歴
 
   /* --- 分岐ルート定義 --- */
   const ROUTES={
@@ -1706,6 +1717,57 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     });
   }
 
+  /* --- ナビゲーション管理 --- */
+  function saveState(){
+    stateStack.push({route:currentRoute,step:routeStep,answers:JSON.parse(JSON.stringify(answers)),msgCount:msgs.children.length});
+  }
+  function updateNav(){
+    if(navRow){
+      const show=stateStack.length>0&&currentRoute!=='cta'&&currentRoute!=='free-active';
+      navRow.style.display=show?'flex':'none';
+    }
+  }
+  function goBack(){
+    if(stateStack.length===0)return;
+    const prev=stateStack.pop();
+    // メッセージを巻き戻す
+    while(msgs.children.length>prev.msgCount)msgs.removeChild(msgs.lastChild);
+    currentRoute=prev.route;
+    routeStep=prev.step;
+    answers=prev.answers;
+    opts.innerHTML='';
+    inpRow.style.display='none';
+    removeTyping();
+    // 再表示
+    if(!currentRoute){
+      showOpts(Object.keys(Q1_MAP));
+    } else {
+      const route=ROUTES[currentRoute];
+      if(route&&routeStep<route.steps.length){
+        showOpts(route.steps[routeStep].opts);
+      }
+    }
+    updateNav();
+  }
+  function goHome(){
+    // 全リセット → Q1に戻る
+    stateStack.length=0;
+    currentRoute=null;
+    routeStep=0;
+    answers={};
+    freeMode=false;
+    opts.innerHTML='';
+    inpRow.style.display='none';
+    removeTyping();
+    // メッセージをクリアして再開
+    msgs.innerHTML='';
+    history.length=0;
+    startFlow();
+    updateNav();
+  }
+  if(backBtn)backBtn.addEventListener('click',goBack);
+  if(homeBtn)homeBtn.addEventListener('click',goHome);
+
   /* --- 開始：挨拶 → 実績 → Q1 --- */
   function startFlow(){
     setTimeout(()=>{
@@ -1751,12 +1813,14 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
       return;
     }
 
+    saveState();
     addMsg(val,'usr');
     opts.innerHTML='';
 
     /* CTA選択肢の処理 */
     if(currentRoute==='cta'){
       handleCTA(val);
+      updateNav();
       return;
     }
 
@@ -1774,6 +1838,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
       } else {
         nextRouteStep();
       }
+      updateNav();
       return;
     }
 
@@ -1788,6 +1853,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
         analyzeAndRecommend();
       }
     }
+    updateNav();
   }
 
   /* --- 即回答表示 → CTA --- */
