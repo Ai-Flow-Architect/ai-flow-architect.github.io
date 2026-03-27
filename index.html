@@ -2155,10 +2155,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     inp.dataset.freeMode='';
     addMsg(text,'usr');
     // [Fix#2] FLOW[step]への安全なアクセスヘルパー
-    const reShowFlowStep=()=>{
-      if(typeof step==='number'&&step>=0&&step<FLOW.length){
+    // [Fix#10] capturedStepで実行時のstep変動から保護（クロージャ参照バグ防止）
+    const makeReShow=(capturedStep)=>()=>{
+      if(typeof capturedStep==='number'&&capturedStep>=0&&capturedStep<FLOW.length){
         showTyping();
-        setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);},600);
+        setTimeout(()=>{removeTyping();addMsg(FLOW[capturedStep].q);showOpts(FLOW[capturedStep].opts);},600);
       }
       inpRow.style.display='none';
     };
@@ -2176,14 +2177,14 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       if(frustrationWordsInFlow.test(text)&&!isQuestion(text)){
         frustrationCount++;
         inp.dataset.freeMode='step';
+        inpRow.style.display='none'; // [Fix#11] 二重入力防止：不満処理中はinput非表示
         if(frustrationCount>=2){
           addMsg('何度もご不満をおかけして申し訳ありません🙇\n\nフォームに「急ぎ」とご記入いただければ最優先でこうすけからご連絡します。');
           frustrationCount=0;
-          inpRow.style.display='none';
         } else {
           const fr=staticFAQ(text);
           addMsg(fr||'ご不安にさせてしまい申し訳ありません🙇 まず無料相談で費用感を一緒に確認しましょう！');
-          setTimeout(()=>reShowFlowStep(),900);
+          setTimeout(makeReShow(step),900);
         }
         return;
       }
@@ -2191,18 +2192,20 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       if(isQuestion(text)){
         // 質問と判定：答えてからフローを再提示
         inp.dataset.freeMode='step';
+        inpRow.style.display='none'; // [Fix#11] 二重入力防止：質問処理中はinput非表示
         showTyping();
+        const reShow=makeReShow(step); // [Fix#10] この時点のstepを確定保持
         const faqAns=staticFAQ(text);
         if(faqAns){
           setTimeout(()=>{
             removeTyping();addMsg(faqAns);
-            setTimeout(()=>reShowFlowStep(),900);
+            setTimeout(()=>reShow(),900);
           },600);
         } else {
           const llmReply=await callLLM([{role:'system',content:SYS},{role:'user',content:text}],200);
           removeTyping();
           addMsg(llmReply||'詳しくはお問い合わせフォームからどうぞ！😊');
-          setTimeout(()=>reShowFlowStep(),900);
+          setTimeout(()=>reShow(),900);
         }
         return;
       }
