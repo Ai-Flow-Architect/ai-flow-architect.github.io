@@ -339,10 +339,14 @@ footer a:hover{color:var(--t1)}
 ===================================================== */
 #chat-btn{position:fixed;bottom:40px;right:88px;width:52px;height:52px;border-radius:50%;background:var(--or);color:#fff;font-size:1.4rem;display:flex;align-items:center;justify-content:center;z-index:300;cursor:pointer;border:none;box-shadow:0 4px 20px rgba(240,120,64,.4);transition:transform .2s,box-shadow .2s}
 #chat-btn:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(240,120,64,.55)}
+#chat-label{position:fixed;bottom:52px;right:148px;background:var(--bg1);color:var(--t1);font-size:.72rem;font-weight:600;padding:8px 14px;border-radius:10px;border:1px solid var(--b);z-index:300;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.3);animation:labelPulse 3s ease-in-out infinite;pointer-events:none}
+#chat-label::after{content:'';position:absolute;right:-6px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-left-color:var(--bg1)}
+@keyframes labelPulse{0%,100%{opacity:1}50%{opacity:.7}}
 #chat-panel{position:fixed;bottom:104px;right:24px;width:360px;max-height:560px;background:var(--bg1);border:1px solid var(--bm);border-radius:20px;display:flex;flex-direction:column;z-index:299;box-shadow:0 12px 48px rgba(0,0,0,.5);transform:scale(.95) translateY(10px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s}
 #chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
 .cp-head{padding:16px 20px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:10px;flex-shrink:0}
-.cp-av{width:32px;height:32px;border-radius:50%;background:var(--or);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.cp-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--or),#e85d2a);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:-.5px}
+.cp-status{display:flex;align-items:center;gap:4px}.cp-status-dot{width:6px;height:6px;border-radius:50%;background:var(--gr);flex-shrink:0}.cp-status-txt{font-size:.6rem;color:var(--gr)}
 .cp-name{font-size:.85rem;font-weight:700}
 .cp-sub{font-size:.65rem;color:var(--t2)}
 .cp-close{margin-left:auto;background:none;border:none;color:var(--t2);font-size:1.1rem;cursor:pointer;transition:color .2s;padding:4px}
@@ -1472,11 +1476,12 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
 <button class="tw-toggle" id="tw-toggle" title="稼働状況">⚡</button>
 
 <!-- CHAT -->
+<div id="chat-label">無料で業務自動化を相談</div>
 <button id="chat-btn" title="AI相談ボット">💬</button>
 <div id="chat-panel">
   <div class="cp-head">
-    <div class="cp-av">🤖</div>
-    <div><div class="cp-name">AI相談ボット</div><div class="cp-sub">無料 · 3分でプランを提案します</div></div>
+    <div class="cp-av">K</div>
+    <div><div class="cp-name">こうすけ｜業務自動化エンジニア</div><div class="cp-sub">無料 · 導入実績50社以上 · 最短3分でご提案</div><div class="cp-status"><span class="cp-status-dot"></span><span class="cp-status-txt">オンライン</span></div></div>
     <button class="cp-close" id="cp-close">✕</button>
   </div>
   <div class="cp-msgs" id="cp-msgs"></div>
@@ -1630,13 +1635,13 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     }
   };
 
-  /* --- Q1 選択肢 → ルートマッピング --- */
+  /* --- Q1 選択肢 → ルートマッピング（購買心理順） --- */
   const Q1_MAP={
+    '✨ まず何ができるか見たい':'overview',
+    '🤔 自分の業務が自動化できるか確認':'check',
     '💰 料金・費用を知りたい':'pricing',
-    '🤔 自動化できるか確認したい':'check',
     '⏱ 納期・スケジュールを知りたい':'schedule',
-    '🔧 具体的な業務について相談したい':'consult',
-    '✨ 何ができるか見てみたい':'overview',
+    '🔧 具体的な業務を相談したい':'consult',
     '✏️ 自由に入力する':'free'
   };
 
@@ -1665,9 +1670,11 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   /* --- 共通CTA選択肢 --- */
   const CTA_OPTS=['📝 無料で提案を受け取る','🔧 もっと詳しく相談したい','❓ 他にも質問がある'];
 
+  const chatLabel=document.getElementById('chat-label');
   function togglePanel(){
     open=!open;
     panel.classList.toggle('open',open);
+    if(chatLabel)chatLabel.style.display='none';
     if(open&&!currentRoute&&routeStep===0)startFlow();
   }
   btn.addEventListener('click',togglePanel);
@@ -1699,19 +1706,26 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
     });
   }
 
-  /* --- 開始：挨拶 → Q1 --- */
+  /* --- 開始：挨拶 → 実績 → Q1 --- */
   function startFlow(){
     setTimeout(()=>{
       showTyping();
       setTimeout(()=>{
         removeTyping();
-        addMsg('こんにちは！業務自動化エンジニアの「こうすけ」です。');
+        addMsg('こんにちは！業務自動化エンジニアのこうすけです。');
         setTimeout(()=>{
           showTyping();
           setTimeout(()=>{
             removeTyping();
-            addMsg('お気軽にどうぞ。何が気になりますか？');
-            showOpts(Object.keys(Q1_MAP));
+            addMsg('これまで50社以上の業務を自動化し、平均で作業時間を90%削減してきました。');
+            setTimeout(()=>{
+              showTyping();
+              setTimeout(()=>{
+                removeTyping();
+                addMsg('あなたの業務でも同じ効果が出せるか、すぐ確認できます。何が気になりますか？');
+                showOpts(Object.keys(Q1_MAP));
+              },400);
+            },200);
           },500);
         },300);
       },500);
