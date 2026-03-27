@@ -1932,7 +1932,8 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   function togglePanel(){
     open=!open;
     panel.classList.toggle('open',open);
-    if(open&&step===0)startFlow();
+    // [Fix#6] 初回オープン時のみstartFlow（panel再開時の二重メッセージ防止）
+    if(open&&step===0&&msgs.children.length===0)startFlow();
   }
   btn.addEventListener('click',togglePanel);
   closeBtn.addEventListener('click',()=>{open=false;panel.classList.remove('open')});
@@ -2036,7 +2037,8 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     // 予算から希望プランを判定
     const budgetStr=a.q5||'';
     let preferredPlan='standard';
-    if(budgetStr.includes('5万'))preferredPlan='lite';
+    // [Fix#7] '5〜10万円'が'5万'にも誤マッチするため'〜5万'で厳密一致
+    if(budgetStr.includes('〜5万'))preferredPlan='lite';
     if(budgetStr.includes('20万')||(timeStr.includes('20時間')))preferredPlan='full';
     const preferredCost=planCosts[preferredPlan];
     const preferredPayback=Math.ceil(preferredCost/monthlySave);
@@ -2107,7 +2109,8 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   }
 
   function handleResult(val){
-    if(val.includes('詳しい')||val.includes('見積もり')){
+    // [Fix#8] '詳しい'だけでは「もっと詳しく聞きたい」もフォーム誘導してしまうため厳密化
+    if(val.includes('詳しい提案')||val.includes('見積もり')){
       // [Fix#5] ポップアップブロック対策：リンクもメッセージに表示
       addMsgWithLink(
         '📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にこうすけから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nポップアップがブロックされた場合は下のリンクから👇',
@@ -2167,6 +2170,23 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
       // やり直し指示
       if(/やり直し|最初|リセット/.test(text)){resetFlow();return;}
+
+      // [Fix#9] フロー中の不満ワードをFAQで処理（回答として記録しない）
+      const frustrationWordsInFlow=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
+      if(frustrationWordsInFlow.test(text)&&!isQuestion(text)){
+        frustrationCount++;
+        inp.dataset.freeMode='step';
+        if(frustrationCount>=2){
+          addMsg('何度もご不満をおかけして申し訳ありません🙇\n\nフォームに「急ぎ」とご記入いただければ最優先でこうすけからご連絡します。');
+          frustrationCount=0;
+          inpRow.style.display='none';
+        } else {
+          const fr=staticFAQ(text);
+          addMsg(fr||'ご不安にさせてしまい申し訳ありません🙇 まず無料相談で費用感を一緒に確認しましょう！');
+          setTimeout(()=>reShowFlowStep(),900);
+        }
+        return;
+      }
 
       if(isQuestion(text)){
         // 質問と判定：答えてからフローを再提示
