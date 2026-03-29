@@ -1003,9 +1003,13 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .bnode.hub img{width:42px;height:42px;object-fit:contain}
   .bnode-label{position:absolute;font-size:.5rem;color:var(--t3);white-space:nowrap;z-index:2;pointer-events:none;width:56px;text-align:center}
   @keyframes b2a{0%{stroke-dashoffset:360;opacity:0}8%{opacity:1}85%{opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+
+/* 読み進めプログレスバー */
+#read-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--or),var(--gr));width:0%;z-index:9999;transition:width .1s linear;pointer-events:none}
 </style>
 </head>
 <body>
+<div id="read-progress"></div>
 
 <!-- CURSOR -->
 <div id="cursor-dot"></div>
@@ -1063,7 +1067,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <div style="font-size:.78rem;color:var(--t3);margin-bottom:12px;letter-spacing:.03em">1〜20名チームの経営者・事業主へ</div>
     <div class="hero-capacity-badge" id="hero-capacity-status2"><span class="avail-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block"></span>...</div>
     <!-- trust-row moved below hero-sub -->
-    <p class="hero-sub" style="margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)">その2時間の作業、<strong style="color:var(--t1)">来週から0にできます。</strong><br><span style="font-size:.88rem">毎日消えていく作業時間は、放置するほど損が積み上がる。</span></p>
+    <p class="hero-sub" style="margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)">その2時間の作業、<strong style="color:var(--t1)">来週から0にできます。</strong><br><span style="font-size:.88rem">毎日2時間 × 年240日 = <strong style="color:var(--or)">年間480時間・約96万円分</strong>の損失が続いています。</span></p>
     <div class="hero-trust-row" style="margin-bottom:28px;">
       <span class="ht-item">✅ <span class="ht-full">知識は一切不要</span><span class="ht-short">知識不要</span></span>
       <span class="ht-sep">·</span>
@@ -1642,6 +1646,13 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <div style="text-align:center;padding:28px 24px 4px;background:linear-gradient(to bottom,var(--bg),var(--bg2))">
   <p style="font-size:.95rem;font-weight:700;color:var(--t1);margin-bottom:8px">仕様通りに動かなければ、<span style="color:var(--or)">全額返金</span>します。</p>
   <p style="font-size:.82rem;color:var(--t3);line-height:1.7">リスクゼロで、まず1つだけ試してみませんか？<br>相談・見積もりは完全無料。強引な営業は一切ありません。</p>
+</div>
+<div style="text-align:center;padding:20px 24px 0;background:var(--bg)">
+  <p style="font-size:.88rem;color:var(--t3);line-height:1.9;max-width:540px;margin:0 auto">
+    ここまで読んでくださったということは、<br>
+    <strong style="color:var(--t2)">「変えたい」という気持ちがある</strong>ということだと思います。<br>
+    <span style="font-size:.8rem">その一歩、今日がタイミングです。相談は無料・無理な営業は一切ありません。</span>
+  </p>
 </div>
 <section id="contact">
   <div class="cta-glow"></div>
@@ -3709,6 +3720,19 @@ window.addEventListener('resize', () => {
   composer.setSize(W, H);
   bloom.resolution.set(W, H);
 });
+</script>
+
+<script>
+// 読み進めプログレスバー
+(function(){
+  var bar = document.getElementById('read-progress');
+  if(!bar) return;
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var pct = (h.scrollTop || document.body.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    bar.style.width = Math.min(pct, 100) + '%';
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>
