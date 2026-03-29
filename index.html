@@ -1444,7 +1444,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         </div>
         <!-- リアルタイムログパネル -->
         <div class="fdv2-log">
-          <div class="fdv2-log-head">⚡ リアルタイムログ</div>
+          <div class="fdv2-log-head">⚡ 自動化ログ（稼働中）</div>
           <div class="fdv2-log-body" id="fdv2-log-body"></div>
         </div>
       </div>
@@ -2762,12 +2762,12 @@ function submitForm(e){
   function rrect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
 
   var NS=[
-    {x:8,  y:38,w:130,h:68,l1:'Make.com',  l2:'TRIGGER', col:CB,active:false,glow:0},
-    {x:196,y:38,w:130,h:68,l1:'Claude API',l2:'PROCESS',  col:CO,active:false,glow:0},
-    {x:384,y:38,w:130,h:68,l1:'GPT-4o',    l2:'PROCESS',  col:CO,active:false,glow:0},
-    {x:572,y:38,w:120,h:68,l1:'Lark Bot',  l2:'ACTION',   col:CG,active:false,glow:0},
-    {x:196,y:168,w:130,h:68,l1:'Sheets',   l2:'STORE',    col:CG,active:false,glow:0},
-    {x:384,y:168,w:130,h:68,l1:'Lark',     l2:'NOTIFY',   col:CG,active:false,glow:0},
+    {x:8,  y:38,w:130,h:68,l1:'ECシステム', l2:'TRIGGER', col:CB,active:false,glow:0},
+    {x:196,y:38,w:130,h:68,l1:'在庫確認AI', l2:'CHECK',   col:CO,active:false,glow:0},
+    {x:384,y:38,w:130,h:68,l1:'発注メール', l2:'ACTION',  col:CO,active:false,glow:0},
+    {x:572,y:38,w:120,h:68,l1:'Slack通知',  l2:'NOTIFY',  col:CG,active:false,glow:0},
+    {x:196,y:168,w:130,h:68,l1:'発注DB',    l2:'STORE',   col:CG,active:false,glow:0},
+    {x:384,y:168,w:130,h:68,l1:'管理画面',  l2:'UPDATE',  col:CG,active:false,glow:0},
   ];
   var CS=[
     {sx:138,sy:72, ex:196,ey:72, col:lerp(CB,CO,0.5)},
@@ -2778,13 +2778,13 @@ function submitForm(e){
   ];
   var particles=[],runs=1247,busy=false;
   var logData=[
-    {t:'📬 フォーム受信 #enquiry-087',c:'log-bl'},
-    {t:'🤖 Claude: 業務自動化の相談と分類',c:'log-pu'},
-    {t:'✍️ GPT-4o: 返信文を生成中...',c:'log-pu'},
-    {t:'📤 Lark Bot: 返信送信 ✓',c:'log-or'},
-    {t:'📊 Sheets: ログ記録 ✓',c:'log-gr'},
-    {t:'🔔 Lark: 担当者へ通知 ✓',c:'log-gr'},
-    {t:'✅ 完了 (処理時間: 0.7秒)',c:'log-gr'},
+    {t:'🏪 在庫確認トリガー: 残り12個を検知',c:'log-bl'},
+    {t:'📊 在庫AI: 発注ライン(20個)を下回った',c:'log-pu'},
+    {t:'📧 発注メール: サプライヤー宛 送信中...',c:'log-or'},
+    {t:'📤 発注メール 送信完了 ✓',c:'log-or'},
+    {t:'🔔 Slack #在庫管理: チーム通知 ✓',c:'log-gr'},
+    {t:'📋 発注DB: 記録 & 管理画面更新 ✓',c:'log-gr'},
+    {t:'✅ 完了 (処理時間: 1.2秒)',c:'log-gr'},
   ];
   function addLog(item){
     var b=document.getElementById('fdv2-log-body');
