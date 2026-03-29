@@ -1114,7 +1114,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <section style="padding:56px 24px;background:rgba(255,255,255,.02)">
   <div class="wrap" style="max-width:860px">
     <div class="eye">BEFORE / AFTER</div>
-    <h2 class="sec-t" style="margin-bottom:36px">自動化の前と後</h2>
+    <h2 class="sec-t" style="margin-bottom:36px">自動化のBefore→After</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
       <div style="background:rgba(255,60,60,.05);border:1px solid rgba(255,60,60,.2);border-radius:16px;padding:24px">
         <div style="font-size:.75rem;font-weight:700;color:#f55;letter-spacing:.1em;margin-bottom:14px">BEFORE ❌ 手作業の毎日</div>
@@ -1139,40 +1139,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
     <div style="text-align:center;margin-top:28px;font-size:.82rem;color:var(--t3)">
       ⏱ この変化、平均 <strong style="color:var(--t1)">1〜2週間</strong> で実現しています
-    </div>
-  </div>
-</section>
-
-<!-- FLOW DIAGRAM -->
-<section id="flow">
-  <div class="wrap" style="max-width:1140px;margin:0 auto">
-    <div style="margin-bottom:32px">
-      <div class="eye">HOW IT WORKS</div>
-      <h2 class="sec-t">データが<br>自律的に流れる</h2>
-      <p class="sec-s" style="margin-bottom:20px;max-width:none">フォームへの入力がトリガーとなり、AIが判断し、通知が飛び、データが蓄積される。人が手を動かす必要はありません。</p>
-    </div>
-    <div class="fdv2" id="fdv2-root" style="margin:0">
-      <!-- ステータスバー -->
-      <div class="fdv2-bar">
-        <div class="fdv2-bar-l">
-          <span class="fdv2-live-dot"></span>AutoFlow — <strong>稼働中</strong>
-        </div>
-        <div class="fdv2-bar-r">
-          <span>問い合わせ → AI返信 → ログ記録</span>
-          <span>実行数: <strong id="fdv2-run-count">1,247</strong></span>
-        </div>
-      </div>
-      <!-- メインコンテンツ -->
-      <div class="fdv2-main">
-        <div class="fdv2-graph-wrap">
-          <canvas id="fd-canvas"></canvas>
-        </div>
-        <!-- リアルタイムログパネル -->
-        <div class="fdv2-log">
-          <div class="fdv2-log-head">⚡ リアルタイムログ</div>
-          <div class="fdv2-log-body" id="fdv2-log-body"></div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -1460,6 +1426,35 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
   </div>
 </section>
+<!-- FLOW DIAGRAM（INDUSTRY CASESの後に移動） -->
+<section id="flow" style="padding:0 24px 48px">
+  <div class="wrap" style="max-width:1140px;margin:0 auto">
+    <div class="fdv2" id="fdv2-root" style="margin:0">
+      <!-- ステータスバー -->
+      <div class="fdv2-bar">
+        <div class="fdv2-bar-l">
+          <span class="fdv2-live-dot"></span>在庫確認 → 発注メール → Slack通知 — <strong>稼働中</strong>
+        </div>
+        <div class="fdv2-bar-r">
+          <span>⏱ <strong style="color:#3dd68c">2時間/日</strong> → <strong style="color:#f07840">5分/日</strong> に自動化</span>
+          <span>実行数: <strong id="fdv2-run-count">1,247</strong></span>
+        </div>
+      </div>
+      <!-- メインコンテンツ -->
+      <div class="fdv2-main">
+        <div class="fdv2-graph-wrap">
+          <canvas id="fd-canvas"></canvas>
+        </div>
+        <!-- リアルタイムログパネル -->
+        <div class="fdv2-log">
+          <div class="fdv2-log-head">⚡ リアルタイムログ</div>
+          <div class="fdv2-log-body" id="fdv2-log-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CREDS -->
 <section id="creds">
   <div class="wrap">
