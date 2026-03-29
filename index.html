@@ -1673,7 +1673,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       Usageリミット付きの専用キーを使ってください
    冗長構成: OpenAI → Gemini → 静的FAQ → 問い合わせ誘導
 ===================================================== */
-const OPENAI_API_KEY='__OPENAI_API_KEY__';
+const WORKER_URL='https://ai-flow-openai-proxy.kosuke-axson.workers.dev/chat';
 const OPENAI_MODEL  ='gpt-4o-mini';
 const GEMINI_API_KEY='__GEMINI_API_KEY__';
 const GEMINI_MODEL  ='gemini-1.5-flash';
@@ -1917,11 +1917,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   async function callLLM(messages,maxTokens){
     maxTokens=maxTokens||300;
     // ① OpenAI
-    if(OPENAI_API_KEY&&OPENAI_API_KEY!=='__OPENAI_API_KEY__'){
+    if(WORKER_URL){
       try{
-        const r=await fetchWithTimeout('https://api.openai.com/v1/chat/completions',{
+        const r=await fetchWithTimeout(WORKER_URL,{
           method:'POST',
-          headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
+          headers:{'Content-Type':'application/json'},
           body:JSON.stringify({model:OPENAI_MODEL,messages:messages,max_tokens:maxTokens,temperature:.7})
         },5000);
         const d=await r.json();
