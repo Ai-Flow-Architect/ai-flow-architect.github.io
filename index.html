@@ -1368,7 +1368,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <div class="testi-stars">
           <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
         </div>
-        <p class="testi-text">季節切り替えのたびに100件以上の商品説明文を書き直す作業が、パートさんの一番の負担でした。17時間かかっていた作業が15分になり、月3万3千円の人件費削減に直結。「こうすけさんに頼むと魔法みたいに終わる」とパートさんに言われて、私も初めて仕組みの力を実感しました。技術的な知識がなくても使い続けられる引き継ぎ資料を丁寧に作ってくれたのも助かりました。</p>
+        <p class="testi-text">季節切り替えのたびに100件以上の商品説明文を書き直す作業が、パートさんの一番の負担でした。17時間かかっていた作業が15分になり、月3万3千円の人件費削減に直結。「AI Flow Architectに頼むと魔法みたいに終わる」とパートさんに言われて、私も初めて仕組みの力を実感しました。技術的な知識がなくても使い続けられる引き継ぎ資料を丁寧に作ってくれたのも助かりました。</p>
         <div class="testi-author">
           <div class="testi-av" style="background:var(--gr-d);border-color:var(--gr);font-size:.9rem;font-weight:800;color:var(--gr)">M.S</div>
           <div><div class="testi-name">ECサイト運営者</div><div class="testi-role">アパレル / 3名チーム · 2026年1月</div></div>
@@ -1576,7 +1576,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <thead>
           <tr style="border-bottom:1px solid var(--bm)">
             <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;min-width:100px">比較軸</th>
-            <th style="padding:10px 12px;text-align:center;color:var(--or);font-weight:800;background:rgba(240,120,64,.06);border-radius:4px 4px 0 0">🏆 こうすけ</th>
+            <th style="padding:10px 12px;text-align:center;color:var(--or);font-weight:800;background:rgba(240,120,64,.06);border-radius:4px 4px 0 0">🏆 AI Flow Architect</th>
             <th style="padding:10px 12px;text-align:center;color:var(--t3);font-weight:600">他の自動化業者</th>
             <th style="padding:10px 12px;text-align:center;color:var(--t3);font-weight:600">社内IT採用</th>
           </tr>
@@ -2148,9 +2148,9 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   const BOT_AVAILABLE= Math.max(1,_MAX-BOT_ACTIVE);
 
   /* ---- 共通システムプロンプト ---- */
-  const SYS = `あなたはAI業務自動化エンジニア「こうすけ」のLPに設置されたAI相談ボットです。
+  const SYS = `あなたはAI業務自動化「AI Flow Architect」のLPに設置されたAI相談ボットです。
 
-【こうすけについて】
+【AI Flow Architectについて】
 AI業務自動化エンジニア。Make.com・OpenAI・Claude・Gemini・Google Workspaceなどを使い、繰り返し作業を自動化する専門家。
 
 【稼働状況】（重要：積極的に使うこと）
@@ -2257,7 +2257,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     {keys:['何件','稼働','対応中','空き','枠','受付','受け付け','今いくつ'],ans:`現在 ${BOT_ACTIVE}件 対応中です！残り ${BOT_AVAILABLE}枠 が空いています😊 先着順なのでお早めにどうぞ。無料相談フォームからご連絡いただければすぐにお見積もりをお出しします。`},
     {keys:['ありがとう','ありがとうございます','感謝'],ans:'こちらこそ、ありがとうございます😊 他にも気になることがあれば、何でも聞いてください！無料相談フォームもいつでもどうぞ。'},
     // [Issue#8] 競合・比較
-    {keys:['他の業者','競合','他社','比較','どこが安い','安い業者'],ans:'他社との比較は難しいですが、こうすけの強みは「Make.com×AI連携の実績」と「納品後も相談できる保守体制」です😊 まず無料相談で費用感を比べてみてください！'},
+    {keys:['他の業者','競合','他社','比較','どこが安い','安い業者'],ans:'他社との比較は難しいですが、AI Flow Architectの強みは「Make.com×AI連携の実績」と「納品後も相談できる保守体制」です😊 まず無料相談で費用感を比べてみてください！'},
     // [Issue#8] 範囲外の質問
     {keys:['天気','恋愛','株','競馬','ギャンブル','政治','宗教','ゲーム','アニメ'],ans:'それはちょっと専門外でして…😅 業務自動化のご相談でしたら、何でもお気軽にどうぞ！'},
     // [Issue#7] 低予算対応
@@ -2267,7 +2267,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     // [Issue#5/CONVERT] 怒り・不信
     {keys:['高すぎ','たか','騙','信用できない','怪しい','詐欺','本当に','ちゃんと'],ans:'ご不安にさせてしまい申し訳ございません🙇 実績はLPの事例セクションでご確認いただけます。初回の無料相談は費用0円・断っても問題なしなので、お気軽にどうぞ。'},
     // [Issue#10] フォーム後の流れ
-    {keys:['フォーム送った','送信した','送りました','何日','いつ返信','返信はいつ'],ans:'フォーム送信ありがとうございます！24時間以内（土日も）にこうすけから直接ご返信します📩 LINEのようなカジュアルなやり取りで進められますので、ご安心ください😊'},
+    {keys:['フォーム送った','送信した','送りました','何日','いつ返信','返信はいつ'],ans:'フォーム送信ありがとうございます！24時間以内（土日も）にAI Flow Architectから直接ご返信します📩 LINEのようなカジュアルなやり取りで進められますので、ご安心ください😊'},
     // [Gemini D-01/D-02] プラン別機能説明・最安プラン
     {keys:['Liteプラン','ライトプラン','lite','一番安い','最安','最低価格','安いプラン'],ans:'一番安いのはLiteプラン（¥40,000〜）です！\n\n✅ Liteプランでできること：\n・1つのトリガー（メール受信・フォーム送信等）\n・1つの処理（データ転記・通知送信等）\n・納期1〜2週間\n\nシンプルな自動化ならLiteで十分対応できます😊'},
     {keys:['Standardプラン','スタンダード','standard','中くらい'],ans:'Standardプラン（¥80,000〜）の内容です！\n\n✅ できること：\n・複数ステップの自動化（A→B→Cと連携）\n・AI（ChatGPT/Claude）を組み込んだ処理\n・複数トリガー・複数アクション\n・納期2〜4週間\n\n「AI自動返信+データ集計+通知」のような本格的な自動化に向いています😊'},
@@ -2275,13 +2275,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     // [Gemini A-01] 戻る・リセット
     {keys:['戻る','やり直す','最初から','リセット','最初に戻','もう一度'],ans:'もちろんです！最初からやり直す場合は、チャットを閉じてもう一度💬ボタンを押してください😊 最初の質問からご案内します。'},
     // [Gemini E-02] 深刻な不満・ループ対応
-    {keys:['使えない','最悪','最低','絶対','ひどい','だめ','無駄'],ans:'ご不満をおかけして大変申し訳ございません🙇\n\nチャットより直接こうすけに連絡する方が早いかもしれません。\n\n📩 フォームから「急ぎ」とご記入いただければ、最優先でご連絡します。無料なのでご遠慮なくどうぞ。'},
+    {keys:['使えない','最悪','最低','絶対','ひどい','だめ','無駄'],ans:'ご不満をおかけして大変申し訳ございません🙇\n\nチャットより直接AI Flow Architectに連絡する方が早いかもしれません。\n\n📩 フォームから「急ぎ」とご記入いただければ、最優先でご連絡します。無料なのでご遠慮なくどうぞ。'},
     // [Gemini D] キャンセル・断り
     {keys:['キャンセル','断る','やめる','断っても','断れる','やめてもいい'],ans:'もちろん、無料相談後に「やっぱりやめる」でも全く問題ありません😊 費用は一切かかりませんし、強引な営業もしません。気軽な雑談感覚でどうぞ！'},
     // [Gemini C] 「もっと詳しく」→ 直前コンテキストを補完
     {keys:['もっと詳しく','詳細を','具体的に','もう少し','教えてください','もっと知りたい'],ans:'もう少し詳しくお聞かせいただけますか？😊 例えば「どの作業について」「どんな点が気になりますか？」など、何でもお気軽にどうぞ。無料相談でもっと詳しくお答えできます！'},
     // [Fix#追加] 担当者・本人対応
-    {keys:['こうすけ','担当者','本人','直接話したい','直接連絡'],ans:'こうすけは本人が対応します😊 このチャットで確認後、フォームからご連絡いただければ直接やり取りできます！無理な営業は一切しないのでお気軽にどうぞ。'},
+    {keys:['こうすけ','担当者','本人','直接話したい','直接連絡'],ans:'AI Flow Architectが直接対応します😊 このチャットで確認後、フォームからご連絡いただければ直接やり取りできます！無理な営業は一切しないのでお気軽にどうぞ。'},
     // [Fix#追加] 会社員・サラリーマン向け
     {keys:['会社員','サラリーマン','正社員','会社で','社内','部署'],ans:'会社員の方からのご依頼も多数対応しています😊 「社内業務の自動化を提案したい」「上司に稟議を通したい」などの状況もご相談ください。ROI試算資料もご用意できます。'},
     // [Fix#追加] 規模・対応可能範囲
@@ -2508,7 +2508,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     if(val.includes('詳しい提案')||val.includes('見積もり')){
       // [Fix#5] ポップアップブロック対策：リンクもメッセージに表示
       addMsgWithLink(
-        '📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にこうすけから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nポップアップがブロックされた場合は下のリンクから👇',
+        '📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にAI Flow Architectから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nポップアップがブロックされた場合は下のリンクから👇',
         FORM_URL,'無料相談フォームを開く'
       );
       try{window.open(FORM_URL,'_blank');}catch(e){}
@@ -2574,7 +2574,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
         inp.dataset.freeMode='step';
         inpRow.style.display='none'; // [Fix#11] 二重入力防止：不満処理中はinput非表示
         if(frustrationCount>=2){
-          addMsg('何度もご不満をおかけして申し訳ありません🙇\n\nフォームに「急ぎ」とご記入いただければ最優先でこうすけからご連絡します。');
+          addMsg('何度もご不満をおかけして申し訳ありません🙇\n\nフォームに「急ぎ」とご記入いただければ最優先でAI Flow Architectからご連絡します。');
           frustrationCount=0;
         } else {
           const fr=staticFAQ(text);
@@ -2629,7 +2629,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     if(frustrationWords.test(text)){
       frustrationCount++;
       if(frustrationCount>=2){
-        reply='何度もご不満をおかけして申し訳ありません🙇\n\nチャットより直接ご連絡いただく方が早いかもしれません。\n\nフォームに「急ぎ」とご記入いただければ最優先でこうすけからご連絡します。';
+        reply='何度もご不満をおかけして申し訳ありません🙇\n\nチャットより直接ご連絡いただく方が早いかもしれません。\n\nフォームに「急ぎ」とご記入いただければ最優先でAI Flow Architectからご連絡します。';
         frustrationCount=0;
       }
     }
