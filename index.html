@@ -1740,6 +1740,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <details><summary>納品後に仕様が変わった場合は対応してもらえますか？</summary><div class="fq-ans">はい、対応可能です。納品後の仕様変更・小改修・エラー対応は個別相談で承っています。月額保守プラン（¥20,000/月）にご加入いただくと、月２時間の範囲で優先対応が可能です。各プランのサポート期間内であれば追加費用なしで対応します。</div></details>
       <details><summary>既存のシステム・社内ツールとの連携はできますか？</summary><div class="fq-ans">はい、対応しています。Google スプレッドシート・Notion・Slack・LINE・kintone・Salesforce など多くのサービスとの連携実績があります。「うちのシステムはどうだろう？」という段階でも、無料相談でご確認いただけます。</div></details>
       <details><summary>「動かなければ全額返金」の条件を教えてください</summary><div class="fq-ans">納品した自動化が<strong>合意した仕様通りに動作しない場合</strong>、納品完了日から<strong>14日以内</strong>にご報告ください。まず最大2回の修正対応を行い、それでも解決しない場合は全額返金いたします。<br><br>※以下は対象外となります：<br>・お客様都合の仕様変更（納品後に「やっぱり違うことがしたい」等）<br>・外部サービスの仕様変更・障害（Make.comやGoogle等の仕様変更）<br>・運用手順書と異なる操作による不具合<br><br>安心してご依頼ください。まず動くものを納品することに全力を尽くします。</div></details>
+      <details><summary>導入まで、どのくらい時間がかかりますか？</summary><div class="fq-ans">Liteプランなら<strong>最短3〜5日</strong>、Standardプランなら<strong>1〜2週間</strong>が目安です。まずヒアリング（30分）→要件定義→実装→テスト→納品という流れです。「来週から稼働させたい」という場合もご相談ください。スケジュールを優先して対応できます。</div></details>
+      <details><summary>どんな業種・業務でも対応できますか？</summary><div class="fq-ans">EC・IT・士業・製造・サービス業など幅広い業種での導入実績があります。特に<strong>「繰り返しの多い定型業務」</strong>（データ入力・転記・レポート作成・メール送信・在庫確認など）は自動化の対象になりやすいです。「うちは特殊かも…」と思っていても、意外と対応できることが多いので、まず無料相談でお聞かせください。</div></details>
+      <details><summary>IT担当者がいなくても使いこなせますか？</summary><div class="fq-ans"><strong>はい、対応しています。</strong> 納品時に「運用手順書」と「簡単な操作説明動画（必要な場合）」をお渡しします。PCの基本操作ができればOKです。納品後のサポート期間中は、使い方に関する質問も無制限でお受けしますのでご安心ください。</div></details>
     </div>
     <div class="faq-chat-cta">
       <p>他にも気になることがあれば、<br>チャットボットにお気軽にご相談ください！</p>
@@ -3740,5 +3743,32 @@ window.addEventListener('resize', () => {
   }, {passive:true});
 })();
 </script>
+
+<!-- フローティングCTA -->
+<div id="floating-cta" style="display:none;position:fixed;bottom:24px;right:24px;z-index:9998;animation:fadeInUp .4s ease">
+  <a href="#contact" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--or),#e05a00);color:#fff;padding:14px 22px;border-radius:50px;box-shadow:0 4px 20px rgba(240,120,64,.5);text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap">
+    <span>💬</span>
+    <span>無料相談する</span>
+    <span style="background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;font-size:12px">残3枠</span>
+  </a>
+</div>
+<style>
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+
+<script>
+(function(){
+  var fc = document.getElementById('floating-cta');
+  if(!fc) return;
+  window.addEventListener('scroll', function(){
+    if((window.scrollY||document.documentElement.scrollTop) > 300){
+      fc.style.display = 'block';
+    } else {
+      fc.style.display = 'none';
+    }
+  },{passive:true});
+})();
+</script>
+
 </body>
 </html>
