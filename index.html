@@ -1081,15 +1081,30 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
     <p class="hero-micro">無理な営業は一切ありません · ご相談内容は秘密厳守</p>
     <div class="hero-nums" style="margin-top:32px;">
-      <div class="hn"><div class="hn-n c-or">80%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
+      <div class="hn"><div class="hn-n c-or" data-count="80" data-suffix="%">0%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
       <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
-      <div class="hn"><div class="hn-n c-gr">68×</div><div class="hn-l">処理速度<br>向上実績</div></div>
-      <div class="hn"><div class="hn-n c-pu">50+</div><div class="hn-l">自動化<br>導入実績</div></div>
+      <div class="hn"><div class="hn-n c-gr" data-count="68" data-suffix="×">0×</div><div class="hn-l">処理速度<br>向上実績</div></div>
+      <div class="hn"><div class="hn-n c-pu" data-count="50" data-suffix="+">0+</div><div class="hn-l">自動化<br>導入実績</div></div>
     </div>
   </div>
   <div class="hero-fade"></div>
 </section>
 
+<!-- AUTO WORKS EXAMPLES -->
+<div style="padding:20px 24px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)">
+  <div style="max-width:700px;margin:0 auto;text-align:center">
+    <p style="font-size:.75rem;color:var(--t3);margin-bottom:12px;text-transform:uppercase;letter-spacing:.1em">こんな業務を自動化しています</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+      <span style="font-size:.75rem;padding:5px 12px;background:rgba(74,143,247,.08);border:1px solid rgba(74,143,247,.2);border-radius:999px;color:var(--t2)">📋 データ入力・転記</span>
+      <span style="font-size:.75rem;padding:5px 12px;background:rgba(74,143,247,.08);border:1px solid rgba(74,143,247,.2);border-radius:999px;color:var(--t2)">📊 日次レポート作成</span>
+      <span style="font-size:.75rem;padding:5px 12px;background:rgba(74,143,247,.08);border:1px solid rgba(74,143,247,.2);border-radius:999px;color:var(--t2)">📧 メール・通知送信</span>
+      <span style="font-size:.75rem;padding:5px 12px;background:rgba(74,143,247,.08);border:1px solid rgba(74,143,247,.2);border-radius:999px;color:var(--t2)">🔍 在庫・発注確認</span>
+      <span style="font-size:.75rem;padding:5px 12px;background:rgba(74,143,247,.08);border:1px solid rgba(74,143,247,.2);border-radius:999px;color:var(--t2)">💬 問い合わせ振り分け</span>
+      <span style="font-size:.75rem;padding:5px 12px;background:rgba(74,143,247,.08);border:1px solid rgba(74,143,247,.2);border-radius:999px;color:var(--t2)">📁 ファイル整理・命名</span>
+      <span style="font-size:.75rem;padding:5px 12px;background:rgba(240,120,64,.08);border:1px solid rgba(240,120,64,.2);border-radius:999px;color:var(--or)">+ その他100種類以上の業務</span>
+    </div>
+  </div>
+</div>
 <!-- SYMPTOM CHECK -->
 <section id="symptom-check">
   <div class="sc-wrap">
@@ -1305,6 +1320,13 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <p style="font-size:.88rem;color:var(--t2);padding:14px 20px;background:rgba(61,214,140,.04);border-left:3px solid rgba(61,214,140,.3);border-radius:0 8px 8px 0;line-height:1.75">🧪 <strong style="color:var(--t1)">過去の案件で実証済み</strong><br>提案する自動化はすべて、実際にビジネスの現場で稼働させているものだけ。<span style="color:var(--gr)">→ だから理論だけで動かない失敗リスクがありません。</span></p>
 </div>
 
+<!-- TESTIMONIALS BRIDGE -->
+<div style="text-align:center;padding:12px 24px;background:rgba(61,214,140,.03);border-top:1px solid rgba(61,214,140,.12)">
+  <p style="font-size:.82rem;color:var(--t2);line-height:1.8">
+    「本当に実現できるの？」— そう思った方へ。<br>
+    <strong style="color:var(--t1)">実際に自動化した方々の声をどうぞ。</strong>
+  </p>
+</div>
 <!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="wrap">
@@ -3741,6 +3763,36 @@ window.addEventListener('resize', () => {
     var pct = (h.scrollTop || document.body.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
     bar.style.width = Math.min(pct, 100) + '%';
   }, {passive:true});
+})();
+</script>
+
+
+<script>
+(function(){
+  var els = document.querySelectorAll('[data-count]');
+  if(!els.length) return;
+  var done = false;
+  function runCount(){
+    if(done) return; done = true;
+    els.forEach(function(el){
+      var target = parseInt(el.getAttribute('data-count'));
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1200;
+      var step = duration / target;
+      var cur = 0;
+      var timer = setInterval(function(){
+        cur += Math.ceil(target/50);
+        if(cur >= target){ cur = target; clearInterval(timer); }
+        el.textContent = cur + suffix;
+      }, step);
+    });
+  }
+  var hero = document.querySelector('.hero-nums');
+  if(!hero){ return; }
+  var obs = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting) runCount();
+  },{threshold:0.3});
+  obs.observe(hero);
 })();
 </script>
 
