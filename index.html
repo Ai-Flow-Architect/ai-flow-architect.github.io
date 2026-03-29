@@ -240,7 +240,7 @@ h1.hero-h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.03e
 .h1-cycle-wrap{display:inline-block;position:relative;overflow:hidden;height:1.1em;vertical-align:bottom}
 .h1-cycle{display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.77,0,.18,1)}
 .h1-word{color:var(--or);display:block;height:1.1em;line-height:1.1}
-.h1-tw-cursor{display:inline-block;color:var(--or);font-weight:300;margin-left:1px;animation:twcursor .65s ease-in-out infinite}
+.h1-tw-cursor{display:inline-block;color:#fff;font-weight:300;margin-left:1px;animation:twcursor .65s ease-in-out infinite}
 @keyframes twcursor{0%,100%{opacity:1}50%{opacity:0}}
 
 .hero-sub{font-size:clamp(.95rem,2vw,1.1rem);color:var(--t2);max-width:520px;margin:0 auto 48px;line-height:1.75;font-weight:400;text-shadow:0 2px 20px rgba(0,0,0,1),0 4px 40px rgba(0,0,0,1),0 0 80px rgba(0,0,0,0.9)}
@@ -1058,7 +1058,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         </span>
       </span>
       <br>
-      <span class="h1-static" style="color:var(--or)">➡&nbsp;<span id="h1-typewriter"></span><span class="h1-tw-cursor">|</span></span>
+      <span class="h1-static" style="color:#fff;white-space:nowrap">➡&nbsp;<span id="h1-typewriter"></span><span class="h1-tw-cursor">|</span></span>
     </h1>
     <!-- hero-sub 一時削除 -->
     <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px">
@@ -1993,7 +1993,7 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   const tw=document.getElementById('h1-typewriter');
   const cursor=document.querySelector('.h1-tw-cursor');
   if(!tw) return;
-  const text='０〜１分に自動化しませんか？';
+  const text='１分に自動化しませんか？';
   let i=0,typing=true;
   function tick(){
     if(typing){
