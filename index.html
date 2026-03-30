@@ -1392,8 +1392,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </div>
 <!-- INDUSTRY CASES -->
-<section style="padding:56px 24px;background:rgba(255,255,255,.015)">
-  <div class="wrap">
+<section id="industry-section" style="padding:56px 24px;background:#0a0a0f;position:relative;overflow:hidden">
+  <canvas id="industry-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
+  <div style="position:relative;z-index:2;background:rgba(10,10,15,0.88);border-radius:16px;padding:40px 36px;max-width:960px;margin:0 auto;box-shadow:0 0 60px 40px rgba(10,10,15,0.88)">
+  <div class="wrap" style="max-width:100%;padding:0">
     <div class="eye">CASES BY INDUSTRY</div>
     <h2 class="sec-t" style="margin-bottom:8px">業種別の導入事例</h2>
     <p class="sec-s" style="margin-bottom:36px">「自分の業界でも使えるのか？」<br>各業種の代表的な自動化事例をご覧ください。</p>
@@ -1447,6 +1449,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <p style="font-size:.78rem;color:var(--t3)">上記以外の業種・業務もお気軽にご相談ください。<strong style="color:var(--t2)">「うちの業務は特殊かも…」という方こそ、意外と対応できます。</strong></p>
     </div>
   </div>
+  </div><!-- /content-shield -->
 </section>
 <!-- FLOW DIAGRAM（INDUSTRY CASESの後に移動） -->
 <section id="flow" style="padding:0 24px 48px">
@@ -3946,5 +3949,74 @@ window.addEventListener('resize', () => {
 })();
 </script>
 
+<script>
+/* ===== INDUSTRY CASES: 回路エフェクト（ヒーローと同一コード） ===== */
+(function(){
+  const cv=document.getElementById('industry-canvas');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  const CELL=40;
+  let W,H,nodes=[],pulses=[];
+  function rsz(){
+    const sect=document.getElementById('industry-section');
+    W=cv.width=sect.offsetWidth; H=cv.height=sect.offsetHeight;
+    nodes=[];
+    const cols=Math.ceil(W/CELL)+1,rows=Math.ceil(H/CELL)+1;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
+      nodes.push({x:c*CELL,y:r*CELL,lit:0});
+  }
+  window.addEventListener('resize',rsz); rsz();
+  function spawnPulse(){
+    const n=nodes[Math.floor(Math.random()*nodes.length)];
+    const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
+    const d=dirs[Math.floor(Math.random()*dirs.length)];
+    const steps=3+Math.floor(Math.random()*7);
+    pulses.push({x:n.x,y:n.y,dx:d[0]*CELL,dy:d[1]*CELL,step:0,steps,progress:0,
+      color:Math.random()<.55?'#4ad582':'#f07840'});
+  }
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(255,255,255,.032)'; ctx.lineWidth=.5;
+    for(let x=0;x<=W;x+=CELL){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<=H;y+=CELL){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    nodes.forEach(n=>{
+      if(n.lit>0){
+        ctx.shadowColor=n.lit>0.5?'#4ad582':'rgba(74,213,130,0.4)';
+        ctx.shadowBlur=n.lit*14;
+        ctx.beginPath();ctx.arc(n.x,n.y,n.lit>0.5?3:2,0,Math.PI*2);
+        ctx.fillStyle=`rgba(74,213,130,${n.lit})`;ctx.fill();
+        ctx.shadowBlur=0;n.lit=Math.max(0,n.lit-.014);
+      }else{
+        ctx.beginPath();ctx.arc(n.x,n.y,1.5,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,.07)';ctx.fill();
+      }
+    });
+    for(let i=pulses.length-1;i>=0;i--){
+      const p=pulses[i];p.progress+=0.055;
+      if(p.progress>=1){
+        p.step++;p.progress=0;p.x+=p.dx;p.y+=p.dy;
+        const cols=Math.ceil(W/CELL)+1;
+        const nx=Math.round(p.x/CELL),ny=Math.round(p.y/CELL);
+        const ni=ny*cols+nx;
+        if(nodes[ni])nodes[ni].lit=1;
+        if(p.step>=p.steps){pulses.splice(i,1);continue;}
+      }
+      const sx=p.x-p.dx*(1-p.progress),sy=p.y-p.dy*(1-p.progress);
+      const grad=ctx.createLinearGradient(sx,sy,p.x,p.y);
+      grad.addColorStop(0,'rgba(74,213,130,0)');grad.addColorStop(1,p.color+'cc');
+      ctx.strokeStyle=grad;ctx.lineWidth=1.5;
+      ctx.shadowColor=p.color;ctx.shadowBlur=7;
+      ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(p.x,p.y);ctx.stroke();
+      ctx.shadowBlur=0;
+    }
+    frame++;
+    if(frame%6===0)spawnPulse();
+    if(frame%3===0)spawnPulse();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
 </body>
 </html>
