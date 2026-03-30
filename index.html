@@ -196,10 +196,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--t1);line-height:1.
 /* =====================================================
    CUSTOM CURSOR
 ===================================================== */
-#cursor-dot{position:fixed;width:8px;height:8px;background:var(--t1);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s}
-#cursor-ring{position:fixed;width:32px;height:32px;border:1.5px solid rgba(255,255,255,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s,background .2s}
-body.cursor-hover #cursor-dot{width:5px;height:5px;background:var(--or)}
-body.cursor-hover #cursor-ring{width:42px;height:42px;border-color:var(--or);background:rgba(240,120,64,.06)}
+
+
+
+
 
 /* =====================================================
    NAV
@@ -1014,8 +1014,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <div id="read-progress"></div>
 
 <!-- CURSOR -->
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
+
+
 
 <!-- NAV -->
 <nav>
@@ -1857,15 +1857,7 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
 /* =====================================================
    CUSTOM CURSOR
 ===================================================== */
-const dot  = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let rx=0,ry=0,mx=0,my=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
-(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
-document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
-});
+
 
 /* =====================================================
    TEXT CYCLING (alchemi-style)
