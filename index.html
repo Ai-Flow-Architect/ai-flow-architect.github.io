@@ -1009,6 +1009,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 /* 読み進めプログレスバー */
 #read-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--or),var(--gr));width:0%;z-index:9999;transition:width .1s linear;pointer-events:none}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div id="read-progress"></div>
@@ -1150,6 +1151,18 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </section>
 
+<!-- COST OF INACTION GRAPH -->
+<section style="padding:48px 24px;background:linear-gradient(180deg,rgba(255,70,70,.04) 0%,rgba(255,70,70,.01) 100%);border-top:1px solid rgba(255,70,70,.12);border-bottom:1px solid rgba(255,70,70,.12)">
+  <div style="max-width:760px;margin:0 auto;text-align:center">
+    <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;color:rgba(255,90,90,.7);margin-bottom:10px">⚠ 放置コストの試算</div>
+    <p style="font-size:1rem;color:var(--t2);line-height:1.7;margin-bottom:28px">１〜20名チームが繰り返し作業を１年放置すると</p>
+    <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:28px 20px">
+      <canvas id="costChart" height="200"></canvas>
+      <p style="font-size:.68rem;color:rgba(255,255,255,.28);margin-top:14px">※ 週5日・1日2時間×48週 / 時給¥2,000換算　左軸：損失額（万円）　右軸：損失時間（h）</p>
+    </div>
+  </div>
+</section>
+
 <!-- BENTO + FLOW DEMO -->
 <section id="bento">
   <div class="wrap">
@@ -1253,24 +1266,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </section>
 
-<!-- COST OF INACTION -->
-<section style="padding:40px 24px;background:linear-gradient(180deg,rgba(255,70,70,.04) 0%,rgba(255,70,70,.01) 100%);border-top:1px solid rgba(255,70,70,.12);border-bottom:1px solid rgba(255,70,70,.12)">
-  <div class="inner" style="max-width:760px;margin:0 auto;text-align:center">
-    <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;color:rgba(255,90,90,.7);margin-bottom:12px">⚠ 放置コストの試算</div>
-    <p style="font-size:1.05rem;color:var(--t2);line-height:1.7;margin-bottom:20px">1〜20名チームが繰り返し作業を1年放置すると</p>
-    <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:20px">
-      <div style="background:rgba(255,70,70,.06);border:1px solid rgba(255,70,70,.2);border-radius:14px;padding:18px 28px;min-width:140px">
-        <div style="font-size:2rem;font-weight:900;color:rgba(255,100,80,.9);letter-spacing:-.03em">480時間</div>
-        <div style="font-size:.72rem;color:var(--t3);margin-top:4px">年間の損失工数</div>
-      </div>
-      <div style="background:rgba(255,70,70,.06);border:1px solid rgba(255,70,70,.2);border-radius:14px;padding:18px 28px;min-width:140px">
-        <div style="font-size:2rem;font-weight:900;color:rgba(255,100,80,.9);letter-spacing:-.03em">¥96万</div>
-        <div style="font-size:.72rem;color:var(--t3);margin-top:4px">相当の人件費（時給2,000円換算）</div>
-      </div>
-    </div>
-    <p style="font-size:.82rem;color:var(--t3);line-height:1.6">上記はBEFORE/AFTERで実証した改善幅の平均値です。あなたのチームの試算は無料相談で確認できます。</p>
-  </div>
-</section>
 
 <div class="mid-cta">
   <div class="mid-cta-sub">相談・見積もり完全無料 · 返金保証あり · 24時間以内に返信</div>
@@ -3895,6 +3890,59 @@ window.addEventListener('resize', () => {
       fc.style.display = 'none';
     }
   },{passive:true});
+})();
+</script>
+
+<script>
+/* ===== 放置コストグラフ ===== */
+(function(){
+  const el = document.getElementById('costChart');
+  if(!el) return;
+  const teams     = ['1名','3名','5名','10名','20名'];
+  const costMan   = [96,288,480,960,1920];
+  const costMonth = costMan.map(v=>Math.round(v/12));
+  const hours     = [480,1440,2400,4800,9600];
+  new Chart(el.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:teams,
+      datasets:[
+        {type:'bar',label:'１ヶ月の損失額（万円）',data:costMonth,
+         backgroundColor:'rgba(255,179,71,.55)',borderColor:'rgba(255,179,71,.9)',
+         borderWidth:1.5,borderRadius:6,yAxisID:'yCost',order:2},
+        {type:'bar',label:'年間の損失額（万円）',data:costMan,
+         backgroundColor:'rgba(255,107,107,.45)',borderColor:'rgba(255,107,107,.8)',
+         borderWidth:1.5,borderRadius:6,yAxisID:'yCost',order:2},
+        {type:'line',label:'年間の損失時間（h）',data:hours,
+         borderColor:'rgba(99,179,237,1)',backgroundColor:'rgba(99,179,237,.08)',
+         borderWidth:2.5,pointBackgroundColor:'rgba(99,179,237,1)',
+         pointRadius:5,pointHoverRadius:7,tension:0.35,fill:false,
+         yAxisID:'yHours',order:1}
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      animation:{duration:600,easing:'easeInOutQuart'},
+      plugins:{
+        legend:{labels:{color:'rgba(255,255,255,.5)',font:{size:11}}},
+        tooltip:{callbacks:{label:(ctx)=>{
+          if(ctx.dataset.yAxisID==='yHours') return ` 損失時間: ${ctx.parsed.y.toLocaleString()}h`;
+          const p = ctx.datasetIndex===0?' １ヶ月':' 年間';
+          return `${p}: ¥${ctx.parsed.y}万`;
+        }}}
+      },
+      scales:{
+        x:{ticks:{color:'rgba(255,255,255,.6)',font:{size:12}},grid:{color:'rgba(255,255,255,.05)'}},
+        yCost:{position:'left',
+          ticks:{color:'rgba(255,107,107,.7)',callback:v=>'¥'+v+'万'},
+          grid:{color:'rgba(255,255,255,.05)'}},
+        yHours:{position:'right',
+          ticks:{color:'rgba(99,179,237,.8)',callback:v=>v.toLocaleString()+'h'},
+          grid:{drawOnChartArea:false}}
+      }
+    }
+  });
 })();
 </script>
 
