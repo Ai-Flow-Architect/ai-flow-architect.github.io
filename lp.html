@@ -803,7 +803,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <a href="#process">フロー</a>
       <a href="#faq">FAQ</a>
     </div>
-    <a href="#contact" class="nav-cta">気軽に無料相談 →</a>
+    <a href="#contact" class="nav-cta" onclick="gtag('event','contact_click',{event_category:'contact',event_label:'nav_cta'})">気軽に無料相談 →</a>
   </div>
 </nav>
 
@@ -848,7 +848,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <div class="hn"><div class="hn-n c-pu">50+</div><div class="hn-l">自動化<br>導入実績</div></div>
     </div>
     <div class="hero-btns">
-      <a href="#contact" class="btn-w">無料相談で、業務効率化の可能性を確認する →</a>
+      <a href="#contact" class="btn-w" onclick="gtag('event','contact_click',{event_category:'contact',event_label:'hero_cta'})">無料相談で、業務効率化の可能性を確認する →</a>
       <a href="#cases" class="btn-g">実績・事例を見る</a>
     </div>
     <p class="hero-micro">無理な営業は一切ありません · ご相談内容は秘密厳守</p>
@@ -1308,7 +1308,7 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
           <tr><th>ROI（投資対効果）</th><td id="roi-roi">—</td></tr>
         </table>
         <div class="roi-suggestion" id="roi-suggestion"></div>
-        <a href="#contact" class="roi-cta-btn">このプランで相談する →</a>
+        <a href="#contact" class="roi-cta-btn" onclick="gtag('event','contact_click',{event_category:'contact',event_label:'roi_cta'})">このプランで相談する →</a>
       </div>
     </div>
   </div>
@@ -2170,6 +2170,8 @@ function submitForm(e){
   var txt=document.getElementById('iform-btn-text');
   btn.disabled=true;
   txt.textContent='送信中…';
+  // GA4: フォーム送信イベント
+  gtag('event','contact_submit',{event_category:'contact',event_label:'inline_form'});
   // フォームデータ収集
   var f=document.getElementById('contact-form');
   var data=new FormData(f);
