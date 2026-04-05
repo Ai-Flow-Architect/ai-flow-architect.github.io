@@ -2339,7 +2339,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
           setTimeout(()=>{
             removeTyping();
             addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\nまず、どんな業種でお仕事されていますか？');
-            showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない']);
+            showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない','✏️ 自由に入力する']);
             updateNav();
           },700);
         },400);
@@ -2355,7 +2355,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     addMsg('✨ 最初からやり直します！');
     setTimeout(()=>{
       addMsg('まず、どんな業種でお仕事されていますか？');
-      showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない']);
+      showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない','✏️ 自由に入力する']);
     },700);
   }
 
@@ -2394,7 +2394,14 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
     // ---- Q0: 業種ヒアリング ----
     if(step===-1){
-      persona=val.replace(/^.\s/,'');// 絵文字プレフィックスを除去
+      if(val==='✏️ 自由に入力する'){
+        opts.innerHTML='';
+        inpRow.style.display='flex';
+        inp.focus();
+        inp.dataset.freeMode='persona';
+        return;
+      }
+      persona=val.replace(/^[^\s]+\s/,'');// 先頭の絵文字+スペースを除去
       addMsg(val,'usr');
       opts.innerHTML='';
       step=0;
@@ -2593,6 +2600,22 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     inp.value='';
     inp.dataset.freeMode='';
     addMsg(text,'usr');
+
+    // ---- Q0 自由入力（業種テキスト入力）----
+    if(stepMode==='persona'){
+      persona=text;
+      inpRow.style.display='none';
+      step=0;
+      showTyping();
+      setTimeout(()=>{
+        removeTyping();
+        addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\n一番気になることを教えてください😊');
+        showOpts(FLOW[0].opts);
+        updateNav();
+      },700);
+      return;
+    }
+
     // [Fix#2] FLOW[step]への安全なアクセスヘルパー
     // [Fix#10] capturedStepで実行時のstep変動から保護（クロージャ参照バグ防止）
     const makeReShow=(capturedStep)=>()=>{
