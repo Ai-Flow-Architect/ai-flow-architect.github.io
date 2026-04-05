@@ -2084,7 +2084,7 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
   const backBtn= document.getElementById('cp-back');
   const homeBtn= document.getElementById('cp-home');
 
-  let open=false,step=0,answers={},freeMode=false,frustrationCount=0;
+  let open=false,step=-1,answers={},freeMode=false,frustrationCount=0,persona='';
   const history=[];// LLM conversation history
   const stateStack=[];// 戻るボタン用の状態スタック
 
@@ -2274,7 +2274,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     open=!open;
     panel.classList.toggle('open',open);
     // [Fix#6] 初回オープン時のみstartFlow（panel再開時の二重メッセージ防止）
-    if(open&&step===0&&msgs.children.length===0)startFlow();
+    if(open&&msgs.children.length===0)startFlow();
   }
   btn.addEventListener('click',togglePanel);
   closeBtn.addEventListener('click',()=>{open=false;panel.classList.remove('open')});
@@ -2338,8 +2338,8 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
           showTyping();
           setTimeout(()=>{
             removeTyping();
-            addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\n一番気になることを教えてください😊');
-            showOpts(FLOW[0].opts);
+            addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\nまず、どんな業種でお仕事されていますか？');
+            showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない']);
             updateNav();
           },700);
         },400);
@@ -2349,13 +2349,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
   /* ---- フロー完全リセット ---- */
   function resetFlow(){
-    step=0;answers={};freeMode=false;frustrationCount=0;
+    step=-1;answers={};freeMode=false;frustrationCount=0;persona='';
     history.length=0;stateStack.length=0;
     opts.innerHTML='';inpRow.style.display='none';nav.style.display='none';
-    addMsg('✨ 最初からやり直します！気になることをまた教えてください😊');
+    addMsg('✨ 最初からやり直します！');
     setTimeout(()=>{
-      addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\n一番気になることを教えてください😊');
-      showOpts(FLOW[0].opts);
+      addMsg('まず、どんな業種でお仕事されていますか？');
+      showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない']);
     },700);
   }
 
@@ -2373,7 +2373,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       removeTyping();
       addMsg(msgMap[type]);
       setTimeout(()=>{
-        addMsg('✅ AI Flow Architectが選ばれる理由：\n① 20社以上の豊富な実績（Make.com×AI自動化）\n② 納品後も相談できる保守体制あり\n③ 初回相談・見積もり完全無料・強引な営業なし');
+        addMsg(diffMsg());
         showOpts(ctaMap[type]);
         updateNav();
       },800);
@@ -2391,6 +2391,22 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       return;
     }
     if(val==='🔄 診断をやり直す'){resetFlow();return;}
+
+    // ---- Q0: 業種ヒアリング ----
+    if(step===-1){
+      persona=val.replace(/^.\s/,'');// 絵文字プレフィックスを除去
+      addMsg(val,'usr');
+      opts.innerHTML='';
+      step=0;
+      showTyping();
+      setTimeout(()=>{
+        removeTyping();
+        addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\n一番気になることを教えてください😊');
+        showOpts(FLOW[0].opts);
+        updateNav();
+      },700);
+      return;
+    }
 
     // ---- Q1分岐ロジック（原則①） ----
     if(step===0){
@@ -2430,10 +2446,27 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   }
 
   /* ROI試算ヘルパー */
+  /* 業種別差別化メッセージ */
+  function diffMsg(){
+    const m={
+      'EC・通販':'受注処理・在庫管理・顧客対応の自動化を多数実施',
+      '士業・コンサル':'顧客管理・書類作成・スケジュール管理の自動化実績あり',
+      '製造・物流':'発注管理・在庫確認・報告書作成の自動化に対応',
+      '人材・採用':'候補者管理・日程調整・求人登録の自動化実績あり',
+    };
+    let specific='';
+    for(const[k,v]of Object.entries(m)){if(persona.includes(k)){specific=`\n② ${v}`;break;}}
+    if(!specific)specific='\n② 納品後も相談できる保守体制あり';
+    return `✅ AI Flow Architectが選ばれる理由：\n① 20社以上の豊富な実績（Make.com×AI自動化）${specific}\n③ 初回相談・見積もり完全無料・強引な営業なし`;
+  }
+
   function calcROI(a){
     const hoursMap={'1〜3':2,'3〜10':6,'10〜20':15,'20時間以上':25};
     const planCosts={lite:40000,standard:80000,full:150000};
     let hrs=6,rate=1500;
+    // 業種別時給単価
+    const personaRates={'EC・通販':1800,'士業・コンサル':3000,'製造・物流':1400,'人材・採用':2000};
+    for(const[k,v]of Object.entries(personaRates)){if(persona.includes(k)){rate=v;break;}}
     const timeStr=a.q2||'';// FLOW[2]=週時間
     for(const[k,v]of Object.entries(hoursMap)){if(timeStr.includes(k)){hrs=v;break;}}
     const monthlySave=Math.max(1000,Math.round(hrs*4*rate*0.8/1000)*1000);
@@ -2453,7 +2486,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   async function analyzeAndRecommend(){
     showTyping();
     const roi=calcROI(answers);
-    const summary=Object.entries(answers).map(([k,v])=>`${k}: ${v}`).join('\n');
+    const summary=(persona?`業種: ${persona}\n`:'')+Object.entries(answers).map(([k,v])=>`${k}: ${v}`).join('\n');
     // 3ヶ月超なら代替プラン提案をプロンプトに含める
     let roiInstruction=`①最適プランを1つ推薦 ②ROI（月${roi.monthlySave.toLocaleString()}円節約・年${roi.yearlySave.toLocaleString()}円・投資回収${roi.preferredPayback}ヶ月）を具体的に伝える ③空いた時間で受けられる案件収益（月${roi.oppRevenue.toLocaleString()}円相当）も加えて価値を大きく見せる`;
     if(roi.altPlan){
@@ -2476,7 +2509,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       addMsg(`📊 あなたの削減シミュレーション：\n・月 ${mHrs}時間の削減（週${roi.hrs}h×4週）\n・年間 ¥${roi.yearlySave.toLocaleString()} のコスト削減\n・ROI ${roiPct}%（投資回収 約${roi.preferredPayback}ヶ月）`);
       // ✅ 差別化3項目（原則④）
       setTimeout(()=>{
-        addMsg('✅ AI Flow Architectが選ばれる理由：\n① 20社以上の豊富な実績（Make.com×AI自動化）\n② 納品後も相談できる保守体制あり\n③ 初回相談・見積もり完全無料・強引な営業なし');
+        addMsg(diffMsg());
         showOpts(['📝 詳しい提案を受け取る','❓ もっと質問したい','💰 料金を確認する','🔄 診断をやり直す']);
         step='result';
         updateNav();
