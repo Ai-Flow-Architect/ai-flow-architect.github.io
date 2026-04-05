@@ -819,6 +819,15 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .proc-steps{flex-direction:column;gap:24px}
   .proc-steps::before{display:none}
 }
+
+/* PC時は非表示・スマホで表示する要素のデフォルト（必ず@media 640pxより前に置く） */
+.hero-sub-sp{display:none}
+.scroll-ind{display:none;position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:4;flex-direction:column;align-items:center;gap:3px;pointer-events:none;animation:scrollBounce 2s ease-in-out infinite}
+.scroll-ind span{display:block;width:4px;height:8px;background:var(--gr);border-radius:2px}
+.scroll-ind span:nth-child(2){opacity:.55}
+.scroll-ind span:nth-child(3){opacity:.3}
+@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+.bc-show-more-btn{display:none;width:100%;justify-content:center;margin:16px 0;padding:13px 24px;background:rgba(255,255,255,.04);border:1px solid var(--bm);border-radius:12px;color:var(--t2);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.04em}
 @media(max-width:640px){
   nav{padding:0 16px}
   .nav-links{display:none}
@@ -881,15 +890,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   /* 返金保証ボックス強調 */
   #guarantee-box{border-color:rgba(61,214,140,.5)!important;background:rgba(61,214,140,.1)!important;box-shadow:0 0 24px rgba(61,214,130,.2)!important}
 }
-
-/* PC時は非表示・スマホで表示する要素のデフォルト */
-.hero-sub-sp{display:none}
-.scroll-ind{display:none;position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:4;flex-direction:column;align-items:center;gap:3px;pointer-events:none;animation:scrollBounce 2s ease-in-out infinite}
-.scroll-ind span{display:block;width:4px;height:8px;background:var(--gr);border-radius:2px}
-.scroll-ind span:nth-child(2){opacity:.55}
-.scroll-ind span:nth-child(3){opacity:.3}
-@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
-.bc-show-more-btn{display:none;width:100%;justify-content:center;margin:16px 0;padding:13px 24px;background:rgba(255,255,255,.04);border:1px solid var(--bm);border-radius:12px;color:var(--t2);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.04em}
 
 /* =====================================================
    SCROLL REVEAL ANIMATIONS
