@@ -542,6 +542,10 @@ footer a:hover{color:var(--t1)}
 .cp-inp-row{padding:10px 12px;border-top:1px solid var(--b);display:flex;gap:8px;flex-shrink:0}
 .cp-inp{flex:1;background:var(--bg3);border:1px solid var(--b);border-radius:10px;padding:9px 12px;color:var(--t1);font-size:.82rem;font-family:var(--font);outline:none;resize:none}
 .cp-inp:focus{border-color:var(--bm)}
+.cp-nav{padding:4px 16px 8px;display:flex;gap:8px;flex-shrink:0}
+.cp-nav-btn{background:none;border:1px solid var(--b);color:var(--t2);font-size:.72rem;padding:5px 10px;border-radius:6px;cursor:pointer;transition:all .15s}
+.cp-nav-btn:hover{border-color:var(--bm);color:var(--t1)}
+.cp-dot{width:8px;height:8px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);display:inline-block;vertical-align:middle;margin-right:4px;flex-shrink:0}
 .cp-send{background:var(--or);border:none;color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:.9rem;flex-shrink:0;transition:opacity .2s}
 .cp-send:hover{opacity:.85}
 .typing{display:flex;gap:4px;padding:10px 14px;background:var(--bg3);border-radius:14px 14px 14px 4px;align-self:flex-start;width:56px}
@@ -1853,10 +1857,14 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <div id="chat-panel">
   <div class="cp-head">
     <div class="cp-av">🤖</div>
-    <div><div class="cp-name">AI相談ボット</div><div class="cp-sub">無料 · ３分でプランを提案します</div></div>
+    <div><div class="cp-name">AI相談ボット</div><div class="cp-sub"><span class="cp-dot"></span>オンライン · 無料 · 最短3分</div></div>
     <button class="cp-close" id="cp-close">✕</button>
   </div>
   <div class="cp-msgs" id="cp-msgs"></div>
+  <div class="cp-nav" id="cp-nav" style="display:none">
+    <button class="cp-nav-btn" id="cp-back">← 戻る</button>
+    <button class="cp-nav-btn" id="cp-home">🏠 メニュー</button>
+  </div>
   <div class="cp-opts" id="cp-opts"></div>
   <div class="cp-inp-row" id="cp-inp-row" style="display:none">
     <textarea class="cp-inp" id="cp-inp" rows="1" placeholder="メッセージを入力..."></textarea>
@@ -2068,13 +2076,17 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
   const panel  = document.getElementById('chat-panel');
   const msgs   = document.getElementById('cp-msgs');
   const opts   = document.getElementById('cp-opts');
+  const nav    = document.getElementById('cp-nav');
   const inpRow = document.getElementById('cp-inp-row');
   const inp    = document.getElementById('cp-inp');
   const sendBtn= document.getElementById('cp-send');
   const closeBtn=document.getElementById('cp-close');
+  const backBtn= document.getElementById('cp-back');
+  const homeBtn= document.getElementById('cp-home');
 
   let open=false,step=0,answers={},freeMode=false,frustrationCount=0;
   const history=[];// LLM conversation history
+  const stateStack=[];// 戻るボタン用の状態スタック
 
   /* ---- 稼働数（Capacity Statusと同じロジック） ---- */
   const _REAL_ACTIVE=0,_MAX=5,_dmy=[3,2,4,3,4,2,3];
@@ -2085,7 +2097,7 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
   const SYS = `あなたはAI業務自動化「AI Flow Architect」のLPに設置されたAI相談ボットです。
 
 【AI Flow Architectについて】
-AI業務自動化エンジニア。Make.com・OpenAI・Claude・Gemini・Google Workspaceなどを使い、繰り返し作業を自動化する専門家。
+AI業務自動化エンジニア。Make.com・OpenAI・Claude・Gemini・Google Workspaceなどを使い、繰り返し作業を自動化する専門家。20社以上の導入実績・平均60%の業務時間削減を実現。
 
 【稼働状況】（重要：積極的に使うこと）
 現在 ${BOT_ACTIVE}件 対応中 / 残り ${BOT_AVAILABLE}枠 が空き（上限5件）
@@ -2161,6 +2173,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     }
     return null; // 両方失敗
   }
+
+  /* ---- 即回答テンプレート（Q1分岐：情報収集系） ---- */
+  const INSTANT_PRICE=`料金プランのご案内です😊\n\n・超ミニマム ¥20,000（3〜5日・お試しに最適）\n・Lite ¥40,000〜（1〜2週間）\n・Standard ¥80,000〜（2〜4週間）\n・Full Package ¥150,000〜（4〜8週間）\n・月額保守 ¥20,000/月\n\n💡 初回見積もりは完全無料！残り${BOT_AVAILABLE}枠空いています😊`;
+  const INSTANT_DEADLINE=`納期の目安です😊\n\n・超ミニマム：3〜5日\n・Liteプラン：1〜2週間\n・Standardプラン：2〜4週間\n・Full Package：4〜8週間\n\nお急ぎでも対応できますので、まずご相談ください！残り${BOT_AVAILABLE}枠空いています。`;
+  const INSTANT_WHAT=`主な自動化メニューです😊\n\n・Excel転記・集計の自動化\n・メール・問い合わせ自動返信\n・複数ツール間のデータ連携\n・SNS投稿・レポート自動生成\n・AI（GPT/Claude）を業務フローに組み込み\n\nほぼあらゆる繰り返し作業が対象です！`;
 
   /* ---- 静的FAQ（③層目）: キーワードマッチ → 定型回答 ---- */
   const FAQ_DB=[
@@ -2245,15 +2262,12 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   }
 
   const FLOW=[
-    {q:'こんにちは！😊 AI Flow Architectです。\n\nまずお気軽に教えてください。一番気になることはどれですか？',opts:['💰 料金・費用を知りたい','🤔 自分の業務が自動化できるか確認したい','⏱ 納期・スケジュールを知りたい','🔧 具体的な業務について相談したい','✨ 何ができるか見てみたい','✏️ 自由に入力する']},
-    {q:'ありがとうございます！現在どんな作業を繰り返し手作業でやっていますか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
+    // FLOW[0] = Q1：意図特定（ルート分岐）
+    {q:'一番気になることを教えてください😊',opts:['💰 料金・費用を知りたい','⏱ 納期・スケジュールを知りたい','✨ 何ができるか見てみたい','🤔 自分の業務が自動化できるか確認したい','🔧 具体的な業務について相談したい','✏️ 自由に質問する']},
+    // FLOW[1..3] = ヒアリング3問（課題確認系のみ）
+    {q:'どんな繰り返し作業を自動化したいですか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
     {q:'週にどのくらい時間がかかっていますか？',opts:['⏱ 1〜3時間','⏱ 3〜10時間','⏱ 10〜20時間','⏱ 20時間以上','✏️ 自由に入力する']},
-    {q:'現在使っているツールを教えてください',opts:['📋 Google Sheets / Excel','🗂️ Notion','🔔 Slack','📱 LINE','⚙️ 独自システム・基幹システム','✏️ 自由に入力する']},
-    {q:'チームで使いますか？それとも個人で？',opts:['👤 個人で使う','👥 チーム（2〜5人）','🏢 チーム（6人以上）','🏭 部署・全社規模','✏️ 自由に入力する']},
-    {q:'ご予算感はどのくらいをお考えですか？',opts:['💴 〜5万円','💴 5〜10万円','💴 10〜20万円','💴 20万円以上','🤔 まだわからない','✏️ 自由に入力する']},
-    {q:'いつ頃から動かしたいですか？',opts:['🚀 今すぐ（1週間以内）','📅 1ヶ月以内','📅 3ヶ月以内','🤔 まだ検討中','✏️ 自由に入力する']},
-    {q:'最後に一つ。自動化・システム開発を外注したことはありますか？',opts:['✅ はい、経験あり','❌ いいえ、初めて','🔧 社内で試みたことはある','🤔 よくわからない']},
-    {q:'ありがとうございます！参考までに教えてください。自動化で削減できる作業の時間単価はどのくらいですか？\n（あなた自身・従業員・外注コストのいずれでも構いません。ROI試算に使います😊）',opts:['💴 〜1,000円/時','💴 1,000〜2,000円/時','💴 2,000〜3,000円/時','💴 3,000円以上/時','💼 会社員・従業員（月給制）','✏️ 自由に入力する']},
+    {q:'現在使っているツールを教えてください',opts:['📋 Google Sheets / Excel','🗂️ Notion / Lark','🔔 Slack / LINE','⚙️ 独自システム・基幹システム','🤔 まだ決まっていない','✏️ 自由に入力する']},
   ];
 
   function togglePanel(){
@@ -2293,15 +2307,41 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     });
   }
 
+  /* ---- ナビゲーション（← 戻る / 🏠 メニュー） ---- */
+  function saveState(){
+    stateStack.push({step,answers:JSON.parse(JSON.stringify(answers)),freeMode,msgsHTML:msgs.innerHTML,optsHTML:opts.innerHTML});
+  }
+  function updateNav(){
+    nav.style.display=(step==='result'||freeMode||!stateStack.length)?'none':'flex';
+  }
+  function goBack(){
+    if(!stateStack.length)return;
+    const s=stateStack.pop();
+    step=s.step;answers=s.answers;freeMode=s.freeMode;
+    msgs.innerHTML=s.msgsHTML;opts.innerHTML=s.optsHTML;
+    inpRow.style.display='none';
+    // innerHTML復元後はクリックハンドラを再付与
+    Array.from(opts.querySelectorAll('.cp-opt')).forEach(b=>{const t=b.textContent;b.addEventListener('click',()=>handleOpt(t));});
+    updateNav();
+  }
+  function goHome(){stateStack.length=0;resetFlow();}
+  backBtn.addEventListener('click',goBack);
+  homeBtn.addEventListener('click',goHome);
+
   function startFlow(){
     setTimeout(()=>{
       showTyping();
       setTimeout(()=>{
         removeTyping();
-        addMsg('こんにちは！👋 AI Flow Architect の相談ボットです。');
+        addMsg('こんにちは！👋 AI Flow Architectです。');
         setTimeout(()=>{
           showTyping();
-          setTimeout(()=>{removeTyping();addMsg(FLOW[0].q);showOpts(FLOW[0].opts);},700);
+          setTimeout(()=>{
+            removeTyping();
+            addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\n一番気になることを教えてください😊');
+            showOpts(FLOW[0].opts);
+            updateNav();
+          },700);
         },400);
       },600);
     },300);
@@ -2310,16 +2350,40 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   /* ---- フロー完全リセット ---- */
   function resetFlow(){
     step=0;answers={};freeMode=false;frustrationCount=0;
-    history.length=0;
-    opts.innerHTML='';inpRow.style.display='none';
+    history.length=0;stateStack.length=0;
+    opts.innerHTML='';inpRow.style.display='none';nav.style.display='none';
     addMsg('✨ 最初からやり直します！気になることをまた教えてください😊');
-    setTimeout(()=>{addMsg(FLOW[0].q);showOpts(FLOW[0].opts);},700);
+    setTimeout(()=>{
+      addMsg('✅ これまで20社以上に導入・平均60%の業務時間削減を実現しています。\n\n一番気になることを教えてください😊');
+      showOpts(FLOW[0].opts);
+    },700);
+  }
+
+  /* ---- 即回答表示（情報収集系Q1分岐） ---- */
+  function showInstantAnswer(type){
+    const msgMap={price:INSTANT_PRICE,deadline:INSTANT_DEADLINE,what:INSTANT_WHAT};
+    const ctaMap={
+      price:['📝 無料で見積もりを依頼する','🤔 自分の業務が自動化できるか確認したい','🔄 診断をやり直す'],
+      deadline:['📝 無料で見積もりを依頼する','❓ もっと質問したい','🔄 診断をやり直す'],
+      what:['📝 無料で見積もりを依頼する','🤔 自分の業務が自動化できるか確認したい','🔄 診断をやり直す'],
+    };
+    step='result';
+    showTyping();
+    setTimeout(()=>{
+      removeTyping();
+      addMsg(msgMap[type]);
+      setTimeout(()=>{
+        addMsg('✅ AI Flow Architectが選ばれる理由：\n① 20社以上の豊富な実績（Make.com×AI自動化）\n② 納品後も相談できる保守体制あり\n③ 初回相談・見積もり完全無料・強引な営業なし');
+        showOpts(ctaMap[type]);
+        updateNav();
+      },800);
+    },900);
   }
 
   function handleOpt(val){
     // [Fix#1] result段階のボタンはdelegatedリスナーに任せる（二重発火防止）
     if(step==='result')return;
-    if(val==='✏️ 自由に入力する'){
+    if(val==='✏️ 自由に入力する'||val==='✏️ 自由に質問する'){
       opts.innerHTML='';
       inpRow.style.display='flex';
       inp.focus();
@@ -2327,25 +2391,39 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       return;
     }
     if(val==='🔄 診断をやり直す'){resetFlow();return;}
+
+    // ---- Q1分岐ロジック（原則①） ----
+    if(step===0){
+      saveState();
+      addMsg(val,'usr');
+      opts.innerHTML='';
+      if(val.includes('料金')||val.includes('費用')){
+        showInstantAnswer('price');
+      } else if(val.includes('納期')||val.includes('スケジュール')){
+        showInstantAnswer('deadline');
+      } else if(val.includes('何ができるか')||val.includes('見てみたい')){
+        showInstantAnswer('what');
+      } else if(val.includes('確認したい')||val.includes('相談したい')){
+        // 課題確認系 → ヒアリング3問へ
+        answers.q0=val;
+        step=1;
+        showTyping();
+        setTimeout(()=>{removeTyping();addMsg(FLOW[1].q);showOpts(FLOW[1].opts);updateNav();},900);
+      } else {
+        enterFreeMode();
+      }
+      return;
+    }
+
+    // ---- ヒアリングフロー（FLOW[1..3]）----
+    saveState();
     addMsg(val,'usr');
     opts.innerHTML='';
     answers[`q${step}`]=val;
-    // [Issue#6修正] q0で「料金」を選択→即料金提示してフォームへ誘導（離脱防止）
-    if(step===0&&val.includes('料金')){
-      step=FLOW.length; // フロー終端へ
-      showTyping();
-      setTimeout(()=>{
-        removeTyping();
-        addMsg('料金についてご説明します！😊\n\n・Liteプラン ¥40,000〜（1トリガー1処理、1〜2週間）\n・Standardプラン ¥80,000〜（AI連携・複数ステップ、2〜4週間）\n・Full Package ¥150,000〜（エンドツーエンド統合、4〜8週間）\n・月額保守 ¥20,000/月\n\n💡 初回見積もりは完全無料です！業務内容を教えていただければ最短当日に概算をお伝えします。残り'+BOT_AVAILABLE+'枠空いています😊');
-        showOpts(['📝 無料で見積もりを依頼する','❓ もっと詳しく聞きたい','🔧 具体的な業務について相談したい']);
-        step='result';
-      },900);
-      return;
-    }
     step++;
     if(step<FLOW.length){
       showTyping();
-      setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);},900);
+      setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},900);
     } else {
       analyzeAndRecommend();
     }
@@ -2354,34 +2432,21 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   /* ROI試算ヘルパー */
   function calcROI(a){
     const hoursMap={'1〜3':2,'3〜10':6,'10〜20':15,'20時間以上':25};
-    const rateMap={'〜1,000':800,'1,000〜2,000':1500,'2,000〜3,000':2500,'3,000円以上':4000,'会社員':2000,'月給制':2000};
     const planCosts={lite:40000,standard:80000,full:150000};
     let hrs=6,rate=1500;
-    const timeStr=a.q2||'';
+    const timeStr=a.q2||'';// FLOW[2]=週時間
     for(const[k,v]of Object.entries(hoursMap)){if(timeStr.includes(k)){hrs=v;break;}}
-    const rateStr=a.q8||'';
-    for(const[k,v]of Object.entries(rateMap)){if(rateStr.includes(k)){rate=v;break;}}
     const monthlySave=Math.max(1000,Math.round(hrs*4*rate*0.8/1000)*1000);
     const yearlySave=monthlySave*12;
-    // 予算から希望プランを判定
-    const budgetStr=a.q5||'';
-    let preferredPlan='standard';
-    // [Fix#7] '5〜10万円'が'5万'にも誤マッチするため'〜5万'で厳密一致
-    if(budgetStr.includes('〜5万'))preferredPlan='lite';
-    if(budgetStr.includes('20万')||(timeStr.includes('20時間')))preferredPlan='full';
+    let preferredPlan=hrs<=3?'lite':hrs>=20?'full':'standard';
     const preferredCost=planCosts[preferredPlan];
     const preferredPayback=Math.ceil(preferredCost/monthlySave);
-    // 3ヶ月超なら、より安いプランで3ヶ月以内になるか試算
     let altPlan=null,altCost=0,altPayback=999;
     if(preferredPayback>3){
-      if(preferredPlan==='full'&&Math.ceil(planCosts.standard/monthlySave)<=3){
-        altPlan='standard';altCost=planCosts.standard;altPayback=Math.ceil(planCosts.standard/monthlySave);
-      } else if(preferredPlan!=='lite'&&Math.ceil(planCosts.lite/monthlySave)<=3){
-        altPlan='lite';altCost=planCosts.lite;altPayback=Math.ceil(planCosts.lite/monthlySave);
-      }
+      if(preferredPlan==='full'&&Math.ceil(planCosts.standard/monthlySave)<=3){altPlan='standard';altCost=planCosts.standard;altPayback=Math.ceil(planCosts.standard/monthlySave);}
+      else if(preferredPlan!=='lite'&&Math.ceil(planCosts.lite/monthlySave)<=3){altPlan='lite';altCost=planCosts.lite;altPayback=Math.ceil(planCosts.lite/monthlySave);}
     }
-    // 機会収益（解放時間で取れる案件価値）
-    const oppRevenue=Math.round(hrs*4*Math.max(rate,1500)*0.5/1000)*1000;
+    const oppRevenue=Math.round(hrs*4*rate*0.5/1000)*1000;
     return{hrs,rate,monthlySave,yearlySave,preferredPlan,preferredCost,preferredPayback,altPlan,altCost,altPayback,oppRevenue,planCosts};
   }
 
@@ -2398,13 +2463,25 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     history.push({role:'system',content:SYS+'\n\n【追加指示】'+roiInstruction+' ⑤残り'+BOT_AVAILABLE+'枠の希少性を添える。全体220文字以内。'});
     history.push({role:'user',content:'お客様の回答:\n'+summary+'\n\nこの情報をもとに最適プラン・ROI・代替案（あれば）を推薦してください。'});
 
-    let botMsg=await callLLM(history,600);
+    let botMsg=await callLLM(history,500);
     if(!botMsg)botMsg=fallbackMsg(answers,roi);
     history.push({role:'assistant',content:botMsg});
     removeTyping();
     addMsg(botMsg);
-    showOpts(['📝 詳しい提案を受け取る','❓ もっと質問したい','💰 料金を確認する','🔄 診断をやり直す']);
-    step='result';
+
+    // 📊 ROIシミュレーション（原則③）
+    setTimeout(()=>{
+      const mHrs=roi.hrs*4;
+      const roiPct=Math.round((roi.yearlySave-roi.preferredCost)/roi.preferredCost*100);
+      addMsg(`📊 あなたの削減シミュレーション：\n・月 ${mHrs}時間の削減（週${roi.hrs}h×4週）\n・年間 ¥${roi.yearlySave.toLocaleString()} のコスト削減\n・ROI ${roiPct}%（投資回収 約${roi.preferredPayback}ヶ月）`);
+      // ✅ 差別化3項目（原則④）
+      setTimeout(()=>{
+        addMsg('✅ AI Flow Architectが選ばれる理由：\n① 20社以上の豊富な実績（Make.com×AI自動化）\n② 納品後も相談できる保守体制あり\n③ 初回相談・見積もり完全無料・強引な営業なし');
+        showOpts(['📝 詳しい提案を受け取る','❓ もっと質問したい','💰 料金を確認する','🔄 診断をやり直す']);
+        step='result';
+        updateNav();
+      },1200);
+    },800);
   }
 
   function fallbackMsg(a,roi){
@@ -2464,10 +2541,10 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     opts.innerHTML='';
     inpRow.style.display='flex';
     addMsg('ご自由にご質問ください。どんな内容でもお答えします！😊\n診断に戻りたい場合は「やり直し」と入力してください。');
-    // [Fix#4] systemメッセージの重複追加を防止
     if(!history.some(m=>m.role==='system')){
       history.push({role:'system',content:SYS});
     }
+    updateNav();
   }
 
   async function sendFreeMsg(text){
