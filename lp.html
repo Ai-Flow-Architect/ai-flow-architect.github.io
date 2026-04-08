@@ -669,6 +669,10 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
   .ch{width:100%;max-width:280px}
   #chat-panel{right:8px;left:8px;width:auto;bottom:96px}
   #task-widget{display:none}
+  /* スマホCTA: サブボタン非表示・メインCTAを全幅 */
+  .btn-g{display:none}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn-w{width:100%;max-width:320px;justify-content:center;font-size:.85rem;padding:16px 24px}
 }
 
 /* =====================================================
@@ -821,11 +825,11 @@ input.roi-inp:focus,#roi-tasks input:focus{outline:none;border-color:var(--or);b
       <span class="h1-static">
         <span class="h1-cycle-wrap">
           <span class="h1-cycle" id="h1cycle">
-            <span class="h1-word">繰り返し作業</span>
+            <span class="h1-word">人件費の無駄</span>
             <span class="h1-word">残業時間</span>
             <span class="h1-word">手動コピペ</span>
-            <span class="h1-word">属人化業務</span>
-            <span class="h1-word">繰り返し作業</span>
+            <span class="h1-word">機会損失</span>
+            <span class="h1-word">人件費の無駄</span>
           </span>
         </span>を、
       </span>
@@ -1715,12 +1719,13 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   }
   function removeTyping(){const t=document.getElementById('typing');if(t)t.remove()}
 
-  function showOpts(options){
+  function showOpts(options,handler){
+    const fn=handler||handleOpt;
     opts.innerHTML='';
     options.forEach(o=>{
       const b=document.createElement('button');
       b.className='cp-opt';b.textContent=o;
-      b.addEventListener('click',()=>handleOpt(o));
+      b.addEventListener('click',()=>fn(o));
       opts.appendChild(b);
     });
   }
@@ -1777,6 +1782,16 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
   if(homeBtn)homeBtn.addEventListener('click',goHome);
 
   /* --- 開始：挨拶 → 実績 → Q1 --- */
+  /* --- Q0: 業種選択 --- */
+  const Q0_MAP={
+    '🏪 EC・ネットショップ':'EC・ネットショップ向け',
+    '🏥 医療・クリニック':'医療・クリニック向け',
+    '🏠 不動産・建設':'不動産・建設向け',
+    '📚 士業・コンサル':'士業・コンサル向け',
+    '🛍️ 小売・飲食':'小売・飲食向け',
+    '💼 その他・一般法人':'一般法人向け'
+  };
+
   function startFlow(){
     setTimeout(()=>{
       showTyping();
@@ -1787,19 +1802,47 @@ document.querySelectorAll('a,button,.cp-opt,.plan,.bc,.oc,.cc').forEach(el=>{
           showTyping();
           setTimeout(()=>{
             removeTyping();
-            addMsg('これまで50社以上の業務を自動化し、平均で作業時間を90%削減してきました。');
-            setTimeout(()=>{
-              showTyping();
-              setTimeout(()=>{
-                removeTyping();
-                addMsg('あなたの業務でも同じ効果が出せるか、すぐ確認できます。何が気になりますか？');
-                showOpts(Object.keys(Q1_MAP));
-              },400);
-            },200);
+            addMsg('まず、あなたのビジネスの業種を教えてください。業種に合わせた自動化事例をご紹介します。');
+            showOpts(Object.keys(Q0_MAP),handleQ0);
           },500);
         },300);
       },500);
     },200);
+  }
+
+  let userIndustry='';
+
+  const _origHandleOpt=handleOpt;
+  function handleQ0(val){
+    if(Q0_MAP[val]){
+      userIndustry=Q0_MAP[val];
+      addMsg(val,'usr');
+      opts.innerHTML='';
+      setTimeout(()=>{
+        showTyping();
+        setTimeout(()=>{
+          removeTyping();
+          addMsg(`ありがとうございます！${userIndustry}の自動化事例が豊富にあります。`);
+          setTimeout(()=>{
+            showTyping();
+            setTimeout(()=>{
+              removeTyping();
+              addMsg('これまで50社以上の業務を自動化し、平均で作業時間を90%削減してきました。');
+              setTimeout(()=>{
+                showTyping();
+                setTimeout(()=>{
+                  removeTyping();
+                  addMsg('あなたの業務でも同じ効果が出せるか、すぐ確認できます。何が気になりますか？');
+                  showOpts(Object.keys(Q1_MAP));
+                },400);
+              },200);
+            },500);
+          },300);
+        },400);
+      },200);
+    } else {
+      handleOpt(val);
+    }
   }
 
   /* --- 選択肢クリック処理（統合ハンドラー） --- */
