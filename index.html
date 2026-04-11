@@ -2048,7 +2048,7 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
   const backBtn= document.getElementById('cp-back');
   const homeBtn= document.getElementById('cp-home');
 
-  let open=false,step=-1,answers={},freeMode=false,frustrationCount=0,persona='';
+  let open=false,step=0,answers={},freeMode=false,frustrationCount=0,persona='';
   const history=[];// LLM conversation history
   const stateStack=[];// 戻るボタン用の状態スタック
 
@@ -2228,8 +2228,8 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   }
 
   const FLOW=[
-    // FLOW[0] = Q1：意図特定（ルート分岐）※購買心理フロー順
-    {q:'一番気になることを教えてください😊',opts:['✨ 何ができるか見てみたい','💰 料金・費用を知りたい','⏱ 納期・スケジュールを知りたい','🤔 自分の業務が自動化できるか確認したい','🔧 具体的な業務について相談したい','✏️ 自由に質問する']},
+    // FLOW[0] = Q1：意図特定（ルート分岐）※4択に最適化（スコアUP施策①）
+    {q:'どうぞ気軽にお聞かせください😊',opts:['💰 料金・費用を確認したい','🤔 自分の業務が自動化できるか相談したい','🔧 具体的な業務を相談したい','✏️ 自由に質問する']},
     // FLOW[1..3] = ヒアリング3問（課題確認系のみ）
     {q:'どんな繰り返し作業を自動化したいですか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
     {q:'週にどのくらい時間がかかっていますか？',opts:['⏱ 1〜3時間','⏱ 3〜10時間','⏱ 10〜20時間','⏱ 20時間以上','✏️ 自由に入力する']},
@@ -2295,25 +2295,24 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   homeBtn.addEventListener('click',goHome);
 
   function startFlow(){
+    // [Opt②] Q0（業種）廃止→Q1（意図）直行。つかみメッセージで離脱防止
+    step=0;
     setTimeout(()=>{
       showTyping();
       setTimeout(()=>{
         removeTyping();
-        // 段①: 挨拶
-        addMsg('こんにちは！👋 AI Flow Architectです。');
+        addMsg('毎月、繰り返し作業に何時間かけていますか？🤔');
         setTimeout(()=>{
           showTyping();
           setTimeout(()=>{
             removeTyping();
-            // 段②: 実績（独立メッセージ）
-            addMsg('✅ これまで10社以上に導入・\n平均40%の業務時間削減を実現しています。\n初回相談・見積もりは完全無料です😊');
+            addMsg('✅ AI Flow Architectは10社以上で平均40%の業務時間を削減。\n初回相談・見積もりは完全無料です😊');
             setTimeout(()=>{
               showTyping();
               setTimeout(()=>{
                 removeTyping();
-                // 段③: 行動誘導
-                addMsg('まず、どんな業種でお仕事されていますか？');
-                showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない','✏️ 自由に入力する']);
+                addMsg(FLOW[0].q);
+                showOpts(FLOW[0].opts);
                 updateNav();
               },500);
             },400);
@@ -2325,13 +2324,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
   /* ---- フロー完全リセット ---- */
   function resetFlow(){
-    step=-1;answers={};freeMode=false;frustrationCount=0;persona='';
+    step=0;answers={};freeMode=false;frustrationCount=0;persona='';
     history.length=0;stateStack.length=0;
     opts.innerHTML='';inpRow.style.display='none';nav.style.display='none';
     addMsg('✨ 最初からやり直します！');
     setTimeout(()=>{
-      addMsg('10社以上の実績・平均40%削減のAI Flow Architectです😊\nまず、どんな業種でお仕事されていますか？');
-      showOpts(['🛒 EC・通販','👔 士業・コンサル','🏭 製造・物流','👥 人材・採用','🤔 その他・わからない','✏️ 自由に入力する']);
+      addMsg(FLOW[0].q);
+      showOpts(FLOW[0].opts);
     },700);
   }
 
@@ -2368,40 +2367,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     }
     if(val==='🔄 診断をやり直す'){resetFlow();return;}
 
-    // ---- Q0: 業種ヒアリング ----
-    if(step===-1){
-      if(val==='✏️ 自由に入力する'){
-        opts.innerHTML='';
-        inpRow.style.display='flex';
-        inp.focus();
-        inp.dataset.freeMode='persona';
-        return;
-      }
-      persona=val.replace(/^[^\s]+\s/,'');// 先頭の絵文字+スペースを除去
-      addMsg(val,'usr');
-      opts.innerHTML='';
-      step=0;
-      showTyping();
-      setTimeout(()=>{
-        removeTyping();
-        addMsg('ありがとうございます！一番気になることを教えてください😊');
-        showOpts(FLOW[0].opts);
-        updateNav();
-      },700);
-      return;
-    }
-
-    // ---- Q1分岐ロジック（原則①） ----
+    // ---- Q1分岐ロジック（原則①）（Q0廃止済み・step=0始まり） ----
     if(step===0){
       saveState();
       addMsg(val,'usr');
       opts.innerHTML='';
-      if(val.includes('何ができるか')||val.includes('見てみたい')){
-        showInstantAnswer('what');
-      } else if(val.includes('料金')||val.includes('費用')){
+      if(val.includes('料金')||val.includes('費用')){
         showInstantAnswer('price');
-      } else if(val.includes('納期')||val.includes('スケジュール')){
-        showInstantAnswer('deadline');
       } else if(val.includes('確認したい')||val.includes('相談したい')){
         // 課題確認系 → ヒアリング3問へ
         answers.q0=val;
@@ -2409,6 +2381,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
         showTyping();
         setTimeout(()=>{removeTyping();addMsg(FLOW[1].q);showOpts(FLOW[1].opts);updateNav();},900);
       } else {
+        // 「自由に質問する」またはその他 → フリーモード
         enterFreeMode();
       }
       return;
@@ -2420,7 +2393,23 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     opts.innerHTML='';
     answers[`q${step}`]=val;
     step++;
-    if(step<FLOW.length){
+    if(step===FLOW.length-1){
+      // [Opt⑦] 中間CTA: FLOW[最終-1]（時間）回答後に挿入
+      const hrVal=val||'';
+      const isBig=hrVal.includes('10〜20')||hrVal.includes('20時間以上');
+      const midMsg=isBig
+        ?'⚡ 週'+hrVal.replace(/[^0-9〜以上時間]/g,'')+'の削減は、月数万円以上の節約になります！\n今すぐ相談いただければ最短7日で稼働できます😊'
+        :'あと1問でROI試算をお出しします！\nもしすぐ相談したい場合はお気軽にどうぞ😊';
+      showTyping();
+      setTimeout(()=>{
+        removeTyping();
+        addMsg(midMsg);
+        setTimeout(()=>{
+          showTyping();
+          setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},600);
+        },400);
+      },800);
+    } else if(step<FLOW.length){
       showTyping();
       setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},900);
     } else {
@@ -2493,7 +2482,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       // ✅ 差別化3項目（原則④）
       setTimeout(()=>{
         addMsg(diffMsg());
-        showOpts(['📝 詳しい提案を受け取る','❓ もっと質問したい','💰 料金を確認する','🔄 診断をやり直す']);
+        showOpts(['🚀 今すぐ無料相談を申し込む','❓ もっと質問したい','💰 料金を確認する','🔄 診断をやり直す']);
         step='result';
         updateNav();
       },1200);
@@ -2532,7 +2521,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
   function handleResult(val){
     // [Fix#8] '詳しい'だけでは「もっと詳しく聞きたい」もフォーム誘導してしまうため厳密化
-    if(val.includes('詳しい提案')||val.includes('見積もり')){
+    if(val.includes('詳しい提案')||val.includes('見積もり')||val.includes('無料相談')){
       // [Fix#5] ポップアップブロック対策：リンクもメッセージに表示
       addMsgWithLink(
         '📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にAI Flow Architectから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nポップアップがブロックされた場合は下のリンクから👇',
@@ -2577,18 +2566,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     inp.dataset.freeMode='';
     addMsg(text,'usr');
 
-    // ---- Q0 自由入力（業種テキスト入力）----
+    // ---- Q0自由入力は廃止済み（業種ヒアリング削除）---- 
+    // stepMode==='persona' は到達しない（念のため残置）
     if(stepMode==='persona'){
-      persona=text;
       inpRow.style.display='none';
       step=0;
       showTyping();
-      setTimeout(()=>{
-        removeTyping();
-        addMsg('ありがとうございます！一番気になることを教えてください😊');
-        showOpts(FLOW[0].opts);
-        updateNav();
-      },700);
+      setTimeout(()=>{removeTyping();addMsg(FLOW[0].q);showOpts(FLOW[0].opts);updateNav();},700);
       return;
     }
 
