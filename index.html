@@ -404,6 +404,9 @@ footer a:hover{color:var(--t1)}
 .cp-opts{padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px;flex-shrink:0;border-top:1px solid var(--b)}
 .cp-opt{background:var(--bg3);border:1px solid var(--b);color:var(--t2);font-size:.75rem;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .cp-opt:hover{border-color:var(--or);color:var(--or);background:var(--or-d)}
+/* [施策⑧] primary CTA ボタン強調 */
+.cp-opt-primary{background:var(--gr)!important;border-color:var(--gr)!important;color:#000!important;font-weight:700!important}
+.cp-opt-primary:hover{opacity:.85;background:var(--gr)!important}
 .cp-inp-row{padding:10px 12px;border-top:1px solid var(--b);display:flex;gap:8px;flex-shrink:0}
 .cp-inp{flex:1;background:var(--bg3);border:1px solid var(--b);border-radius:10px;padding:9px 12px;color:var(--t1);font-size:.82rem;font-family:var(--font);outline:none;resize:none}
 .cp-inp:focus{border-color:var(--bm)}
@@ -2231,7 +2234,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     // FLOW[0] = Q1：意図特定（ルート分岐）※4択に最適化（スコアUP施策①）
     {q:'どうぞ気軽にお聞かせください😊',opts:['💰 料金・費用を確認したい','🤔 自分の業務が自動化できるか相談したい','🔧 具体的な業務を相談したい','✏️ 自由に質問する']},
     // FLOW[1..3] = ヒアリング3問（課題確認系のみ）
-    {q:'どんな繰り返し作業を自動化したいですか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツールの手動連携','🛒 商品登録・在庫管理','✏️ 自由に入力する']},
+    {q:'どんな繰り返し作業を自動化したいですか？',opts:['📋 データ入力・転記','📧 メール・問い合わせ対応','📊 集計・レポート作成','🔄 複数ツール連携・その他','✏️ 自由に入力する']},
     {q:'週にどのくらい時間がかかっていますか？',opts:['⏱ 1〜3時間','⏱ 3〜10時間','⏱ 10〜20時間','⏱ 20時間以上','✏️ 自由に入力する']},
     {q:'現在使っているツールを教えてください',opts:['📋 Google Sheets / Excel','🗂️ Notion / Lark','🔔 Slack / LINE','⚙️ 独自システム・基幹システム','🤔 まだ決まっていない','✏️ 自由に入力する']},
   ];
@@ -2265,9 +2268,10 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
   function showOpts(options){
     opts.innerHTML='';
-    options.forEach(o=>{
+    options.forEach((o,i)=>{
       const b=document.createElement('button');
-      b.className='cp-opt';b.textContent=o;
+      // [施策④] 1番目の選択肢をprimary CTA as強調（視線誘導）
+      b.className='cp-opt'+(i===0?' cp-opt-primary':'');b.textContent=o;
       b.addEventListener('click',()=>handleOpt(o));
       opts.appendChild(b);
     });
@@ -2301,7 +2305,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       showTyping();
       setTimeout(()=>{
         removeTyping();
-        addMsg('毎月、繰り返し作業に何時間かけていますか？🤔');
+        addMsg('売上が上がるほど、自分の作業時間も増えていませんか？🤔');
         setTimeout(()=>{
           showTyping();
           setTimeout(()=>{
@@ -2409,6 +2413,23 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
           setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},600);
         },400);
       },800);
+    } else if(step===2){
+      // [施策③] FLOW[1]（作業種類）回答後のミニROI予告 + persona推測
+      const workROI={'データ入力':'平均月12時間削減の実績あり','メール':'平均月8時間+顧客満足度アップの実績あり','集計':'平均月15時間削減の実績あり','複数ツール':'平均月20時間削減の実績あり'};
+      let roiHint='自動化で大幅な時間削減が期待できます';
+      for(const[k,v]of Object.entries(workROI)){if((val||'').includes(k)){roiHint=v;break;}}
+      // persona推測（Q0廃止の補完）
+      if(!persona){
+        if((val||'').includes('商品')||(val||'').includes('在庫'))persona='EC・通販';
+        else if((val||'').includes('メール')||(val||'').includes('問い合わせ'))persona='士業・コンサル';
+        else if((val||'').includes('集計')||(val||'').includes('レポート'))persona='製造・物流';
+      }
+      showTyping();
+      setTimeout(()=>{
+        removeTyping();
+        addMsg('📊 '+roiHint+'😊');
+        setTimeout(()=>{showTyping();setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},600);},400);
+      },800);
     } else if(step<FLOW.length){
       showTyping();
       setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},900);
@@ -2439,6 +2460,13 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     // 業種別時給単価
     const personaRates={'EC・通販':1800,'士業・コンサル':3000,'製造・物流':1400,'人材・採用':2000};
     for(const[k,v]of Object.entries(personaRates)){if(persona.includes(k)){rate=v;break;}}
+    // [施策⑦] persona未設定時はQ2（作業種類）から業種・時給を推測
+    if(rate===1500){
+      const workStr=(a.q1||'').toLowerCase();
+      if(workStr.includes('メール')||workStr.includes('問い合わせ'))rate=2500;// 士業系
+      else if(workStr.includes('商品')||workStr.includes('在庫'))rate=1800;// EC系
+      else if(workStr.includes('集計')||workStr.includes('レポート'))rate=2000;// 企画系
+    }
     const timeStr=a.q2||'';// FLOW[2]=週時間
     for(const[k,v]of Object.entries(hoursMap)){if(timeStr.includes(k)){hrs=v;break;}}
     const monthlySave=Math.max(1000,Math.round(hrs*4*rate*0.8/1000)*1000);
@@ -2541,8 +2569,10 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     }
   }
 
+  let freeMsgCount=0;// [施策⑥] フリーモード発言回数カウンター
+
   function enterFreeMode(){
-    freeMode=true;
+    freeMode=true;freeMsgCount=0;
     opts.innerHTML='';
     inpRow.style.display='flex';
     addMsg('ご自由にご質問ください。どんな内容でもお答えします！😊\n診断に戻りたい場合は「やり直し」と入力してください。');
@@ -2657,7 +2687,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     const frustrationWords=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
     if(frustrationWords.test(text)){
       frustrationCount++;
-      if(frustrationCount>=2){
+      // [施策⑤] 2回目でLINE自動表示、3回目でフォーム誘導
+      if(frustrationCount===2){
+        setTimeout(()=>{addMsg('直接相談の方が早いかもしれません😊\nLINEならチャットより気軽にやり取りできますよ！\n→ https://lin.ee/6oiBlzj','bot');},1200);
+      }
+      if(frustrationCount>=3){
         reply='何度もご不満をおかけして申し訳ありません🙇\n\nチャットより直接ご連絡いただく方が早いかもしれません。\n\nフォームに「急ぎ」とご記入いただければ最優先でAI Flow Architectからご連絡します。';
         frustrationCount=0;
       }
@@ -2668,6 +2702,19 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     if(!reply)reply='ご質問ありがとうございます！詳しくはページ下部の無料相談フォームからお気軽にどうぞ😊 24時間以内にご返信します。';
     history.push({role:'assistant',content:reply});
     removeTyping();addMsg(reply);
+    // [施策⑥] フリーモード3回ごとに診断フロー誘導CTA
+    freeMsgCount++;
+    if(freeMsgCount>0&&freeMsgCount%3===0){
+      setTimeout(()=>{
+        addMsg('💡 具体的なROI試算も無料でできます！診断フローで削減時間・コストをシミュレーションしませんか？','bot');
+        opts.innerHTML='';
+        const btnR=document.createElement('button');btnR.className='cp-opt cp-opt-primary';btnR.textContent='📊 ROI診断を受ける（無料）';
+        const btnC=document.createElement('button');btnC.className='cp-opt';btnC.textContent='❓ もう少し質問する';
+        btnR.onclick=()=>{opts.innerHTML='';resetFlow();};
+        btnC.onclick=()=>{opts.innerHTML='';enterFreeMode();};
+        opts.appendChild(btnR);opts.appendChild(btnC);
+      },1200);
+    }
   }
 
   // Option click handling (post-analysis) [Fix#1] delegatedで一元管理、handleOptは素通り
