@@ -1106,15 +1106,15 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <!-- スマホ専用: 症状チェックリスト（TARGET STRIP直後） [SP-③] -->
 <div class="sp-symptom-check" style="display:none">
   <div style="max-width:420px;margin:0 auto">
-    <p style="font-size:.75rem;color:var(--or);font-weight:700;letter-spacing:.06em;margin:0 0 4px;text-align:center">▼ あなたの会社に当てはまるものは？</p>
+    <p style="font-size:1.15rem;color:#fff;font-weight:800;letter-spacing:.02em;margin:0 0 6px;text-align:center">▼ あなたの会社に当てはまるものは？</p>
     <p style="font-size:.72rem;color:var(--t3);text-align:center;margin:0 0 12px">（毎月この損失が出続けています）</p>
     <div class="sp-check-list">
-      <div class="sp-check-item"><span class="sp-check-icon">💸</span><span>売上が上がるほど手作業も増え、<strong style="color:var(--or)">人件費が比例して膨らむ</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">⏳</span><span>本業より転記・集計の時間が長く、<strong style="color:var(--or)">利益を生まない時間が半分以上</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">😰</span><span>「任せたい」が教えるコストが怖くて、<strong style="color:var(--or)">属人化が止まらない</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">📉</span><span>売上は伸びているのに、<strong style="color:var(--or)">利益率が年々下がっている</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">🔧</span><span>IT担当を雇う予算はないが、<strong style="color:var(--or)">手作業コストはすでに限界</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">❓</span><span>自動化したいが何から始めるべきか分からず、<strong style="color:var(--or)">毎月先送りしている</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">💸</span><span>売上が上がるほど手作業も増え、<br><strong style="color:var(--or)">人件費が比例して膨らむ</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">⏳</span><span>本業より転記・集計の時間が長く、<br><strong style="color:var(--or)">利益を生まない時間が半分以上</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">😰</span><span>「任せたい」が教えるコストが怖くて、<br><strong style="color:var(--or)">属人化が止まらない</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">📉</span><span>売上は伸びているのに、<br><strong style="color:var(--or)">利益率が年々下がっている</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">🔧</span><span>IT担当を雇う予算はないが、<br><strong style="color:var(--or)">手作業コストはすでに限界</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">❓</span><span>自動化したいが何から始めるか<br>分からず、<strong style="color:var(--or)">毎月先送りしている</strong></span></div>
     </div>
     <p style="font-size:1.2rem;color:#fff;font-weight:700;text-align:center;margin:18px 0 0;line-height:1.6">１つでも当てはまるなら、今すぐ解決できます。<br><span style="font-size:.78rem;color:var(--t3);font-weight:400">初回相談・見積もりまで完全無料</span></p>
   </div>
@@ -4239,7 +4239,7 @@ window.addEventListener('resize', () => {
         {type:'line',label:'年間の損失時間（h）',data:[0,0,0,0,0],
          borderColor:'rgba(99,179,237,1)',backgroundColor:'rgba(99,179,237,.08)',
          borderWidth:2.5,pointBackgroundColor:'rgba(99,179,237,1)',
-         pointRadius:5,pointHoverRadius:7,tension:0.35,fill:false,
+         pointRadius:5,pointHoverRadius:7,tension:0,fill:false,
          yAxisID:'yHours',order:1}
       ]
     },
