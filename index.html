@@ -2312,7 +2312,8 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       showTyping();
       setTimeout(()=>{
         removeTyping();
-        addMsg('売上が上がるほど、自分の作業時間も増えていませんか？🤔');
+        // [CB-I] 感情フック強化：課題提起→即座に解決示唆
+        addMsg('売上増の喜びを、終わらない作業に奪われていませんか？\nその繰り返し作業、AI Flow Architectが解決します。');
         setTimeout(()=>{
           showTyping();
           setTimeout(()=>{
@@ -2393,7 +2394,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
         answers.q0=val;
         step=1;
         showTyping();
-        setTimeout(()=>{removeTyping();addMsg(FLOW[1].q);showOpts(FLOW[1].opts);updateNav();},900);
+        setTimeout(()=>{removeTyping();addMsg(flowQMsg(1));showOpts(FLOW[1].opts);updateNav();},900);
       } else {
         // 「自由に質問する」またはその他 → フリーモード
         enterFreeMode();
@@ -2419,12 +2420,12 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
           addMsg(midMsg);
           setTimeout(()=>{
             showTyping();
-            setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},600);
+            setTimeout(()=>{removeTyping();addMsg(flowQMsg(step));showOpts(FLOW[step].opts);updateNav();},600);
           },400);
         },800);
       } else {
         showTyping();
-        setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},900);
+        setTimeout(()=>{removeTyping();addMsg(flowQMsg(step));showOpts(FLOW[step].opts);updateNav();},900);
       }
     } else if(step===2){
       // [施策③] FLOW[1]（作業種類）回答後のミニROI予告 + persona推測
@@ -2441,15 +2442,18 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       setTimeout(()=>{
         removeTyping();
         addMsg('📊 '+roiHint+'😊');
-        setTimeout(()=>{showTyping();setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},600);},400);
+        setTimeout(()=>{showTyping();setTimeout(()=>{removeTyping();addMsg(flowQMsg(step));showOpts(FLOW[step].opts);updateNav();},600);},400);
       },800);
     } else if(step<FLOW.length){
       showTyping();
-      setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},900);
+      setTimeout(()=>{removeTyping();addMsg(flowQMsg(step));showOpts(FLOW[step].opts);updateNav();},900);
     } else {
       analyzeAndRecommend();
     }
   }
+
+  /* [CB-K] 進捗表示ヘルパー: ヒアリング質問に「質問 N/3」を付与 */
+  function flowQMsg(s){return s>=1&&s<=3?`【質問 ${s}/3】 ${FLOW[s].q}`:FLOW[s].q;}
 
   /* ROI試算ヘルパー */
   /* 業種別差別化メッセージ */
@@ -2709,11 +2713,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     const frustrationWords=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
     if(frustrationWords.test(text)){
       frustrationCount++;
-      // [施策⑤] 2回目でLINE自動表示、3回目でフォーム誘導
-      if(frustrationCount===2){
+      // [CB-J] 3回目でLINE誘導、4回目でフォーム誘導（GPT「タイミングが早すぎる」対応）
+      if(frustrationCount===3){
         setTimeout(()=>{addMsg('直接相談の方が早いかもしれません😊\nLINEならチャットより気軽にやり取りできますよ！\n→ https://lin.ee/6oiBlzj','bot');},1200);
       }
-      if(frustrationCount>=3){
+      if(frustrationCount>=4){
         reply='何度もご不満をおかけして申し訳ありません🙇\n\nチャットより直接ご連絡いただく方が早いかもしれません。\n\nフォームに「急ぎ」とご記入いただければ最優先でAI Flow Architectからご連絡します。';
         frustrationCount=0;
       }
