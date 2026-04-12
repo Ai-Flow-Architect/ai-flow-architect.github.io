@@ -4236,10 +4236,11 @@ window.addEventListener('resize', () => {
         {type:'bar',label:'年間の損失額（万円）',data:[0,0,0,0,0],
          backgroundColor:'rgba(255,107,107,.45)',borderColor:'rgba(255,107,107,.8)',
          borderWidth:1.5,borderRadius:6,yAxisID:'yCost',order:2},
-        {type:'line',label:'年間の損失時間（h）',data:[0,0,0,0,0],
+        {type:'line',label:'年間の損失時間（h）',data:[null,null,null,null,null],
          borderColor:'rgba(99,179,237,1)',backgroundColor:'rgba(99,179,237,.08)',
          borderWidth:2.5,pointBackgroundColor:'rgba(99,179,237,1)',
          pointRadius:5,pointHoverRadius:7,tension:0.35,fill:false,
+         spanGaps:false,
          yAxisID:'yHours',order:1}
       ]
     },
@@ -4284,11 +4285,13 @@ window.addEventListener('resize', () => {
       chart.update();
     }, 100);
 
-    /* 折れ線: 棒の後に右肩上がりで引かれる */
-    setTimeout(function(){
-      chart.data.datasets[2].data = hours;
-      chart.update();
-    }, 300);
+    /* 折れ線: 棒アニメーション完了後、1点ずつ左→右に順番に描画 */
+    hours.forEach(function(val, i){
+      setTimeout(function(){
+        chart.data.datasets[2].data[i] = val;
+        chart.update({animation:{duration:320,easing:'easeOutBack'}});
+      }, 1900 + i * 260);
+    });
 
   }, {threshold: 0.25});
 
