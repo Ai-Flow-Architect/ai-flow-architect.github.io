@@ -747,6 +747,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .hero-btns-mobile-fixed{position:fixed!important;bottom:0;left:0;right:0;z-index:999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:12px 16px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:8px;justify-content:center}
   .hero-btns-mobile-fixed .btn-g{display:none}
   .hero-btns-mobile-fixed .btn-w{font-size:.85rem;padding:12px 20px}
+  /* [SP-②] スマホCTA1択化: hero内の btn-g を非表示（固定バーの主CTA1つに集中） */
+  .hero-btns .btn-g{display:none!important}
   /* 固定CTAの分だけ下部にパディング */
   body{padding-bottom:64px}
   /* ba-insight: nowrap解除（PC版はnowrapのまま） */
@@ -969,12 +971,12 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <span class="h1-static">
         <span class="h1-cycle-wrap">
           <span class="h1-cycle" id="h1cycle">
-            <span class="h1-word">ムダな繰り返し作業</span>
-            <span class="h1-word">誰もしたくない定型作業</span>
+            <span class="h1-word">人件費を食い続ける手作業</span>
+            <span class="h1-word">利益を削り続ける定型作業</span>
             <span class="h1-word">データ集計・転記作業</span>
             <span class="h1-word">請求書の転記作業</span>
             <span class="h1-word">Excelコピペ作業</span>
-            <span class="h1-word">ムダな繰り返し作業</span>
+            <span class="h1-word">人件費を食い続ける手作業</span>
           </span>
         </span>
       </span>
@@ -1020,19 +1022,20 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 </div>
 
 
-<!-- スマホ専用: 症状チェックリスト（TARGET STRIP直後） -->
+<!-- スマホ専用: 症状チェックリスト（TARGET STRIP直後） [SP-③] -->
 <div class="sp-symptom-check" style="display:none">
   <div style="max-width:420px;margin:0 auto">
-    <p style="font-size:.8rem;color:var(--or);font-weight:700;letter-spacing:.06em;margin:0 0 12px;text-align:center">▼ 今の状況に当てはまるものは？</p>
+    <p style="font-size:.75rem;color:var(--or);font-weight:700;letter-spacing:.06em;margin:0 0 4px;text-align:center">▼ あなたの会社に当てはまるものは？</p>
+    <p style="font-size:.72rem;color:var(--t3);text-align:center;margin:0 0 12px">（毎月この損失が出続けています）</p>
     <div class="sp-check-list">
-      <div class="sp-check-item"><span class="sp-check-icon">📌</span><span>売れれば売れるほど、自分の作業量が増える</span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">📌</span><span>本業より転記・確認・コピペ作業の時間が長い</span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">📌</span><span>「誰かに任せたい」が、教えるコストが怖くて踏み出せない</span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">📌</span><span>IT担当を雇う予算はないが、手作業はもう限界</span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">📌</span><span>受注・売上は伸びているのに、利益率が上がらない</span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">📌</span><span>自動化したいが、何から始めればいいか分からない</span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">💸</span><span>売上が増えるほど手作業も増え、<strong style="color:var(--or)">人件費が比例して膨らむ</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">⏳</span><span>本業より転記・集計・コピペの時間が長く、<strong style="color:var(--or)">利益を生まない時間が半分以上</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">😰</span><span>「誰かに任せたい」が教えるコストが怖く、<strong style="color:var(--or)">属人化が止まらない</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">📉</span><span>受注・売上は伸びているのに、<strong style="color:var(--or)">利益率が年々下がっている</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">🔧</span><span>IT担当を雇う予算はないが、<strong style="color:var(--or)">手作業コストはすでに限界</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">❓</span><span>自動化したいが何から始めればよいか分からず、<strong style="color:var(--or)">毎月先送りし続けている</strong></span></div>
     </div>
-    <p style="font-size:.8rem;color:var(--t2);text-align:center;margin:14px 0 0;line-height:1.6">1つでも当てはまるなら、<strong style="color:var(--t1)">今すぐ解決できます。</strong></p>
+    <p style="font-size:.82rem;color:var(--t2);text-align:center;margin:14px 0 0;line-height:1.65">１つでも当てはまるなら、<strong style="color:var(--t1)">今すぐ解決できます。</strong><br><span style="font-size:.75rem;color:var(--t3)">初回相談・見積もりまで完全無料</span></p>
   </div>
 </div>
 
