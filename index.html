@@ -941,6 +941,72 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 
 /* 読み進めプログレスバー */
 #read-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--or),var(--gr));width:0%;z-index:9999;transition:width .1s linear;pointer-events:none}
+
+/* =====================================================
+   [PC-①] ROI早見バナー: PC版でも表示
+===================================================== */
+.sp-roi-strip{
+  display:block!important;
+  padding:32px 24px;
+  background:linear-gradient(135deg,rgba(240,120,64,.06),rgba(74,143,247,.05));
+  border-top:1px solid rgba(240,120,64,.2);
+  border-bottom:1px solid rgba(240,120,64,.2);
+  text-align:center;
+}
+.sp-roi-strip .sp-roi-title{font-size:1.05rem;font-weight:700;color:var(--t1);margin:0 0 18px;letter-spacing:.02em}
+.sp-roi-strip .sp-roi-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  max-width:780px;
+  margin:0 auto 18px;
+}
+.sp-roi-grid-item{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:18px 20px;
+  font-size:.88rem;
+  color:var(--t2);
+  line-height:1.7;
+}
+.sp-roi-grid-item strong{color:var(--or);font-size:1.05rem;display:block;margin-top:6px}
+.sp-roi-strip .sp-roi-note{font-size:.9rem;color:var(--t2);margin:0;line-height:1.6}
+
+/* [PC-②] 症状チェックリスト: PC版でも表示（2カラムグリッド） */
+.sp-symptom-check{
+  display:block!important;
+  padding:40px 24px;
+  background:rgba(255,255,255,.01);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.sp-symptom-check > div{max-width:860px!important}
+.sp-check-list{display:grid!important;grid-template-columns:1fr 1fr;gap:12px}
+.sp-check-item{font-size:.9rem;padding:14px 18px}
+
+/* [PC-③] 中間CTAバナー: PC・スマホ共通 */
+.mid-cta-band{
+  padding:28px 24px;
+  text-align:center;
+  background:rgba(74,143,247,.04);
+  border-top:1px solid rgba(74,143,247,.12);
+  border-bottom:1px solid rgba(74,143,247,.12);
+}
+.mid-cta-band p{font-size:.9rem;color:var(--t2);margin:0 0 14px;line-height:1.7}
+.mid-cta-band .mid-cta-btn{
+  display:inline-block;
+  padding:13px 32px;
+  background:linear-gradient(135deg,var(--or),#e05a20);
+  color:#fff;
+  font-weight:700;
+  font-size:.92rem;
+  border-radius:999px;
+  text-decoration:none;
+  letter-spacing:.03em;
+  transition:opacity .2s,transform .2s;
+  box-shadow:0 4px 20px rgba(240,120,64,.35);
+}
+.mid-cta-band .mid-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -1556,6 +1622,12 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </section>
 
+<!-- [PC-③-A] 中間CTA: creds（差別化比較）直後 -->
+<div class="mid-cta-band">
+  <p>「実際に自動化できるか知りたい」だけでも大丈夫。<br><strong style="color:var(--t1)">初回30分の無料相談で、あなたの業務に合った方法をお伝えします。</strong></p>
+  <a href="#contact" class="mid-cta-btn">無料30分で確認する →</a>
+</div>
+
 <!-- [SP-④] スマホ専用: 価格ROI早見バナー（pricing直前） -->
 <div class="sp-roi-strip" style="display:none">
   <p class="sp-roi-title">💸 あなたの損失、試算してみました</p>
@@ -1815,6 +1887,11 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </section>
 
+<!-- [PC-③-B] 中間CTA: FAQ直後・フッター前 -->
+<div class="mid-cta-band">
+  <p>疑問が解消されましたか？<br><strong style="color:var(--t1)">まずは30分、あなたの業務が自動化できるか無料で確かめてみませんか。</strong></p>
+  <a href="#contact" class="mid-cta-btn">無料相談を申し込む →</a>
+</div>
 
 <footer>
   <div>© 2026 AI Flow Architect</div>
