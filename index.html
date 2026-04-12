@@ -4215,7 +4215,7 @@ window.addEventListener('resize', () => {
 </script>
 
 <script>
-/* ===== 放置コストグラフ ===== */
+/* ===== 放置コストグラフ（スクロール表示時アニメーション） ===== */
 (function(){
   const el = document.getElementById('costChart');
   if(!el) return;
@@ -4223,18 +4223,20 @@ window.addEventListener('resize', () => {
   const costMan   = [96,288,480,960,1920];
   const costMonth = costMan.map(v=>Math.round(v/12));
   const hours     = [480,1440,2400,4800,9600];
-  new Chart(el.getContext('2d'),{
+
+  /* 初期データをすべて0にしてチャートを生成 → スクロール時に本データへ更新 */
+  const cfg = {
     type:'bar',
     data:{
       labels:teams,
       datasets:[
-        {type:'bar',label:'１ヶ月の損失額（万円）',data:costMonth,
+        {type:'bar',label:'１ヶ月の損失額（万円）',data:[0,0,0,0,0],
          backgroundColor:'rgba(255,179,71,.55)',borderColor:'rgba(255,179,71,.9)',
          borderWidth:1.5,borderRadius:6,yAxisID:'yCost',order:2},
-        {type:'bar',label:'年間の損失額（万円）',data:costMan,
+        {type:'bar',label:'年間の損失額（万円）',data:[0,0,0,0,0],
          backgroundColor:'rgba(255,107,107,.45)',borderColor:'rgba(255,107,107,.8)',
          borderWidth:1.5,borderRadius:6,yAxisID:'yCost',order:2},
-        {type:'line',label:'年間の損失時間（h）',data:hours,
+        {type:'line',label:'年間の損失時間（h）',data:[0,0,0,0,0],
          borderColor:'rgba(99,179,237,1)',backgroundColor:'rgba(99,179,237,.08)',
          borderWidth:2.5,pointBackgroundColor:'rgba(99,179,237,1)',
          pointRadius:5,pointHoverRadius:7,tension:0.35,fill:false,
@@ -4244,7 +4246,7 @@ window.addEventListener('resize', () => {
     options:{
       responsive:true,
       interaction:{mode:'index',intersect:false},
-      animation:{duration:600,easing:'easeInOutQuart'},
+      animation:{duration:1800,easing:'easeOutQuart'},
       plugins:{
         legend:{labels:{color:'rgba(255,255,255,.5)',font:{size:11}}},
         tooltip:{callbacks:{label:(ctx)=>{
@@ -4263,7 +4265,34 @@ window.addEventListener('resize', () => {
           grid:{drawOnChartArea:false}}
       }
     }
-  });
+  };
+
+  const chart = new Chart(el.getContext('2d'), cfg);
+
+  /* IntersectionObserver: 画面内に入った瞬間だけ1回アニメーション */
+  let triggered = false;
+  const io = new IntersectionObserver(function(entries){
+    if(triggered) return;
+    if(!entries[0].isIntersecting) return;
+    triggered = true;
+    io.disconnect();
+
+    /* 棒グラフ: 少し遅れて伸び始める */
+    setTimeout(function(){
+      chart.data.datasets[0].data = costMonth;
+      chart.data.datasets[1].data = costMan;
+      chart.update();
+    }, 100);
+
+    /* 折れ線: 棒の後に右肩上がりで引かれる */
+    setTimeout(function(){
+      chart.data.datasets[2].data = hours;
+      chart.update();
+    }, 300);
+
+  }, {threshold: 0.25});
+
+  io.observe(el);
 })();
 </script>
 
