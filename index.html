@@ -4323,7 +4323,7 @@ window.addEventListener('resize', () => {
       chart.update();
     }, 100);
 
-    /* 折れ線: 棒完了後に左→右グーン描画（2.5秒・easeOutQuart） */
+    /* 折れ線: 棒アニメーション開始0.3秒後に左→右グーン描画（2.5秒・easeOutQuart） */
     setTimeout(function(){
       chart.data.datasets[2].data = hours;
       chart._lineReveal = 0;
@@ -4340,7 +4340,7 @@ window.addEventListener('resize', () => {
         else chart._lineReveal = 1;
       }
       requestAnimationFrame(frame);
-    }, 2000);
+    }, 300);
 
   }, {threshold: 0.25});
 
