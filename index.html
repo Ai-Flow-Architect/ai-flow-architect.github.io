@@ -1304,7 +1304,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 
     </div>
     <!-- スマホ：BENTOカード展開ボタン -->
-    <button class="bc-show-more-btn" id="bc-show-more" onclick="(function(){var isSP=window.innerWidth<=640;document.querySelectorAll(isSP?'.bc-sp-fold':'.bc-pc-fold').forEach(function(e){e.style.display='block'});document.getElementById('bc-show-more').style.display='none'})()">▼ もっと見る（残り４件）</button>
+    <button class="bc-show-more-btn" id="bc-show-more" onclick="toggleBcMore()">▼ もっと見る（残り４件）</button>
 
   </div>
 </section>
@@ -4342,6 +4342,17 @@ window.addEventListener('resize', () => {
 
 <script>
 /* スマホ テスティモニアル もっと見るボタン */
+function toggleBcMore(){
+  var btn=document.getElementById('bc-show-more');
+  if(!btn)return;
+  var isSP=window.innerWidth<=640;
+  var cls=isSP?'.bc-sp-fold':'.bc-pc-fold';
+  var folds=document.querySelectorAll(cls);
+  var isHidden=folds[0]&&getComputedStyle(folds[0]).display==='none';
+  folds.forEach(function(el){el.style.display=isHidden?'block':'none';});
+  var count=isSP?2:4;
+  btn.textContent=isHidden?'▲ 閉じる':'▼ もっと見る（残り'+count+'件）';
+}
 function toggleTestiMore(){
   var btn=document.getElementById('testi-more-btn');
   if(!btn)return;
