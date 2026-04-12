@@ -4224,31 +4224,70 @@ window.addEventListener('resize', () => {
   const costMonth = costMan.map(v=>Math.round(v/12));
   const hours     = [480,1440,2400,4800,9600];
 
-  /* 初期データをすべて0にしてチャートを生成 → スクロール時に本データへ更新 */
+  /* ── カスタムプラグイン: 折れ線を左→右にクリップしながら描画 ── */
+  const lineRevealPlugin = {
+    id: 'lineReveal',
+    beforeDatasetDraw(chart, args) {
+      if(args.index !== 2) return;               /* 折れ線データセットのみ */
+      const { ctx, chartArea } = chart;
+      ctx.save();
+      /* 発光グロー */
+      ctx.shadowColor = 'rgba(56,189,248,.95)';
+      ctx.shadowBlur  = 16;
+      /* クリップ矩形: 左端から progress 分だけ描画を許可 */
+      const p = chart._lineReveal ?? 1;
+      if(p < 1){
+        ctx.beginPath();
+        ctx.rect(
+          chartArea.left,
+          chartArea.top    - 20,
+          (chartArea.right - chartArea.left) * p,
+          chartArea.bottom - chartArea.top  + 40
+        );
+        ctx.clip();
+      }
+    },
+    afterDatasetDraw(chart, args) {
+      if(args.index !== 2) return;
+      chart.ctx.restore();
+    }
+  };
+
+  /* easeOutQuart */
+  function easeOutQuart(t){ return 1 - Math.pow(1 - t, 4); }
+
+  /* ── チャート設定 ── */
   const cfg = {
     type:'bar',
     data:{
       labels:teams,
       datasets:[
-        {type:'bar',label:'１ヶ月の損失額（万円）',data:[0,0,0,0,0],
-         backgroundColor:'rgba(255,179,71,.55)',borderColor:'rgba(255,179,71,.9)',
-         borderWidth:1.5,borderRadius:6,yAxisID:'yCost',order:2},
-        {type:'bar',label:'年間の損失額（万円）',data:[0,0,0,0,0],
-         backgroundColor:'rgba(255,107,107,.45)',borderColor:'rgba(255,107,107,.8)',
-         borderWidth:1.5,borderRadius:6,yAxisID:'yCost',order:2},
-        {type:'line',label:'年間の損失時間（h）',data:[0,0,0,0,0],
-         borderColor:'rgba(99,179,237,1)',backgroundColor:'rgba(99,179,237,.08)',
-         borderWidth:2.5,pointBackgroundColor:'rgba(99,179,237,1)',
-         pointRadius:5,pointHoverRadius:7,tension:0,fill:false,
-         yAxisID:'yHours',order:1}
+        {type:'bar', label:'１ヶ月の損失額（万円）', data:[0,0,0,0,0],
+         backgroundColor:'rgba(255,179,71,.55)', borderColor:'rgba(255,179,71,.9)',
+         borderWidth:1.5, borderRadius:6, yAxisID:'yCost', order:2},
+        {type:'bar', label:'年間の損失額（万円）',   data:[0,0,0,0,0],
+         backgroundColor:'rgba(255,107,107,.45)', borderColor:'rgba(255,107,107,.8)',
+         borderWidth:1.5, borderRadius:6, yAxisID:'yCost', order:2},
+        {type:'line', label:'年間の損失時間（h）',  data:[0,0,0,0,0],
+         borderColor:'rgba(56,189,248,1)',
+         backgroundColor:'rgba(56,189,248,.06)',
+         borderWidth:3,
+         /* 最後の点（20名）だけ大きく白抜きで強調 */
+         pointBackgroundColor:['rgba(56,189,248,1)','rgba(56,189,248,1)','rgba(56,189,248,1)','rgba(56,189,248,1)','rgba(255,255,255,1)'],
+         pointBorderColor:'rgba(56,189,248,1)',
+         pointBorderWidth:[1,1,1,1,3],
+         pointRadius:[4,4,4,4,10],
+         pointHoverRadius:8,
+         tension:0.4, fill:false,
+         yAxisID:'yHours', order:1}
       ]
     },
     options:{
       responsive:true,
-      interaction:{mode:'index',intersect:false},
-      animation:{duration:1800,easing:'easeOutQuart'},
+      interaction:{mode:'index', intersect:false},
+      animation:{duration:1800, easing:'easeOutQuart'},
       plugins:{
-        legend:{labels:{color:'rgba(255,255,255,.5)',font:{size:11}}},
+        legend:{labels:{color:'rgba(255,255,255,.5)', font:{size:11}}},
         tooltip:{callbacks:{label:(ctx)=>{
           if(ctx.dataset.yAxisID==='yHours') return ` 損失時間: ${ctx.parsed.y.toLocaleString()}h`;
           const p = ctx.datasetIndex===0?' １ヶ月':' 年間';
@@ -4256,38 +4295,51 @@ window.addEventListener('resize', () => {
         }}}
       },
       scales:{
-        x:{ticks:{color:'rgba(255,255,255,.6)',font:{size:12}},grid:{color:'rgba(255,255,255,.05)'}},
+        x:{ticks:{color:'rgba(255,255,255,.6)', font:{size:12}}, grid:{color:'rgba(255,255,255,.05)'}},
         yCost:{position:'left',
-          ticks:{color:'rgba(255,107,107,.7)',callback:v=>'¥'+v+'万'},
+          ticks:{color:'rgba(255,107,107,.7)', callback:v=>'¥'+v+'万'},
           grid:{color:'rgba(255,255,255,.05)'}},
         yHours:{position:'right',
-          ticks:{color:'rgba(99,179,237,.8)',callback:v=>v.toLocaleString()+'h'},
+          ticks:{color:'rgba(56,189,248,.8)', callback:v=>v.toLocaleString()+'h'},
           grid:{drawOnChartArea:false}}
       }
-    }
+    },
+    plugins:[lineRevealPlugin]   /* インスタンスプラグイン登録 */
   };
 
   const chart = new Chart(el.getContext('2d'), cfg);
 
-  /* IntersectionObserver: 画面内に入った瞬間だけ1回アニメーション */
+  /* ── IntersectionObserver: 画面内に入ったとき1回だけ起動 ── */
   let triggered = false;
   const io = new IntersectionObserver(function(entries){
-    if(triggered) return;
-    if(!entries[0].isIntersecting) return;
+    if(triggered || !entries[0].isIntersecting) return;
     triggered = true;
     io.disconnect();
 
-    /* 棒グラフ: 少し遅れて伸び始める */
+    /* 棒グラフ: 伸び始める */
     setTimeout(function(){
       chart.data.datasets[0].data = costMonth;
       chart.data.datasets[1].data = costMan;
       chart.update();
     }, 100);
 
-    /* 折れ線: 棒完了後、全点が底から同時に右肩上がりでグーンと跳ね上がる */
+    /* 折れ線: 棒完了後に左→右グーン描画（2.5秒・easeOutQuart） */
     setTimeout(function(){
       chart.data.datasets[2].data = hours;
-      chart.update({animation:{duration:1400,easing:'easeInOutBack'}});
+      chart._lineReveal = 0;
+      chart.update('none');           /* アニメーションなしで即データを反映 */
+
+      const DURATION = 2500;
+      let startTs = null;
+      function frame(ts){
+        if(!startTs) startTs = ts;
+        const t = Math.min((ts - startTs) / DURATION, 1);
+        chart._lineReveal = easeOutQuart(t);
+        chart.update('none');         /* 毎フレーム再描画（clip が進む） */
+        if(t < 1) requestAnimationFrame(frame);
+        else chart._lineReveal = 1;
+      }
+      requestAnimationFrame(frame);
     }, 2000);
 
   }, {threshold: 0.25});
