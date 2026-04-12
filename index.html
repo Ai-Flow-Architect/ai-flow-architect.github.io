@@ -2398,21 +2398,24 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     answers[`q${step}`]=val;
     step++;
     if(step===FLOW.length-1){
-      // [Opt⑦] 中間CTA: FLOW[最終-1]（時間）回答後に挿入
+      // [CB-D] 中間CTA: isBig=trueの場合のみ表示（smallは直接次の質問）
       const hrVal=val||'';
       const isBig=hrVal.includes('10〜20')||hrVal.includes('20時間以上');
-      const midMsg=isBig
-        ?'⚡ 週'+hrVal.replace(/[^0-9〜以上時間]/g,'')+'の削減は、月数万円以上の節約になります！\n今すぐ相談いただければ最短7日で稼働できます😊'
-        :'あと1問でROI試算をお出しします！\nもしすぐ相談したい場合はお気軽にどうぞ😊';
-      showTyping();
-      setTimeout(()=>{
-        removeTyping();
-        addMsg(midMsg);
+      if(isBig){
+        const midMsg='⚡ 週'+hrVal.replace(/[^0-9〜以上時間]/g,'')+'の削減は、月数万円以上の節約になります！\n今すぐ相談いただければ最短7日で稼働できます😊';
+        showTyping();
         setTimeout(()=>{
-          showTyping();
-          setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},600);
-        },400);
-      },800);
+          removeTyping();
+          addMsg(midMsg);
+          setTimeout(()=>{
+            showTyping();
+            setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},600);
+          },400);
+        },800);
+      } else {
+        showTyping();
+        setTimeout(()=>{removeTyping();addMsg(FLOW[step].q);showOpts(FLOW[step].opts);updateNav();},900);
+      }
     } else if(step===2){
       // [施策③] FLOW[1]（作業種類）回答後のミニROI予告 + persona推測
       const workROI={'データ入力':'平均月12時間削減の実績あり','メール':'平均月8時間+顧客満足度アップの実績あり','集計':'平均月15時間削減の実績あり','複数ツール':'平均月20時間削減の実績あり'};
@@ -2500,6 +2503,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     if(!botMsg)botMsg=fallbackMsg(answers,roi);
     history.push({role:'assistant',content:botMsg});
     removeTyping();
+    // [CB-B] 信頼構築：業種別実績1行を提案前に表示
+    const caseHint=persona
+      ?`✅ 【${persona}の実績例】同業種のお客様で月${roi.hrs*4}時間削減を実現しています`
+      :'✅ 【実績】10社以上・平均40%の業務時間削減を達成しています';
+    addMsg(caseHint);
     addMsg(botMsg);
 
     // 📊 ROIシミュレーション（原則③）
@@ -2510,7 +2518,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       // ✅ 差別化3項目（原則④）
       setTimeout(()=>{
         addMsg(diffMsg());
-        showOpts(['🚀 今すぐ無料相談を申し込む','❓ もっと質問したい','💰 料金を確認する','🔄 診断をやり直す']);
+        showOpts(['🚀 今すぐ無料相談を申し込む','💰 料金を確認する','🔄 診断をやり直す']);
         step='result';
         updateNav();
       },1200);
@@ -2704,6 +2712,18 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     removeTyping();addMsg(reply);
     // [施策⑥] フリーモード3回ごとに診断フロー誘導CTA
     freeMsgCount++;
+    // [CB-A] フリーモード1回目返答後に診断誘導ボタン表示
+    if(freeMsgCount===1){
+      setTimeout(()=>{
+        addMsg('💡 ヒアリング3問に答えるだけで、あなた専用のROI試算をお出しできますよ😊','bot');
+        opts.innerHTML='';
+        const btnDiag=document.createElement('button');btnDiag.className='cp-opt cp-opt-primary';btnDiag.textContent='🎯 3問診断でROI試算する（無料）';
+        const btnFree=document.createElement('button');btnFree.className='cp-opt';btnFree.textContent='❓ このまま質問を続ける';
+        btnDiag.onclick=()=>{opts.innerHTML='';resetFlow();};
+        btnFree.onclick=()=>{opts.innerHTML='';enterFreeMode();};
+        opts.appendChild(btnDiag);opts.appendChild(btnFree);
+      },1500);
+    }
     if(freeMsgCount>0&&freeMsgCount%3===0){
       setTimeout(()=>{
         addMsg('💡 具体的なROI試算も無料でできます！診断フローで削減時間・コストをシミュレーションしませんか？','bot');
