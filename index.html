@@ -766,6 +766,13 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .sp-vs-wrap{display:block!important}
   .sp-symptom-check{display:block!important;padding:20px 16px;background:rgba(255,255,255,.01);border-bottom:1px solid rgba(255,255,255,.06)}
   .sp-mid-cta-pricing{display:block!important;text-align:center;padding:24px 20px;background:rgba(240,120,64,.06);border-top:1px solid rgba(240,120,64,.2);border-bottom:1px solid rgba(240,120,64,.2)}
+  /* [SP-④] 価格ROI早見バナー: スマホのみ表示 */
+  .sp-roi-strip{display:block!important;padding:20px 16px;background:linear-gradient(135deg,rgba(240,120,64,.08),rgba(74,143,247,.06));border-top:1px solid rgba(240,120,64,.25);border-bottom:1px solid rgba(240,120,64,.25);text-align:center}
+  .sp-roi-strip .sp-roi-title{font-size:.9rem;font-weight:700;color:var(--t1);margin:0 0 14px;letter-spacing:.02em}
+  .sp-roi-strip .sp-roi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+  .sp-roi-grid-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 8px;font-size:.72rem;color:var(--t2);line-height:1.6}
+  .sp-roi-grid-item strong{color:var(--or);font-size:.85rem;display:block;margin-top:4px}
+  .sp-roi-strip .sp-roi-note{font-size:.8rem;color:var(--t2);margin:0;line-height:1.6}
   /* floating-ctaはスマホでは固定CTAバーと重複するため非表示 */
   #floating-cta{display:none!important}
   /* テスティモニアル折りたたみ（スマホ: 2件→もっと見るで全件展開） */
@@ -1548,6 +1555,17 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
   </div>
 </section>
+
+<!-- [SP-④] スマホ専用: 価格ROI早見バナー（pricing直前） -->
+<div class="sp-roi-strip" style="display:none">
+  <p class="sp-roi-title">💸 あなたの損失、試算してみました</p>
+  <div class="sp-roi-grid">
+    <div class="sp-roi-grid-item">週10時間の手作業<strong>月¥60,000</strong>の人件費損失</div>
+    <div class="sp-roi-grid-item">Liteプラン¥40,000<strong>約1ヶ月</strong>で回収</div>
+    <div class="sp-roi-grid-item">Standardプラン¥80,000<strong>約2〜3ヶ月</strong>で回収</div>
+  </div>
+  <p class="sp-roi-note">放置し続けるより、今すぐ自動化した方が<strong style="color:var(--gr)">確実に安い</strong>。</p>
+</div>
 
 <!-- PRICING -->
 <section id="pricing">
