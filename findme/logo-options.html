@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FindMe!!! 求人サイト ロゴ案 5種（湾曲なし・カラー展開・フォント展開）">
+<title>FindMe!!! ロゴ案 5種 — デザイン確認用</title>
+
+<!-- Google Fonts: 旧名/新名 両方読み込んで冗長性確保 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Orbitron:wght@700;900&family=Montserrat:wght@800;900&family=Paytone+One&family=Bebas+Neue&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+
+<style>
+/* ===== リセット ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===== ベース ===== */
+body {
+  background: #f0f0f0;
+  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', sans-serif;
+  padding: 40px 20px 60px;
+  color: #333;
+}
+
+/* ===== タイトルエリア ===== */
+.page-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 6px;
+}
+.page-subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+
+/* ===== ロゴカード共通 ===== */
+.logo-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.logo-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 40px 36px 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.card-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #bbb;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.card-desc {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+.logo-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  margin-bottom: 12px;
+  overflow: hidden;        /* はみ出し防止 */
+}
+.variant-section {
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+.variant-label-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.badge {
+  font-size: 11px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  color: #777;
+  white-space: nowrap;
+}
+.color-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.color-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #999;
+}
+.color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.dark-bg-preview {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+/* ===================================
+   Fix#1: フォントフォールバック定義
+=================================== */
+/* Fredoka (旧Fredoka One 代替) */
+.font-fredoka {
+  font-family: 'Fredoka', 'Fredoka One', 'Comic Sans MS', cursive;
+  font-weight: 600;
+}
+/* Orbitron フォールバック */
+.font-orbitron {
+  font-family: 'Orbitron', 'Courier New', monospace;
+  font-weight: 900;
+}
+/* Montserrat フォールバック */
+.font-montserrat {
+  font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', sans-serif;
+  font-weight: 900;
+}
+/* Paytone One フォールバック */
+.font-paytone {
+  font-family: 'Paytone One', 'Arial Black', 'Impact', sans-serif;
+}
+/* Bebas Neue フォールバック */
+.font-bebas {
+  font-family: 'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif;
+}
+
+/* ===================================
+   Design 1: レインボーポップ
+   フォント: Fredoka / カラー: 7色
+=================================== */
+.logo-1-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  line-height: 1;
+  flex-wrap: nowrap;
+}
+.logo-1-wrap .icon-emoji {
+  font-size: clamp(36px, 8vw, 68px);
+  margin-right: -4px;
+  filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.15));
+  flex-shrink: 0;
+  /* Fix#2: emoji にはtext-shadowのみ使用。gradient-clipは使わない */
+}
+.logo-1-wrap .chars {
+  display: flex;
+  align-items: baseline;
+  font-family: 'Fredoka', 'Fredoka One', cursive;
+  font-weight: 600;
+  font-size: clamp(40px, 8vw, 72px);
+  line-height: 1.1;
+}
+.logo-1-wrap .excl {
+  display: flex;
+  align-items: baseline;
+  font-family: 'Fredoka', 'Fredoka One', cursive;
+  font-weight: 600;
+  font-size: clamp(36px, 7vw, 68px);
+  line-height: 1.1;
+  gap: 1px;
+}
+/* 文字ごとの色 */
+.c-red    { color: #FF4B4B; text-shadow: 2px 2px 0 #c83a3a; }
+.c-orange { color: #FF9900; text-shadow: 2px 2px 0 #c97800; }
+.c-yellow { color: #FFD600; text-shadow: 2px 2px 0 #c9a900; }
+.c-green  { color: #00C853; text-shadow: 2px 2px 0 #009940; }
+.c-blue   { color: #2979FF; text-shadow: 2px 2px 0 #1a5ec4; }
+.c-purple { color: #AA00FF; text-shadow: 2px 2px 0 #7a00c0; }
+
+/* ===================================
+   Design 2: ネオンサイバー
+   フォント: Orbitron / 発光エフェクト
+=================================== */
+.logo-2-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+  flex-wrap: nowrap;
+}
+/* Fix#3: icon-neon に logo-2 クラスは付与しない。独立クラスのみ */
+.logo-2-icon {
+  font-size: clamp(28px, 6vw, 52px);
+  /* Fix#4: emoji への filter:drop-shadow は有効。gradient-clip は使わない */
+  filter: drop-shadow(0 0 6px #00f5ff) drop-shadow(0 0 14px #00f5ff);
+  flex-shrink: 0;
+}
+.logo-2-text {
+  font-family: 'Orbitron', 'Courier New', monospace;
+  font-weight: 900;
+  font-size: clamp(28px, 6vw, 56px);
+  /* Fix#5: letter-spacing はOrbitronでは-1pxより0px以上が可読性上 */
+  letter-spacing: 0px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  line-height: 1;
+}
+.neon-find {
+  color: #00f5ff;
+  text-shadow: 0 0 8px #00f5ff, 0 0 24px #00f5ff, 0 0 48px #00b8cc;
+}
+.neon-me {
+  color: #ff00cc;
+  text-shadow: 0 0 8px #ff00cc, 0 0 24px #ff00cc, 0 0 48px #cc0099;
+}
+.neon-excl {
+  color: #ffff00;
+  font-size: clamp(24px, 5.5vw, 52px);
+  text-shadow: 0 0 8px #ffff00, 0 0 24px #ffff00, 0 0 48px #cccc00;
+}
+/* ライト版（2の白背景） */
+.logo-2-light {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Orbitron', 'Courier New', monospace;
+  font-weight: 900;
+  font-size: clamp(26px, 5.5vw, 50px);
+  line-height: 1;
+  letter-spacing: 0px;
+}
+.light-icon { font-size: clamp(22px, 5vw, 42px); margin-right: 4px; }
+.light-find { color: #00a0b0; }
+.light-me   { color: #c0006b; }
+.light-excl { color: #c8a800; font-size: clamp(22px, 5vw, 44px); }
+
+/* ===================================
+   Design 3: コーポレートブルー
+   フォント: Montserrat / タグライン付き
+=================================== */
+.logo-3-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+.logo-3-circle {
+  width: clamp(48px, 8vw, 72px);
+  height: clamp(48px, 8vw, 72px);
+  background: linear-gradient(135deg, #1565C0, #42A5F5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(22px, 4vw, 36px);
+  box-shadow: 0 4px 16px rgba(21,101,192,0.4);
+  flex-shrink: 0;
+}
+.logo-3-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.logo-3-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+.logo-3-find {
+  font-family: 'Montserrat', 'Arial Black', sans-serif;
+  font-weight: 900;
+  font-size: clamp(32px, 7vw, 54px);
+  letter-spacing: -1px;
+  /* Fix#6: background-clip:text はテキストグリフのみ有効。正しく使用 */
+  background: linear-gradient(135deg, #0D47A1, #1976D2, #42A5F5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Fix#7: colorフォールバック (background-clip未対応ブラウザ用) */
+  color: #1565C0;
+  line-height: 1;
+}
+.logo-3-me {
+  font-family: 'Montserrat', 'Arial Black', sans-serif;
+  font-weight: 900;
+  font-size: clamp(32px, 7vw, 54px);
+  letter-spacing: -1px;
+  /* Fix#8: me-textにも-webkit-text-fill-colorを明示してGradient隣接バグ回避 */
+  color: #42A5F5;
+  -webkit-text-fill-color: #42A5F5;
+  line-height: 1;
+}
+.logo-3-excl {
+  font-family: 'Montserrat', 'Arial Black', sans-serif;
+  font-weight: 900;
+  font-size: clamp(32px, 7vw, 54px);
+  color: #42A5F5;
+  -webkit-text-fill-color: #42A5F5;
+  line-height: 1;
+}
+.logo-3-tag {
+  font-family: 'Montserrat', 'Arial Black', sans-serif;
+  font-weight: 800;
+  font-size: clamp(8px, 1.5vw, 11px);
+  letter-spacing: 3px;
+  color: #90CAF9;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+/* ===================================
+   Design 4: ビビッドアウトライン
+   フォント: Paytone One / 輪郭+塗り
+=================================== */
+/* Fix#9: emoji に -webkit-text-stroke は効かないので使わない */
+.logo-4-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  line-height: 1;
+  flex-wrap: nowrap;
+}
+.logo-4-icon {
+  font-size: clamp(36px, 7vw, 68px);
+  flex-shrink: 0;
+  /* emoji はそのまま表示。text-stroke は不使用 */
+}
+.logo-4-outline-find {
+  font-family: 'Paytone One', 'Arial Black', sans-serif;
+  font-size: clamp(36px, 7vw, 68px);
+  /* Fix#10: text-strokeはテキスト文字グリフには有効 */
+  -webkit-text-stroke: 3px #ff6600;
+  color: transparent;
+  line-height: 1;
+}
+.logo-4-outline-me {
+  font-family: 'Paytone One', 'Arial Black', sans-serif;
+  font-size: clamp(36px, 7vw, 68px);
+  -webkit-text-stroke: 3px #8800ff;
+  color: transparent;
+  line-height: 1;
+}
+.logo-4-excl-wrap {
+  display: flex;
+  /* Fix#11: baseline統一のためalign-items:baselineに */
+  align-items: baseline;
+  gap: 1px;
+}
+.logo-4-e1 {
+  font-family: 'Paytone One', 'Arial Black', sans-serif;
+  font-size: clamp(34px, 6.5vw, 64px);
+  -webkit-text-stroke: 3px #ff1493;
+  color: transparent;
+  line-height: 1;
+}
+.logo-4-e2 {
+  font-family: 'Paytone One', 'Arial Black', sans-serif;
+  font-size: clamp(34px, 6.5vw, 64px);
+  -webkit-text-stroke: 3px #ff6600;
+  color: transparent;
+  line-height: 1;
+}
+.logo-4-e3 {
+  font-family: 'Paytone One', 'Arial Black', sans-serif;
+  font-size: clamp(34px, 6.5vw, 64px);
+  -webkit-text-stroke: 3px #8800ff;
+  color: transparent;
+  line-height: 1;
+}
+/* ソリッド塗りバリアント */
+.logo-4-solid-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: 'Paytone One', 'Arial Black', sans-serif;
+  font-size: clamp(32px, 6.5vw, 60px);
+  line-height: 1;
+  flex-wrap: nowrap;
+}
+
+/* ===================================
+   Design 5: グラデーションモダン
+   フォント: Bebas Neue / ワイド+下線
+=================================== */
+.logo-5-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.logo-5-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+  flex-wrap: nowrap;
+}
+/* Fix#12: emoji に background-clip:text は無効。filter:drop-shadowで代替 */
+.logo-5-icon {
+  font-size: clamp(32px, 6.5vw, 56px);
+  filter: drop-shadow(2px 2px 6px rgba(255,107,53,0.6));
+  flex-shrink: 0;
+}
+.logo-5-text {
+  font-family: 'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif;
+  font-size: clamp(40px, 8vw, 80px);
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, #ff6b35, #f7c59f, #ff4081, #7c4dff, #651fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #ff6b35; /* フォールバック */
+  line-height: 1;
+}
+.logo-5-excl {
+  font-family: 'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif;
+  font-size: clamp(40px, 8vw, 80px);
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, #651fff, #d500f9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #651fff; /* フォールバック */
+  line-height: 1;
+}
+/* Fix#13: underlineの幅はロゴ全体と一致させるためlogoと同じwrapに内包 */
+.logo-5-line {
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b35, #ff4081, #7c4dff, #651fff);
+  border-radius: 2px;
+  /* ロゴテキスト幅に合わせる */
+  width: 100%;
+  max-width: 400px;
+  align-self: center;
+}
+
+/* ===================================
+   比較表
+=================================== */
+.compare-section {
+  max-width: 860px;
+  margin: 48px auto 0;
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.compare-section h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.compare-table thead tr {
+  background: #f5f7ff;
+}
+/* Fix#14: scope="col" 追加（アクセシビリティ）*/
+.compare-table th {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 2px solid #eaecf8;
+  color: #555;
+  font-weight: 700;
+}
+.compare-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f3f4f8;
+  color: #555;
+  vertical-align: middle;
+}
+.compare-table tbody tr:nth-child(even) {
+  background: #fafbff;
+}
+.compare-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+/* ===================================
+   印刷スタイル
+   Fix#15: ダークカードも印刷時は白背景
+=================================== */
+@media print {
+  body { background: white; padding: 20px; }
+  .logo-card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+  /* Fix: dark-cardのbackground:!importantを上書き */
+  .dark-bg-preview { background: #f5f5f5 !important; }
+  .neon-find { color: #00a0b0 !important; text-shadow: none !important; }
+  .neon-me   { color: #c0006b !important; text-shadow: none !important; }
+  .neon-excl { color: #c8a800 !important; text-shadow: none !important; }
+  .logo-2-icon { filter: none !important; }
+}
+
+/* ===================================
+   モバイルレスポンシブ
+   Fix#16: 768px / 480px ブレークポイント追加
+=================================== */
+@media (max-width: 640px) {
+  body { padding: 20px 12px 40px; }
+  .logo-card { padding: 24px 16px 20px; border-radius: 12px; }
+  .compare-section { padding: 20px 14px; }
+  .compare-table { font-size: 11px; }
+  .compare-table th, .compare-table td { padding: 8px 6px; }
+  /* clamp()を使っているので大半は自動対応済み */
+  .logo-3-wrap { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .logo-3-circle { width: 40px; height: 40px; font-size: 20px; }
+  .logo-4-outline-find, .logo-4-outline-me { -webkit-text-stroke-width: 2px; }
+  .logo-4-e1, .logo-4-e2, .logo-4-e3 { -webkit-text-stroke-width: 2px; }
+}
+
+@media (max-width: 360px) {
+  .logo-5-text, .logo-5-excl { letter-spacing: 1px; }
+  .logo-2-text { letter-spacing: -1px; }
+}
+</style>
+</head>
+<body>
+
+<h1 class="page-title">FindMe!!! ロゴ案 5種</h1>
+<p class="page-subtitle">
+  湾曲なし ／ カラー展開 ／ フォント展開 ／ 求人サイト向け<br>
+  <small>気に入ったデザイン番号をお知らせください。カラー・サイズを調整いたします。</small>
+</p>
+
+<div class="logo-grid" role="list">
+
+  <!-- ============================================================
+       案① レインボーポップ
+  ============================================================ -->
+  <article class="logo-card" role="listitem">
+    <!-- Fix#17: カード見出しはh3に統一（h1ページ→h2比較表→h3カード） -->
+    <h3 class="card-label">案①</h3>
+    <p class="card-desc">レインボーポップ ／ フォント: Fredoka ／ 7色カラー ／ 白・ダーク背景両対応</p>
+
+    <!-- 白背景版 -->
+    <div class="logo-display">
+      <div class="logo-1-wrap" role="img" aria-label="FindMe!!! ロゴ 案① レインボーポップ 白背景版">
+        <!-- Fix#18: 装飾emoji に aria-hidden="true" -->
+        <span class="icon-emoji" aria-hidden="true">🔍</span>
+        <div class="chars">
+          <span class="c-red">F</span><span class="c-orange">i</span><span class="c-yellow">n</span><span class="c-green">d</span><span class="c-blue">M</span><span class="c-purple">e</span>
+        </div>
+        <div class="excl" aria-hidden="true">
+          <span class="c-red">!</span><span class="c-green">!</span><span class="c-blue">!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ダーク背景版 -->
+    <div class="dark-bg-preview" role="img" aria-label="FindMe!!! ロゴ 案① ダーク背景版">
+      <div class="logo-1-wrap">
+        <span class="icon-emoji" aria-hidden="true">🔍</span>
+        <div class="chars">
+          <span class="c-red">F</span><span class="c-orange">i</span><span class="c-yellow">n</span><span class="c-green">d</span><span class="c-blue">M</span><span class="c-purple">e</span>
+        </div>
+        <div class="excl" aria-hidden="true">
+          <span class="c-red">!</span><span class="c-green">!</span><span class="c-blue">!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant-section">
+      <div class="color-row">
+        <div class="color-item"><div class="color-dot" style="background:#FF4B4B;" aria-label="赤"></div>赤</div>
+        <div class="color-item"><div class="color-dot" style="background:#FF9900;" aria-label="橙"></div>橙</div>
+        <div class="color-item"><div class="color-dot" style="background:#FFD600;" aria-label="黄"></div>黄</div>
+        <div class="color-item"><div class="color-dot" style="background:#00C853;" aria-label="緑"></div>緑</div>
+        <div class="color-item"><div class="color-dot" style="background:#2979FF;" aria-label="青"></div>青</div>
+        <div class="color-item"><div class="color-dot" style="background:#AA00FF;" aria-label="紫"></div>紫</div>
+      </div>
+      <div class="variant-label-row">
+        <span class="badge">白背景版 上段</span>
+        <span class="badge">ダーク版 下段</span>
+        <span class="badge">Fredoka</span>
+        <span class="badge">幅広ターゲット向け</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================================================
+       案② ネオンサイバー
+  ============================================================ -->
+  <article class="logo-card" role="listitem" style="background:#0d0d1a;">
+    <h3 class="card-label" style="color:#444;">案②</h3>
+    <p class="card-desc" style="color:#444;">ネオンサイバー ／ フォント: Orbitron ／ ダーク背景・グロウ発光</p>
+
+    <!-- ダーク版 -->
+    <div class="logo-display" style="background:#0d0d1a; border-radius:12px; padding:32px;">
+      <div class="logo-2-wrap" role="img" aria-label="FindMe!!! ロゴ 案② ネオンサイバー ダーク版">
+        <!-- Fix#19: icon-neonクラスのみ。logo-2クラスは付与しない -->
+        <span class="logo-2-icon" aria-hidden="true">🔍</span>
+        <div class="logo-2-text">
+          <span class="neon-find">Find</span><span class="neon-me">Me</span><span class="neon-excl">!!!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ライト版 -->
+    <div style="background:#f5f5f5; border-radius:12px; padding:24px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; overflow:hidden;">
+      <div class="logo-2-light" role="img" aria-label="FindMe!!! ロゴ 案② ライト版">
+        <span class="light-icon" aria-hidden="true">🔍</span>
+        <span class="light-find">Find</span><span class="light-me">Me</span><span class="light-excl">!!!</span>
+      </div>
+    </div>
+
+    <div class="variant-section" style="border-top-color:#222;">
+      <div class="color-row">
+        <div class="color-item" style="color:#666;"><div class="color-dot" style="background:#00f5ff;" aria-label="シアン"></div>シアン（Find）</div>
+        <div class="color-item" style="color:#666;"><div class="color-dot" style="background:#ff00cc;" aria-label="マゼンタ"></div>マゼンタ（Me）</div>
+        <div class="color-item" style="color:#666;"><div class="color-dot" style="background:#ffff00; border-color:rgba(255,255,255,0.2);" aria-label="イエロー"></div>イエロー（!!!）</div>
+      </div>
+      <div class="variant-label-row">
+        <span class="badge" style="background:#1a1a2e; color:#666;">ダーク版 上段</span>
+        <span class="badge" style="background:#1a1a2e; color:#666;">ライト版 下段</span>
+        <span class="badge" style="background:#1a1a2e; color:#666;">Orbitron</span>
+        <span class="badge" style="background:#1a1a2e; color:#666;">IT・テック系向け</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================================================
+       案③ コーポレートブルー
+  ============================================================ -->
+  <article class="logo-card" role="listitem">
+    <h3 class="card-label">案③</h3>
+    <p class="card-desc">コーポレートブルー ／ フォント: Montserrat ／ サークルアイコン＋タグライン</p>
+
+    <!-- ブルー版 -->
+    <div class="logo-display">
+      <div class="logo-3-wrap" role="img" aria-label="FindMe!!! ロゴ 案③ コーポレートブルー版">
+        <div class="logo-3-circle" aria-hidden="true">🔍</div>
+        <div class="logo-3-text">
+          <div class="logo-3-row">
+            <span class="logo-3-find">Find</span><span class="logo-3-me">Me</span><span class="logo-3-excl">!!!</span>
+          </div>
+          <div class="logo-3-tag">— FIND YOUR JOB —</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- グリーン版バリアント -->
+    <div style="background:#f0f8f4; border-radius:12px; padding:20px 24px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; overflow:hidden;">
+      <div class="logo-3-wrap" role="img" aria-label="FindMe!!! ロゴ 案③ グリーン版">
+        <div style="width:clamp(40px,7vw,60px);height:clamp(40px,7vw,60px);background:linear-gradient(135deg,#1B5E20,#43A047);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:clamp(18px,3.5vw,28px);box-shadow:0 3px 12px rgba(27,94,32,0.35);flex-shrink:0;" aria-hidden="true">🔍</div>
+        <div class="logo-3-text">
+          <div class="logo-3-row">
+            <span style="font-family:'Montserrat','Arial Black',sans-serif;font-weight:900;font-size:clamp(28px,6vw,48px);letter-spacing:-1px;background:linear-gradient(135deg,#1B5E20,#43A047);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:#1B5E20;">Find</span>
+            <span style="font-family:'Montserrat','Arial Black',sans-serif;font-weight:900;font-size:clamp(28px,6vw,48px);letter-spacing:-1px;color:#43A047;-webkit-text-fill-color:#43A047;">Me</span>
+            <span style="font-family:'Montserrat','Arial Black',sans-serif;font-weight:900;font-size:clamp(28px,6vw,48px);color:#81C784;-webkit-text-fill-color:#81C784;">!!!</span>
+          </div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(7px,1.2vw,10px);letter-spacing:3px;color:#A5D6A7;text-transform:uppercase;">— FIND YOUR JOB —</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant-section">
+      <div class="color-row">
+        <div class="color-item"><div class="color-dot" style="background:#1565C0;" aria-label="ブルー系"></div>ブルー系（上段）</div>
+        <div class="color-item"><div class="color-dot" style="background:#1B5E20;" aria-label="グリーン系"></div>グリーン系（下段）</div>
+        <div class="color-item"><div class="color-dot" style="background:#BF360C;" aria-label="レッド系"></div>レッド系（要望時）</div>
+      </div>
+      <div class="variant-label-row">
+        <span class="badge">サークルアイコン付き</span>
+        <span class="badge">Montserrat</span>
+        <span class="badge">タグライン入り</span>
+        <span class="badge">ビジネス・事務向け</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================================================
+       案④ ビビッドアウトライン
+  ============================================================ -->
+  <article class="logo-card" role="listitem">
+    <h3 class="card-label">案④</h3>
+    <p class="card-desc">ビビッドアウトライン ／ フォント: Paytone One ／ 輪郭のみ版＋ソリッド塗り版</p>
+
+    <!-- アウトライン版 -->
+    <div class="logo-display">
+      <div class="logo-4-wrap" role="img" aria-label="FindMe!!! ロゴ 案④ アウトライン版">
+        <!-- Fix#20: emoji には text-stroke 適用しない。そのまま表示 -->
+        <span class="logo-4-icon" aria-hidden="true">🔍</span>
+        <span class="logo-4-outline-find">Find</span>
+        <span class="logo-4-outline-me">Me</span>
+        <div class="logo-4-excl-wrap" aria-hidden="true">
+          <span class="logo-4-e1">!</span>
+          <span class="logo-4-e2">!</span>
+          <span class="logo-4-e3">!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ソリッド塗り版 -->
+    <div style="background:#fff5f9; border-radius:12px; padding:20px 24px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; overflow:hidden;">
+      <div class="logo-4-solid-wrap" role="img" aria-label="FindMe!!! ロゴ 案④ ソリッド塗り版">
+        <span aria-hidden="true" style="font-size:clamp(30px,6vw,56px);">🔍</span>
+        <span style="color:#ff1493;">Find</span>
+        <span style="color:#8800ff;">Me</span>
+        <span style="color:#ff1493;" aria-hidden="true">!</span>
+        <span style="color:#ff6600;" aria-hidden="true">!</span>
+        <span style="color:#8800ff;" aria-hidden="true">!</span>
+      </div>
+    </div>
+
+    <div class="variant-section">
+      <div class="color-row">
+        <div class="color-item"><div class="color-dot" style="background:#ff1493;" aria-label="ホットピンク"></div>ホットピンク</div>
+        <div class="color-item"><div class="color-dot" style="background:#ff6600;" aria-label="オレンジ"></div>オレンジ</div>
+        <div class="color-item"><div class="color-dot" style="background:#8800ff;" aria-label="パープル"></div>パープル</div>
+      </div>
+      <div class="variant-label-row">
+        <span class="badge">アウトライン版（上段）</span>
+        <span class="badge">ソリッド塗り版（下段）</span>
+        <span class="badge">Paytone One</span>
+        <span class="badge">若年層・エンタメ・接客向け</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================================================
+       案⑤ グラデーションモダン
+  ============================================================ -->
+  <article class="logo-card" role="listitem">
+    <h3 class="card-label">案⑤</h3>
+    <p class="card-desc">グラデーションモダン ／ フォント: Bebas Neue ／ 下線アクセント＋モノクロ版</p>
+
+    <!-- グラデーション版 -->
+    <div class="logo-display">
+      <div class="logo-5-outer" role="img" aria-label="FindMe!!! ロゴ 案⑤ グラデーション版">
+        <div class="logo-5-wrap">
+          <!-- Fix#21: emoji への background-clip:text を削除。filter:drop-shadowに変更 -->
+          <span class="logo-5-icon" aria-hidden="true">🔍</span>
+          <span class="logo-5-text">FINDME</span>
+          <span class="logo-5-excl">!!!</span>
+        </div>
+        <!-- Fix#22: underlineはlogoと同じ幅にする -->
+        <div class="logo-5-line" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- モノクロ版 -->
+    <div style="background:#111; border-radius:12px; padding:20px 24px; display:flex; flex-direction:column; align-items:center; gap:4px; margin-bottom:12px; overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:6px;" role="img" aria-label="FindMe!!! ロゴ 案⑤ モノクロ版">
+        <span style="font-size:clamp(28px,5.5vw,50px);filter:grayscale(1) brightness(2);" aria-hidden="true">🔍</span>
+        <span style="font-family:'Bebas Neue','Impact',sans-serif;font-size:clamp(40px,8vw,72px);letter-spacing:4px;color:#fff;line-height:1;">FINDME</span>
+        <span style="font-family:'Bebas Neue','Impact',sans-serif;font-size:clamp(40px,8vw,72px);letter-spacing:4px;color:#888;line-height:1;" aria-hidden="true">!!!</span>
+      </div>
+      <div style="width:100%;max-width:320px;height:3px;background:linear-gradient(90deg,#555,#fff,#555);border-radius:2px;" aria-hidden="true"></div>
+    </div>
+
+    <div class="variant-section">
+      <div class="color-row">
+        <div class="color-item"><div class="color-dot" style="background:linear-gradient(90deg,#ff6b35,#651fff);" aria-label="コーラル→バイオレット"></div>グラデーション版（上段）</div>
+        <div class="color-item"><div class="color-dot" style="background:#fff;" aria-label="モノクロ"></div>モノクロ版（下段）</div>
+      </div>
+      <div class="variant-label-row">
+        <span class="badge">グラデーション版</span>
+        <span class="badge">モノクロ版（ダーク）</span>
+        <span class="badge">Bebas Neue</span>
+        <span class="badge">スタイリッシュ・モダン</span>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<!-- 比較表 -->
+<section class="compare-section">
+  <!-- Fix#23: h2 に統一（h1ページタイトル → h2比較表） -->
+  <h2>5案まとめ比較</h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <!-- Fix#24: scope="col" 追加 -->
+        <th scope="col">案</th>
+        <th scope="col">テイスト</th>
+        <th scope="col">フォント</th>
+        <th scope="col">カラー</th>
+        <th scope="col">向いているターゲット</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>①</td><td>レインボーポップ</td><td>Fredoka</td><td>7色レインボー</td><td>幅広い求職者全般</td></tr>
+      <tr><td>②</td><td>ネオンサイバー</td><td>Orbitron</td><td>シアン×マゼンタ</td><td>IT・テック系志望者</td></tr>
+      <tr><td>③</td><td>コーポレートブルー</td><td>Montserrat</td><td>ネイビー→スカイ</td><td>ビジネス・事務・営業</td></tr>
+      <tr><td>④</td><td>ビビッドアウトライン</td><td>Paytone One</td><td>ピンク×オレンジ×紫</td><td>若年層・エンタメ・接客</td></tr>
+      <tr><td>⑤</td><td>グラデーションモダン</td><td>Bebas Neue</td><td>コーラル→バイオレット</td><td>スタイリッシュ・デザイン系</td></tr>
+    </tbody>
+  </table>
+  <p class="compare-note">
+    ※ご希望の案番号をお知らせいただければ、カラー・フォント・サイズを調整いたします。<br>
+    ※複数案を組み合わせたカスタマイズも対応可能です。
+  </p>
+</section>
+
+</body>
+</html>
