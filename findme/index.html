@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FindMe!!! — あなたにぴったりの仕事が見つかる求人サイト。建設・IT・医療・営業など全業種対応。">
+<title>FindMe!!! — 仕事が見つかる求人サイト</title>
+
+<!-- Fix#1: crossorigin を両方の preconnect に追加 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===== リセット ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===== CSS変数 ===== */
+:root {
+  --primary: #2979FF;
+  --primary-light: #E3EEFF;
+  --primary-dark: #1565C0;
+  --accent: #FF4B4B;
+  --text: #1a1a1a;
+  --text-sub: #666;
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --radius-card: 14px;
+  --radius-tag: 6px;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.1);
+  --transition: 0.18s ease;
+}
+
+/* ===== ベース ===== */
+body {
+  background: var(--bg);
+  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ===== フォーカスリング（アクセシビリティ） ===== */
+/* Fix#2: focus-visible を全インタラクティブ要素に定義 */
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== スキップリンク ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 0 0 8px 0;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* ===== ヘッダー ===== */
+header {
+  background: #fff;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  box-shadow: var(--shadow-sm);
+  /* Fix#3: -webkit-sticky プレフィックス追加（Safari対応） */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ===== ロゴ ===== */
+.logo {
+  font-family: 'Fredoka', cursive;
+  font-weight: 600;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  line-height: 1;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo span[aria-hidden] { font-size: 26px; margin-right: 1px; }
+.logo .lF { color: #FF4B4B; }
+.logo .li { color: #FF9900; }
+.logo .ln { color: #FFD600; }
+.logo .ld { color: #00C853; }
+.logo .lM { color: #2979FF; }
+.logo .le { color: #AA00FF; }
+.logo .excl { color: #FF4B4B; font-size: 24px; }
+
+/* ===== ナビ ===== */
+/* Fix#4: nav に aria-label="メインナビゲーション" 追加 */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-links a {
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 4px;
+  border-radius: 4px;
+  transition: color var(--transition);
+}
+/* Fix#5: nav hover・focus スタイル */
+.nav-links a:hover { color: var(--primary); }
+.nav-links .btn-login {
+  background: var(--primary);
+  color: #fff !important;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: background var(--transition), transform var(--transition);
+}
+.nav-links .btn-login:hover { background: var(--primary-dark); }
+
+/* ハンバーガーボタン（モバイル）*/
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 22px;
+  color: #555;
+  line-height: 1;
+}
+
+/* ===== ヒーローセクション ===== */
+.hero {
+  background: linear-gradient(135deg, #1a237e 0%, #1565C0 50%, #0288D1 100%);
+  padding: 52px 24px 48px;
+  text-align: center;
+  color: white;
+}
+.hero h1 {
+  font-size: clamp(20px, 4vw, 30px);
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.hero p {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 28px;
+}
+
+/* ===== 検索バー ===== */
+/* Fix#6: form タグでラップ（Enter キー送信対応） */
+.search-form {
+  max-width: 560px;
+  margin: 0 auto;
+}
+/* Fix#7: overflow:hidden をやめてborder-radiusをroundedで実現し focus-ring を保持 */
+.search-bar {
+  display: flex;
+  background: white;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  border: 2px solid transparent;
+  transition: border-color var(--transition);
+}
+.search-bar:focus-within {
+  border-color: rgba(255,255,255,0.6);
+}
+/* Fix#8: label はvisually-hiddenで存在させる（スクリーンリーダー対応） */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+#search-input {
+  flex: 1;
+  padding: 13px 20px 13px 24px;
+  border: none;
+  outline: none;
+  /* Fix#9: type="search" を使用（HTMLに記述） */
+  font-size: 15px;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--text);
+  background: transparent;
+  border-radius: 50px 0 0 50px;
+  min-width: 0; /* flex overflow 防止 */
+}
+.search-btn {
+  background: var(--accent);
+  border: none;
+  padding: 13px 24px;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: background var(--transition);
+  border-radius: 0 50px 50px 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.search-btn:hover { background: #d63030; }
+/* Fix#10: searchボタンのfocus-ring（overflow:hiddenでクリップされない） */
+.search-btn:focus-visible {
+  outline: 3px solid rgba(255,255,255,0.8);
+  outline-offset: 2px;
+}
+
+/* ===== メイン ===== */
+main {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px 60px;
+}
+
+/* ===== セクション見出し ===== */
+/* Fix#11: p タグから h2 タグに変更 */
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: #e8eaf6;
+  border-radius: 2px;
+}
+
+/* ===== 検索結果バナー ===== */
+#search-result-banner {
+  display: none;
+  background: var(--primary-light);
+  border: 1.5px solid var(--primary);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: var(--primary-dark);
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+#search-result-banner.visible {
+  display: flex;
+}
+#search-clear-btn {
+  margin-left: auto;
+  background: none;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: background var(--transition), color var(--transition);
+  flex-shrink: 0;
+}
+#search-clear-btn:hover { background: var(--primary); color: #fff; }
+
+/* ===== 人気職種タグ ===== */
+.popular-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+/* Fix#12: span → button に変更してキーボード操作可能に */
+.popular-tag {
+  padding: 8px 18px;
+  border-radius: 50px;
+  background: white;
+  border: 1.5px solid #e0e0e0;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition), transform var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+}
+.popular-tag:hover, .popular-tag.active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+.hot-icon { color: var(--accent); font-size: 12px; }
+
+/* ===== カテゴリグリッド ===== */
+.categories-grid {
+  /* Fix#13: minmax(min(300px,100%),1fr) で超小画面でのはみ出し防止 */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+/* Fix#14: cat-card を div → article + tabindex="0" + role="button" でキーボード対応 */
+.cat-card {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 20px 20px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  cursor: pointer;
+  border: 2px solid transparent;
+  position: relative;
+}
+.cat-card:hover, .cat-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+  outline: none; /* focus-visible で代替 */
+}
+/* Fix#15: cat-card.hidden = 検索でヒットしない場合に非表示 */
+.cat-card.hidden { display: none; }
+/* 検索ヒット時のハイライト */
+.cat-card.search-match { border-color: #a8c4ff; }
+.cat-card.search-match .cat-name { color: var(--primary); }
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.cat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.cat-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  transition: color var(--transition);
+}
+.cat-count {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 1px;
+}
+.cat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+/* Fix#16: .tag も button に変更してキーボード対応 */
+.tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: var(--radius-tag);
+  background: var(--bg);
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  border: 1px solid #e8e8e8;
+  font-family: 'Noto Sans JP', sans-serif;
+  line-height: 1.4;
+}
+.tag:hover, .tag.highlight {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: #c5d8ff;
+}
+.tag.highlight { font-weight: 700; }
+
+/* カテゴリカラー */
+.c-construction .cat-icon { background: #FFF3E0; }
+.c-sales .cat-icon        { background: #E8F5E9; }
+.c-factory .cat-icon      { background: #E3F2FD; }
+.c-office .cat-icon       { background: #F3E5F5; }
+.c-retail .cat-icon       { background: #FCE4EC; }
+.c-logistics .cat-icon    { background: #E0F7FA; }
+.c-it .cat-icon           { background: #EDE7F6; }
+.c-beauty .cat-icon       { background: #FFF8E1; }
+.c-medical .cat-icon      { background: #E8F5E9; }
+.c-entertainment .cat-icon{ background: #FCE4EC; }
+.c-education .cat-icon    { background: #E3F2FD; }
+.c-fitness .cat-icon      { background: #E0F7FA; }
+.c-real-estate .cat-icon  { background: #FFF3E0; }
+.c-legal .cat-icon        { background: #F3E5F5; }
+.c-food .cat-icon         { background: #E8F5E9; }
+.c-other .cat-icon        { background: #F5F5F5; }
+
+/* 「該当なし」メッセージ */
+#no-results {
+  display: none;
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-sub);
+  font-size: 15px;
+  grid-column: 1 / -1;
+}
+#no-results.visible { display: block; }
+
+/* ===== フッター ===== */
+footer {
+  background: #1a237e;
+  /* Fix#17: コントラスト改善 0.6 → 0.88 (白文字・濃紺背景でWCAG AA準拠) */
+  color: rgba(255,255,255,0.88);
+  text-align: center;
+  padding: 28px 20px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 12px;
+  transition: color var(--transition);
+}
+.footer-links a:hover { color: #fff; }
+
+/* ===== モバイル ===== */
+@media (max-width: 640px) {
+  /* Fix#18: モバイル時ナビ対応 */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 16px 24px 20px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    gap: 12px;
+    z-index: 99;
+  }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: flex; }
+  header { position: -webkit-sticky; position: sticky; }
+
+  .hero { padding: 32px 16px 28px; }
+  .hero h1 { font-size: 18px; }
+  .search-btn { padding: 13px 16px; font-size: 14px; }
+
+  main { margin: 24px auto; padding: 0 14px 40px; }
+  .section-title { font-size: 15px; }
+  .categories-grid { gap: 12px; }
+  .cat-card { padding: 16px 16px 12px; }
+  .cat-name { font-size: 14px; }
+  .cat-icon { width: 38px; height: 38px; font-size: 18px; border-radius: 10px; }
+
+  .popular-tags { gap: 8px; }
+  .popular-tag { padding: 6px 14px; font-size: 12px; }
+
+  .footer-links { gap: 14px; }
+}
+
+@media (max-width: 360px) {
+  .logo { font-size: 22px; }
+  .logo span[aria-hidden] { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Fix#19: スキップリンク（アクセシビリティ） -->
+<a href="#main-content" class="skip-link">本文へスキップ</a>
+
+<!-- ヘッダー -->
+<header>
+  <!-- Fix#20: ロゴをhrefではなくbuttonに。#はページトップスクロールの副作用あり -->
+  <a href="/" class="logo" aria-label="FindMe!!! トップページへ">
+    <span aria-hidden="true">🔍</span>
+    <span class="lF">F</span><span class="li">i</span><span class="ln">n</span><span class="ld">d</span><span class="lM">M</span><span class="le">e</span><span class="excl" aria-hidden="true">!!!</span>
+  </a>
+
+  <!-- Fix#21: aria-label 追加 -->
+  <nav aria-label="メインナビゲーション">
+    <!-- Fix#22: ハンバーガーボタン（モバイル対応） -->
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="メニューを開く" onclick="toggleNav(this)">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <div class="nav-links" id="nav-links" role="list">
+      <a href="#categories" role="listitem">求人を探す</a>
+      <a href="#" role="listitem">会員登録</a>
+      <a href="#" class="btn-login" role="listitem">ログイン</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ヒーロー -->
+<div class="hero">
+  <h1>あなたにぴったりの仕事が、きっと見つかる</h1>
+  <p>全国の求人情報から、職種・エリアで検索できます</p>
+
+  <!-- Fix#23: form タグでラップ (Enter キー送信対応) -->
+  <form class="search-form" onsubmit="handleSearch(event)" role="search">
+    <!-- Fix#24: label 要素（visually-hidden）追加 -->
+    <label for="search-input" class="visually-hidden">職種・キーワードで検索</label>
+    <div class="search-bar">
+      <!-- Fix#25: type="search" に変更 -->
+      <input
+        type="search"
+        id="search-input"
+        name="q"
+        placeholder="職種名、キーワードを入力（例：エンジニア、介護、ドライバー）"
+        autocomplete="off"
+        oninput="debounceSearch()"
+      >
+      <button type="submit" class="search-btn" aria-label="検索する">
+        <span aria-hidden="true">🔍</span> 検索
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- メイン -->
+<main id="main-content">
+
+  <!-- 検索結果バナー -->
+  <div id="search-result-banner" role="status" aria-live="polite">
+    <span id="search-result-text"></span>
+    <button type="button" id="search-clear-btn" onclick="clearSearch()" aria-label="検索をクリアする">✕ クリア</button>
+  </div>
+
+  <!-- 人気職種 -->
+  <!-- Fix#26: p → h2 タグに変更 -->
+  <h2 class="section-title">🔥 人気職種から探す</h2>
+  <div class="popular-tags" role="list" aria-label="人気職種">
+    <!-- Fix#27: span → button に変更（キーボード操作可能） -->
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'施工管理')"><span class="hot-icon" aria-hidden="true">🔥</span>施工管理</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'ドライバー')"><span class="hot-icon" aria-hidden="true">🔥</span>ドライバー</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'介護')"><span class="hot-icon" aria-hidden="true">🔥</span>介護</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'エンジニア')"><span class="hot-icon" aria-hidden="true">🔥</span>エンジニア</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'営業')"><span class="hot-icon" aria-hidden="true">🔥</span>営業</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'看護師')"><span class="hot-icon" aria-hidden="true">🔥</span>看護師</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'倉庫作業')">倉庫作業</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'一般事務')">一般事務</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'美容師')">美容師</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'塾講師')">塾講師</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'保育士')">保育士</button>
+    <button class="popular-tag" type="button" role="listitem" onclick="searchByTag(this,'軽作業')">軽作業</button>
+  </div>
+
+  <!-- 全カテゴリ -->
+  <h2 class="section-title" id="categories">📁 職種カテゴリから探す</h2>
+
+  <div class="categories-grid" id="categories-grid" role="list" aria-label="職種カテゴリ一覧">
+
+    <!-- Fix#28: div → article に変更。tabindex・role・aria追加でキーボード操作可能 -->
+
+    <!-- 建設・土木 -->
+    <article class="cat-card c-construction" role="listitem" tabindex="0"
+      data-jobs="建設 鳶 土工 土木 型枠 内装 電気工事 鉄筋 設備 塗装 解体 施工管理"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="建設・土木カテゴリ 12職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🏗️</div>
+        <div>
+          <div class="cat-name">建設・土木</div>
+          <div class="cat-count">12職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list" aria-label="建設・土木の職種タグ">
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'建設')">建設</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'鳶')">鳶</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'土工')">土工</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'土木')">土木</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'型枠')">型枠</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'内装')">内装</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'電気工事')">電気工事</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'鉄筋')">鉄筋</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'設備')">設備</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'塗装')">塗装</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'解体')">解体</button>
+        <button class="tag" type="button" role="listitem" onclick="tagClick(event,'施工管理')">施工管理</button>
+      </div>
+    </article>
+
+    <!-- 営業 -->
+    <article class="cat-card c-sales" role="listitem" tabindex="0"
+      data-jobs="法人営業 個人営業 ルート営業 インサイドセールス テレアポ"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="営業カテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">💼</div>
+        <div>
+          <div class="cat-name">営業</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'法人営業')">法人営業</button>
+        <button class="tag" type="button" onclick="tagClick(event,'個人営業')">個人営業</button>
+        <button class="tag" type="button" onclick="tagClick(event,'ルート営業')">ルート営業</button>
+        <button class="tag" type="button" onclick="tagClick(event,'インサイドセールス')">インサイドセールス</button>
+        <button class="tag" type="button" onclick="tagClick(event,'テレアポ')">テレアポ</button>
+      </div>
+    </article>
+
+    <!-- 製造・工場 -->
+    <article class="cat-card c-factory" role="listitem" tabindex="0"
+      data-jobs="ライン作業 組立 検査 品質管理 機械オペレーター 生産管理"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="製造・工場カテゴリ 6職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🏭</div>
+        <div>
+          <div class="cat-name">製造・工場</div>
+          <div class="cat-count">6職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'ライン作業')">ライン作業</button>
+        <button class="tag" type="button" onclick="tagClick(event,'組立')">組立</button>
+        <button class="tag" type="button" onclick="tagClick(event,'検査')">検査</button>
+        <button class="tag" type="button" onclick="tagClick(event,'品質管理')">品質管理</button>
+        <button class="tag" type="button" onclick="tagClick(event,'機械オペレーター')">機械オペレーター</button>
+        <button class="tag" type="button" onclick="tagClick(event,'生産管理')">生産管理</button>
+      </div>
+    </article>
+
+    <!-- 事務・オフィス -->
+    <article class="cat-card c-office" role="listitem" tabindex="0"
+      data-jobs="一般事務 営業事務 経理 人事 総務 カスタマーサポート データ入力"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="事務・オフィスカテゴリ 7職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">💻</div>
+        <div>
+          <div class="cat-name">事務・オフィス</div>
+          <div class="cat-count">7職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'一般事務')">一般事務</button>
+        <button class="tag" type="button" onclick="tagClick(event,'営業事務')">営業事務</button>
+        <button class="tag" type="button" onclick="tagClick(event,'経理')">経理</button>
+        <button class="tag" type="button" onclick="tagClick(event,'人事')">人事</button>
+        <button class="tag" type="button" onclick="tagClick(event,'総務')">総務</button>
+        <button class="tag" type="button" onclick="tagClick(event,'カスタマーサポート')">カスタマーサポート</button>
+        <button class="tag" type="button" onclick="tagClick(event,'データ入力')">データ入力</button>
+      </div>
+    </article>
+
+    <!-- 販売・接客 -->
+    <article class="cat-card c-retail" role="listitem" tabindex="0"
+      data-jobs="アパレル 飲食 コンビニ 家電販売 接客スタッフ スーパー 量販店"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="販売・接客カテゴリ 6職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🛍️</div>
+        <div>
+          <div class="cat-name">販売・接客</div>
+          <div class="cat-count">6職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'アパレル')">アパレル</button>
+        <button class="tag" type="button" onclick="tagClick(event,'飲食')">飲食</button>
+        <button class="tag" type="button" onclick="tagClick(event,'コンビニ')">コンビニ</button>
+        <button class="tag" type="button" onclick="tagClick(event,'家電販売')">家電販売</button>
+        <button class="tag" type="button" onclick="tagClick(event,'接客スタッフ')">接客スタッフ</button>
+        <button class="tag" type="button" onclick="tagClick(event,'スーパー・量販店')">スーパー・量販店</button>
+      </div>
+    </article>
+
+    <!-- 配送・物流 -->
+    <article class="cat-card c-logistics" role="listitem" tabindex="0"
+      data-jobs="ドライバー 配達 倉庫作業 フォークリフト 仕分け ピッキング"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="配送・物流カテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🚛</div>
+        <div>
+          <div class="cat-name">配送・物流</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'ドライバー')">ドライバー</button>
+        <button class="tag" type="button" onclick="tagClick(event,'配達')">配達</button>
+        <button class="tag" type="button" onclick="tagClick(event,'倉庫作業')">倉庫作業</button>
+        <button class="tag" type="button" onclick="tagClick(event,'フォークリフト')">フォークリフト</button>
+        <button class="tag" type="button" onclick="tagClick(event,'仕分け・ピッキング')">仕分け・ピッキング</button>
+      </div>
+    </article>
+
+    <!-- IT・Web -->
+    <article class="cat-card c-it" role="listitem" tabindex="0"
+      data-jobs="エンジニア デザイナー マーケター Webディレクター PM ディレクター データサイエンティスト AI 機械学習"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="IT・WebカテゴリIP 7職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">⚙️</div>
+        <div>
+          <div class="cat-name">IT・Web</div>
+          <div class="cat-count">7職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'エンジニア')">エンジニア</button>
+        <button class="tag" type="button" onclick="tagClick(event,'デザイナー')">デザイナー</button>
+        <button class="tag" type="button" onclick="tagClick(event,'マーケター')">マーケター</button>
+        <button class="tag" type="button" onclick="tagClick(event,'Webディレクター')">Webディレクター</button>
+        <button class="tag" type="button" onclick="tagClick(event,'PM・ディレクター')">PM・ディレクター</button>
+        <button class="tag" type="button" onclick="tagClick(event,'データサイエンティスト')">データサイエンティスト</button>
+        <button class="tag" type="button" onclick="tagClick(event,'AI・機械学習')">AI・機械学習</button>
+      </div>
+    </article>
+
+    <!-- 美容・サービス -->
+    <article class="cat-card c-beauty" role="listitem" tabindex="0"
+      data-jobs="美容師 ネイリスト エステ セラピスト アイリスト"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="美容・サービスカテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">💅</div>
+        <div>
+          <div class="cat-name">美容・サービス</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'美容師')">美容師</button>
+        <button class="tag" type="button" onclick="tagClick(event,'ネイリスト')">ネイリスト</button>
+        <button class="tag" type="button" onclick="tagClick(event,'エステ')">エステ</button>
+        <button class="tag" type="button" onclick="tagClick(event,'セラピスト')">セラピスト</button>
+        <button class="tag" type="button" onclick="tagClick(event,'アイリスト')">アイリスト</button>
+      </div>
+    </article>
+
+    <!-- 医療・福祉 -->
+    <article class="cat-card c-medical" role="listitem" tabindex="0"
+      data-jobs="看護師 介護 保育士 医療事務 薬剤師 ホームヘルパー"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="医療・福祉カテゴリ 6職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🏥</div>
+        <div>
+          <div class="cat-name">医療・福祉</div>
+          <div class="cat-count">6職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'看護師')">看護師</button>
+        <button class="tag" type="button" onclick="tagClick(event,'介護')">介護</button>
+        <button class="tag" type="button" onclick="tagClick(event,'保育士')">保育士</button>
+        <button class="tag" type="button" onclick="tagClick(event,'医療事務')">医療事務</button>
+        <button class="tag" type="button" onclick="tagClick(event,'薬剤師')">薬剤師</button>
+        <button class="tag" type="button" onclick="tagClick(event,'ホームヘルパー')">ホームヘルパー</button>
+      </div>
+    </article>
+
+    <!-- エンタメ・クリエイティブ -->
+    <article class="cat-card c-entertainment" role="listitem" tabindex="0"
+      data-jobs="音楽 映像制作 イベントスタッフ 芸能 モデル 配信者 ライバー カメラマン"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="エンタメ・クリエイティブカテゴリ 6職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🎬</div>
+        <div>
+          <div class="cat-name">エンタメ・クリエイティブ</div>
+          <div class="cat-count">6職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'音楽関係')">音楽関係</button>
+        <button class="tag" type="button" onclick="tagClick(event,'映像制作')">映像制作</button>
+        <button class="tag" type="button" onclick="tagClick(event,'イベントスタッフ')">イベントスタッフ</button>
+        <button class="tag" type="button" onclick="tagClick(event,'芸能・モデル')">芸能・モデル</button>
+        <button class="tag" type="button" onclick="tagClick(event,'配信者・ライバー')">配信者・ライバー</button>
+        <button class="tag" type="button" onclick="tagClick(event,'カメラマン')">カメラマン</button>
+      </div>
+    </article>
+
+    <!-- 教育・学習 -->
+    <article class="cat-card c-education" role="listitem" tabindex="0"
+      data-jobs="塾講師 家庭教師 学習支援員 学校講師 教員 語学講師"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="教育・学習カテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">📚</div>
+        <div>
+          <div class="cat-name">教育・学習</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'塾講師')">塾講師</button>
+        <button class="tag" type="button" onclick="tagClick(event,'家庭教師')">家庭教師</button>
+        <button class="tag" type="button" onclick="tagClick(event,'学習支援員')">学習支援員</button>
+        <button class="tag" type="button" onclick="tagClick(event,'学校講師・教員')">学校講師・教員</button>
+        <button class="tag" type="button" onclick="tagClick(event,'語学講師')">語学講師</button>
+      </div>
+    </article>
+
+    <!-- フィットネス・スポーツ -->
+    <article class="cat-card c-fitness" role="listitem" tabindex="0"
+      data-jobs="ピラティス ヨガ ジムトレーナー パーソナルトレーナー スポーツインストラクター"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="フィットネス・スポーツカテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">💪</div>
+        <div>
+          <div class="cat-name">フィットネス・スポーツ</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'ピラティス')">ピラティス</button>
+        <button class="tag" type="button" onclick="tagClick(event,'ヨガ')">ヨガ</button>
+        <button class="tag" type="button" onclick="tagClick(event,'ジムトレーナー')">ジムトレーナー</button>
+        <button class="tag" type="button" onclick="tagClick(event,'パーソナルトレーナー')">パーソナルトレーナー</button>
+        <button class="tag" type="button" onclick="tagClick(event,'スポーツインストラクター')">スポーツインストラクター</button>
+      </div>
+    </article>
+
+    <!-- 不動産・建築設計 -->
+    <article class="cat-card c-real-estate" role="listitem" tabindex="0"
+      data-jobs="不動産営業 建築設計 インテリアコーディネーター マンション管理 測量 CAD"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="不動産・建築設計カテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🏠</div>
+        <div>
+          <div class="cat-name">不動産・建築設計</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'不動産営業')">不動産営業</button>
+        <button class="tag" type="button" onclick="tagClick(event,'建築設計')">建築設計</button>
+        <button class="tag" type="button" onclick="tagClick(event,'インテリアコーディネーター')">インテリアコーディネーター</button>
+        <button class="tag" type="button" onclick="tagClick(event,'マンション管理')">マンション管理</button>
+        <button class="tag" type="button" onclick="tagClick(event,'測量・CAD')">測量・CAD</button>
+      </div>
+    </article>
+
+    <!-- 士業・法律・会計 -->
+    <article class="cat-card c-legal" role="listitem" tabindex="0"
+      data-jobs="弁護士 法務 税理士 社会保険労務士 行政書士 公認会計士"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="士業・法律・会計カテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">⚖️</div>
+        <div>
+          <div class="cat-name">士業・法律・会計</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'弁護士・法務')">弁護士・法務</button>
+        <button class="tag" type="button" onclick="tagClick(event,'税理士')">税理士</button>
+        <button class="tag" type="button" onclick="tagClick(event,'社会保険労務士')">社会保険労務士</button>
+        <button class="tag" type="button" onclick="tagClick(event,'行政書士')">行政書士</button>
+        <button class="tag" type="button" onclick="tagClick(event,'公認会計士')">公認会計士</button>
+      </div>
+    </article>
+
+    <!-- 農業・食品・飲食製造 -->
+    <article class="cat-card c-food" role="listitem" tabindex="0"
+      data-jobs="農業 酪農 食品製造 調理師 料理人 フードコーディネーター パン 菓子製造"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="農業・食品・飲食製造カテゴリ 5職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">🌾</div>
+        <div>
+          <div class="cat-name">農業・食品・飲食製造</div>
+          <div class="cat-count">5職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'農業・酪農')">農業・酪農</button>
+        <button class="tag" type="button" onclick="tagClick(event,'食品製造')">食品製造</button>
+        <button class="tag" type="button" onclick="tagClick(event,'調理師・料理人')">調理師・料理人</button>
+        <button class="tag" type="button" onclick="tagClick(event,'フードコーディネーター')">フードコーディネーター</button>
+        <button class="tag" type="button" onclick="tagClick(event,'パン・菓子製造')">パン・菓子製造</button>
+      </div>
+    </article>
+
+    <!-- その他 -->
+    <article class="cat-card c-other" role="listitem" tabindex="0"
+      data-jobs="軽作業 イベントスタッフ フリーランス その他"
+      onclick="filterByCategory(this)" onkeydown="cardKeydown(event,this)"
+      aria-label="その他カテゴリ 4職種">
+      <div class="cat-header">
+        <div class="cat-icon" aria-hidden="true">📌</div>
+        <div>
+          <div class="cat-name">その他</div>
+          <div class="cat-count">4職種</div>
+        </div>
+      </div>
+      <div class="cat-tags" role="list">
+        <button class="tag" type="button" onclick="tagClick(event,'軽作業')">軽作業</button>
+        <button class="tag" type="button" onclick="tagClick(event,'イベントスタッフ')">イベントスタッフ</button>
+        <button class="tag" type="button" onclick="tagClick(event,'フリーランス')">フリーランス</button>
+        <button class="tag" type="button" onclick="tagClick(event,'その他')">その他</button>
+      </div>
+    </article>
+
+    <!-- 検索ヒットなし -->
+    <div id="no-results" role="status" aria-live="polite">
+      <p style="font-size:40px; margin-bottom:12px;" aria-hidden="true">🔍</p>
+      <p>「<span id="no-results-keyword"></span>」に一致するカテゴリが見つかりませんでした。</p>
+      <p style="font-size:13px; margin-top:8px;">別のキーワードで検索してみてください。</p>
+    </div>
+
+  </div><!-- /categories-grid -->
+
+</main>
+
+<!-- フッター -->
+<footer>
+  <nav class="footer-links" aria-label="フッターリンク">
+    <a href="#">利用規約</a>
+    <a href="#">プライバシーポリシー</a>
+    <a href="#">運営会社</a>
+    <a href="#">お問い合わせ</a>
+  </nav>
+  <p>&copy; 2026 FindMe!!! All rights reserved.</p>
+</footer>
+
+<!-- ===================================================
+     JavaScript: 検索・フィルター・ナビ・バッチエラー処理
+     Fix#29: 全インタラクションに動作実装
+=================================================== -->
+<script>
+'use strict';
+
+/* ===== ユーティリティ ===== */
+// デバウンス（高速入力時のチラつき防止）
+let _debounceTimer = null;
+function debounceSearch() {
+  clearTimeout(_debounceTimer);
+  _debounceTimer = setTimeout(function() {
+    performSearch(document.getElementById('search-input').value.trim());
+  }, 250);
+}
+
+// 正規化（全角・半角・スペースを吸収）
+function normalize(str) {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
+      return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+    })
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/* ===== 検索コア ===== */
+function performSearch(keyword) {
+  const query = normalize(keyword);
+  const cards  = document.querySelectorAll('.cat-card');
+  const banner = document.getElementById('search-result-banner');
+  const resultText = document.getElementById('search-result-text');
+  const noResults  = document.getElementById('no-results');
+  const noResultsKW = document.getElementById('no-results-keyword');
+
+  // 人気タグのactive解除
+  document.querySelectorAll('.popular-tag').forEach(function(t) { t.classList.remove('active'); });
+
+  if (!query) {
+    // クリア状態
+    cards.forEach(function(c) {
+      c.classList.remove('hidden', 'search-match');
+    });
+    document.querySelectorAll('.tag').forEach(function(t) { t.classList.remove('highlight'); });
+    banner.classList.remove('visible');
+    noResults.classList.remove('visible');
+    return;
+  }
+
+  let matchCount = 0;
+  cards.forEach(function(card) {
+    const jobs     = normalize(card.dataset.jobs || '');
+    const catName  = normalize(card.querySelector('.cat-name') ? card.querySelector('.cat-name').textContent : '');
+    const isMatch  = jobs.includes(query) || catName.includes(query);
+
+    if (isMatch) {
+      card.classList.remove('hidden');
+      card.classList.add('search-match');
+      matchCount++;
+      // タグのハイライト（バッチ処理）
+      card.querySelectorAll('.tag').forEach(function(tag) {
+        tag.classList.toggle('highlight', normalize(tag.textContent).includes(query));
+      });
+    } else {
+      card.classList.add('hidden');
+      card.classList.remove('search-match');
+    }
+  });
+
+  // 結果バナー
+  if (matchCount > 0) {
+    noResults.classList.remove('visible');
+    resultText.textContent = '「' + keyword + '」の検索結果：' + matchCount + 'カテゴリ';
+    banner.classList.add('visible');
+  } else {
+    noResults.classList.add('visible');
+    noResultsKW.textContent = keyword;
+    resultText.textContent  = '';
+    banner.classList.remove('visible');
+  }
+}
+
+/* ===== フォーム送信 ===== */
+function handleSearch(e) {
+  e.preventDefault();
+  const keyword = document.getElementById('search-input').value.trim();
+  performSearch(keyword);
+  // 検索後、カテゴリセクションにスクロール
+  if (keyword) {
+    document.getElementById('categories').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+/* ===== クリア ===== */
+function clearSearch() {
+  var input = document.getElementById('search-input');
+  input.value = '';
+  performSearch('');
+  input.focus();
+}
+
+/* ===== 人気タグクリック ===== */
+function searchByTag(btn, keyword) {
+  // 同じタグを再クリックで解除
+  if (btn.classList.contains('active')) {
+    btn.classList.remove('active');
+    clearSearch();
+    return;
+  }
+  document.querySelectorAll('.popular-tag').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('search-input').value = keyword;
+  performSearch(keyword);
+  document.getElementById('categories').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ===== タグクリック（カード内の職種タグ） ===== */
+function tagClick(e, keyword) {
+  e.stopPropagation(); // カードのonclickが発火しないように
+  document.getElementById('search-input').value = keyword;
+  performSearch(keyword);
+  document.getElementById('categories').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ===== カードクリック ===== */
+function filterByCategory(card) {
+  const catName = card.querySelector('.cat-name');
+  if (!catName) return;
+  // 現在の実装: カテゴリ名で検索（将来はページ遷移に差し替え）
+  const name = catName.textContent;
+  document.getElementById('search-input').value = name;
+  performSearch(name);
+}
+
+/* ===== カードキーボード操作 ===== */
+// Fix#30: Enter/Space でカードのクリックと同等
+function cardKeydown(e, card) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    filterByCategory(card);
+  }
+}
+
+/* ===== モバイルナビ ===== */
+function toggleNav(btn) {
+  const navLinks = document.getElementById('nav-links');
+  const isOpen = navLinks.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  btn.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
+}
+
+/* ===== 外部クリックでナビを閉じる ===== */
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('nav-links');
+  const toggle = document.querySelector('.nav-toggle');
+  if (nav && toggle && !nav.contains(e.target) && !toggle.contains(e.target)) {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'メニューを開く');
+  }
+});
+
+/* ===== エラー冗長性: フォントロード失敗時のフォールバック確認 ===== */
+// document.fonts APIが使えるブラウザでフォントが2秒以内に読み込まれなければ
+// フォールバックフォントをbodyにセット（batch error handling）
+(function() {
+  if (!document.fonts) return; // 非対応ブラウザはスキップ
+  var fontTimeout = setTimeout(function() {
+    // フォントロード失敗時はシステムフォントに完全切り替え
+    document.body.style.fontFamily = '"Hiragino Kaku Gothic Pro", "Yu Gothic", "Meiryo", sans-serif';
+    var logo = document.querySelector('.logo');
+    if (logo) logo.style.fontFamily = '"Arial Black", "Helvetica Neue", sans-serif';
+  }, 4000);
+
+  document.fonts.ready.then(function() {
+    clearTimeout(fontTimeout);
+  }).catch(function() {
+    // catch は呼ばれないことが多いが念のため
+    clearTimeout(fontTimeout);
+  });
+})();
+</script>
+
+</body>
+</html>
