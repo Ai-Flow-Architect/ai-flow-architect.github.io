@@ -2168,6 +2168,7 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
   let open=false,step=0,answers={},freeMode=false,frustrationCount=0,persona='';
   const history=[];// LLM conversation history
   const stateStack=[];// 戻るボタン用の状態スタック
+  let idleTimer=null;// [施策3] 無操作再アプローチタイマー
 
   /* ---- 稼働数（Capacity Statusと同じロジック） ---- */
   const _REAL_ACTIVE=0,_MAX=5,_dmy=[3,2,4,3,4,2,3];
@@ -2388,12 +2389,27 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
     {q:'現在使っているツールを教えてください',opts:['📋 Google Sheets / Excel','🗂️ Notion / Lark','🔔 Slack / LINE','⚙️ 独自・基幹システム','🤔 まだ決まっていない','✏️ 自由に入力する']},
   ];
 
+  /* [施策3] 無操作30秒後の再アプローチ */
+  function resetIdleTimer(){
+    clearTimeout(idleTimer);
+    if(step==='result'&&open){
+      idleTimer=setTimeout(()=>{
+        addMsg('ご検討中でしょうか。ご不明な点がございましたら、お気軽にご質問ください。\n無料相談フォームからのお問い合わせもお待ちしております。');
+        setTimeout(()=>{showOpts(['📝 無料相談を申し込む','❓ もっと質問する','🔄 診断をやり直す']);step='result';},600);
+        if(typeof gtag!=='undefined') gtag('event','chat_idle_nudge',{event_category:'chatbot'});
+      },30000);
+    }
+  }
+
   function togglePanel(){
     open=!open;
     panel.classList.toggle('open',open);
     if(open){
       if(typeof gtag!=='undefined') gtag('event','chat_open',{event_category:'chatbot',event_label:'panel_opened'});
       if(msgs.children.length===0)startFlow();
+      else resetIdleTimer();
+    } else {
+      clearTimeout(idleTimer);
     }
   }
   btn.addEventListener('click',togglePanel);
@@ -2496,9 +2512,9 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   function showInstantAnswer(type){
     const msgMap={price:INSTANT_PRICE,deadline:INSTANT_DEADLINE,what:INSTANT_WHAT};
     const ctaMap={
-      price:['📝 無料で見積もりを依頼する','🤔 自分の業務が自動化できるか確認したい','🔄 診断をやり直す'],
-      deadline:['📝 無料で見積もりを依頼する','❓ もっと質問したい','🔄 診断をやり直す'],
-      what:['📝 無料で見積もりを依頼する','🤔 自分の業務が自動化できるか確認したい','🔄 診断をやり直す'],
+      price:['📝 無料で見積もりを依頼する','📋 導入事例を見る','🔄 診断をやり直す'],
+      deadline:['📝 無料で見積もりを依頼する','💰 料金プランを見る','🔄 診断をやり直す'],
+      what:['📝 無料で見積もりを依頼する','📋 導入事例を見る','💰 料金プランを見る'],
     };
     step='result';
     showTyping();
@@ -2509,6 +2525,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
         addMsg(diffMsg());
         showOpts(ctaMap[type]);
         updateNav();
+        resetIdleTimer();// [施策3]
       },800);
     },900);
   }
@@ -2516,6 +2533,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   function handleOpt(val){
     // [Fix#1] result段階のボタンはdelegatedリスナーに任せる（二重発火防止）
     if(step==='result')return;
+    clearTimeout(idleTimer);// [施策3]
     if(val==='✏️ 自由に入力する'||val==='✏️ 自由に質問する'){
       opts.innerHTML='';
       inpRow.style.display='flex';
@@ -2677,10 +2695,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
         addMsg(diffMsg());
         // [CB-E] CTAブリッジ文：「唐突感」を解消するワンクッション
         setTimeout(()=>{
-          addMsg('以上がご提案内容です😊\nご興味があれば、ぜひ次のステップに進んでみてください！');
-          showOpts(['🚀 今すぐ無料相談を申し込む','💰 料金を確認する','🔄 診断をやり直す']);
+          addMsg('以上がご提案内容です。\nご興味がございましたら、ぜひ次のステップにお進みください。');
+          showOpts(['🚀 今すぐ無料相談を申し込む','📋 導入事例を見る','💰 料金プランを見る','🔄 診断をやり直す']);
           step='result';
           updateNav();
+          resetIdleTimer();// [施策3]
         },800);
       },1200);
     },800);
@@ -2717,8 +2736,25 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   }
 
   function handleResult(val){
+    clearTimeout(idleTimer);// [施策3]
+    // [施策4] 導入事例セクションへスクロール
+    if(val.includes('導入事例')){
+      const casesEl=document.getElementById('cases');
+      if(casesEl){casesEl.scrollIntoView({behavior:'smooth'});}
+      addMsg('導入事例セクションへご案内します。\nご自身の業種に近い事例をご参考ください。');
+      setTimeout(()=>{showOpts(['📝 無料相談を申し込む','💰 料金プランを見る','🔄 診断をやり直す']);step='result';resetIdleTimer();},1000);
+      return;
+    }
+    // [施策4] 料金プランセクションへスクロール
+    if(val.includes('料金プランを見る')){
+      const pricingEl=document.getElementById('pricing');
+      if(pricingEl){pricingEl.scrollIntoView({behavior:'smooth'});}
+      addMsg('料金プランセクションへご案内します。\nご予算・規模に合わせたプランをご確認ください。');
+      setTimeout(()=>{showOpts(['📝 無料相談を申し込む','📋 導入事例を見る','🔄 診断をやり直す']);step='result';resetIdleTimer();},1000);
+      return;
+    }
     // [Fix#8] '詳しい'だけでは「もっと詳しく聞きたい」もフォーム誘導してしまうため厳密化
-    if(val.includes('詳しい提案')||val.includes('見積もり')||val.includes('無料相談')){
+    if(val.includes('詳しい提案')||val.includes('見積もり')||val.includes('無料相談')||val.includes('申し込む')){
       if(typeof gtag!=='undefined') gtag('event','chat_cv_click',{event_category:'chatbot',event_label:'form_open'});
       // [Fix#5] ポップアップブロック対策：リンクもメッセージに表示
       addMsgWithLink(
@@ -2727,11 +2763,11 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
       );
       try{window.open(FORM_URL,'_blank');}catch(e){}
       setTimeout(()=>{showOpts(['❓ 他にも質問する','🔄 診断をやり直す']);step='result';},1200);
-    } else if(val.includes('料金')){
-      addMsg('💰 料金プランをご確認ください！\n\n・Liteプラン ¥40,000〜（1〜2週間）\n・Standardプラン ¥80,000〜（2〜4週間）\n・Full Package ¥150,000〜（4〜8週間）\n\n初回見積もりは完全無料です😊','bot');
+    } else if(val.includes('料金を確認')||val.includes('料金')){
+      addMsg('料金プランをご確認ください。\n\n・Liteプラン ¥40,000〜（1〜2週間）\n・Standardプラン ¥80,000〜（2〜4週間）\n・Full Package ¥150,000〜（4〜8週間）\n\n初回見積もりは完全無料です。');
       const pricingEl=document.getElementById('pricing');
       if(pricingEl)setTimeout(()=>pricingEl.scrollIntoView({behavior:'smooth'}),800);
-      setTimeout(()=>{showOpts(['📝 詳しい提案を受け取る','❓ 他にも質問する','🔄 診断をやり直す']);step='result';},1200);
+      setTimeout(()=>{showOpts(['📝 無料相談を申し込む','📋 導入事例を見る','🔄 診断をやり直す']);step='result';resetIdleTimer();},1200);
     } else if(val.includes('やり直')||val.includes('診断')){
       resetFlow();
     } else {
@@ -2754,6 +2790,7 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
   async function sendFreeMsg(text){
     if(!text.trim())return;
+    clearTimeout(idleTimer);// [施策3]
     if(typeof gtag!=='undefined') gtag('event','chat_message_sent',{event_category:'chatbot',event_label:'free_message'});
     // [Issue#5修正] 短すぎる/意味不明な入力を検知して聞き返す
     const trimmed=text.trim();
