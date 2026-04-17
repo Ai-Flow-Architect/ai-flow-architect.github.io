@@ -1017,6 +1017,14 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EDE4GD3W09"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EDE4GD3W09');
+</script>
 </head>
 <body>
 <div id="read-progress"></div>
@@ -2172,6 +2180,14 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
 【AI Flow Architectについて】
 AI業務自動化エンジニア。Make.com・OpenAI・Claude・Gemini・Google Workspaceなどを使い、繰り返し作業を自動化する専門家。10社以上の導入実績・平均40%の業務時間削減を実現。
 
+【導入実績（会話内で積極的に引用すること）】
+- EC・通販業：受注処理の自動化 → 月20時間削減・人件費換算で月4万円のコスト削減
+- 士業・コンサル：問い合わせ対応の自動化 → 月8時間削減・顧客返信速度が平均6時間→30分に短縮
+- 製造・物流：集計・報告書生成の自動化 → 月15時間削減・ミス件数ゼロを3ヶ月継続
+- スタートアップ：Slack×スプレッドシート連携 → 週次レポート作成が2時間→ゼロに
+- 医療・福祉：シフト管理×通知自動化 → 担当者の残業が月10時間削減
+※実績を使う際は「例えば〜のケースでは」と一例として紹介し、誇張・断定はしない
+
 【稼働状況】（重要：積極的に使うこと）
 現在 ${BOT_ACTIVE}件 対応中 / 残り ${BOT_AVAILABLE}枠 が空き（上限5件）
 
@@ -2375,8 +2391,10 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   function togglePanel(){
     open=!open;
     panel.classList.toggle('open',open);
-    // [Fix#6] 初回オープン時のみstartFlow（panel再開時の二重メッセージ防止）
-    if(open&&msgs.children.length===0)startFlow();
+    if(open){
+      if(typeof gtag!=='undefined') gtag('event','chat_open',{event_category:'chatbot',event_label:'panel_opened'});
+      if(msgs.children.length===0)startFlow();
+    }
   }
   btn.addEventListener('click',togglePanel);
   closeBtn.addEventListener('click',()=>{open=false;panel.classList.remove('open')});
@@ -2701,9 +2719,10 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
   function handleResult(val){
     // [Fix#8] '詳しい'だけでは「もっと詳しく聞きたい」もフォーム誘導してしまうため厳密化
     if(val.includes('詳しい提案')||val.includes('見積もり')||val.includes('無料相談')){
+      if(typeof gtag!=='undefined') gtag('event','chat_cv_click',{event_category:'chatbot',event_label:'form_open'});
       // [Fix#5] ポップアップブロック対策：リンクもメッセージに表示
       addMsgWithLink(
-        '📝 フォームを開きます！\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にAI Flow Architectから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nポップアップがブロックされた場合は下のリンクから👇',
+        'フォームをご確認ください。\n\n送信後の流れ：\n① 送信完了 → 確認メールが届きます\n② 24時間以内にAI Flow Architectから返信\n③ 無料相談日程を調整（30分）\n④ 概算お見積もりをご提示\n\nポップアップがブロックされた場合は下のリンクからどうぞ',
         FORM_URL,'無料相談フォームを開く'
       );
       try{window.open(FORM_URL,'_blank');}catch(e){}
@@ -2735,11 +2754,12 @@ Make.com / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark
 
   async function sendFreeMsg(text){
     if(!text.trim())return;
+    if(typeof gtag!=='undefined') gtag('event','chat_message_sent',{event_category:'chatbot',event_label:'free_message'});
     // [Issue#5修正] 短すぎる/意味不明な入力を検知して聞き返す
     const trimmed=text.trim();
     if(trimmed.length<=2&&!/[？?]/.test(trimmed)){
       addMsg(trimmed,'usr');
-      addMsg('もう少し詳しく教えていただけますか？😊 例：「Excelの転記作業を自動化したい」など、気になることをお気軽に！','bot');
+      addMsg('もう少し詳しくお聞かせいただけますでしょうか。例：「Excel転記を自動化したい」など、気になることをお気軽にどうぞ。','bot');
       return;
     }
     const stepMode=inp.dataset.freeMode;
