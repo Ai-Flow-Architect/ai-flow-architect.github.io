@@ -694,10 +694,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 
 /* PC時は非表示・スマホで表示する要素のデフォルト（必ず@media 640pxより前に置く） */
 .hero-sub-sp{display:none}
-.scroll-ind{display:none;position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:4;flex-direction:column;align-items:center;gap:3px;pointer-events:none;animation:scrollBounce 2s ease-in-out infinite}
-.scroll-ind span{display:block;width:4px;height:8px;background:var(--gr);border-radius:2px}
-.scroll-ind span:nth-child(2){opacity:.55}
-.scroll-ind span:nth-child(3){opacity:.3}
+.scroll-ind{display:none;position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:4;align-items:center;justify-content:center;pointer-events:none;font-size:1.6rem;color:var(--gr);animation:scrollBounce 2s ease-in-out infinite}
 @keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
 .bc-show-more-btn{display:none;width:100%;justify-content:center;margin:16px 0;padding:13px 24px;background:rgba(255,255,255,.04);border:1px solid var(--bm);border-radius:12px;color:var(--t2);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.04em}
 @media(max-width:640px){
@@ -705,9 +702,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .nav-links{display:none}
   section{padding:48px 16px}
   #hero{padding:96px 16px 72px}
-  .hero-nums{flex-direction:column}
-  .hn{border-right:none;border-bottom:1px solid var(--b)}
-  .hn:last-child{border-bottom:none}
+  .hero-nums{display:grid;grid-template-columns:1fr 1fr}
+  .hn{border-bottom:1px solid var(--b)}
+  .hn:nth-child(odd){border-right:1px solid var(--b)}
+  .hn:nth-last-child(-n+2){border-bottom:none}
   .oc-grid{grid-template-columns:1fr}
   .bento{grid-template-columns:1fr}
   .bc.sv{grid-row:span 1}
@@ -784,6 +782,12 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   /* チャット選択肢: スマホでは折り返し許可 */
   .cp-opt{white-space:normal;text-align:left}
   .cp-opts{padding:6px 10px 8px}
+  /* [SP-③] ツールアイコン列: 縦積みに変更 */
+  .bc-split{flex-direction:column}
+  .bc-col{flex:unset;width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+  .beam-wrap{min-height:180px}
+  /* [SP-⑤] 中間CTAタイトル: フォントサイズ縮小 */
+  .mid-cta-title{font-size:1.05rem}
 }
 
 .testi-more-btn{display:none;width:100%;justify-content:center;margin:12px 0 0;padding:12px 24px;background:rgba(255,255,255,.04);border:1px solid var(--bm);border-radius:12px;color:var(--t2);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.04em}
@@ -793,7 +797,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 .sp-vs-table td{padding:9px 10px;border-top:1px solid rgba(255,255,255,.06);line-height:1.4}
 .sp-vs-head-bad{background:rgba(255,255,255,.04);color:var(--t3)}
 .sp-vs-head-good{background:rgba(61,214,140,.08);color:var(--gr)}
-.sp-vs-bad{color:rgba(255,255,255,.35)}
+.sp-vs-bad{color:rgba(255,255,255,.65)}
 .sp-vs-good{color:var(--t1);font-weight:600}
 .sp-check-list{display:flex;flex-direction:column;gap:14px}
 .sp-check-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 18px;font-size:.95rem;color:var(--t1);line-height:1.55}
@@ -1096,7 +1100,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
   </div>
   <!-- スクロールインジケーター（スマホのみ表示） -->
-  <div class="scroll-ind" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="scroll-ind" aria-hidden="true">↓</div>
   <div class="hero-fade"></div>
 </section>
 
@@ -1117,12 +1121,12 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <p style="font-size:1.5rem;color:#fff;font-weight:800;letter-spacing:.02em;margin:0 0 8px;text-align:center">▼ あなたの会社に当てはまるものは？</p>
     <p style="font-size:.9rem;color:var(--t3);text-align:center;margin:0 0 16px">（毎月この損失が出続けています）</p>
     <div class="sp-check-list">
-      <div class="sp-check-item"><span class="sp-check-icon">💸</span><span>売上が上がるほど手作業も増え、<br><strong style="color:var(--or)">人件費が比例して膨らむ</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">⏳</span><span>本業より転記・集計の時間が長く、<br><strong style="color:var(--or)">利益を生まない時間が半分以上</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">😰</span><span>「任せたい」が教えるコストが怖くて、<br><strong style="color:var(--or)">属人化が止まらない</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">📉</span><span>売上は伸びているのに、<br><strong style="color:var(--or)">利益率が年々下がっている</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">🔧</span><span>IT担当を雇う予算はないが、<br><strong style="color:var(--or)">手作業コストはすでに限界</strong></span></div>
-      <div class="sp-check-item"><span class="sp-check-icon">❓</span><span>自動化したいが何から始めるか<br>分からず、<strong style="color:var(--or)">毎月先送りしている</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">💸</span><span>売上が上がるほど手作業も増え、<strong style="color:var(--or)">人件費が比例して膨らむ</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">⏳</span><span>本業より転記・集計の時間が長く、<strong style="color:var(--or)">利益を生まない時間が半分以上</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">😰</span><span>「任せたい」が教えるコストが怖くて、<strong style="color:var(--or)">属人化が止まらない</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">📉</span><span>売上は伸びているのに、<strong style="color:var(--or)">利益率が年々下がっている</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">🔧</span><span>IT担当を雇う予算はないが、<strong style="color:var(--or)">手作業コストはすでに限界</strong></span></div>
+      <div class="sp-check-item"><span class="sp-check-icon">❓</span><span>自動化したいが何から始めるか分からず、<strong style="color:var(--or)">毎月先送りしている</strong></span></div>
     </div>
     <p style="font-size:1.55rem;color:#fff;font-weight:700;text-align:center;margin:22px 0 0;line-height:1.6">１つでも当てはまるなら、<br>今すぐ解決できます。<br><span style="font-size:.9rem;color:var(--t3);font-weight:400">初回相談・見積もりまで完全無料</span></p>
   </div>
