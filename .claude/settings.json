@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(~/.claude/skills/summary-end/**)",
+      "Edit(~/.claude/skills/clair/**)",
+      "Edit(~/.claude/skills/today-log/**)"
+    ]
+  }
+}
