@@ -1857,6 +1857,66 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </section>
 
+<!-- SECURITY & DATA HANDLING（新設） -->
+<section style="padding:56px 24px;background:rgba(74,143,247,.02);border-top:1px solid rgba(74,143,247,.08)">
+  <div class="wrap" style="text-align:center">
+    <div class="eye">SECURITY</div>
+    <h2 class="sec-t">データの取り扱いについて</h2>
+    <p class="sec-s" style="margin-bottom:36px">業務データを安全に扱うための4つの原則</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;max-width:900px;margin:0 auto">
+      <div style="background:var(--bg2);border:1px solid rgba(74,143,247,.2);border-radius:14px;padding:22px 18px;text-align:left">
+        <div style="font-size:1.5rem;margin-bottom:10px">🔒</div>
+        <div style="font-size:.85rem;font-weight:800;color:var(--bl);margin-bottom:6px">通信の暗号化</div>
+        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">すべての通信はHTTPS/TLS暗号化で保護。ヒアリング内容・業務データが第三者に傍受されることはありません。</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:22px 18px;text-align:left">
+        <div style="font-size:1.5rem;margin-bottom:10px">🚫</div>
+        <div style="font-size:.85rem;font-weight:800;color:var(--gr);margin-bottom:6px">第三者への提供なし</div>
+        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">お客様の業務データ・個人情報は、ご依頼の業務遂行のみに使用。営業目的・第三者提供・学習データへの利用は一切行いません。</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(240,120,64,.2);border-radius:14px;padding:22px 18px;text-align:left">
+        <div style="font-size:1.5rem;margin-bottom:10px">📋</div>
+        <div style="font-size:.85rem;font-weight:800;color:var(--or);margin-bottom:6px">外部API利用の透明性</div>
+        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">OpenAI・Google等の外部APIを利用する場合は事前に説明し、承諾を得てから実装します。どのデータがどこに送信されるかを明示します。</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:22px 18px;text-align:left">
+        <div style="font-size:1.5rem;margin-bottom:10px">🗑️</div>
+        <div style="font-size:.85rem;font-weight:800;color:var(--pu);margin-bottom:6px">納品後のデータ削除</div>
+        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">開発・テスト用に預かったデータは納品完了後に速やかに削除します。ご要望があれば削除完了の確認をお知らせします。</div>
+      </div>
+    </div>
+    <p style="font-size:.72rem;color:var(--t3);margin-top:20px">ご不明な点はお気軽にお申し付けください。個別の要件にも対応します。</p>
+  </div>
+</section>
+
+<!-- GUARANTEE（主 — 返金保証を単独セクションに格上げ） -->
+<section style="padding:56px 24px;background:linear-gradient(160deg,rgba(61,214,140,.07) 0%,rgba(10,10,15,1) 60%);border-top:1px solid rgba(61,214,140,.2)">
+  <div class="wrap" style="text-align:center">
+    <div class="eye" style="color:var(--gr);border-color:rgba(61,214,140,.3)">GUARANTEE</div>
+    <div style="font-size:3rem;margin:8px 0">🛡️</div>
+    <h2 class="sec-t" style="color:var(--gr);margin-bottom:10px">動かなければ、全額返金します。</h2>
+    <p style="font-size:.9rem;color:var(--t2);margin-bottom:36px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8">「本当に動くのか」という不安を解消するために、<strong style="color:var(--t1)">条件を明文化した全額返金保証</strong>をご用意しています。</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:720px;margin:0 auto 32px">
+      <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.25);border-radius:14px;padding:22px 18px">
+        <div style="font-size:.7rem;font-weight:800;color:var(--gr);letter-spacing:.08em;margin-bottom:10px">保証対象</div>
+        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">合意した仕様通りに動作しない場合が対象です。納品後も責任をもってサポートします。</div>
+      </div>
+      <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.25);border-radius:14px;padding:22px 18px">
+        <div style="font-size:.7rem;font-weight:800;color:var(--gr);letter-spacing:.08em;margin-bottom:10px">申請期間</div>
+        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">納品完了日から<strong style="color:var(--gr)">14日以内</strong>にご報告いただければ対応します。</div>
+      </div>
+      <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.25);border-radius:14px;padding:22px 18px">
+        <div style="font-size:.7rem;font-weight:800;color:var(--gr);letter-spacing:.08em;margin-bottom:10px">返金フロー</div>
+        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">まず最大2回の修正対応 → それでも解決しない場合は<strong style="color:var(--gr)">全額返金</strong>。</div>
+      </div>
+    </div>
+    <p style="font-size:.72rem;color:var(--t3);max-width:560px;margin:0 auto">※お客様都合の仕様変更・外部サービスの障害・操作手順書と異なる操作による不具合は対象外です。</p>
+    <div style="margin-top:28px">
+      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:linear-gradient(180deg,#4ae89a 0%,#2cb870 50%,#1a9a58 100%);color:#fff;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 4px 16px rgba(61,214,140,.4)">リスクゼロで無料相談してみる →</a>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <!-- CONTACT -->
 <section id="contact">
