@@ -1096,7 +1096,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="hn"><div class="hn-n c-or" data-count="80" data-suffix="%">0%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
       <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
       <div class="hn"><div class="hn-n c-gr" data-count="68" data-suffix="×">0×</div><div class="hn-l">処理速度<br>向上実績</div></div>
-      <div class="hn"><div class="hn-n c-pu" data-count="50" data-suffix="+">0+</div><div class="hn-l">自動化<br>導入実績</div></div>
+      <div class="hn"><div class="hn-n c-pu" data-count="10" data-suffix="+">0+</div><div class="hn-l">自動化<br>導入実績</div></div>
     </div>
   </div>
   <!-- スクロールインジケーター（スマホのみ表示） -->
@@ -1143,7 +1143,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
     <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
       <div style="font-size:1.5rem;margin-bottom:8px">🧪</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">稼働実績50件超</div>
+      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">稼働実績10件超</div>
       <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">提案する手法はすべて<br>実案件で動作確認済み。</div>
     </div>
     <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
@@ -1336,10 +1336,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="wrap">
     <div class="eye">TESTIMONIALS</div>
     <h2 class="sec-t">お客様の声</h2>
-    <p class="sec-s">導入50件以上・★4.6。<br>約半数のお客さまから継続的にご依頼をいただいております。</p>
+    <p class="sec-s">導入10件以上・★4.6。<br>約半数のお客さまから継続的にご依頼をいただいております。</p>
     <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:28px">
       <div style="font-size:.76rem;padding:5px 14px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.3);border-radius:999px;color:var(--t2)">⭐ 平均★4.6</div>
-      <div style="font-size:.76rem;padding:5px 14px;background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.25);border-radius:999px;color:var(--t2)">✅ 導入実績 50件以上</div>
+      <div style="font-size:.76rem;padding:5px 14px;background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.25);border-radius:999px;color:var(--t2)">✅ 導入実績 10件以上</div>
       <div style="font-size:.76rem;padding:5px 14px;background:rgba(74,143,247,.08);border:1px solid rgba(74,143,247,.25);border-radius:999px;color:var(--t2)">🏢 IT / EC / 士業 / 人材 / D2C / 物販 etc...</div>
       <div style="font-size:.76rem;padding:5px 14px;background:rgba(255,255,255,.05);border:1px solid var(--bm);border-radius:999px;color:var(--t3)">CrowdWorks · ランサーズ · ココナラ · ダイレクト</div>
     </div>
@@ -1432,7 +1432,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
     <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
       <div style="font-size:1.5rem;margin-bottom:8px">🧪</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">稼働実績50件超</div>
+      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">稼働実績10件超</div>
       <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">提案する手法はすべて<br>実案件で動作確認済み。</div>
     </div>
     <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
@@ -2132,7 +2132,7 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
    REAL_ACTIVE = 3  → 「3件稼働中」をそのまま表示
 ===================================================== */
 (function(){
-  var REAL_ACTIVE = 0;      // ← 実案件数をここに入れる（0=ダミー）
+  var REAL_ACTIVE = 2;      // ← 実案件数（CRM: 安田様継続+inoshin252成約 2026-04-30更新）
   var MAX_CAPACITY = 5;     // ← 同時受付の上限目安
 
   // ダミー稼働数: 曜日ごとに2〜4の範囲で固定値（同じ日は同じ数字）
@@ -2181,7 +2181,7 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
   let idleTimer=null;// [施策3] 無操作再アプローチタイマー
 
   /* ---- 稼働数（Capacity Statusと同じロジック） ---- */
-  const _REAL_ACTIVE=0,_MAX=5,_dmy=[3,2,4,3,4,2,3];
+  const _REAL_ACTIVE=2,_MAX=5,_dmy=[3,2,4,3,4,2,3];
   const BOT_ACTIVE   = _REAL_ACTIVE>0 ? _REAL_ACTIVE : _dmy[new Date().getDay()];
   const BOT_AVAILABLE= Math.max(1,_MAX-BOT_ACTIVE);
 
