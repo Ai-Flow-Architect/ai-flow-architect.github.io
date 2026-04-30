@@ -84,7 +84,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;ali
    HERO
 ===================================================== */
 #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:180px 32px 72px;overflow:hidden;text-align:center}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .delorean-canvas-container{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;opacity:0.75}
 .delorean-canvas-container canvas{display:block;width:100%;height:100%}
 .hg{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;mix-blend-mode:lighten}
@@ -1057,7 +1056,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <!-- HERO -->
 <section id="hero">
   <div class="delorean-canvas-container" id="delorean-container"></div>
-  <canvas id="hero-canvas"></canvas>
   <div class="hg hg1"></div>
   <div class="hg hg2"></div>
   <div class="hero-content">
@@ -2095,93 +2093,6 @@ const GEMINI_MODEL  ='gemini-1.5-flash';
   });
 })();
 
-/* =====================================================
-   HERO CANVAS — Effect 1: 回路グリッド＋ノード発光（Schematic風）
-   グリッド線上を光のパルスが走り、ノード（交点）が次々と点灯
-===================================================== */
-(function(){
-  const cv=document.getElementById('hero-canvas');
-  const ctx=cv.getContext('2d');
-  const CELL=40;
-  let W,H,nodes=[],pulses=[];
-
-  function rsz(){
-    W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;
-    nodes=[];
-    const cols=Math.ceil(W/CELL)+1;
-    const rows=Math.ceil(H/CELL)+1;
-    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
-      nodes.push({x:c*CELL,y:r*CELL,lit:0});
-  }
-  window.addEventListener('resize',rsz);rsz();
-
-  function spawnPulse(){
-    const n=nodes[Math.floor(Math.random()*nodes.length)];
-    const dirs=[[1,0],[-1,0],[0,1],[0,-1]];
-    const d=dirs[Math.floor(Math.random()*dirs.length)];
-    const steps=3+Math.floor(Math.random()*7);
-    pulses.push({x:n.x,y:n.y,dx:d[0]*CELL,dy:d[1]*CELL,step:0,steps,progress:0,
-      color:Math.random()<.55?'#4ad582':'#f07840'});
-  }
-
-  let frame=0;
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-
-    /* 1. Grid lines */
-    ctx.strokeStyle='rgba(255,255,255,.032)';ctx.lineWidth=.5;
-    for(let x=0;x<=W;x+=CELL){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<=H;y+=CELL){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-
-    /* 2. Nodes */
-    nodes.forEach(n=>{
-      if(n.lit>0){
-        ctx.shadowColor=n.lit>0.5?'#4ad582':'rgba(74,213,130,0.4)';
-        ctx.shadowBlur=n.lit*14;
-        ctx.beginPath();ctx.arc(n.x,n.y,n.lit>0.5?3:2,0,Math.PI*2);
-        ctx.fillStyle=`rgba(74,213,130,${n.lit})`;ctx.fill();
-        ctx.shadowBlur=0;
-        n.lit=Math.max(0,n.lit-.014);
-      } else {
-        ctx.beginPath();ctx.arc(n.x,n.y,1.5,0,Math.PI*2);
-        ctx.fillStyle='rgba(255,255,255,.07)';ctx.fill();
-      }
-    });
-
-    /* 3. Pulses along grid lines */
-    for(let i=pulses.length-1;i>=0;i--){
-      const p=pulses[i];
-      p.progress+=0.055;
-      if(p.progress>=1){
-        p.step++;p.progress=0;
-        p.x+=p.dx;p.y+=p.dy;
-        const cols=Math.ceil(W/CELL)+1;
-        const nx=Math.round(p.x/CELL),ny=Math.round(p.y/CELL);
-        const ni=ny*cols+nx;
-        if(nodes[ni]) nodes[ni].lit=1;
-        if(p.step>=p.steps){pulses.splice(i,1);continue;}
-      }
-      const sx=p.x-p.dx*(1-p.progress);
-      const sy=p.y-p.dy*(1-p.progress);
-      const grad=ctx.createLinearGradient(sx,sy,p.x,p.y);
-      grad.addColorStop(0,'rgba(74,213,130,0)');
-      grad.addColorStop(1,p.color+'cc');
-      ctx.strokeStyle=grad;ctx.lineWidth=1.5;
-      ctx.shadowColor=p.color;ctx.shadowBlur=7;
-      ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(p.x,p.y);ctx.stroke();
-      ctx.shadowBlur=0;
-    }
-
-    frame++;
-    if(frame%6===0) spawnPulse();
-    if(frame%3===0) spawnPulse();
-    if(!document.hidden)requestAnimationFrame(draw);
-  }
-  let heroRafId=requestAnimationFrame(draw);
-  document.addEventListener('visibilitychange',()=>{
-    if(document.hidden){cancelAnimationFrame(heroRafId);}else{heroRafId=requestAnimationFrame(draw);}
-  });
-})();
 
 /* =====================================================
    CAPACITY STATUS — 稼働数 & 受付可能数表示
