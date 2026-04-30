@@ -1061,15 +1061,19 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="hg hg1"></div>
   <div class="hg hg2"></div>
   <div class="hero-content">
-    <!-- Anthropic公式認定バッジ（HEROに昇格） -->
-    <div class="hero-anthropic-badge" style="text-align:center;margin-bottom:18px">
-      <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(217,119,87,.1);border:1px solid rgba(217,119,87,.45);border-radius:999px;font-size:.82rem;color:var(--t1);font-weight:700;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 20px rgba(217,119,87,.15)">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;flex-shrink:0"><g fill="#D97757" transform="translate(50,50)"><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(0)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(27.7)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(55.4)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(83.1)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(110.8)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(138.5)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(166.2)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(193.8)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(221.5)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(249.2)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(276.9)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(304.6)"/><rect x="-5.5" y="-46" width="11" height="36" rx="3.5" transform="rotate(332.3)"/></g></svg>
-        Anthropic公式認定 <strong style="color:#D97757">Claude Code パートナー</strong>
-      </span>
-    </div>
     <h1 class="hero-h1">
-      <span class="h1-static">人件費を食い続ける手作業</span>
+      <span class="h1-static">
+        <span class="h1-cycle-wrap">
+          <span class="h1-cycle" id="h1cycle">
+            <span class="h1-word">人件費を食い続ける手作業</span>
+            <span class="h1-word">利益を削り続ける定型作業</span>
+            <span class="h1-word">データ集計・転記作業</span>
+            <span class="h1-word">請求書の転記作業</span>
+            <span class="h1-word">Excelコピペ作業</span>
+            <span class="h1-word">人件費を食い続ける手作業</span>
+          </span>
+        </span>
+      </span>
       <span class="h1-static" style="color:#fff;white-space:nowrap;margin-top:0.5em;display:block">➡&nbsp;<span id="h1-typewriter"></span><span class="h1-tw-cursor">|</span></span>
     </h1>
     <!-- hero-sub 一時削除 -->
@@ -1090,10 +1094,10 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <a href="#pricing" class="btn-g">料金を見る</a>
     </div>
     <div class="hero-nums" style="margin-top:32px;">
-      <div class="hn" style="background:rgba(240,120,64,.07);flex:1.4"><div class="hn-n c-or" data-count="80" data-suffix="%" style="font-size:2.6rem">0%</div><div class="hn-l" style="font-weight:700;color:var(--t1)">業務コスト<br>削減実績</div></div>
+      <div class="hn"><div class="hn-n c-or" data-count="80" data-suffix="%">0%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
+      <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>ノンストップ稼働</div></div>
       <div class="hn"><div class="hn-n c-gr" data-count="68" data-suffix="×">0×</div><div class="hn-l">処理速度<br>向上実績</div></div>
       <div class="hn"><div class="hn-n c-pu" data-count="50" data-suffix="+">0+</div><div class="hn-l">自動化<br>導入実績</div></div>
-      <div class="hn"><div class="hn-n c-bl">24時間</div><div class="hn-l">365日<br>稼働</div></div>
     </div>
     <div style="text-align:center;margin-top:10px;font-size:.68rem;color:rgba(255,255,255,.4);line-height:1.6">※ 削減率・速度比は直近5案件の実績平均（17時間→15分等）／導入実績はプラットフォーム合算</div>
   </div>
@@ -1164,31 +1168,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 </div>
 
 
-<!-- 差別化４点バナー (Pattern B: 緑グロー) -->
-<section style="padding:32px 24px;background:rgba(255,255,255,.01)">
-  <div style="max-width:760px;margin:0 auto;display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">🏆</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">Anthropic公式認定</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">Claude公式パートナー。<br>最新AIを正規に活用。</div>
-    </div>
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">🧪</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">稼働実績50件超</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">提案する手法はすべて<br>実案件で動作確認済み。</div>
-    </div>
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">⚡</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">最短１週間で稼働</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">打合せの翌週から<br>自動化が動き始めます。</div>
-    </div>
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">🛡️</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">全額返金保証</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">動かなければ即返金。<br>リスクゼロで始められます。</div>
-    </div>
-  </div>
-</section>
+<!-- 差別化４点バナー → CREDENTIALSに統合済み（プレビュー版） -->
 <div style="text-align:center;padding:16px 24px;background:rgba(255,255,255,.01);border-bottom:1px solid var(--b)">
   <a href="https://lin.ee/6oiBlzj" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:#06C755;color:#fff;padding:10px 28px;border-radius:999px;font-weight:700;font-size:.88rem;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M12 2C6.48 2 2 6.03 2 11c0 3.27 1.86 6.15 4.7 7.9-.17.6-.63 2.17-.72 2.51-.1.38.14.38.3.28.12-.08 1.96-1.3 2.75-1.82.63.09 1.28.13 1.97.13 5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
@@ -1196,11 +1176,21 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </a>
 </div>
 
-<!-- BEFORE/AFTER SECTION -->
-<section style="padding:56px 24px;background:rgba(255,255,255,.02)">
+<!-- 放置コスト + BEFORE/AFTER 統合（プレビュー版） -->
+<section style="padding:56px 24px;background:linear-gradient(180deg,rgba(255,70,70,.04) 0%,rgba(255,255,255,.02) 100%);border-top:1px solid rgba(255,70,70,.12)">
   <div class="wrap" style="max-width:860px">
-    <div class="eye">BEFORE / AFTER</div>
-    <h2 class="sec-t" style="margin-bottom:36px">自動化　Before → After</h2>
+    <div class="eye" style="color:rgba(255,90,90,.85);border-color:rgba(255,90,90,.3)">COST & TRANSFORMATION</div>
+    <h2 class="sec-t" style="margin-bottom:14px">放置すれば、コストが膨らむ。<br>自動化すれば、毎日が変わる。</h2>
+    <p style="text-align:center;font-size:.9rem;color:var(--t2);line-height:1.7;margin-bottom:28px">１〜20名チームが２時間の繰り返し作業を１年放置した場合...</p>
+
+    <!-- 放置コストグラフ -->
+    <div id="costChartWrap" style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:28px 20px;opacity:0;transition:opacity .4s ease;margin-bottom:36px">
+      <canvas id="costChart" height="200"></canvas>
+      <p style="font-size:.68rem;color:rgba(255,255,255,.28);margin-top:14px;text-align:center">※ 週５日・１日2時間×20日/月 / 時給¥2,000換算　青:1名 / 橙:5名 / 赤:20名チーム（累積損失額）</p>
+    </div>
+
+    <!-- BEFORE / AFTER -->
+    <h3 style="text-align:center;font-size:1.1rem;font-weight:800;color:var(--t1);margin:0 0 18px">自動化　Before → After</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
       <div style="background:rgba(255,60,60,.05);border:1px solid rgba(255,60,60,.2);border-radius:16px;padding:24px">
         <div style="font-size:.75rem;font-weight:700;color:#f55;letter-spacing:.1em;margin-bottom:14px">×Before：手作業の毎日</div>
@@ -1225,18 +1215,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
     <div style="text-align:center;margin-top:28px;font-size:.82rem;color:var(--t3)">
       ⏱ この変化、平均 <strong style="color:var(--t1)">１〜２週間</strong> で実現します
-    </div>
-  </div>
-</section>
-
-<!-- COST OF INACTION GRAPH -->
-<section style="padding:48px 24px;background:linear-gradient(180deg,rgba(255,70,70,.04) 0%,rgba(255,70,70,.01) 100%);border-top:1px solid rgba(255,70,70,.12);border-bottom:1px solid rgba(255,70,70,.12)">
-  <div style="max-width:760px;margin:0 auto;text-align:center">
-    <h2 class="sec-t" style="color:rgba(255,90,90,.85);margin-bottom:16px">⚠ 放置コストの試算</h2>
-    <p style="font-size:1rem;color:var(--t2);line-height:1.7;margin-bottom:28px">１〜20名チームが２時間の繰り返し作業を１年放置した場合...</p>
-    <div id="costChartWrap" style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:28px 20px;opacity:0;transition:opacity .4s ease">
-      <canvas id="costChart" height="200"></canvas>
-      <p style="font-size:.68rem;color:rgba(255,255,255,.28);margin-top:14px">※ 週５日・１日2時間×20日/月 / 時給¥2,000換算　青:1名チーム / 橙:5名チーム / 赤:20名チーム（累積損失額）</p>
     </div>
   </div>
 </section>
@@ -1350,6 +1328,32 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <button class="bc-show-more-btn" id="bc-show-more" onclick="toggleBcMore()">▼ もっと見る（残り４件）</button>
 
   </div>
+  <!-- 稼働中フロー（統合E） -->
+  <div style="border-top:1px solid var(--b);padding-bottom:48px">
+    <div class="wrap" style="max-width:1140px;margin:0 auto">
+      <div style="text-align:center;padding:36px 0 20px">
+        <div class="eye">LIVE FLOW</div>
+        <h3 class="sec-t" style="font-size:1.3rem;margin:8px 0 4px">実際に稼働中のフロー</h3>
+        <p style="font-size:.82rem;color:var(--t3);margin:0">リアルタイムで動いている自動化の様子をご覧ください</p>
+      </div>
+      <div class="fdv2" id="fdv2-root" style="margin:0">
+        <div class="fdv2-bar">
+          <div class="fdv2-bar-l"><span class="fdv2-live-dot"></span>在庫確認 → 発注メール → Slack通知 — <strong>稼働中</strong></div>
+          <div class="fdv2-bar-r">
+            <span>⏱ <strong style="color:#3dd68c">２時間/日</strong> → <strong style="color:#f07840">５分/日</strong> に自動化</span>
+            <span>実行数: <strong id="fdv2-run-count">1,247</strong></span>
+          </div>
+        </div>
+        <div class="fdv2-main">
+          <div class="fdv2-graph-wrap"><canvas id="fd-canvas"></canvas></div>
+          <div class="fdv2-log">
+            <div class="fdv2-log-head">⚡ 自動化ログ（稼働中）</div>
+            <div class="fdv2-log-body" id="fdv2-log-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 
@@ -1444,119 +1448,52 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       </div>
       <button class="testi-more-btn" id="testi-more-btn" onclick="toggleTestiMore()">▼ さらに口コミを見る</button>
     </div>
-  </div>
-</section>
-
-
-<div class="mid-cta">
-  <div class="mid-cta-sub">あなたの業種でも実現できます</div>
-  <div class="mid-cta-title">「うちは特殊だから…」もご安心ください。<br><strong style="color:var(--gr)">８割の業務フローを削減できます。</strong></div>
-  <a href="#contact" class="btn-w">無料30分で確認する →</a>
-  <div class="mid-cta-note">相談・見積もり完全無料 · 返金保証あり · 24時間以内に返信</div>
-</div>
-
-<div style="padding:32px 24px;background:rgba(255,255,255,.01);border-top:1px solid var(--b);border-bottom:1px solid var(--b)">
-  <div style="max-width:760px;margin:0 auto;display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">🏆</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">Anthropic公式認定</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">Claude公式パートナー。<br>最新AIを正規に活用。</div>
-    </div>
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">🧪</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">稼働実績50件超</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">提案する手法はすべて<br>実案件で動作確認済み。</div>
-    </div>
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">⚡</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">最短１週間で稼働</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">打合せの翌週から<br>自動化が動き始めます。</div>
-    </div>
-    <div style="flex:1;min-width:150px;background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:8px">🛡️</div>
-      <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">全額返金保証</div>
-      <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">動かなければ即返金。<br>リスクゼロで始められます。</div>
-    </div>
-  </div>
-</div>
-<!-- INDUSTRY CASES -->
-<section id="industry-section" style="padding:56px 24px;background:#0a0a0f;position:relative;overflow:hidden">
-  <canvas id="industry-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
-  <div style="position:relative;z-index:2;background:rgba(10,10,15,0.88);border-radius:16px;padding:40px 36px;max-width:960px;margin:0 auto;box-shadow:0 0 60px 40px rgba(10,10,15,0.88)">
-  <div class="wrap" style="max-width:100%;padding:0">
-    <div class="eye">CASES BY INDUSTRY</div>
-    <h2 class="sec-t" style="margin-bottom:8px">業種別の導入事例</h2>
-    <p class="sec-s" style="margin-bottom:36px">「自分の業界でも使えるのか？」<br>各業種の代表的な自動化事例をご覧ください。</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
-      <!-- EC・通販 -->
-      <div style="background:var(--bg2);border:1px solid var(--bm);border-radius:14px;padding:22px;position:relative;overflow:hidden">
-        <div style="font-size:.72rem;padding:3px 10px;background:rgba(74,143,247,.12);border:1px solid rgba(74,143,247,.25);border-radius:999px;color:var(--bl);display:inline-block;margin-bottom:12px;font-weight:700">🛒 EC・通販</div>
-        <div style="font-size:.82rem;color:var(--t3);margin-bottom:10px">課題: 在庫確認→発注→通知を毎日手動で２時間</div>
-        <div style="display:flex;gap:8px;margin-bottom:12px">
-          <div style="flex:1;background:rgba(255,80,60,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">BEFORE</div><strong style="color:#ff6450">２時間/日</strong></div>
-          <div style="display:flex;align-items:center;color:var(--t3);font-size:.8rem">→</div>
-          <div style="flex:1;background:rgba(61,214,140,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">AFTER</div><strong style="color:var(--gr)">５分/日</strong></div>
+    <!-- 業種別導入事例（統合D） -->
+    <div id="industry-section" style="margin-top:56px;border-top:1px solid var(--b);padding-top:48px">
+      <div class="eye">CASES BY INDUSTRY</div>
+      <h3 class="sec-t" style="font-size:1.4rem;margin-bottom:8px">業種別の導入事例</h3>
+      <p class="sec-s" style="margin-bottom:28px">「自分の業界でも使えるのか？」各業種の代表的な自動化事例をご覧ください。</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <!-- EC・通販 -->
+        <div style="background:var(--bg2);border:1px solid var(--bm);border-radius:14px;padding:22px;position:relative;overflow:hidden">
+          <div style="font-size:.72rem;padding:3px 10px;background:rgba(74,143,247,.12);border:1px solid rgba(74,143,247,.25);border-radius:999px;color:var(--bl);display:inline-block;margin-bottom:12px;font-weight:700">🛒 EC・通販</div>
+          <div style="font-size:.82rem;color:var(--t3);margin-bottom:10px">課題: 在庫確認→発注→通知を毎日手動で２時間</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <div style="flex:1;background:rgba(255,80,60,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">BEFORE</div><strong style="color:#ff6450">２時間/日</strong></div>
+            <div style="display:flex;align-items:center;color:var(--t3);font-size:.8rem">→</div>
+            <div style="flex:1;background:rgba(61,214,140,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">AFTER</div><strong style="color:var(--gr)">５分/日</strong></div>
+          </div>
+          <div style="font-size:.78rem;color:var(--t2);line-height:1.7">在庫確認・発注メール送信・Slack通知を完全自動化。<br><strong style="color:var(--or)">月40時間・¥80,000削減</strong></div>
         </div>
-        <div style="font-size:.78rem;color:var(--t2);line-height:1.7">在庫確認・発注メール送信・Slack通知を完全自動化。<br><strong style="color:var(--or)">月40時間・¥80,000削減</strong></div>
-      </div>
-      <!-- 士業・コンサル -->
-      <div style="background:var(--bg2);border:1px solid var(--bm);border-radius:14px;padding:22px">
-        <div style="font-size:.72rem;padding:3px 10px;background:rgba(240,120,64,.1);border:1px solid rgba(240,120,64,.25);border-radius:999px;color:var(--or);display:inline-block;margin-bottom:12px;font-weight:700">⚖️ 士業・コンサル</div>
-        <div style="font-size:.82rem;color:var(--t3);margin-bottom:10px">課題: 顧客への報告書作成・送付を毎週３時間</div>
-        <div style="display:flex;gap:8px;margin-bottom:12px">
-          <div style="flex:1;background:rgba(255,80,60,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">BEFORE</div><strong style="color:#ff6450">３時間/週</strong></div>
-          <div style="display:flex;align-items:center;color:var(--t3);font-size:.8rem">→</div>
-          <div style="flex:1;background:rgba(61,214,140,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">AFTER</div><strong style="color:var(--gr)">10分/週</strong></div>
+        <!-- 士業・コンサル -->
+        <div style="background:var(--bg2);border:1px solid var(--bm);border-radius:14px;padding:22px">
+          <div style="font-size:.72rem;padding:3px 10px;background:rgba(240,120,64,.1);border:1px solid rgba(240,120,64,.25);border-radius:999px;color:var(--or);display:inline-block;margin-bottom:12px;font-weight:700">⚖️ 士業・コンサル</div>
+          <div style="font-size:.82rem;color:var(--t3);margin-bottom:10px">課題: 顧客への報告書作成・送付を毎週３時間</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <div style="flex:1;background:rgba(255,80,60,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">BEFORE</div><strong style="color:#ff6450">３時間/週</strong></div>
+            <div style="display:flex;align-items:center;color:var(--t3);font-size:.8rem">→</div>
+            <div style="flex:1;background:rgba(61,214,140,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">AFTER</div><strong style="color:var(--gr)">10分/週</strong></div>
+          </div>
+          <div style="font-size:.78rem;color:var(--t2);line-height:1.7">顧客DBから自動集計→報告書生成→メール送信。<br><strong style="color:var(--or)">月50時間・¥100,000削減</strong></div>
         </div>
-        <div style="font-size:.78rem;color:var(--t2);line-height:1.7">顧客DBから自動集計→報告書生成→メール送信。<br><strong style="color:var(--or)">月50時間・¥100,000削減</strong></div>
-      </div>
-      <!-- サービス業 -->
-      <div style="background:var(--bg2);border:1px solid var(--bm);border-radius:14px;padding:22px">
-        <div style="font-size:.72rem;padding:3px 10px;background:rgba(61,214,140,.1);border:1px solid rgba(61,214,140,.25);border-radius:999px;color:var(--gr);display:inline-block;margin-bottom:12px;font-weight:700">🏪 サービス業</div>
-        <div style="font-size:.82rem;color:var(--t3);margin-bottom:10px">課題: 予約確認・リマインドメールを毎日手動送信</div>
-        <div style="display:flex;gap:8px;margin-bottom:12px">
-          <div style="flex:1;background:rgba(255,80,60,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">BEFORE</div><strong style="color:#ff6450">1.５時間/日</strong></div>
-          <div style="display:flex;align-items:center;color:var(--t3);font-size:.8rem">→</div>
-          <div style="flex:1;background:rgba(61,214,140,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">AFTER</div><strong style="color:var(--gr)">ゼロ</strong></div>
-        </div>
-        <div style="font-size:.78rem;color:var(--t2);line-height:1.7">予約システム→自動リマインド→スタッフ通知を一括自動化。<br><strong style="color:var(--or)">月30時間・¥60,000削減</strong></div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:24px">
-      <p style="font-size:.78rem;color:var(--t3)">上記以外の業種・業務もお気軽にご相談ください。<br><strong style="color:var(--t2)">「うちの業務は特殊だから…」という方こそ、意外と対応できます。</strong></p>
-    </div>
-  </div>
-  </div><!-- /content-shield -->
-</section>
-<!-- FLOW DIAGRAM（INDUSTRY CASESの後に移動） -->
-<section id="flow" style="padding:0 24px 48px">
-  <div class="wrap" style="max-width:1140px;margin:0 auto">
-    <div class="fdv2" id="fdv2-root" style="margin:0">
-      <!-- ステータスバー -->
-      <div class="fdv2-bar">
-        <div class="fdv2-bar-l">
-          <span class="fdv2-live-dot"></span>在庫確認 → 発注メール → Slack通知 — <strong>稼働中</strong>
-        </div>
-        <div class="fdv2-bar-r">
-          <span>⏱ <strong style="color:#3dd68c">２時間/日</strong> → <strong style="color:#f07840">５分/日</strong> に自動化</span>
-          <span>実行数: <strong id="fdv2-run-count">1,247</strong></span>
+        <!-- サービス業 -->
+        <div style="background:var(--bg2);border:1px solid var(--bm);border-radius:14px;padding:22px">
+          <div style="font-size:.72rem;padding:3px 10px;background:rgba(61,214,140,.1);border:1px solid rgba(61,214,140,.25);border-radius:999px;color:var(--gr);display:inline-block;margin-bottom:12px;font-weight:700">🏪 サービス業</div>
+          <div style="font-size:.82rem;color:var(--t3);margin-bottom:10px">課題: 予約確認・リマインドメールを毎日手動送信</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <div style="flex:1;background:rgba(255,80,60,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">BEFORE</div><strong style="color:#ff6450">1.５時間/日</strong></div>
+            <div style="display:flex;align-items:center;color:var(--t3);font-size:.8rem">→</div>
+            <div style="flex:1;background:rgba(61,214,140,.07);border-radius:8px;padding:8px 10px;font-size:.75rem;text-align:center"><div style="color:var(--t3);margin-bottom:2px">AFTER</div><strong style="color:var(--gr)">ゼロ</strong></div>
+          </div>
+          <div style="font-size:.78rem;color:var(--t2);line-height:1.7">予約システム→自動リマインド→スタッフ通知を一括自動化。<br><strong style="color:var(--or)">月30時間・¥60,000削減</strong></div>
         </div>
       </div>
-      <!-- メインコンテンツ -->
-      <div class="fdv2-main">
-        <div class="fdv2-graph-wrap">
-          <canvas id="fd-canvas"></canvas>
-        </div>
-        <!-- リアルタイムログパネル -->
-        <div class="fdv2-log">
-          <div class="fdv2-log-head">⚡ 自動化ログ（稼働中）</div>
-          <div class="fdv2-log-body" id="fdv2-log-body"></div>
-        </div>
+      <div style="text-align:center;margin-top:24px">
+        <p style="font-size:.78rem;color:var(--t3)">上記以外の業種・業務もお気軽にご相談ください。<br><strong style="color:var(--t2)">「うちの業務は特殊だから…」という方こそ、意外と対応できます。</strong></p>
       </div>
     </div>
   </div>
 </section>
-
 <!-- CREDS -->
 
 <!-- スマホ専用: 差別化比較テーブル（creds直前） -->
@@ -1601,6 +1538,30 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   <div class="wrap">
     <div class="eye">CREDENTIALS</div>
     <h2 class="sec-t">なぜ選ばれるのか？</h2>
+    <p class="sec-s" style="margin-bottom:24px">4つの強み + 数値根拠 + 公式認定 + 競合比較で総合的にお応えします</p>
+    <!-- 統合: 差別化4点バナー -->
+    <div style="max-width:760px;margin:0 auto 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+      <div style="background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:8px">🏆</div>
+        <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">Anthropic公式認定</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">Claude公式パートナー。<br>最新AIを正規に活用。</div>
+      </div>
+      <div style="background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:8px">🧪</div>
+        <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">稼働実績50件超</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">提案する手法はすべて<br>実案件で動作確認済み。</div>
+      </div>
+      <div style="background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:8px">⚡</div>
+        <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">最短１週間で稼働</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">打合せの翌週から<br>自動化が動き始めます。</div>
+      </div>
+      <div style="background:rgba(61,214,140,.04);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:18px 14px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:8px">🛡️</div>
+        <div style="font-size:.8rem;font-weight:800;color:#3dd68c;margin-bottom:4px">全額返金保証</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5">動かなければ即返金。<br>リスクゼロで始められます。</div>
+      </div>
+    </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;max-width:620px;margin:0 auto 12px">
       <div style="text-align:center;padding:18px 12px;background:var(--bg2);border:1px solid var(--bm);border-radius:12px">
         <div style="font-size:.7rem;color:var(--t3);margin-bottom:6px;line-height:1.5">平均削減時間(月)</div>
@@ -1721,9 +1682,9 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <br><span style="font-size:.75rem;color:var(--t3)">※「迷ったら無料相談で一緒に選べます」</span>
     </div>
     <div class="plans">
-      <div class="plan" style="border-color:rgba(74,143,247,.35)"><div class="p-lbl">Lite</div><div class="p-price"><sup>¥</sup>29,000<sub>〜</sub></div><div class="p-period">¥29,000〜¥39,000 · １回限り · 税込</div><hr class="p-hr"><div class="p-desc">まず試したい方に最適。<br>単一の繰り返し作業を自動化。<span class="p-saving-hint">月¥10,000〜¥20,000削減の目安</span></div><div style="font-size:.75rem;color:var(--bl);background:rgba(74,143,247,.07);border:1px solid rgba(74,143,247,.2);border-radius:8px;padding:7px 10px;margin-bottom:10px">👉 <strong>こんな方に</strong>：まず１つの作業だけ試したい・スモールスタートしたい方</div><div style="font-size:.72rem;color:var(--t2);background:rgba(74,143,247,.04);border-left:3px solid var(--bl);padding:9px 12px;margin-bottom:14px;line-height:1.7"><strong style="color:var(--bl);display:block;margin-bottom:4px">💡 こんな自動化が作れます</strong>・フォーム送信→スプレッドシート転記→Slack通知（¥29,000）<br>・メール添付→Google Drive自動保存（¥34,000）<br>・毎朝定時にX/SNS自動投稿（¥39,000）</div><ul class="p-list"><li>１トリガー・1処理の自動化</li><li>Make.com or Pythonスクリプト</li><li>基本エラー通知設定</li><li>運用手順書</li><li>納品後１週間サポート</li></ul><a href="#contact" class="p-btn" style="background:var(--bl);color:#fff">まず試してみる →</a></div>
-      <div class="plan ft" style="border-color:rgba(240,120,64,.4)"><div class="ft-badge" style="background:var(--or)">最も選ばれています</div><div class="plan-roi-badge">ROI 400%+</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>40,000<sub>〜</sub></div><div class="p-period">¥40,000〜¥150,000 · １回限り · 税込</div><hr class="p-hr"><div class="p-desc">最もROIが高いプランです。<br>AI連携・複数ステップを含む本格自動化。<span class="p-saving-hint">月¥30,000〜¥80,000削減の目安</span></div><div style="font-size:.75rem;color:var(--or);background:rgba(240,120,64,.07);border:1px solid rgba(240,120,64,.2);border-radius:8px;padding:7px 10px;margin-bottom:10px">👉 <strong>こんな方に</strong>：AI連携＋複数ステップの自動化を本格導入したい方</div><div style="font-size:.72rem;color:var(--t2);background:rgba(240,120,64,.04);border-left:3px solid var(--or);padding:9px 12px;margin-bottom:14px;line-height:1.7"><strong style="color:var(--or);display:block;margin-bottom:4px">💡 こんな自動化が作れます</strong>・問い合わせメール→AI分類→担当者割当（¥60,000）<br>・EC在庫監視→自動発注メール送信（¥85,000）<br>・顧客DB→月次レポートPDF自動生成・送信（¥120,000）</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後１ヶ月サポート</li></ul><a href="#contact" class="p-btn" style="background:var(--or);color:#fff">このプランで相談する →</a></div>
-      <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">¥150,000〜¥300,000 · １回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。<br>スクレイピング・AI・通知・DBまで統合構築。<span class="p-saving-hint">月¥100,000以上削減の目安</span></div><div style="font-size:.75rem;color:var(--gr);background:rgba(61,214,140,.07);border:1px solid rgba(61,214,140,.2);border-radius:8px;padding:7px 10px;margin-bottom:10px">👉 <strong>こんな方に</strong>：複数システムを一気に連携・全部任せたい方</div><div style="font-size:.72rem;color:var(--t2);background:rgba(61,214,140,.04);border-left:3px solid var(--gr);padding:9px 12px;margin-bottom:14px;line-height:1.7"><strong style="color:var(--gr);display:block;margin-bottom:4px">💡 こんな自動化が作れます</strong>・求人サイトスカウト→AI分類→自動応募+通知（¥220,000）<br>・GA4+BigQuery+AI月次レポート+Looker Studio（¥250,000）<br>・在庫/注文/物流API統合+監視ダッシュボード（¥280,000）</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後３ヶ月サポート</li><li>追加改修１回無料</li></ul><a href="#contact" class="p-btn" style="background:var(--gr);color:var(--bg)">全て任せてみる →</a></div>
+      <div class="plan" style="border-color:rgba(74,143,247,.35)"><div class="p-lbl">Lite</div><div class="p-price"><sup>¥</sup>29,000<sub>〜</sub></div><div class="p-period">¥29,000〜¥39,000 · １回限り · 税込</div><hr class="p-hr"><div class="p-desc">まず試したい方に最適。<br>単一の繰り返し作業を自動化。<span class="p-saving-hint">月¥10,000〜¥20,000削減の目安</span></div><div style="font-size:.75rem;color:var(--bl);background:rgba(74,143,247,.07);border:1px solid rgba(74,143,247,.2);border-radius:8px;padding:7px 10px;margin-bottom:14px">👉 <strong>こんな方に</strong>：まず１つの作業だけ試したい・スモールスタートしたい方</div><ul class="p-list"><li>１トリガー・1処理の自動化</li><li>Make.com or Pythonスクリプト</li><li>基本エラー通知設定</li><li>運用手順書</li><li>納品後１週間サポート</li></ul><a href="#contact" class="p-btn" style="background:var(--bl);color:#fff">まず試してみる →</a></div>
+      <div class="plan ft" style="border-color:rgba(240,120,64,.4)"><div class="ft-badge" style="background:var(--or)">最も選ばれています</div><div class="plan-roi-badge">ROI 400%+</div><div class="p-lbl">Standard</div><div class="p-price"><sup>¥</sup>40,000<sub>〜</sub></div><div class="p-period">¥40,000〜¥150,000 · １回限り · 税込</div><hr class="p-hr"><div class="p-desc">最もROIが高いプランです。<br>AI連携・複数ステップを含む本格自動化。<span class="p-saving-hint">月¥30,000〜¥80,000削減の目安</span></div><div style="font-size:.75rem;color:var(--or);background:rgba(240,120,64,.07);border:1px solid rgba(240,120,64,.2);border-radius:8px;padding:7px 10px;margin-bottom:14px">👉 <strong>こんな方に</strong>：AI連携＋複数ステップの自動化を本格導入したい方</div><ul class="p-list"><li>複数ステップの自動化フロー</li><li>AI（GPT/Claude）連携</li><li>スクレイピング or RPA対応</li><li>エラー検知・リトライ実装</li><li>ダッシュボード連携</li><li>詳細運用マニュアル</li><li>納品後１ヶ月サポート</li></ul><a href="#contact" class="p-btn" style="background:var(--or);color:#fff">このプランで相談する →</a></div>
+      <div class="plan"><div class="p-lbl">Full Package</div><div class="p-price"><sup>¥</sup>150,000<sub>〜</sub></div><div class="p-period">¥150,000〜¥300,000 · １回限り · 税込</div><hr class="p-hr"><div class="p-desc">エンドツーエンドの自動化システム一式。<br>スクレイピング・AI・通知・DBまで統合構築。<span class="p-saving-hint">月¥100,000以上削減の目安</span></div><div style="font-size:.75rem;color:var(--gr);background:rgba(61,214,140,.07);border:1px solid rgba(61,214,140,.2);border-radius:8px;padding:7px 10px;margin-bottom:14px">👉 <strong>こんな方に</strong>：複数システムを一気に連携・全部任せたい方</div><ul class="p-list"><li>エンドツーエンド設計・構築</li><li>複数サービス・API統合</li><li>定期実行 + 監視設定</li><li>完全な運用ドキュメント</li><li>納品後３ヶ月サポート</li><li>追加改修１回無料</li></ul><a href="#contact" class="p-btn" style="background:var(--gr);color:var(--bg)">全て任せてみる →</a></div>
     </div>
     <div id="guarantee-box" style="max-width:680px;margin:32px auto 0;padding:18px 24px;background:rgba(61,214,140,.05);border:1px solid rgba(61,214,140,.2);border-radius:12px;font-size:.85rem;color:var(--t2);line-height:1.75;text-align:center">
       <div style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:10px"><span style="font-size:1.4rem">🛡️</span><strong style="color:var(--t1);font-size:1rem">動かなければ全額返金します。</strong></div>
@@ -1864,61 +1825,62 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </section>
 
-<!-- SECURITY & DATA HANDLING（新設） -->
-<section style="padding:56px 24px;background:rgba(74,143,247,.02);border-top:1px solid rgba(74,143,247,.08)">
-  <div class="wrap" style="text-align:center">
-    <div class="eye">SECURITY</div>
-    <h2 class="sec-t">データの取り扱いについて</h2>
-    <p class="sec-s" style="margin-bottom:36px">業務データを安全に扱うための4つの原則</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;max-width:900px;margin:0 auto">
-      <div style="background:var(--bg2);border:1px solid rgba(74,143,247,.2);border-radius:14px;padding:22px 18px;text-align:left">
-        <div style="font-size:1.5rem;margin-bottom:10px">🔒</div>
-        <div style="font-size:.85rem;font-weight:800;color:var(--bl);margin-bottom:6px">通信の暗号化</div>
-        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">すべての通信はHTTPS/TLS暗号化で保護。ヒアリング内容・業務データが第三者に傍受されることはありません。</div>
-      </div>
-      <div style="background:var(--bg2);border:1px solid rgba(61,214,140,.2);border-radius:14px;padding:22px 18px;text-align:left">
-        <div style="font-size:1.5rem;margin-bottom:10px">🚫</div>
-        <div style="font-size:.85rem;font-weight:800;color:var(--gr);margin-bottom:6px">第三者への提供なし</div>
-        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">お客様の業務データ・個人情報は、ご依頼の業務遂行のみに使用。営業目的・第三者提供・学習データへの利用は一切行いません。</div>
-      </div>
-      <div style="background:var(--bg2);border:1px solid rgba(240,120,64,.2);border-radius:14px;padding:22px 18px;text-align:left">
-        <div style="font-size:1.5rem;margin-bottom:10px">📋</div>
-        <div style="font-size:.85rem;font-weight:800;color:var(--or);margin-bottom:6px">外部API利用の透明性</div>
-        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">OpenAI・Google等の外部APIを利用する場合は事前に説明し、承諾を得てから実装します。どのデータがどこに送信されるかを明示します。</div>
-      </div>
-      <div style="background:var(--bg2);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:22px 18px;text-align:left">
-        <div style="font-size:1.5rem;margin-bottom:10px">🗑️</div>
-        <div style="font-size:.85rem;font-weight:800;color:var(--pu);margin-bottom:6px">納品後のデータ削除</div>
-        <div style="font-size:.76rem;color:var(--t3);line-height:1.7">開発・テスト用に預かったデータは納品完了後に速やかに削除します。ご要望があれば削除完了の確認をお知らせします。</div>
-      </div>
-    </div>
-    <p style="font-size:.72rem;color:var(--t3);margin-top:20px">ご不明な点はお気軽にお申し付けください。個別の要件にも対応します。</p>
-  </div>
-</section>
-
-<!-- GUARANTEE（主 — 返金保証を単独セクションに格上げ） -->
+<!-- TRUST: SECURITY + GUARANTEE 統合（プレビュー版） -->
 <section style="padding:56px 24px;background:linear-gradient(160deg,rgba(61,214,140,.07) 0%,rgba(10,10,15,1) 60%);border-top:1px solid rgba(61,214,140,.2)">
   <div class="wrap" style="text-align:center">
-    <div class="eye" style="color:var(--gr);border-color:rgba(61,214,140,.3)">GUARANTEE</div>
+    <div class="eye" style="color:var(--gr);border-color:rgba(61,214,140,.3)">TRUST & GUARANTEE</div>
     <div style="font-size:3rem;margin:8px 0">🛡️</div>
     <h2 class="sec-t" style="color:var(--gr);margin-bottom:10px">動かなければ、全額返金します。</h2>
-    <p style="font-size:.9rem;color:var(--t2);margin-bottom:36px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8">「本当に動くのか」という不安を解消するために、<strong style="color:var(--t1)">条件を明文化した全額返金保証</strong>をご用意しています。</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:720px;margin:0 auto 32px">
-      <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.25);border-radius:14px;padding:22px 18px">
+    <p style="font-size:.9rem;color:var(--t2);margin-bottom:36px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8">「本当に動くのか」「データは安全か」 — その不安を、<strong style="color:var(--t1)">明文化した保証 + データ取扱4原則</strong>で解消します。</p>
+
+    <!-- 返金保証3カラム -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:720px;margin:0 auto 24px">
+      <div style="background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.3);border-radius:14px;padding:22px 18px">
         <div style="font-size:.7rem;font-weight:800;color:var(--gr);letter-spacing:.08em;margin-bottom:10px">保証対象</div>
-        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">合意した仕様通りに動作しない場合が対象です。納品後も責任をもってサポートします。</div>
+        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">合意した仕様通りに動作しない場合が対象。</div>
       </div>
-      <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.25);border-radius:14px;padding:22px 18px">
+      <div style="background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.3);border-radius:14px;padding:22px 18px">
         <div style="font-size:.7rem;font-weight:800;color:var(--gr);letter-spacing:.08em;margin-bottom:10px">申請期間</div>
-        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">納品完了日から<strong style="color:var(--gr)">14日以内</strong>にご報告いただければ対応します。</div>
+        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">納品完了日から<strong style="color:var(--gr)">14日以内</strong>。</div>
       </div>
-      <div style="background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.25);border-radius:14px;padding:22px 18px">
+      <div style="background:rgba(61,214,140,.08);border:1px solid rgba(61,214,140,.3);border-radius:14px;padding:22px 18px">
         <div style="font-size:.7rem;font-weight:800;color:var(--gr);letter-spacing:.08em;margin-bottom:10px">返金フロー</div>
-        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">まず最大2回の修正対応 → それでも解決しない場合は<strong style="color:var(--gr)">全額返金</strong>。</div>
+        <div style="font-size:.82rem;color:var(--t1);line-height:1.7">最大2回の修正 → 解決しない場合<strong style="color:var(--gr)">全額返金</strong>。</div>
       </div>
     </div>
-    <p style="font-size:.72rem;color:var(--t3);max-width:560px;margin:0 auto">※お客様都合の仕様変更・外部サービスの障害・操作手順書と異なる操作による不具合は対象外です。</p>
-    <div style="margin-top:28px">
+    <p style="font-size:.7rem;color:var(--t3);max-width:560px;margin:0 auto 36px">※お客様都合の仕様変更・外部サービスの障害・操作手順書と異なる操作は対象外</p>
+
+    <!-- 区切り -->
+    <div style="max-width:520px;margin:0 auto 28px;border-top:1px solid rgba(255,255,255,.1);padding-top:28px">
+      <div style="font-size:.74rem;color:var(--t3);letter-spacing:.08em;font-weight:700;margin-bottom:6px">DATA HANDLING</div>
+      <h3 style="font-size:1.1rem;font-weight:800;color:var(--t1);margin:0 0 8px">データの取り扱い 4つの原則</h3>
+    </div>
+
+    <!-- データ取扱4原則 -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:880px;margin:0 auto">
+      <div style="background:var(--bg2);border:1px solid rgba(74,143,247,.2);border-radius:12px;padding:18px 16px;text-align:left">
+        <div style="font-size:1.3rem;margin-bottom:8px">🔒</div>
+        <div style="font-size:.8rem;font-weight:800;color:var(--bl);margin-bottom:5px">通信の暗号化</div>
+        <div style="font-size:.72rem;color:var(--t3);line-height:1.65">HTTPS/TLSで保護。第三者の傍受は不可能。</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(61,214,140,.2);border-radius:12px;padding:18px 16px;text-align:left">
+        <div style="font-size:1.3rem;margin-bottom:8px">🚫</div>
+        <div style="font-size:.8rem;font-weight:800;color:var(--gr);margin-bottom:5px">第三者提供なし</div>
+        <div style="font-size:.72rem;color:var(--t3);line-height:1.65">業務遂行のみ使用・営業/学習目的の利用は一切なし。</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(240,120,64,.2);border-radius:12px;padding:18px 16px;text-align:left">
+        <div style="font-size:1.3rem;margin-bottom:8px">📋</div>
+        <div style="font-size:.8rem;font-weight:800;color:var(--or);margin-bottom:5px">外部API透明性</div>
+        <div style="font-size:.72rem;color:var(--t3);line-height:1.65">OpenAI/Google等の利用は事前説明・承諾制。</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(167,139,250,.2);border-radius:12px;padding:18px 16px;text-align:left">
+        <div style="font-size:1.3rem;margin-bottom:8px">🗑️</div>
+        <div style="font-size:.8rem;font-weight:800;color:var(--pu);margin-bottom:5px">納品後データ削除</div>
+        <div style="font-size:.72rem;color:var(--t3);line-height:1.65">開発・テスト用データは納品完了後に速やかに削除。</div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
       <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:linear-gradient(180deg,#4ae89a 0%,#2cb870 50%,#1a9a58 100%);color:#fff;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 4px 16px rgba(61,214,140,.4)">無料30分で確認する →</a>
     </div>
   </div>
