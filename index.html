@@ -707,6 +707,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   .hn:nth-child(odd){border-right:1px solid var(--b)}
   .hn:nth-last-child(-n+2){border-bottom:none}
   .oc-grid{grid-template-columns:1fr}
+  .industry-entry-tiles{grid-template-columns:1fr 1fr!important}
   .bento{grid-template-columns:1fr}
   .bc.sv{grid-row:span 1}
   .bc.s2{grid-column:span 1!important}
@@ -1114,6 +1115,39 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
   </div>
 </div>
 
+
+<!-- 業種別エントリー4タイル（FV直下・施策③） -->
+<section style="padding:28px 24px 0;background:#0a0a0f">
+  <div style="max-width:960px;margin:0 auto">
+    <p style="text-align:center;font-size:.76rem;color:var(--t3);margin:0 0 14px;letter-spacing:.06em">▼ あなたの業種はどれですか？</p>
+    <div class="industry-entry-tiles" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <a href="#industry-section" style="text-decoration:none;display:block;background:rgba(74,143,247,.06);border:1px solid rgba(74,143,247,.2);border-radius:12px;padding:16px 14px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(74,143,247,.5)'" onmouseout="this.style.borderColor='rgba(74,143,247,.2)'">
+        <div style="font-size:1.2rem;margin-bottom:8px">⚖️</div>
+        <div style="font-size:.82rem;font-weight:800;color:var(--bl);margin-bottom:4px">士業・コンサル</div>
+        <div style="font-size:.7rem;color:var(--t3);line-height:1.5">報告書作成・顧客対応を<br>月50時間削減</div>
+        <div style="font-size:.68rem;color:var(--bl);margin-top:8px;font-weight:700">事例を見る →</div>
+      </a>
+      <a href="#industry-section" style="text-decoration:none;display:block;background:rgba(240,120,64,.06);border:1px solid rgba(240,120,64,.2);border-radius:12px;padding:16px 14px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(240,120,64,.5)'" onmouseout="this.style.borderColor='rgba(240,120,64,.2)'">
+        <div style="font-size:1.2rem;margin-bottom:8px">🛒</div>
+        <div style="font-size:.82rem;font-weight:800;color:var(--or);margin-bottom:4px">EC・通販</div>
+        <div style="font-size:.7rem;color:var(--t3);line-height:1.5">在庫・発注・通知を<br>月40時間削減</div>
+        <div style="font-size:.68rem;color:var(--or);margin-top:8px;font-weight:700">事例を見る →</div>
+      </a>
+      <a href="#industry-section" style="text-decoration:none;display:block;background:rgba(61,214,140,.06);border:1px solid rgba(61,214,140,.2);border-radius:12px;padding:16px 14px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(61,214,140,.5)'" onmouseout="this.style.borderColor='rgba(61,214,140,.2)'">
+        <div style="font-size:1.2rem;margin-bottom:8px">🏪</div>
+        <div style="font-size:.82rem;font-weight:800;color:var(--gr);margin-bottom:4px">サービス業</div>
+        <div style="font-size:.7rem;color:var(--t3);line-height:1.5">予約・リマインド・通知を<br>月30時間削減</div>
+        <div style="font-size:.68rem;color:var(--gr);margin-top:8px;font-weight:700">事例を見る →</div>
+      </a>
+      <a href="#industry-section" style="text-decoration:none;display:block;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.2);border-radius:12px;padding:16px 14px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(167,139,250,.5)'" onmouseout="this.style.borderColor='rgba(167,139,250,.2)'">
+        <div style="font-size:1.2rem;margin-bottom:8px">🏭</div>
+        <div style="font-size:.82rem;font-weight:800;color:var(--pu);margin-bottom:4px">中小製造</div>
+        <div style="font-size:.7rem;color:var(--t3);line-height:1.5">集計・報告書・発注通知を<br>月20時間削減</div>
+        <div style="font-size:.68rem;color:var(--pu);margin-top:8px;font-weight:700">事例を見る →</div>
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- スマホ専用: 症状チェックリスト（TARGET STRIP直後） [SP-③] -->
 <div class="sp-symptom-check" style="display:none">
@@ -1601,40 +1635,47 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
       <div class="crd" style="background:rgba(61,214,140,.04);border-color:rgba(61,214,140,.25)"><div class="crd-ic">🧪</div><h3>過去の案件で実証済み</h3><p>提案する自動化はすべて、<br>実際にビジネスの現場で稼働させているものだけ。</p><p style="font-size:.75rem;color:var(--gr);margin-top:6px;font-weight:600">→ だから理論だけで動かない失敗リスクがありません。</p><div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(61,214,140,.2);font-size:.78rem;color:var(--t2);line-height:1.7">「本当に実現できるの？」— そう思った方へ。<br><strong style="color:var(--t1)">実際に自動化した方々の声をどうぞ。</strong></div></div>
       <div class="crd"><div class="crd-ic">🛡️</div><h3>全額返金保証</h3><p>動かなければ即返金。<br>リスクゼロで始められます。</p><p style="font-size:.75rem;color:var(--gr);margin-top:6px;font-weight:600">→ だから安心して依頼できます</p><div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1);font-size:.78rem;color:var(--t2);line-height:1.7">保証条件：合意した仕様通りに動作しない場合が対象<br>申請期間：納品完了日から14日以内</div></div>
     </div>
-    <div style="max-width:740px;margin:24px auto 0;overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:.8rem;border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden">
+    <div style="max-width:780px;margin:24px auto 0;overflow-x:auto">
+      <p style="text-align:center;font-size:.74rem;color:var(--t3);margin-bottom:12px;letter-spacing:.05em">3つの決定的な差</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.8rem;border:1px solid rgba(255,255,255,.12);border-radius:10px;overflow:hidden">
         <thead>
-          <tr style="border-bottom:2px solid rgba(255,255,255,.3)">
-            <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;min-width:100px">比較軸</th>
-            <th style="padding:10px 12px;text-align:center;color:var(--or);font-weight:800;background:rgba(240,120,64,.06);border-radius:4px 4px 0 0">🏆 AI Flow Architect</th>
-            <th style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.6);font-weight:600">他の自動化業者</th>
-            <th style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.6);font-weight:600">社内IT採用</th>
+          <tr style="background:rgba(255,255,255,.03);border-bottom:2px solid rgba(255,255,255,.2)">
+            <th style="padding:11px 14px;text-align:left;color:var(--t3);font-weight:600;min-width:110px">比較軸</th>
+            <th style="padding:11px 14px;text-align:center;color:var(--or);font-weight:800;background:rgba(240,120,64,.08)">🏆 AI Flow Architect</th>
+            <th style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5);font-weight:600">他の自動化業者</th>
+            <th style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5);font-weight:600">社内IT採用</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.15)">
-            <td style="padding:10px 12px;color:var(--t2)">実働開始まで</td>
-            <td style="padding:10px 12px;text-align:center;color:var(--gr);font-weight:700">最短１週間</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.55)">1〜３ヶ月</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.55)">採用〜半年〜</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.1)">
+            <td style="padding:11px 14px;color:var(--t2);font-weight:600">⚡ 稼働開始まで</td>
+            <td style="padding:11px 14px;text-align:center;background:rgba(240,120,64,.04)"><strong style="color:var(--gr)">最短７日</strong></td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">平均45〜90日</td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">採用後6〜12ヶ月</td>
           </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.15)">
-            <td style="padding:10px 12px;color:var(--t2)">初期費用</td>
-            <td style="padding:10px 12px;text-align:center;color:var(--gr);font-weight:700">¥20,000〜</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.55)">¥100,000〜</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.55)">年収300万〜</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.1)">
+            <td style="padding:11px 14px;color:var(--t2);font-weight:600">💰 投資回収</td>
+            <td style="padding:11px 14px;text-align:center;background:rgba(240,120,64,.04)"><strong style="color:var(--gr)">平均3.2ヶ月</strong></td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">1年〜（ROI未計算多数）</td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">2〜3年以上</td>
           </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.15)">
-            <td style="padding:10px 12px;color:var(--t2)">現場実証</td>
-            <td style="padding:10px 12px;text-align:center;color:var(--gr);font-weight:700">✅ 自社稼働済み</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.55)">△ 案件のみ</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.55)">— 理論中心</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.1)">
+            <td style="padding:11px 14px;color:var(--t2);font-weight:600">🛡️ リスク保証</td>
+            <td style="padding:11px 14px;text-align:center;background:rgba(240,120,64,.04)"><strong style="color:var(--gr)">14日全額返金・条件明記</strong></td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">返金規定なし・修正有料</td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">解雇コスト発生</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.1)">
+            <td style="padding:11px 14px;color:var(--t2);font-weight:600">🧪 提案の根拠</td>
+            <td style="padding:11px 14px;text-align:center;background:rgba(240,120,64,.04)"><strong style="color:var(--gr)">自社で稼働中の実績のみ</strong></td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">他社案件の経験ベース</td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">社内テスト環境のみ</td>
           </tr>
           <tr>
-            <td style="padding:10px 12px;color:var(--t2)">返金保証</td>
-            <td style="padding:10px 12px;text-align:center;color:var(--gr);font-weight:700">✅ 条件明記</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.45)">— なし</td>
-            <td style="padding:10px 12px;text-align:center;color:rgba(255,255,255,.45)">— なし</td>
+            <td style="padding:11px 14px;color:var(--t2);font-weight:600">💬 初回相談</td>
+            <td style="padding:11px 14px;text-align:center;background:rgba(240,120,64,.04)"><strong style="color:var(--gr)">無料30分・当日回答</strong></td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">見積もり有料の場合も</td>
+            <td style="padding:11px 14px;text-align:center;color:rgba(255,255,255,.5)">社内調整に数週間</td>
           </tr>
         </tbody>
       </table>
