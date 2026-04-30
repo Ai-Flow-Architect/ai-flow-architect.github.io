@@ -10,7 +10,7 @@ import urllib.parse
 
 APP_ID = os.environ.get("LARK_APP_ID", "")
 REDIRECT_URI = "http://localhost:3000/callback"
-SCOPES = "okr:okr offline_access calendar:calendar"
+SCOPES = "okr:okr offline_access calendar:calendar calendar:calendar:read"
 
 auth_url = (
     "https://open.larksuite.com/open-apis/authen/v1/authorize"
