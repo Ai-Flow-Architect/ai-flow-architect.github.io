@@ -1078,7 +1078,6 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     </div>
     <div class="hero-btns">
       <a href="#contact" class="btn-w">無料30分で確認する →</a>
-      <a href="#pricing" class="btn-g">料金を見る</a>
     </div>
     <div class="hero-nums" style="margin-top:32px;">
       <div class="hn"><div class="hn-n c-or" data-count="80" data-suffix="%">0%</div><div class="hn-l">業務コスト<br>削減実績</div></div>
@@ -1679,9 +1678,17 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <!-- PRICING -->
 <section id="pricing">
   <div class="wrap">
-    <div class="eye">PRICING</div>
-    <h2 class="sec-t">料金プラン</h2>
-    <p class="sec-s">「まず１つだけ試したい」から「全部まとめて任せたい」まで対応。<br>初月で投資回収できた実績あり。</p>
+    <div class="eye">PRICING & ROI</div>
+    <h2 class="sec-t">料金プラン × あなたのROI試算</h2>
+    <p class="sec-s">「いくら回収できるか」をその場で試算 → 最適プランを選べます。<br>初月で投資回収できた実績あり。</p>
+
+    <!-- STEP 1 ラベル -->
+    <div style="display:flex;align-items:center;gap:12px;margin:36px auto 18px;max-width:760px">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#f07840,#e05a00);color:#fff;font-size:.78rem;font-weight:800;letter-spacing:.04em;flex-shrink:0">01</span>
+      <span style="font-size:1rem;font-weight:800;color:var(--t1);letter-spacing:.02em">３つのプランから選ぶ</span>
+      <span style="flex:1;height:1px;background:var(--bm)"></span>
+    </div>
+
     <div style="margin-bottom:24px;padding:12px 20px;background:rgba(255,255,255,.03);border:1px solid var(--bm);border-radius:12px;font-size:.82rem;color:var(--t3);line-height:1.8">
       <strong style="color:var(--t2)">まずはどれを選ぶ？</strong> ▶
       初めてなら <strong style="color:var(--bl)">Lite（¥29,000〜）</strong> ／
@@ -1703,21 +1710,17 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <span style="font-size:.72rem;color:var(--t3)">※お客様都合の仕様変更・外部サービスの仕様変更・操作ミスは対象外です</span>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- スマホ専用: pricing直後の中間CTA -->
-<div class="sp-mid-cta-pricing" style="display:none">
-  <p style="font-size:.85rem;color:var(--t2);margin:0 0 10px;line-height:1.6">「どのプランか迷っている」でも大丈夫です。<br><strong style="color:var(--t1)">まず30分の無料相談で一緒に決めましょう。</strong></p>
-  <a href="#contact" class="btn-w" style="font-size:.85rem;padding:12px 20px">無料30分で確認する →</a>
-</div>
+    <!-- STEP 2 ラベル -->
+    <div style="display:flex;align-items:center;gap:12px;margin:56px auto 18px;max-width:760px">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#3dd68c,#2cb870);color:#fff;font-size:.78rem;font-weight:800;letter-spacing:.04em;flex-shrink:0">02</span>
+      <span style="font-size:1rem;font-weight:800;color:var(--t1);letter-spacing:.02em">あなたのROIを試算する</span>
+      <span style="flex:1;height:1px;background:var(--bm)"></span>
+    </div>
 
-<!-- ROI CALCULATOR -->
-<section id="roi">
-  <div class="wrap">
-    <div class="eye">ROI CALCULATOR</div>
-    <h2 class="sec-t">費用対計算ツール<span style="font-size:.6em;color:var(--t2);font-weight:500;margin-left:.5em">(自動化ROI)</span></h2>
-    <p class="sec-s">業務を自動化したら、いくら節約可能？<br>今すぐ試算してみてください。</p>
+    <h3 class="sec-t" style="font-size:clamp(1.2rem,3vw,1.6rem);margin:0 0 8px">業務を自動化したら、いくら回収可能？</h3>
+    <p class="sec-s" style="margin-bottom:24px">入力すると、年間削減額・回収期間・推奨プランが即座に計算されます。</p>
+
     <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap">
       <button onclick="roiPreset(1)"  style="padding:8px 18px;border-radius:999px;border:1.5px solid rgba(74,143,247,.6);background:rgba(74,143,247,.12);color:#5ba3f5;font-weight:700;font-size:.8rem;cursor:pointer">👤 1人で試算</button>
       <button onclick="roiPreset(5)"  style="padding:8px 18px;border-radius:999px;border:1.5px solid rgba(240,120,64,.6);background:rgba(240,120,64,.12);color:var(--or);font-weight:700;font-size:.8rem;cursor:pointer">👥 5人で試算</button>
@@ -1794,17 +1797,23 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <a href="#contact" class="roi-cta-btn">このプランで相談する →</a>
       </div>
     </div>
+
+    <!-- STEP 3 ラベル -->
+    <div style="display:flex;align-items:center;gap:12px;margin:56px auto 18px;max-width:760px">
+      <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#5ba3f5,#3b82f6);color:#fff;font-size:.78rem;font-weight:800;letter-spacing:.04em;flex-shrink:0">03</span>
+      <span style="font-size:1rem;font-weight:800;color:var(--t1);letter-spacing:.02em">無料相談で次に進む</span>
+      <span style="flex:1;height:1px;background:var(--bm)"></span>
+    </div>
+
+    <!-- 統合セクション締めCTA -->
+    <div style="text-align:center;margin:0 auto;padding:8px 24px;max-width:760px">
+      <div style="font-size:1.15rem;font-weight:800;color:var(--t1);margin-bottom:8px;line-height:1.6">計算してみましたか？<br>その削減額、<strong style="color:var(--gr)">来月から現実にできます。</strong></div>
+      <p style="font-size:.82rem;color:var(--t3);margin-bottom:22px">相談・見積もりは完全無料。しつこい営業は一切ありません。</p>
+      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:linear-gradient(180deg,#4ae89a 0%,#2cb870 50%,#1a9a58 100%);color:#fff;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 4px 16px rgba(61,214,140,.4)">無料30分で確認する →</a>
+      <div style="margin-top:12px;font-size:.75rem;color:var(--t3)">🔒 返金保証あり · ⚡ 最短１週間稼働 · 🏆 Anthropic認定</div>
+    </div>
   </div>
 </section>
-
-<!-- CTA after ROI -->
-<div style="text-align:center;padding:48px 24px;background:linear-gradient(135deg,rgba(61,214,140,.06) 0%,rgba(74,143,247,.06) 100%);border-top:1px solid rgba(61,214,140,.15);border-bottom:1px solid rgba(61,214,140,.15)">
-  <div style="font-size:.78rem;color:var(--gr);letter-spacing:.1em;font-weight:700;margin-bottom:10px;text-transform:uppercase">NEXT STEP</div>
-  <div style="font-size:1.15rem;font-weight:800;color:var(--t1);margin-bottom:8px;line-height:1.6">計算してみましたか？<br>その削減額、<strong style="color:var(--gr)">来月から現実にできます。</strong></div>
-  <p style="font-size:.82rem;color:var(--t3);margin-bottom:22px">相談・見積もりは完全無料。しつこい営業は一切ありません。</p>
-  <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:linear-gradient(180deg,#4ae89a 0%,#2cb870 50%,#1a9a58 100%);color:#fff;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 4px 16px rgba(61,214,140,.4)">無料30分で確認する →</a>
-  <div style="margin-top:12px;font-size:.75rem;color:var(--t3)">🔒 返金保証あり · ⚡ 最短１週間稼働 · 🏆 Anthropic認定</div>
-</div>
 
 <!-- PROCESS (alchemi-style) -->
 <section id="process">
