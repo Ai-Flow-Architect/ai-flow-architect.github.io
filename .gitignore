@@ -2,3 +2,15 @@ node_modules/
 .env
 *.log
 .DS_Store
+
+# === 内部・クライアント固有ファイル（LPに混入禁止・2026-05-12追加） ===
+findme/
+yasuda_project/
+templates/
+hearing_*.md
+followup_*.md
+premium_*.md
+portfolio.md
+lancers_*.py
+lancers_*.md
+coconala-*.js
