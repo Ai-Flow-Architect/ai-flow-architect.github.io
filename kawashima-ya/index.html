@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>売上分析 × 広告LTV分析 戦略整理ご提案｜かわしま屋様</title>
+<style>
+  :root {
+    --primary: #15803d;
+    --primary-dark: #14532d;
+    --accent: #84cc16;
+    --accent2: #f59e0b;
+    --warm: #ea580c;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+  .hero {
+    background: linear-gradient(135deg, #14532d 0%, #15803d 55%, #84cc16 100%);
+    color: #fff;
+    padding: 64px 24px 56px;
+    text-align: center;
+  }
+  .hero-tag { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 4px 16px; font-size: 13px; letter-spacing: 1px; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(22px, 4vw, 38px); font-weight: 800; margin-bottom: 14px; line-height: 1.4; }
+  .hero p { font-size: 15px; opacity: 0.95; max-width: 680px; margin: 0 auto; }
+  .hero-meta { margin-top: 22px; display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center; font-size: 13px; opacity: 0.9; }
+  .hero-meta span { background: rgba(0,0,0,0.18); padding: 4px 12px; border-radius: 12px; }
+
+  .section { max-width: 960px; margin: 0 auto; padding: 56px 20px 16px; }
+  .section-title { font-size: 22px; font-weight: 800; color: var(--primary-dark); border-left: 4px solid var(--accent); padding-left: 14px; margin-bottom: 12px; }
+  .section-sub { font-size: 14px; color: var(--muted); margin-bottom: 26px; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 8px; }
+  .summary-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); padding: 22px 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .summary-card .icon { font-size: 26px; margin-bottom: 8px; }
+  .summary-card .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .summary-card .value { font-size: 17px; font-weight: 800; color: var(--text); }
+
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  th { background: linear-gradient(90deg, var(--primary-dark), var(--primary)); color: #fff; padding: 13px 14px; text-align: left; font-size: 13px; font-weight: 700; }
+  td { padding: 13px 14px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: top; }
+  td.k { font-weight: 800; color: var(--primary-dark); white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 10px; white-space: nowrap; }
+  .tag.g { background: #d1fae5; color: #065f46; }
+  .tag.y { background: #fef3c7; color: #92400e; }
+  .tag.r { background: #fee2e2; color: #991b1b; }
+  .tag.b { background: #dbeafe; color: #1e40af; }
+  .tag.n { background: #ffedd5; color: #9a3412; }
+
+  /* Architecture diagram (CSS only) */
+  .arch-wrap { background: var(--card); border-radius: 14px; padding: 28px 22px; border: 1px solid var(--border); box-shadow: 0 4px 14px rgba(15,30,84,0.08); overflow-x: auto; }
+  .arch-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; min-width: 720px; }
+  .layer { background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%); border-radius: 12px; padding: 18px 12px; border: 2px solid var(--border); text-align: center; position: relative; }
+  .layer.l1 { border-color: #fb923c; }
+  .layer.l2 { border-color: #84cc16; }
+  .layer.l3 { border-color: #15803d; }
+  .layer.l4 { border-color: #0891b2; }
+  .layer.l5 { border-color: #7c3aed; }
+  .layer-num { display: inline-block; width: 24px; height: 24px; line-height: 24px; border-radius: 50%; color: #fff; font-weight: 800; font-size: 13px; margin-bottom: 8px; }
+  .layer.l1 .layer-num { background: #fb923c; }
+  .layer.l2 .layer-num { background: #84cc16; }
+  .layer.l3 .layer-num { background: #15803d; }
+  .layer.l4 .layer-num { background: #0891b2; }
+  .layer.l5 .layer-num { background: #7c3aed; }
+  .layer-name { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+  .layer-items { font-size: 12px; color: var(--muted); text-align: left; }
+  .layer-items div { padding: 4px 0; border-bottom: 1px dashed var(--border); }
+  .layer-items div:last-child { border-bottom: none; }
+  .layer-items .new { color: var(--warm); font-weight: 700; }
+  .layer-items .kept { color: var(--primary); font-weight: 700; }
+
+  .arrow-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 8px 0 0; min-width: 720px; }
+  .arrow-row div { text-align: center; font-size: 18px; color: var(--accent); }
+
+  .legend { display: flex; gap: 18px; font-size: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center; }
+  .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+  .legend-dot.kept { background: var(--primary); }
+  .legend-dot.new { background: var(--warm); }
+
+  .hearing-block { background: var(--card); border-radius: 14px; padding: 24px; border: 1px solid var(--border); margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .hearing-block h3 { font-size: 16px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .hearing-block.must h3 { color: #991b1b; }
+  .hearing-block.should h3 { color: #92400e; }
+  .hearing-block.confirm h3 { color: #1e40af; }
+  .hearing-block ul { list-style: none; padding: 0; }
+  .hearing-block li { padding: 10px 0; border-bottom: 1px dashed var(--border); font-size: 14px; display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; }
+  .hearing-block li:last-child { border-bottom: none; }
+  .hearing-block .num { font-weight: 800; color: var(--muted); font-size: 13px; }
+  .hearing-block .why { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  .pitfall-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media(max-width: 720px) { .pitfall-grid { grid-template-columns: 1fr; } .arch-grid, .arrow-row { grid-template-columns: 1fr; min-width: 0; } }
+  .pitfall { background: var(--card); border-left: 4px solid var(--accent2); border-radius: 8px; padding: 14px 16px; font-size: 13px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+  .pitfall .pf-num { font-weight: 800; color: var(--accent2); margin-right: 6px; }
+  .pitfall .pf-title { font-weight: 700; }
+  .pitfall .pf-fix { color: var(--muted); font-size: 12px; margin-top: 3px; display: block; }
+
+  .note { background: linear-gradient(135deg, #ecfdf5, #f0fdf4); border: 1px solid #86efac; border-radius: 14px; padding: 22px 24px; font-size: 14px; }
+  .note strong { color: var(--primary-dark); }
+
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 30px 20px; font-size: 13px; margin-top: 56px; }
+  footer strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">AIフローアーキテクト ご提案資料</div>
+  <h1>売上分析 × 広告LTV分析<br>戦略整理ご提案</h1>
+  <p>「データ量制限で止まる売上分析」と「広告経由で買ったお客様が累計いくら買ってくれているか」を、<br>同じ BigQuery 基盤の上で一気通貫に解決します。</p>
+  <div class="hero-meta">
+    <span>かわしま屋様</span>
+    <span>食品EC（カラーミーショップ運営）</span>
+    <span>壁打ち・方針整理フェーズ</span>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">本日のゴール</div>
+  <div class="section-sub">「何を作るか」を握り、「絶対に押さえたい設計判断」を 3つに絞ってお返事いただける状態にします。</div>
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="icon">🎯</div>
+      <div class="label">ゴール①</div>
+      <div class="value">売上分析の動作条件を確定</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">📊</div>
+      <div class="label">ゴール②</div>
+      <div class="value">LTV分析の設計合意</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">🔍</div>
+      <div class="label">ゴール③</div>
+      <div class="value">既存資産で短縮できる範囲の確認</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">全体アーキテクチャ（5層構成）</div>
+  <div class="section-sub">同業の GA4×BigQuery×AI 分析基盤で構築済みの「既存テンプレ」を最大活用し、広告管理＋LTV分析の新規開発のみに工数を集中します。</div>
+
+  <div class="arch-wrap">
+    <div class="arch-grid">
+      <div class="layer l1">
+        <div class="layer-num">1</div>
+        <div class="layer-name">データ収集層</div>
+        <div class="layer-items">
+          <div class="kept">GA4 → BQ Export</div>
+          <div class="kept">スプシ → BQ</div>
+          <div class="new">★Google広告 → BQ</div>
+          <div class="new">★Meta広告 → BQ（n8n）</div>
+        </div>
+      </div>
+      <div class="layer l2">
+        <div class="layer-num">2</div>
+        <div class="layer-name">変換・統合層</div>
+        <div class="layer-items">
+          <div class="kept">staging SQL</div>
+          <div class="kept">marts SQL</div>
+          <div class="new">★広告 × 購買 結合</div>
+          <div class="new">★コホート集計</div>
+        </div>
+      </div>
+      <div class="layer l3">
+        <div class="layer-num">3</div>
+        <div class="layer-name">LTVロジック層</div>
+        <div class="layer-items">
+          <div class="new">★初回タッチ固定</div>
+          <div class="new">★累計購入額 SUM</div>
+          <div class="new">★30/60/90日切り出し</div>
+          <div class="new">★広告ROI算出</div>
+        </div>
+      </div>
+      <div class="layer l4">
+        <div class="layer-num">4</div>
+        <div class="layer-name">AI分析層</div>
+        <div class="layer-items">
+          <div class="kept">月次分析プロンプト</div>
+          <div class="kept">JSON出力フォーマット</div>
+          <div class="new">★広告ROI改善ヒント</div>
+        </div>
+      </div>
+      <div class="layer l5">
+        <div class="layer-num">5</div>
+        <div class="layer-name">可視化層</div>
+        <div class="layer-items">
+          <div class="kept">Looker Studio 基盤</div>
+          <div class="new">★広告別LTVダッシュボード</div>
+          <div class="new">★コホート推移ビュー</div>
+          <div class="new">★CAC vs LTV比較</div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow-row">
+      <div>→</div><div>→</div><div>→</div><div>→</div><div>✓</div>
+    </div>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot kept"></span>既存資産から流用（工数短縮）</span>
+      <span class="legend-item"><span class="legend-dot new"></span>★ かわしま屋様向け新規開発</span>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">データソース別 取り込み方針</div>
+  <div class="section-sub">公式ネイティブが使える経路は無料コスト・確実性で優先。Meta広告のみ独自連携が必要です。</div>
+  <table>
+    <thead>
+      <tr><th>データソース</th><th>取り込み方式</th><th>難易度</th><th>論点・既存資産との関係</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="k">GA4 購買データ</td>
+        <td>BigQuery Export（GA4ネイティブ・無料枠あり）</td>
+        <td><span class="tag g">低</span></td>
+        <td>同業案件で構築実績あり。<strong>★過去データの保持状況の確認が当日の論点</strong></td>
+      </tr>
+      <tr>
+        <td class="k">Google広告</td>
+        <td>BigQuery Data Transfer Service（Google公式・無料）</td>
+        <td><span class="tag g">低</span></td>
+        <td>ネイティブ連携で確実。OAuth 1回で恒久稼働</td>
+      </tr>
+      <tr>
+        <td class="k">Meta広告</td>
+        <td>n8n ワークフロー × Marketing API</td>
+        <td><span class="tag y">中</span></td>
+        <td>ネイティブ非対応のため独自連携が必要。同種n8n連携の構築経験あり</td>
+      </tr>
+      <tr>
+        <td class="k">カラーミー売上</td>
+        <td>スプシ経由 → Google Sheets API → BQ</td>
+        <td><span class="tag g">低</span></td>
+        <td>既存スプシ運用を活かす形。複数タブ・毎日更新に対応</td>
+      </tr>
+      <tr>
+        <td class="k">顧客ID紐付け</td>
+        <td>3パターンから選択（クッキー / user_id送信 / メール突合）</td>
+        <td><span class="tag y">中</span></td>
+        <td><strong>★LTV精度の決定要因。当日握りたい最重要論点の1つ</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">本日の絶対ヒアリング項目</div>
+  <div class="section-sub">設計を確定するために、当日その場で握りたい項目を 3階層で整理しました。</div>
+
+  <div class="hearing-block must">
+    <h3>🔴 MUST（これを握らないと設計確定できない）</h3>
+    <ul>
+      <li><span class="num">①</span><div><strong>GA4 → BigQuery Export は既に有効化されているか</strong><span class="why">→ OFFなら本日有効化＋過去データの backfill 方針（カラーミーCSV 取り込み等）の選択</span></div></li>
+      <li><span class="num">②</span><div><strong>GA4 の purchase イベントの送信状況・transaction_id の付与</strong><span class="why">→ LTV分析の前提。届いていないと購買データが BigQuery で結合できない</span></div></li>
+      <li><span class="num">③</span><div><strong>utm_campaign の命名規則と既存キャンペーン一覧</strong><span class="why">→ コホート分けの単位を決める。命名揺れがあれば正規化ロジックが必要</span></div></li>
+      <li><span class="num">④</span><div><strong>顧客ID紐付け方針（クッキー単位 / user_id送信実装 / メール突合）</strong><span class="why">→ LTV分析の精度を決定。クッキー単位は最短だが端末変更で精度低下</span></div></li>
+      <li><span class="num">⑤</span><div><strong>コホート定義の合意：「広告経由初購入」の判定軸（初訪問 vs 初購入直前）・direct流入の扱い</strong><span class="why">→ 後で揉めやすい論点。当日書面化したい</span></div></li>
+      <li><span class="num">⑥</span><div><strong>LTV期間定義：30日／60日／90日／1年 のどれを主軸に置くか</strong><span class="why">→ ダッシュボードの設計が変わる</span></div></li>
+      <li><span class="num">⑦</span><div><strong>カラーミー売上の抽出経路（手動CSV / GAS / API）と更新タイミング</strong><span class="why">→ 自動同期の頻度と仕組みが決まる</span></div></li>
+      <li><span class="num">⑧</span><div><strong>スプシのタブ構成・各タブの行数</strong><span class="why">→ 読み取り制限の真因を確定し、BQ集約の集計粒度を決める</span></div></li>
+    </ul>
+  </div>
+
+  <div class="hearing-block should">
+    <h3>🟠 SHOULD（あれば設計精度が大きく上がる）</h3>
+    <ul>
+      <li><span class="num">⑨</span><div><strong>プロモコード／紹介コードの発行有無と紐付けデータの所在</strong><span class="why">→ utm_campaign以外の経由判定軸が増え、LTV精度が上がる</span></div></li>
+      <li><span class="num">⑩</span><div><strong>Google広告アカウント構造（MCC配下か単独か）</strong><span class="why">→ BQ Data Transfer の設定単位が変わる</span></div></li>
+      <li><span class="num">⑪</span><div><strong>Meta広告で利用している機能（Conversion API・CAPI実装の有無）</strong><span class="why">→ iOS14以降のCV計測精度の議論に直結</span></div></li>
+      <li><span class="num">⑫</span><div><strong>既存 Looker Studio レポートのオーナー権限・データソース構成</strong><span class="why">→ 新基盤を並列追加するか差し替えるかが決まる</span></div></li>
+      <li><span class="num">⑬</span><div><strong>「Aグループ」の定義（具体的にどの商品群か）</strong><span class="why">→ 売上分析の確定例として活用</span></div></li>
+    </ul>
+  </div>
+
+  <div class="hearing-block confirm">
+    <h3>🔵 CONFIRM（権限・コスト面の確認事項）</h3>
+    <ul>
+      <li><span class="num">⑭</span><div><strong>GCP（BigQuery）プロジェクトは新規作成か既存利用か・課金口座の所在</strong><span class="why">→ BQ コストはクライアント様負担となります（規模実測後に試算ご提示）</span></div></li>
+      <li><span class="num">⑮</span><div><strong>iOS14 ATT による Meta広告 CV計測の精度低下を許容するか</strong><span class="why">→ GA4／BQ ファーストパーティ計測でカバー可能だが、限界は事前に共有</span></div></li>
+      <li><span class="num">⑯</span><div><strong>顧客ID紐付けで「メール突合パターン」を選ぶ場合の同意取得・個人情報保護法対応</strong><span class="why">→ 会員規約の改定が必要になる可能性あり</span></div></li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">既知の落とし穴 12点（同業案件で潰してきた知見）</div>
+  <div class="section-sub">「あとから揉める典型ポイント」を事前共有します。実装時はこれらを全て先回りで対策します。</div>
+  <div class="pitfall-grid">
+    <div class="pitfall"><span class="pf-num">①</span><span class="pf-title">期間集計で率／ユニーク値が壊れる</span><span class="pf-fix">→ 合計同士の割り算（ratio of sums）で計算</span></div>
+    <div class="pitfall"><span class="pf-num">②</span><span class="pf-title">新規ユーザー率が100%超え</span><span class="pf-fix">→ user 単位の指標統一</span></div>
+    <div class="pitfall"><span class="pf-num">③</span><span class="pf-title">エンゲージメント率の異常スコア</span><span class="pf-fix">→ SUM／SUM の計算フィールドに統一</span></div>
+    <div class="pitfall"><span class="pf-num">④</span><span class="pf-title">滞在時間が ≒0 表示</span><span class="pf-fix">→ GA4 拡張計測の設定確認・必要時は追加実装</span></div>
+    <div class="pitfall"><span class="pf-num">⑤</span><span class="pf-title">％と小数の単位混在</span><span class="pf-fix">→ 全レイヤ小数で保持・最後だけ×100</span></div>
+    <div class="pitfall"><span class="pf-num">⑥</span><span class="pf-title">GA4 イベント未送信（page_view は届くがカスタムが届かない）</span><span class="pf-fix">→ BigQuery への着弾を必ず実検証</span></div>
+    <div class="pitfall"><span class="pf-num">⑦</span><span class="pf-title">Meta広告はネイティブ連携なし</span><span class="pf-fix">→ n8n 連携の工数差を見積で明示</span></div>
+    <div class="pitfall"><span class="pf-num">⑧</span><span class="pf-title">GA4→BQ Export は「設定後の日付からのみ」蓄積</span><span class="pf-fix">→ 過去データは別経路で backfill する選択肢を用意</span></div>
+    <div class="pitfall"><span class="pf-num">⑨</span><span class="pf-title">コホート定義の解釈ズレ</span><span class="pf-fix">→ 当日書面化（成功条件と紐付け）</span></div>
+    <div class="pitfall"><span class="pf-num">⑩</span><span class="pf-title">iOS14 以降の Meta 広告計測精度低下</span><span class="pf-fix">→ GA4／BQ のファーストパーティ計測でカバー</span></div>
+    <div class="pitfall"><span class="pf-num">⑪</span><span class="pf-title">クッキー単位 LTV の端末変更による分断</span><span class="pf-fix">→ ログイン時 user_id 送信実装を将来オプションに</span></div>
+    <div class="pitfall"><span class="pf-num">⑫</span><span class="pf-title">メール突合時の個人情報保護法対応</span><span class="pf-fix">→ 会員規約改定・同意取得文の追加</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="note">
+    <strong>本日のスタンス：</strong> 見積書は本日のヒアリング内容を踏まえ、後日改めてご提示いたします。本日は「<strong>どのデータを・どの粒度で・どのロジックで分析するか</strong>」を一緒に整理させていただき、貴社が次の一歩を意思決定できる状態を作ることがゴールです。<br><br>
+    なお、動作しない場合は<strong>全額返金にて対応</strong>いたします（成功条件は本日書面化させていただきます）。
+  </div>
+</div>
+
+<footer>
+  <div><strong>AIフローアーキテクト</strong> ／ かわしま屋様 売上分析 × 広告LTV分析 戦略整理ご提案</div>
+  <div style="margin-top:6px;font-size:12px;">Lancers登録名：LPteam ／ ご質問は Lancers メッセージにて</div>
+</footer>
+
+</body>
+</html>
