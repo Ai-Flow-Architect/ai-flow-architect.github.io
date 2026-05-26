@@ -46,6 +46,7 @@
   th { background: linear-gradient(90deg, var(--primary-dark), var(--primary)); color: #fff; padding: 13px 14px; text-align: left; font-size: 13px; font-weight: 700; }
   td { padding: 13px 14px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: top; }
   td.k { font-weight: 800; color: var(--primary-dark); white-space: nowrap; }
+  td.k img { width: 18px; height: 18px; vertical-align: -4px; margin-right: 6px; }
   tr:last-child td { border-bottom: none; }
   tr:nth-child(even) td { background: #f8fafc; }
   .tag { display: inline-block; font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 10px; white-space: nowrap; }
@@ -55,36 +56,42 @@
   .tag.b { background: #dbeafe; color: #1e40af; }
   .tag.n { background: #ffedd5; color: #9a3412; }
 
-  /* Architecture diagram (CSS only) */
-  .arch-wrap { background: var(--card); border-radius: 14px; padding: 28px 22px; border: 1px solid var(--border); box-shadow: 0 4px 14px rgba(15,30,84,0.08); overflow-x: auto; }
-  .arch-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; min-width: 720px; }
-  .layer { background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%); border-radius: 12px; padding: 18px 12px; border: 2px solid var(--border); text-align: center; position: relative; }
-  .layer.l1 { border-color: #fb923c; }
-  .layer.l2 { border-color: #84cc16; }
-  .layer.l3 { border-color: #15803d; }
-  .layer.l4 { border-color: #0891b2; }
-  .layer.l5 { border-color: #7c3aed; }
-  .layer-num { display: inline-block; width: 24px; height: 24px; line-height: 24px; border-radius: 50%; color: #fff; font-weight: 800; font-size: 13px; margin-bottom: 8px; }
-  .layer.l1 .layer-num { background: #fb923c; }
-  .layer.l2 .layer-num { background: #84cc16; }
-  .layer.l3 .layer-num { background: #15803d; }
-  .layer.l4 .layer-num { background: #0891b2; }
-  .layer.l5 .layer-num { background: #7c3aed; }
-  .layer-name { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
-  .layer-items { font-size: 12px; color: var(--muted); text-align: left; }
-  .layer-items div { padding: 4px 0; border-bottom: 1px dashed var(--border); }
-  .layer-items div:last-child { border-bottom: none; }
-  .layer-items .new { color: var(--warm); font-weight: 700; }
-  .layer-items .kept { color: var(--primary); font-weight: 700; }
-
-  .arrow-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 8px 0 0; min-width: 720px; }
-  .arrow-row div { text-align: center; font-size: 18px; color: var(--accent); }
-
-  .legend { display: flex; gap: 18px; font-size: 12px; margin-top: 16px; flex-wrap: wrap; justify-content: center; }
+  /* Funnel-style architecture diagram */
+  .arch-wrap { background: linear-gradient(180deg, #fafffa 0%, #f0f9f0 100%); border-radius: 18px; padding: 32px 22px 28px; border: 1px solid var(--border); box-shadow: 0 6px 18px rgba(15,30,84,0.08); }
+  .funnel { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .funnel-row { width: 100%; max-width: 760px; border-radius: 14px; padding: 18px 22px 16px; position: relative; transition: transform .2s; }
+  .funnel-row:hover { transform: translateY(-2px); }
+  .funnel-row.l1 { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border: 2px solid #fb923c; width: 100%; }
+  .funnel-row.l2 { background: linear-gradient(135deg, #f7fee7 0%, #ecfccb 100%); border: 2px solid #84cc16; width: 90%; }
+  .funnel-row.l3 { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #15803d; width: 80%; }
+  .funnel-row.l4 { background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%); border: 2px solid #0891b2; width: 70%; }
+  .funnel-row.l5 { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 2px solid #7c3aed; width: 60%; }
+  .funnel-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .layer-num { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; color: #fff; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .funnel-row.l1 .layer-num { background: #fb923c; }
+  .funnel-row.l2 .layer-num { background: #84cc16; }
+  .funnel-row.l3 .layer-num { background: #15803d; }
+  .funnel-row.l4 .layer-num { background: #0891b2; }
+  .funnel-row.l5 .layer-num { background: #7c3aed; }
+  .layer-name { font-size: 15px; font-weight: 800; color: var(--text); }
+  .layer-sub { font-size: 11px; color: var(--muted); margin-left: auto; }
+  .logo-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: stretch; }
+  .logo-chip { background: #fff; border-radius: 10px; padding: 10px 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 8px; min-width: 130px; border: 1px solid var(--border); font-size: 12px; font-weight: 600; }
+  .logo-chip img { width: 22px; height: 22px; }
+  .logo-chip .badge { font-size: 10px; padding: 1px 6px; border-radius: 6px; font-weight: 800; margin-left: auto; }
+  .logo-chip .badge.new { background: #ffedd5; color: #9a3412; }
+  .logo-chip .badge.kept { background: #d1fae5; color: #065f46; }
+  .funnel-arrow { color: #15803d; font-size: 26px; line-height: 1; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .legend { display: flex; gap: 18px; font-size: 12px; margin-top: 18px; flex-wrap: wrap; justify-content: center; }
   .legend-item { display: inline-flex; align-items: center; gap: 6px; }
-  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
-  .legend-dot.kept { background: var(--primary); }
-  .legend-dot.new { background: var(--warm); }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; }
+  .legend-dot.kept { background: #d1fae5; border: 1px solid #065f46; }
+  .legend-dot.new { background: #ffedd5; border: 1px solid #9a3412; }
+  @media(max-width: 720px) {
+    .funnel-row { width: 100% !important; padding: 14px 12px; }
+    .logo-chip { min-width: 0; padding: 8px 10px; font-size: 11px; }
+    .layer-sub { display: none; }
+  }
 
   .hearing-block { background: var(--card); border-radius: 14px; padding: 24px; border: 1px solid var(--border); margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   .hearing-block h3 { font-size: 16px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
@@ -151,63 +158,90 @@
   <div class="section-sub">同業の GA4×BigQuery×AI 分析基盤で構築済みの「既存テンプレ」を最大活用し、広告管理＋LTV分析の新規開発のみに工数を集中します。</div>
 
   <div class="arch-wrap">
-    <div class="arch-grid">
-      <div class="layer l1">
-        <div class="layer-num">1</div>
-        <div class="layer-name">データ収集層</div>
-        <div class="layer-items">
-          <div class="kept">GA4 → BQ Export</div>
-          <div class="kept">スプシ → BQ</div>
-          <div class="new">★Google広告 → BQ</div>
-          <div class="new">★Meta広告 → BQ（n8n）</div>
+    <div class="funnel">
+
+      <div class="funnel-row l1">
+        <div class="funnel-head">
+          <span class="layer-num">1</span>
+          <span class="layer-name">データ収集層</span>
+          <span class="layer-sub">広告 × 売上 × 行動データを一箇所に集める</span>
+        </div>
+        <div class="logo-grid">
+          <div class="logo-chip"><img src="https://cdn.simpleicons.org/googleanalytics/E37400" alt="GA4">GA4 購買データ<span class="badge kept">既存</span></div>
+          <div class="logo-chip"><img src="https://cdn.simpleicons.org/googlesheets/0F9D58" alt="Sheets">スプシ売上<span class="badge kept">既存</span></div>
+          <div class="logo-chip"><img src="https://cdn.simpleicons.org/googleads/4285F4" alt="Google Ads">Google広告<span class="badge new">★新規</span></div>
+          <div class="logo-chip"><img src="https://cdn.simpleicons.org/meta/0866FF" alt="Meta">Meta広告<span class="badge new">★新規</span></div>
         </div>
       </div>
-      <div class="layer l2">
-        <div class="layer-num">2</div>
-        <div class="layer-name">変換・統合層</div>
-        <div class="layer-items">
-          <div class="kept">staging SQL</div>
-          <div class="kept">marts SQL</div>
-          <div class="new">★広告 × 購買 結合</div>
-          <div class="new">★コホート集計</div>
+
+      <div class="funnel-arrow">▼</div>
+
+      <div class="funnel-row l2">
+        <div class="funnel-head">
+          <span class="layer-num">2</span>
+          <span class="layer-name">変換・統合層</span>
+          <span class="layer-sub">BigQuery で SQL パイプライン化</span>
+        </div>
+        <div class="logo-grid">
+          <div class="logo-chip"><img src="https://cdn.simpleicons.org/googlebigquery/4285F4" alt="BigQuery">BigQuery 統合<span class="badge kept">既存</span></div>
+          <div class="logo-chip">📐 staging / marts SQL<span class="badge kept">既存</span></div>
+          <div class="logo-chip">🔗 広告 × 購買 結合<span class="badge new">★新規</span></div>
+          <div class="logo-chip">📊 コホート集計<span class="badge new">★新規</span></div>
         </div>
       </div>
-      <div class="layer l3">
-        <div class="layer-num">3</div>
-        <div class="layer-name">LTVロジック層</div>
-        <div class="layer-items">
-          <div class="new">★初回タッチ固定</div>
-          <div class="new">★累計購入額 SUM</div>
-          <div class="new">★30/60/90日切り出し</div>
-          <div class="new">★広告ROI算出</div>
+
+      <div class="funnel-arrow">▼</div>
+
+      <div class="funnel-row l3">
+        <div class="funnel-head">
+          <span class="layer-num">3</span>
+          <span class="layer-name">LTV ロジック層</span>
+          <span class="layer-sub">「広告経由初購入 → 累計購入額」の核心</span>
+        </div>
+        <div class="logo-grid">
+          <div class="logo-chip">🎯 初回タッチ固定<span class="badge new">★新規</span></div>
+          <div class="logo-chip">➕ 累計購入額 SUM<span class="badge new">★新規</span></div>
+          <div class="logo-chip">📅 30/60/90日 切出し<span class="badge new">★新規</span></div>
+          <div class="logo-chip">💰 広告ROI 算出<span class="badge new">★新規</span></div>
         </div>
       </div>
-      <div class="layer l4">
-        <div class="layer-num">4</div>
-        <div class="layer-name">AI分析層</div>
-        <div class="layer-items">
-          <div class="kept">月次分析プロンプト</div>
-          <div class="kept">JSON出力フォーマット</div>
-          <div class="new">★広告ROI改善ヒント</div>
+
+      <div class="funnel-arrow">▼</div>
+
+      <div class="funnel-row l4">
+        <div class="funnel-head">
+          <span class="layer-num">4</span>
+          <span class="layer-name">AI 分析層</span>
+          <span class="layer-sub">月次で改善ヒントを自動生成</span>
+        </div>
+        <div class="logo-grid">
+          <div class="logo-chip"><img src="https://cdn.simpleicons.org/claude/D97757" alt="Claude">Claude 月次分析<span class="badge kept">既存</span></div>
+          <div class="logo-chip">📝 JSON 出力<span class="badge kept">既存</span></div>
+          <div class="logo-chip">💡 広告ROI 改善ヒント<span class="badge new">★新規</span></div>
         </div>
       </div>
-      <div class="layer l5">
-        <div class="layer-num">5</div>
-        <div class="layer-name">可視化層</div>
-        <div class="layer-items">
-          <div class="kept">Looker Studio 基盤</div>
-          <div class="new">★広告別LTVダッシュボード</div>
-          <div class="new">★コホート推移ビュー</div>
-          <div class="new">★CAC vs LTV比較</div>
+
+      <div class="funnel-arrow">▼</div>
+
+      <div class="funnel-row l5">
+        <div class="funnel-head">
+          <span class="layer-num">5</span>
+          <span class="layer-name">可視化層</span>
+          <span class="layer-sub">河島代表が一目で意思決定できる画面</span>
+        </div>
+        <div class="logo-grid">
+          <div class="logo-chip"><img src="https://cdn.simpleicons.org/looker/4285F4" alt="Looker">Looker Studio<span class="badge kept">既存</span></div>
+          <div class="logo-chip">📈 広告別 LTV<span class="badge new">★新規</span></div>
+          <div class="logo-chip">🔍 コホート推移<span class="badge new">★新規</span></div>
+          <div class="logo-chip">⚖️ CAC vs LTV<span class="badge new">★新規</span></div>
         </div>
       </div>
+
     </div>
-    <div class="arrow-row">
-      <div>→</div><div>→</div><div>→</div><div>→</div><div>✓</div>
-    </div>
+
     <div class="legend">
-      <span class="legend-item"><span class="legend-dot kept"></span>既存資産から流用（工数短縮）</span>
-      <span class="legend-item"><span class="legend-dot new"></span>★ かわしま屋様向け新規開発</span>
+      <span class="legend-item"><span class="legend-dot kept"></span>既存資産から流用（同業案件で構築済・工数短縮）</span>
+      <span class="legend-item"><span class="legend-dot new"></span>★ かわしま屋様向け 新規開発</span>
     </div>
   </div>
 </div>
@@ -221,31 +255,31 @@
     </thead>
     <tbody>
       <tr>
-        <td class="k">GA4 購買データ</td>
+        <td class="k"><img src="https://cdn.simpleicons.org/googleanalytics/E37400" alt="">GA4 購買データ</td>
         <td>BigQuery Export（GA4ネイティブ・無料枠あり）</td>
         <td><span class="tag g">低</span></td>
         <td>同業案件で構築実績あり。<strong>★過去データの保持状況の確認が当日の論点</strong></td>
       </tr>
       <tr>
-        <td class="k">Google広告</td>
-        <td>BigQuery Data Transfer Service（Google公式・無料）</td>
+        <td class="k"><img src="https://cdn.simpleicons.org/googleads/4285F4" alt="">Google広告</td>
+        <td><img src="https://cdn.simpleicons.org/googlebigquery/4285F4" alt="" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px"> BQ Data Transfer Service（Google公式・無料）</td>
         <td><span class="tag g">低</span></td>
         <td>ネイティブ連携で確実。OAuth 1回で恒久稼働</td>
       </tr>
       <tr>
-        <td class="k">Meta広告</td>
-        <td>n8n ワークフロー × Marketing API</td>
+        <td class="k"><img src="https://cdn.simpleicons.org/meta/0866FF" alt="">Meta広告</td>
+        <td><img src="https://cdn.simpleicons.org/n8n/EA4B71" alt="" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px"> n8n ワークフロー × Marketing API</td>
         <td><span class="tag y">中</span></td>
         <td>ネイティブ非対応のため独自連携が必要。同種n8n連携の構築経験あり</td>
       </tr>
       <tr>
-        <td class="k">カラーミー売上</td>
-        <td>スプシ経由 → Google Sheets API → BQ</td>
+        <td class="k">🛒 カラーミー売上</td>
+        <td><img src="https://cdn.simpleicons.org/googlesheets/0F9D58" alt="" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px"> スプシ経由 → Google Sheets API → BQ</td>
         <td><span class="tag g">低</span></td>
         <td>既存スプシ運用を活かす形。複数タブ・毎日更新に対応</td>
       </tr>
       <tr>
-        <td class="k">顧客ID紐付け</td>
+        <td class="k">👤 顧客ID紐付け</td>
         <td>3パターンから選択（クッキー / user_id送信 / メール突合）</td>
         <td><span class="tag y">中</span></td>
         <td><strong>★LTV精度の決定要因。当日握りたい最重要論点の1つ</strong></td>
