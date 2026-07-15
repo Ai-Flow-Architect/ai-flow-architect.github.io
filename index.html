@@ -11,10 +11,15 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ai-flow-architect.github.io/">
   <meta property="og:image" content="https://ai-flow-architect.github.io/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AI Flow Architect — 業務コストを成果に変える 業務自動化エンジニア">
+  <meta property="og:site_name" content="AI Flow Architect">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AI Flow Architect — 業務コストを成果に変える">
   <meta name="twitter:description" content="繰り返し作業を、自動化で解放する。n8n・GPT API・Playwright専門の業務自動化エンジニア。">
+  <meta name="twitter:image" content="https://ai-flow-architect.github.io/og.png">
   <meta name="twitter:creator" content="@Kosuke_free_">
   <!-- Canonical -->
   <link rel="canonical" href="https://ai-flow-architect.github.io/">
@@ -29,13 +34,146 @@
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": "https://ai-flow-architect.github.io/#business",
     "name": "AI Flow Architect",
-    "description": "n8n・GPT API・Playwright専門の業務自動化エンジニア",
+    "description": "n8n・GPT API・Playwright専門の業務自動化エンジニア。繰り返し作業を自動化し、業務コストを最大80%削減します。",
     "url": "https://ai-flow-architect.github.io/",
+    "image": "https://ai-flow-architect.github.io/og.png",
+    "logo": "https://ai-flow-architect.github.io/og.png",
     "priceRange": "¥29,000〜¥300,000",
     "serviceType": "業務自動化・RPA・AI実装",
     "areaServed": "JP",
+    "knowsAbout": ["業務自動化", "RPA", "n8n", "GPT API", "Playwright", "スクレイピング", "AI実装"],
     "sameAs": ["https://x.com/Kosuke_free_"]
+  }
+  </script>
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://ai-flow-architect.github.io/#website",
+    "name": "AI Flow Architect",
+    "url": "https://ai-flow-architect.github.io/",
+    "inLanguage": "ja",
+    "publisher": { "@id": "https://ai-flow-architect.github.io/#business" }
+  }
+  </script>
+  <!-- Structured Data: Service + Offers (3プラン) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "業務自動化・RPA・AI実装",
+    "provider": { "@id": "https://ai-flow-architect.github.io/#business" },
+    "areaServed": "JP",
+    "description": "n8n・GPT API・Playwrightを用いた業務自動化の受託開発。Lite / Standard / Full Package の3プランをご用意しています。",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Lite",
+        "description": "単一の繰り返し作業を自動化。まず試したい方向けのスモールスタートプラン。",
+        "priceCurrency": "JPY",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "JPY",
+          "minPrice": 29000,
+          "maxPrice": 39000,
+          "valueAddedTaxIncluded": true
+        },
+        "url": "https://ai-flow-architect.github.io/#pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Standard",
+        "description": "AI連携・複数ステップを含む本格自動化。最もROIが高いプラン。",
+        "priceCurrency": "JPY",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "JPY",
+          "minPrice": 40000,
+          "maxPrice": 150000,
+          "valueAddedTaxIncluded": true
+        },
+        "url": "https://ai-flow-architect.github.io/#pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Full Package",
+        "description": "スクレイピング・AI・通知・DBまで統合したエンドツーエンドの自動化システム一式。",
+        "priceCurrency": "JPY",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "JPY",
+          "minPrice": 150000,
+          "maxPrice": 300000,
+          "valueAddedTaxIncluded": true
+        },
+        "url": "https://ai-flow-architect.github.io/#pricing"
+      }
+    ]
+  }
+  </script>
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "「何から自動化できるか分からない」という状態でも相談できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "むしろそのような段階でのご相談を歓迎しています。「こういう作業が面倒で…」とお伝えいただくだけで、自動化の可否と概算費用をその場でお答えします。お見積もりまで完全無料です。まずお気軽にどうぞ。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "既存のシステム・社内ツールとの連携はできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、対応しています。Google スプレッドシート・Notion・Slack・LINE・kintone・Salesforce など多くのサービスとの連携実績があります。「うちのシステムはどうだろう？」という段階でも、無料相談でご確認いただけます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "「動かなければ全額返金」の条件を教えてください",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "納品した自動化が合意した仕様通りに動作しない場合、納品完了日から14日以内にご報告ください。まず最大2回の修正対応を行い、それでも解決しない場合は全額返金いたします。なお、お客様都合の仕様変更、外部サービスの仕様変更・障害、運用手順書と異なる操作による不具合は対象外となります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "導入まで、どのくらい時間がかかりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Liteプランなら最短3〜5日、Standardプランなら1〜2週間が目安です。まずヒアリング（30分）→要件定義→実装→テスト→納品という流れです。「来週から稼働させたい」という場合もご相談ください。スケジュールを優先して対応できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "IT担当者がいなくても使いこなせますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、対応しています。納品時に運用手順書と簡単な操作説明動画（必要な場合）をお渡しします。PCの基本操作ができればOKです。納品後のサポート期間中は、使い方に関する質問も無制限でお受けしますのでご安心ください。"
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://ai-flow-architect.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "サービス", "item": "https://ai-flow-architect.github.io/#bento" },
+      { "@type": "ListItem", "position": 3, "name": "料金プラン", "item": "https://ai-flow-architect.github.io/#pricing" },
+      { "@type": "ListItem", "position": 4, "name": "よくある質問", "item": "https://ai-flow-architect.github.io/#faq" }
+    ]
   }
   </script>
   <style>

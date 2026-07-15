@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>60秒 業務自動化 見極め診断 — AI Flow Architect</title>
+<meta name="description" content="8つの質問に答えるだけ。あなたの業務がどれくらい自動化できるか、削減できる金額の目安まで60秒で分かります。">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0c;--bg1:#111;--bg2:#161616;--bg3:#1c1c1c;
+  --b:rgba(255,255,255,.07);--bm:rgba(255,255,255,.13);
+  --t1:#f0f0f0;--t2:#aaaaaa;--t3:#6b6b6b;
+  --or:#f07840;--bl:#4a8ff7;--gr:#3dd68c;--pu:#a78bfa;
+  --font:'Space Grotesk','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--t1);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px 60px}
+a{text-decoration:none;color:inherit}
+.hg{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.hg1{width:460px;height:460px;top:-140px;left:-120px;background:radial-gradient(circle,rgba(240,120,64,.10) 0%,transparent 70%)}
+.hg2{width:520px;height:520px;bottom:-160px;right:-140px;background:radial-gradient(circle,rgba(74,143,247,.09) 0%,transparent 70%)}
+
+.wrap{position:relative;z-index:1;width:100%;max-width:640px}
+.brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:22px;font-weight:800;font-size:.95rem;letter-spacing:-.01em}
+.brand .dot{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--or),#e05a00);display:inline-block}
+.brand span{color:var(--or)}
+
+.card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));border:1px solid var(--bm);border-radius:22px;padding:34px 30px;backdrop-filter:blur(8px);box-shadow:0 24px 60px rgba(0,0,0,.4)}
+
+/* intro */
+.eye{font-size:.72rem;font-weight:600;letter-spacing:.14em;color:var(--or);text-transform:uppercase;text-align:center;margin-bottom:14px}
+.intro-h1{font-size:clamp(1.5rem,4.5vw,2.1rem);font-weight:800;letter-spacing:-.02em;line-height:1.35;text-align:center;margin-bottom:16px}
+.intro-h1 em{color:var(--or);font-style:normal}
+.intro-sub{font-size:.92rem;color:var(--t2);text-align:center;max-width:460px;margin:0 auto 26px;line-height:1.8}
+.intro-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.chip{font-size:.74rem;font-weight:600;color:var(--t2);border:1px solid var(--bm);background:rgba(255,255,255,.03);padding:6px 14px;border-radius:999px}
+
+/* progress */
+.prog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.prog-label{font-size:.74rem;color:var(--t3);font-weight:600}
+.prog-count{font-size:.78rem;color:var(--or);font-weight:700}
+.prog-track{height:6px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;margin-bottom:26px}
+.prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--or),#ffa072);transition:width .4s cubic-bezier(.4,0,.2,1);width:0%}
+
+.q-title{font-size:1.22rem;font-weight:800;letter-spacing:-.01em;line-height:1.5;margin-bottom:6px}
+.q-help{font-size:.82rem;color:var(--t3);margin-bottom:22px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;padding:15px 18px;border:1.5px solid var(--bm);border-radius:14px;background:rgba(255,255,255,.02);cursor:pointer;transition:all .18s;font-size:.95rem;font-weight:500;text-align:left}
+.opt:hover{border-color:rgba(240,120,64,.5);background:rgba(240,120,64,.05);transform:translateY(-1px)}
+.opt.sel{border-color:var(--or);background:rgba(240,120,64,.10);box-shadow:0 0 0 1px var(--or) inset}
+.opt .mk{width:22px;height:22px;border-radius:50%;border:2px solid var(--bm);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.opt.multi .mk{border-radius:7px}
+.opt.sel .mk{border-color:var(--or);background:var(--or)}
+.opt.sel .mk::after{content:'✓';color:#0c0c0c;font-size:.8rem;font-weight:900}
+.opt .lbl{flex:1}
+
+.multi-hint{font-size:.76rem;color:var(--t3);margin-top:14px;text-align:center}
+
+.nav{display:flex;gap:12px;margin-top:26px}
+.btn{flex:1;padding:14px 20px;border-radius:12px;font-weight:700;font-size:.92rem;cursor:pointer;border:none;transition:all .18s;font-family:var(--font)}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--bm)}
+.btn-ghost:hover{background:rgba(255,255,255,.09);color:var(--t1)}
+.btn-primary{background:linear-gradient(180deg,#ff9560,var(--or) 55%,#e05a00);color:#fff;box-shadow:0 6px 18px rgba(240,120,64,.35)}
+.btn-primary:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;filter:none;transform:none;box-shadow:none}
+.btn-start{width:100%;padding:16px;font-size:1rem}
+
+/* result */
+.res-badge{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;padding:7px 16px;border-radius:999px;margin-bottom:16px}
+.res-score-wrap{text-align:center;margin-bottom:22px}
+.res-gauge{position:relative;width:180px;height:180px;margin:0 auto 8px}
+.res-gauge svg{transform:rotate(-90deg)}
+.res-gauge .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.res-gauge .num b{font-size:2.8rem;font-weight:900;letter-spacing:-.04em;line-height:1}
+.res-gauge .num small{font-size:.72rem;color:var(--t3);margin-top:2px}
+.res-h{font-size:1.15rem;font-weight:800;text-align:center;line-height:1.6;margin-bottom:24px;padding:0 6px}
+
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.roi-box{background:rgba(255,255,255,.03);border:1px solid var(--bm);border-radius:14px;padding:18px 16px;text-align:center}
+.roi-box .k{font-size:.72rem;color:var(--t3);margin-bottom:6px}
+.roi-box .v{font-size:1.5rem;font-weight:900;letter-spacing:-.03em;color:var(--gr)}
+.roi-box.plan .v{color:var(--or);font-size:1.15rem}
+.roi-note{font-size:.72rem;color:var(--t3);text-align:center;margin-bottom:24px;line-height:1.7}
+
+.prop{background:rgba(0,0,0,.35);border:1px solid var(--bm);border-radius:14px;padding:20px 20px;font-size:.88rem;color:var(--t1);line-height:1.9;white-space:pre-wrap;margin-bottom:24px}
+
+.cta-box{text-align:center}
+.cta-lead{font-size:1.02rem;font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
+.cta-sub{font-size:.78rem;color:var(--t3);margin-bottom:18px;line-height:1.7}
+.cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cta-main{padding:14px 30px;border-radius:999px;background:linear-gradient(180deg,#4ae89a,#2cb870 55%,#1a9a58);color:#fff;font-weight:700;font-size:.92rem;box-shadow:0 6px 18px rgba(61,214,140,.35)}
+.cta-line{padding:14px 26px;border-radius:999px;background:#06C755;color:#fff;font-weight:700;font-size:.92rem}
+.cta-retry{display:block;margin:20px auto 0;background:none;border:none;color:var(--t3);font-size:.8rem;cursor:pointer;text-decoration:underline;font-family:var(--font)}
+
+/* リード獲得フォーム（Day3） */
+.lead-card{background:linear-gradient(180deg,rgba(61,214,140,.06),rgba(61,214,140,.02));border:1px solid rgba(61,214,140,.28);border-radius:16px;padding:22px 20px;margin-bottom:16px;text-align:left}
+.lead-h{font-size:1rem;font-weight:800;text-align:center;margin-bottom:4px}
+.lead-sub{font-size:.76rem;color:var(--t3);text-align:center;margin-bottom:18px;line-height:1.7}
+.lf-field{margin-bottom:12px}
+.lf-label{display:block;font-size:.76rem;font-weight:600;color:var(--t2);margin-bottom:5px}
+.lf-label .req{color:var(--or);margin-left:4px;font-size:.7rem}
+.lf-input,.lf-textarea{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--bm);background:rgba(0,0,0,.35);color:var(--t1);font-family:var(--font);font-size:.9rem;transition:border-color .18s}
+.lf-input:focus,.lf-textarea:focus{outline:none;border-color:var(--gr)}
+.lf-input::placeholder,.lf-textarea::placeholder{color:var(--t3)}
+.lf-textarea{resize:vertical;min-height:64px}
+.lf-err{font-size:.74rem;color:#ff7a6b;margin-top:8px;min-height:1em}
+.lf-submit{width:100%;margin-top:6px;padding:15px;border-radius:12px;border:none;font-family:var(--font);font-weight:800;font-size:.96rem;cursor:pointer;color:#fff;background:linear-gradient(180deg,#4ae89a,#2cb870 55%,#1a9a58);box-shadow:0 6px 18px rgba(61,214,140,.35);transition:all .18s}
+.lf-submit:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.lf-submit:disabled{opacity:.55;cursor:not-allowed;transform:none;filter:none}
+.lf-privacy{font-size:.68rem;color:var(--t3);text-align:center;margin-top:12px;line-height:1.6}
+.lead-ok{text-align:center;padding:20px 10px}
+.lead-ok .ico{font-size:2.6rem;margin-bottom:10px}
+.lead-ok h3{font-size:1.15rem;font-weight:800;margin-bottom:8px}
+.lead-ok p{font-size:.85rem;color:var(--t2);line-height:1.8}
+.alt-cta{margin-top:6px}
+.alt-cta .cta-sub{margin-bottom:12px}
+
+.hidden{display:none!important}
+.foot{text-align:center;font-size:.72rem;color:var(--t3);margin-top:28px}
+@media(max-width:520px){
+  .card{padding:26px 20px}
+  .roi-grid{grid-template-columns:1fr}
+}
+.fade{animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="hg hg1"></div>
+<div class="hg hg2"></div>
+
+<div class="wrap">
+  <div class="brand"><span class="dot"></span>AI Flow <span>Architect</span></div>
+
+  <div class="card" id="card">
+    <!-- INTRO -->
+    <section id="screen-intro">
+      <div class="eye">無料・60秒・登録不要</div>
+      <h1 class="intro-h1">その業務、<em>どれくらい自動化できる？</em></h1>
+      <p class="intro-sub">8つの質問に答えるだけ。<br>あなたの業務の「自動化ポテンシャル」と、<br>削減できる金額の目安がその場で分かります。</p>
+      <div class="intro-meta">
+        <span class="chip">🕐 所要 約60秒</span>
+        <span class="chip">✍️ 全8問</span>
+        <span class="chip">🔒 連絡先入力なし</span>
+      </div>
+      <button class="btn btn-primary btn-start" onclick="Diag.start()">診断をはじめる →</button>
+    </section>
+
+    <!-- QUESTION -->
+    <section id="screen-q" class="hidden">
+      <div class="prog-row">
+        <span class="prog-label">自動化ポテンシャル診断</span>
+        <span class="prog-count" id="prog-count">1 / 8</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+
+      <div id="q-body"></div>
+
+      <div class="multi-hint hidden" id="multi-hint">当てはまるものをすべて選んでください（複数可）</div>
+
+      <div class="nav">
+        <button class="btn btn-ghost" id="btn-back" onclick="Diag.back()">← 戻る</button>
+        <button class="btn btn-primary" id="btn-next" onclick="Diag.next()" disabled>次へ →</button>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="hidden">
+      <div style="text-align:center">
+        <span class="res-badge" id="res-badge"></span>
+      </div>
+      <div class="res-score-wrap">
+        <div class="res-gauge">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14"/>
+            <circle id="gauge-arc" cx="90" cy="90" r="78" fill="none" stroke="#f07840" stroke-width="14"
+              stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490"/>
+          </svg>
+          <div class="num"><b id="res-score">0</b><small>自動化ポテンシャル</small></div>
+        </div>
+      </div>
+      <div class="res-h" id="res-headline"></div>
+
+      <div class="roi-grid">
+        <div class="roi-box"><div class="k">年間削減の目安</div><div class="v" id="res-annual">—</div></div>
+        <div class="roi-box plan"><div class="k">おすすめプラン</div><div class="v" id="res-plan">—</div></div>
+      </div>
+      <p class="roi-note" id="res-roinote"></p>
+
+      <div class="prop" id="res-proposal"></div>
+
+      <div class="cta-box">
+        <!-- リード獲得フォーム -->
+        <div class="lead-card" id="lead-card">
+          <div class="lead-h">この診断結果をもとに、無料で個別提案をお送りします</div>
+          <div class="lead-sub">あなたの回答に合わせた具体的な自動化プランと概算お見積もりを、<br>担当（代表）が直接お送りします。<strong style="color:var(--t2)">しつこい営業は一切ありません。</strong></div>
+          <form id="lead-form" onsubmit="Diag.submitLead(event)" novalidate>
+            <div class="lf-field">
+              <label class="lf-label" for="lf-name">お名前<span class="req">必須</span></label>
+              <input class="lf-input" id="lf-name" name="name" type="text" placeholder="例：山田 太郎" autocomplete="name" required>
+            </div>
+            <div class="lf-field">
+              <label class="lf-label" for="lf-company">会社名・屋号</label>
+              <input class="lf-input" id="lf-company" name="company" type="text" placeholder="例：株式会社サンプル（任意）" autocomplete="organization">
+            </div>
+            <div class="lf-field">
+              <label class="lf-label" for="lf-email">メールアドレス<span class="req">必須</span></label>
+              <input class="lf-input" id="lf-email" name="email" type="email" placeholder="例：you@example.com" autocomplete="email" inputmode="email" required>
+            </div>
+            <div class="lf-field">
+              <label class="lf-label" for="lf-message">補足・ご相談（任意）</label>
+              <textarea class="lf-textarea" id="lf-message" name="message" placeholder="特に自動化したい作業や気になる点があればご記入ください"></textarea>
+            </div>
+            <div class="lf-err" id="lf-err"></div>
+            <button type="submit" class="lf-submit" id="lf-submit">診断結果を送って無料提案を受け取る →</button>
+            <div class="lf-privacy">🔒 ご入力内容はご提案の目的にのみ使用します。<br>診断結果（判定・推奨プラン・概算）も一緒に送信されます。</div>
+          </form>
+        </div>
+
+        <!-- 送信完了 -->
+        <div class="lead-card hidden" id="lead-success">
+          <div class="lead-ok">
+            <div class="ico">✅</div>
+            <h3>送信ありがとうございます！</h3>
+            <p>診断結果を受け付けました。<br>通常12時間以内に、担当より個別のご提案をお送りします。<br>お急ぎの場合は下のLINEからもご相談いただけます。</p>
+          </div>
+        </div>
+
+        <!-- 代替CTA -->
+        <div class="alt-cta">
+          <div class="cta-sub">またはその場で直接ご相談いただけます</div>
+          <div class="cta-btns">
+            <a class="cta-main" href="https://ai-flow-architect.github.io/#contact">無料30分で相談する →</a>
+            <a class="cta-line" href="https://lin.ee/6oiBlzj" target="_blank" rel="noopener">LINEで相談</a>
+          </div>
+        </div>
+        <button class="cta-retry" onclick="Diag.restart()">もう一度診断する</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="foot">© 2026 AI Flow Architect ／ 業務自動化 見極め診断（プロトタイプ）</div>
+</div>
+
+<script src="diagnose-engine.js"></script>
+<script>
+/* =====================================================
+   UI コントローラ（ロジックは diagnose-engine.js が正）
+===================================================== */
+var Diag = (function(){
+  var E = window.DiagnoseEngine;
+  var Q = E.QUESTIONS;
+  var answers = {};
+  var idx = 0;
+  var lastRes = null;          // 直近の診断結果（フォーム送信で使用）
+
+  // 既存LP問い合わせフォームと同一の公開GASエンドポイント（Lark通知+CRM記録+自動返信を実行）
+  var GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyKUGqVmJ2MtsipTK2g0eOB9PbZNIKGNv0KZ1A5EQTgUcZglQAFN9C_ASnsZdULamm_jQ/exec';
+  // Q8予算 → 既存GASのbudgetラベルキーへマップ
+  var BUDGET_MAP = { b_lt3:'lite', b_3_15:'standard', b_gt15:'full', b_unknown:'undecided' };
+
+  var $ = function(id){ return document.getElementById(id); };
+  function show(screen){
+    ['screen-intro','screen-q','screen-result'].forEach(function(s){
+      $(s).classList.toggle('hidden', s !== screen);
+    });
+  }
+
+  function start(){ answers = {}; idx = 0; show('screen-q'); render(); }
+  function restart(){ start(); }
+
+  function render(){
+    var q = Q[idx];
+    var multi = q.type === 'multi';
+    // progress
+    $('prog-count').textContent = (idx+1) + ' / ' + Q.length;
+    // 「今 idx+1問目 / 全Q.length問」= (idx+1)/N。最終問で100%に到達し完了感を出す
+    $('prog-fill').style.width = Math.round((idx+1)/(Q.length) * 100) + '%';
+    // body
+    var html = '<div class="q-title">'+ q.title +'</div>';
+    if(q.help) html += '<div class="q-help">'+ q.help +'</div>';
+    html += '<div class="opts">';
+    q.options.forEach(function(o){
+      var sel = multi
+        ? (answers[q.id]||[]).indexOf(o.v) > -1
+        : answers[q.id] === o.v;
+      html += '<button class="opt '+(multi?'multi':'')+(sel?' sel':'')+'" data-v="'+o.v+'">'
+            + '<span class="mk"></span><span class="lbl">'+ o.label +'</span></button>';
+    });
+    html += '</div>';
+    var body = $('q-body');
+    body.className = 'fade';
+    body.innerHTML = html;
+    // rebind
+    Array.prototype.forEach.call(body.querySelectorAll('.opt'), function(el){
+      el.addEventListener('click', function(){ pick(q, el.getAttribute('data-v'), multi); });
+    });
+    $('multi-hint').classList.toggle('hidden', !multi);
+    $('btn-back').style.visibility = idx === 0 ? 'hidden' : 'visible';
+    $('btn-next').textContent = idx === Q.length-1 ? '結果を見る →' : '次へ →';
+    syncNext();
+    // reflow for animation
+    void body.offsetWidth;
+  }
+
+  function pick(q, v, multi){
+    if(multi){
+      var arr = answers[q.id] ? answers[q.id].slice() : [];
+      var i = arr.indexOf(v);
+      if(i>-1) arr.splice(i,1); else arr.push(v);
+      answers[q.id] = arr;
+    } else {
+      answers[q.id] = v;
+    }
+    render();
+  }
+
+  function answered(q){
+    var a = answers[q.id];
+    return q.type === 'multi' ? (a && a.length>0) : (a !== undefined);
+  }
+  function syncNext(){ $('btn-next').disabled = !answered(Q[idx]); }
+
+  function next(){
+    if(!answered(Q[idx])) return;
+    if(idx < Q.length-1){ idx++; render(); }
+    else finish();
+  }
+  function back(){ if(idx>0){ idx--; render(); } }
+
+  function finish(){
+    var miss = E.firstUnanswered(answers);
+    if(miss){
+      for(var i=0;i<Q.length;i++){ if(Q[i].id===miss){ idx=i; render(); return; } }
+    }
+    var res = E.diagnose(answers);
+    lastRes = res;
+    // フォームを初期状態に戻す（再診断時の作り直し対策）
+    var lc = $('lead-card'), ls = $('lead-success');
+    if(lc) lc.classList.remove('hidden');
+    if(ls) ls.classList.add('hidden');
+    var lf = $('lead-form'); if(lf) lf.reset();
+    var er = $('lf-err'); if(er) er.textContent = '';
+    show('screen-result');
+    paintResult(res);
+  }
+
+  /* ---- 診断結果を message 文字列に整形（GAS送信用） ---- */
+  function composeMessage(res){
+    var indLabel = '';
+    for(var i=0;i<Q[0].options.length;i++){ if(Q[0].options[i].v===answers.industry){ indLabel = Q[0].options[i].label; break; } }
+    var lines = [];
+    lines.push('【AI診断リード】自動化見極め診断からのお問い合わせ');
+    lines.push('判定: Lv' + res.level + ' ' + res.levelTag + '（自動化ポテンシャル ' + res.score + '/100）');
+    lines.push('業種: ' + (indLabel || '未選択'));
+    lines.push('推奨プラン: ' + res.recommendedPlan + '（' + res.planRange + '）');
+    lines.push('年間削減の目安（概算）: ' + res.roi.annualSavingText);
+    lines.push('');
+    lines.push('── 診断で提示した提案 ──');
+    lines.push(res.proposal);
+    return lines.join('\n');
+  }
+
+  /* ---- リードフォーム送信（既存GASへ同一形状でPOST） ---- */
+  function submitLead(e){
+    e.preventDefault();
+    var name = ($('lf-name').value || '').trim();
+    var company = ($('lf-company').value || '').trim();
+    var email = ($('lf-email').value || '').trim();
+    var extra = ($('lf-message').value || '').trim();
+    var err = $('lf-err');
+    // バリデーション
+    if(!name){ err.textContent = 'お名前をご入力ください。'; $('lf-name').focus(); return; }
+    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent = '正しいメールアドレスをご入力ください。'; $('lf-email').focus(); return; }
+    err.textContent = '';
+
+    var msg = composeMessage(lastRes || E.diagnose(answers));
+    if(extra) msg += '\n\n── ご相談・補足 ──\n' + extra;
+    var body = JSON.stringify({
+      name: name,
+      company: company,
+      email: email,
+      message: msg,
+      budget: BUDGET_MAP[answers.budget] || 'undecided'
+    });
+
+    var btn = $('lf-submit');
+    btn.disabled = true;
+    btn.textContent = '送信中…';
+    fetch(GAS_ENDPOINT, { method:'POST', body:body, mode:'no-cors' })
+      .then(function(){
+        $('lead-card').classList.add('hidden');
+        $('lead-success').classList.remove('hidden');
+      })
+      .catch(function(){
+        btn.disabled = false;
+        btn.textContent = '診断結果を送って無料提案を受け取る →';
+        err.textContent = '送信に失敗しました。通信環境をご確認のうえ、もう一度お試しください。';
+      });
+  }
+
+  function paintResult(res){
+    // badge
+    var badge = $('res-badge');
+    badge.textContent = '判定：Lv' + res.level + '  ' + res.levelTag;
+    badge.style.color = res.color;
+    badge.style.background = hexA(res.color, .12);
+    badge.style.border = '1px solid ' + hexA(res.color, .35);
+    // gauge
+    var arc = $('gauge-arc');
+    arc.setAttribute('stroke', res.color);
+    var circ = 490; // 2πr, r=78
+    animateNum($('res-score'), 0, res.score, 900);
+    setTimeout(function(){
+      arc.style.transition = 'stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)';
+      arc.style.strokeDashoffset = (circ - circ * res.score/100);
+    }, 60);
+    $('res-headline').textContent = res.roi.annualSavingText !== '¥0'
+      ? LEVEL_HEAD(res)
+      : LEVEL_HEAD(res);
+    $('res-annual').textContent = res.roi.annualSavingText;
+    $('res-plan').textContent = res.recommendedPlan;
+    $('res-roinote').textContent = '※月' + res.roi.monthlyHours + '時間・時給'
+      + '¥' + res.roi.hourlyRate.toLocaleString('ja-JP') + '・削減率'
+      + Math.round(res.roi.reductionRate*100) + '%で試算した概算です。';
+    $('res-proposal').textContent = res.proposal;
+  }
+  function LEVEL_HEAD(res){
+    return E.LEVEL_META[res.level].headline + '。';
+  }
+
+  /* utils */
+  function hexA(hex, a){
+    var n = parseInt(hex.slice(1),16);
+    return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';
+  }
+  function animateNum(el, from, to, ms){
+    var t0 = null;
+    function step(t){
+      if(!t0) t0 = t;
+      var p = Math.min(1,(t-t0)/ms);
+      el.textContent = Math.round(from + (to-from)*(1-Math.pow(1-p,3)));
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  return { start:start, next:next, back:back, restart:restart, submitLead:submitLead };
+})();
+</script>
+</body>
+</html>
