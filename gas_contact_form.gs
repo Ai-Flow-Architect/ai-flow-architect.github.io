@@ -15,14 +15,15 @@
  * 2. 「プロジェクトの設定」→「スクリプト プロパティ」に追加/確認:
  *    NOTIFY_EMAIL          … あなたの通知受信メール（例: 事業用アドレス）※必須
  *    LEADS_SHEET_ID        … リード台帳スプレッドシートのID（任意・空なら台帳スキップ）
- *    CLAUDE_LINK_APP_ID / CLAUDE_LINK_APP_SECRET … Lark通知を使う場合のみ（任意）
+ *    CUSTOMER_BOT_APP_ID / CUSTOMER_BOT_APP_SECRET … Lark通知の送信ボット（推奨・Acquisitionチャットに参加済）
+ *    CLAUDE_LINK_APP_ID / CLAUDE_LINK_APP_SECRET … 旧・フォールバック用（任意・Acquisition未参加のため単独では届かない）
  * 3. 「デプロイ」→「デプロイを管理」→ 既存ウェブアプリを「新バージョン」で更新
  *    （URLは変わらない＝index.html側の GAS_ENDPOINT はそのままでOK）
  */
 
 // ─── 設定 ────────────────────────────────────────────────────────────────
 const LARK_BASE_URL  = 'https://open.larksuite.com/open-apis';
-const NOTIFY_CHAT_ID = 'oc_01a50d5000a68e33718b938d2b177a27';  // Lark通知チャット（任意）
+const NOTIFY_CHAT_ID = 'oc_e372e12e2be03722a470241bb36af4f2';  // Lark通知先=Acquisition（集客）チャット（2026-07-16変更）
 const RATE_KEY_PREFIX = 'rate_';   // スパム対策: 同一メール1分1回
 
 // ─── メインハンドラ ─────────────────────────────────────────────────────
@@ -121,8 +122,11 @@ function appendToSheet_(props, source, name, company, email, message, budget) {
 
 // ─── ③ Lark チャット通知（設定時のみ・best-effort） ─────────────────────
 function sendLarkNotification_(props, source, name, company, email, message, budget) {
-  const appId = props.getProperty('CLAUDE_LINK_APP_ID');
-  const appSecret = props.getProperty('CLAUDE_LINK_APP_SECRET');
+  // 送信ボット: Acquisition(集客)チャットに居る CUSTOMER_BOT を優先。
+  // 未設定時のみ従来の CLAUDE_LINK にフォールバック（ただし CLAUDE_LINK は
+  // Acquisitionチャット未参加のため、その場合 NOTIFY_CHAT_ID も要確認）。
+  const appId = props.getProperty('CUSTOMER_BOT_APP_ID') || props.getProperty('CLAUDE_LINK_APP_ID');
+  const appSecret = props.getProperty('CUSTOMER_BOT_APP_SECRET') || props.getProperty('CLAUDE_LINK_APP_SECRET');
   if (!appId || !appSecret) { return; }  // 未設定ならスキップ
   const tokRes = UrlFetchApp.fetch(LARK_BASE_URL + '/auth/v3/tenant_access_token/internal', {
     method:'post', contentType:'application/json',
