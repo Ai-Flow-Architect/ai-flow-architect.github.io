@@ -1150,6 +1150,18 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 }
 .mid-cta-band .mid-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
 
+/* 無料診断バンド（料金セクション直前・診断ファネル誘導） */
+.diag-band{max-width:820px;margin:16px auto 8px;padding:30px 28px;text-align:center;border-radius:20px;background:linear-gradient(135deg,rgba(240,120,64,.10),rgba(240,120,64,.03));border:1px solid rgba(240,120,64,.28);box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.diag-band .db-badge{display:inline-flex;align-items:center;gap:7px;font-size:.7rem;font-weight:700;letter-spacing:.05em;color:var(--or);border:1px solid rgba(240,120,64,.35);background:rgba(240,120,64,.08);padding:5px 14px;border-radius:999px;margin-bottom:14px}
+.diag-band h3{font-size:clamp(1.15rem,3vw,1.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.5;margin:0 0 8px;color:var(--t1)}
+.diag-band h3 em{color:var(--or);font-style:normal}
+.diag-band p{font-size:.86rem;color:var(--t2);margin:0 0 18px;line-height:1.75}
+.diag-band .db-chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.diag-band .db-chips span{font-size:.72rem;font-weight:600;color:var(--t2);border:1px solid var(--bm);background:rgba(255,255,255,.03);padding:5px 12px;border-radius:999px}
+.diag-band .db-btn{display:inline-block;padding:15px 40px;background:linear-gradient(180deg,#ff9560,var(--or) 55%,#e05a00);color:#fff;font-weight:800;font-size:1rem;border-radius:999px;text-decoration:none;letter-spacing:.02em;transition:filter .2s,transform .2s;box-shadow:0 6px 22px rgba(240,120,64,.4)}
+.diag-band .db-btn:hover{filter:brightness(1.06);transform:translateY(-2px)}
+.diag-band .db-note{font-size:.72rem;color:var(--t3);margin-top:12px}
+
 /* [PC-⑤] Progressive Disclosure: PC版 BENTOグリッド(3件→もっと見る) / テスティモニアル(3件→もっと見る) */
 @media(min-width:641px){
   .bc-pc-fold{display:none}
@@ -1823,6 +1835,20 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <div class="sp-roi-grid-item">Standardプラン¥40,000<strong>約1〜2ヶ月</strong>で回収</div>
   </div>
   <p class="sp-roi-note">放置し続けるより、今すぐ自動化した方が<strong style="color:var(--gr)">確実に安い</strong>。</p>
+</div>
+
+<!-- 無料診断バンド（料金の前に自動化ポテンシャルを診断→最適プランへ） -->
+<div class="diag-band">
+  <span class="db-badge">🎯 無料・登録不要・60秒</span>
+  <h3>どのプランが最適か、<em>まず60秒の無料診断</em>で。</h3>
+  <p>8つの質問に答えるだけで、あなたの業務の「自動化ポテンシャル」と<br>年間で削減できる金額の目安、おすすめプランがその場で分かります。</p>
+  <div class="db-chips">
+    <span>🕐 所要 約60秒</span>
+    <span>✍️ 全8問</span>
+    <span>🔒 連絡先入力なしで結果表示</span>
+  </div>
+  <a href="diagnose.html" class="db-btn">無料診断をはじめる →</a>
+  <div class="db-note">診断結果をもとに、無料で個別のご提案もお送りします。</div>
 </div>
 
 <!-- PRICING -->
