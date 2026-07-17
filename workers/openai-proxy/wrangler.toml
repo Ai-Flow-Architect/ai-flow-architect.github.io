@@ -2,11 +2,25 @@ name = "ai-flow-openai-proxy"
 main = "src/index.js"
 compatibility_date = "2026-07-17"
 
-# レート制限（Workers Rate Limiting API）。2025-09-19 に GA・要 wrangler 4.36.0+。
-# 旧 [[unsafe.bindings]] 形式は非推奨（当面は動作継続）。
-# period は 10 か 60 のみ指定可（公式制約）。
-# limit=20/60秒/IP: LPチャットの実利用（1人が1分に20回も送らない）には十分な余裕がありつつ、
-# 自動化された大量呼び出しは頭打ちになる。
+# レート制限（Workers Rate Limiting API）。2025-09-19 GA・要 wrangler 4.36.0+。
+# 旧 [[unsafe.bindings]] 形式は非推奨（当面は動作継続）。period は 10 か 60 のみ（公式制約）。
+#
+# 🔴 実測した挙動（2026-07-17・本番で計測。ここを誤解しないこと）:
+#   カウンタは colo/isolate ごとに分散し結果整合＝**厳密な上限にならない**。
+#     limit=20 → 同一IPから40連射しても 429 は **0件**（各isolateが見た回数が20未満に散る）
+#     limit=8  → 40連射で 429 は **5件**（35件は通った）
+#     limit=1  → 429 は出るが1回目と5回目という不規則な出方（残留カウンタ＋分散の証拠）
+#   つまり「limit=N なら N回/分に抑えられる」ではない。実効上限は N×isolate数 に近い。
+#
+# 従ってこれは「粗い保険」であって主防御ではない。**主防御は単価**:
+#   モデルを gpt-4o-mini に固定 ＋ max_tokens≤800 ＝ 1回あたり約 $0.0005。
+#   **本当の上限は OpenAI 側の Usage limit で掛けること**（Workerでは担保不能）。
+#
+# limit=10 の根拠: 実訪問者が1分に10通も送ることは稀。かつ 429 でも LP は staticFAQ へ
+# 落ちて回答を返す（=リードを失わない）ので、多少厳しめでも実害が小さい。
+# 厳密な上限が要るなら Durable Objects へ移すこと（KVは不可＝無料枠1,000 writes/日・
+# 結果整合性で公式がカウンタ用途を非推奨）。
+#
 # 🔴 このブロックを消すと Worker は「レート制限なし」で無言に動き続ける（コード側は
 #    バインディング未設定を console.warn するだけで停止しない＝可用性優先）。消さないこと。
 [[ratelimits]]
@@ -14,7 +28,7 @@ name = "RATE_LIMITER"
 namespace_id = "1001"
 
   [ratelimits.simple]
-  limit = 20
+  limit = 10
   period = 60
 
 # OPENAI_API_KEY は Secret（`npx wrangler secret put OPENAI_API_KEY`）。
