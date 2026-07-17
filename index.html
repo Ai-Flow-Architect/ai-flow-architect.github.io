@@ -3305,13 +3305,19 @@ function submitForm(e){
     message:f.querySelector('[name="message"]').value,
     budget:f.querySelector('[name="budget"]').value
   });
-  fetch(GAS_ENDPOINT,{method:'POST',body:body,mode:'no-cors'})
-    .then(function(){
+  // mode:'no-cors' は使わない。opaque応答は必ず解決するため、GASが落ちていても成功画面を
+  // 出してリードを無言で捨てる（3月〜7月の実障害と同一構造）。Content-Type: text/plain なら
+  // プリフライト無しの simple request になり、GASの応答(ACAO:*)をそのまま読める。
+  fetch(GAS_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:body})
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      // 旧デプロイのGASは delivered を返さないため status のみで判定する（デプロイ順序に依存させない）
+      if(!j||j.status!=='ok'){ throw new Error((j&&j.msg)||'send failed'); }
       document.getElementById('contact-form').style.display='none';
       document.getElementById('iform-success').style.display='block';
     })
-    .catch(function(){
-      txt.textContent='送信に失敗しました。もう一度お試しください。';
+    .catch(function(e){
+      txt.textContent='送信に失敗しました。お手数ですが公式LINEまたはメールでご連絡ください。';
       btn.disabled=false;
     });
 }
