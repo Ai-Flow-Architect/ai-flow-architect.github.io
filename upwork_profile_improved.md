@@ -17,33 +17,33 @@
 
 ### 現状
 ```
-AI Workflow Automation Specialist | Make.com × GPT Expert
+AI Workflow Automation Specialist | n8n × Claude API Expert
 ```
 （57文字）
 
 ### 改善案A — SEO重視（検索流入最大化）
 ```
-AI Automation Engineer | Make.com · GPT-4 · Python · Playwright | Workflow & RPA Expert
+AI Automation Engineer | n8n · Claude API · Python · Playwright | Workflow & RPA Expert
 ```
 （89文字 / 主要キーワードを前半に集中配置）
 
 ### 改善案B — 成果訴求型（ROI訴求）
 ```
-Workflow Automation Specialist | Make.com × GPT × Python | 10x Efficiency for SMBs
+Workflow Automation Specialist | n8n × Claude API × Python | 10x Efficiency for SMBs
 ```
 （84文字 / 「10x Efficiency」で即効性を伝達）
 
 ### 改善案C — ニッチ特化型（競合少・単価高）
 ```
-AI-Powered RPA Developer | Make.com + Playwright + OpenAI | Business Process Automation
+AI-Powered RPA Developer | n8n + Playwright + Claude API | Business Process Automation
 ```
 （89文字 / RPA × AI の掛け合わせで差別化）
 
 **推奨: 改善案A**（検索ヒット率を最優先。実績が積まれたら改善案Bへ移行）
 
 ### 改善理由
-- Upwork検索は「Make.com」「GPT-4」「Playwright」「Python」「RPA」が高頻度キーワード
-- 現状タイトルは `Make.com × GPT` のみ → 残りのキーワードが検索で拾われない
+- Upwork検索は「n8n」「Claude」「GPT-4」「Playwright」「Python」「RPA」が高頻度キーワード
+- 現状タイトルは `Make.com × GPT` のみ（旧表記） → n8n × Claude APIに刷新し、残りのキーワードも前半に集中配置
 - `|` で区切ることでスキャンしやすく、アルゴリズムにも優しい
 
 ---
@@ -87,7 +87,7 @@ who want to scale without scaling headcount.
 
 ━━ Core Tech Stack ━━
 
-• Automation:   Make.com · n8n · Python (cron/asyncio)
+• Automation:   n8n · Python (cron/asyncio) · GitHub Actions
 • AI/LLM:       OpenAI API (GPT-4o) · Gemini API · prompt engineering
 • RPA/Browser:  Playwright · headless Chrome automation
 • Data & APIs:  Google Sheets API · Lark/Feishu API · REST/Webhook integration
@@ -125,7 +125,7 @@ Upworkのスキルタグは上位15個が検索ランキングに影響。現状
 | 優先度 | スキルタグ | 理由 |
 |--------|-----------|------|
 | 1 | **Automation** | 最も広義・検索ボリューム最大 |
-| 2 | **Make.com** | 差別化ツール・需要急増中 |
+| 2 | **n8n** | 差別化ツール・需要急増中・主力スタック |
 | 3 | **Python** | 必須汎用スキル・高頻度検索 |
 | 4 | **OpenAI API** | AI案件の核心キーワード |
 | 5 | **API Integration** | 広義・多くの案件でマッチ |
@@ -136,7 +136,7 @@ Upworkのスキルタグは上位15個が検索ランキングに影響。現状
 | 10 | **Google Sheets API** | 中小企業案件で高頻度 |
 
 **削除候補（検索ボリューム低 or 重複）**
-- `n8n` → Make.comと重複、n8n案件はまだ少ない
+- `Make.com` → 利用しないため削除（旧スタック）
 - `Lark / Feishu` → 日本・中国市場外では認知度低
 - `RPA` → Playwrightで代替可能
 

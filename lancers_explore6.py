@@ -52,12 +52,12 @@ def main():
 
         # タイトル・サブタイトル入力
         title_field = page.query_selector('textarea[name="ProjectPlanForm.title"]')
-        title_field.fill("Make.com×AIで業務プロセスを自動化｜月20時間削減保証パッケージ")
+        title_field.fill("n8n×AIで業務プロセスを自動化｜月20時間削減保証パッケージ")
         time.sleep(0.5)
 
         subtitle_field = page.query_selector('textarea[name="ProjectPlanForm.subtitle"]')
         if subtitle_field:
-            subtitle_field.fill("繰り返し作業・手動コピペ・レポート作成をMake.com+AIで丸ごと自動化します")
+            subtitle_field.fill("繰り返し作業・手動コピペ・レポート作成をn8n+AIで丸ごと自動化します")
             time.sleep(0.5)
 
         # 大カテゴリ選択

@@ -42,7 +42,7 @@ def main():
 
         # 最低限の入力
         page.query_selector('textarea[name="ProjectPlanForm.title"]').fill(
-            "Make.com×AIで業務プロセスを自動化｜月20時間削減保証パッケージ"
+            "n8n×AIで業務プロセスを自動化｜月20時間削減保証パッケージ"
         )
         time.sleep(0.5)
         sub = page.query_selector('textarea[name="ProjectPlanForm.subtitle"]')
