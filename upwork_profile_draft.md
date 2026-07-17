@@ -5,7 +5,7 @@
 ## ① Title（プロフィールタイトル）
 
 ```
-AI Workflow Automation Specialist | Make.com × GPT Expert
+AI Workflow Automation Specialist | n8n × Claude API Expert
 ```
 
 ---
@@ -16,7 +16,7 @@ AI Workflow Automation Specialist | Make.com × GPT Expert
 I specialize in building intelligent automation systems that eliminate repetitive work and help small businesses scale without hiring.
 
 Core expertise:
-• Make.com / n8n workflow automation (end-to-end design & implementation)
+• n8n workflow automation (end-to-end design & implementation, Anthropic-certified Claude Code expert)
 • GPT API integration (auto-classification, reply generation, document summarization)
 • Playwright / RPA browser automation (form submission, scraping, multi-step workflows)
 • Lark / Notion / Google Workspace integration
@@ -47,7 +47,7 @@ Location: Japan (Remote)
 
 Description:
 Joined as a software engineer and evolved into an AI automation consultant and founder.
-Specialize in end-to-end intelligent workflow systems for SMEs using Make.com, GPT API, Playwright, and Lark.
+Specialize in end-to-end intelligent workflow systems for SMEs using n8n, Claude API, Playwright, and Lark.
 
 Key achievements:
 - Built 10+ production automation workflows for clients across e-commerce, consulting, and service industries
@@ -86,7 +86,7 @@ Built a fully automated job scouting and application system that searches 3 free
 scores opportunities using GPT-4, generates personalized proposal texts, and auto-submits applications.
 Processes 20+ applications per day with zero manual intervention.
 
-Technologies: Python, Playwright, OpenAI API (GPT-4), Make.com, Lark
+Technologies: Python, Playwright, OpenAI API (GPT-4), n8n, Lark
 Result: Reduced daily job search time from 3 hours to ~10 minutes
 ```
 
@@ -117,7 +117,7 @@ Built an automated reporting pipeline that aggregates KPI data from multiple sou
 Lark Bitable, external APIs), transforms and structures the data, and outputs a formatted daily report
 to a Lark channel every morning — no manual work required.
 
-Technologies: Python, Lark API (Bitable + Messaging), Make.com, Google Sheets API
+Technologies: Python, Lark API (Bitable + Messaging), n8n, Google Sheets API
 Result: Eliminated 30 minutes of daily manual reporting; real-time visibility for the team
 ```
 
@@ -126,8 +126,8 @@ Result: Eliminated 30 minutes of daily manual reporting; real-time visibility fo
 ## ⑤ Skills（スキルタグ）— 入力欄に追加
 
 ```
-Make.com
 n8n
+Claude API
 Python
 OpenAI API / GPT-4
 Playwright

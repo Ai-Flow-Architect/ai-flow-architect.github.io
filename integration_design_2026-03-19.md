@@ -54,7 +54,7 @@
                     │ Bearer Token             │ Signed Payload           │
                     ▼                          ▼                         ▼
  ┌──────────────────────┐  ┌──────────────────────┐  ┌─────────────────────┐
- │    Lark Bitable      │  │      Make.com         │  │   Claude Code       │
+ │    Lark Bitable      │  │      n8n         │  │   Claude Code       │
  │                      │  │                       │  │   (WSL2+Ubuntu)     │
  │  ┌───────────────┐   │  │  ┌────────────────┐   │  │                     │
  │  │ 案件管理テーブル│   │  │  │ Scenario Pool  │   │  │  ┌───────────────┐  │
@@ -103,7 +103,7 @@
 │ 常駐性             │ ✗ 手動起動/cron依存     │ ✓ 24/7 デーモン        │
 │ 永続メモリ          │ ✗ セッション毎にリセット  │ ✓ 会話履歴+コンテキスト │
 │ Telegram公式対応    │ △ 自前Bot API実装       │ ✓ ネイティブ統合       │
-│ Lark公式対応        │ ✗ Make.com経由のみ      │ ✓ 公式Skill対応       │
+│ Lark公式対応        │ ✗ n8n経由のみ      │ ✓ 公式Skill対応       │
 │ Claude Code連携     │ △ send_log.sh経由      │ ✓ リモートトリガー実績  │
 │ Skills拡張         │ ✗ 全て自前実装          │ ✓ 100+ Skills利用可   │
 │ セキュリティ        │ △ 自前実装負荷大        │ ✓ 組込みセキュリティ層 │
@@ -131,7 +131,7 @@ Phase B: 主系統切替（1週間）
 Phase C: 旧系統廃止（1週間）
   - 既存Telegram Bot停止
   - send_log.sh → OpenClaw内部ログに完全移行
-  - フォールバックはMake.com Webhookで確保
+  - フォールバックはn8n Webhookで確保
 ```
 
 ---
@@ -166,7 +166,7 @@ lark_auth:
 
 make_auth:
   webhook_secret: "${MAKE_WEBHOOK_SECRET}"
-  allowed_ips:                           # Make.comのIP範囲
+  allowed_ips:                           # n8nのIP範囲
     - "54.77.0.0/16"
     - "34.240.0.0/13"
 ```
@@ -368,7 +368,7 @@ secret_management:
 
  Day 2（3h）
  ┌────────────────────────────────────────────────┐
- │ 1-5. Make.com Webhook接続               [1.0h] │
+ │ 1-5. n8n Webhook接続               [1.0h] │
  │      - Webhook URL登録                         │
  │      - HMAC署名検証実装                         │
  │      - テストシナリオ発火確認                    │
@@ -446,7 +446,7 @@ secret_management:
 
  Day 7-8（4h）
  ┌────────────────────────────────────────────────┐
- │ 3-1. Make.comシナリオ本番移行            [1.5h] │
+ │ 3-1. n8nワークフロー本番移行            [1.5h] │
  │      - 全シナリオのWebhook先をOpenClawに変更    │
  │      - エラーハンドリング+リトライ設定          │
  │      - 定期実行シナリオの動作確認               │
@@ -458,7 +458,7 @@ secret_management:
  │                                                │
  │ 3-3. 緊急停止プロトコル実装              [1.5h] │
  │      - /emergency_stop コマンド                 │
- │      - Make.com緊急停止シナリオ                 │
+ │      - n8n緊急停止シナリオ                 │
  │      - 物理キルスイッチ(systemctl)              │
  └────────────────────────────────────────────────┘
 
@@ -512,7 +512,7 @@ secret_management:
   - ファイル作成・変更・削除
   - Lark Bitable書込み・更新・削除
   - git commit / git push
-  - Make.comシナリオトリガー
+  - n8nワークフロートリガー
   - npm install（依存関係変更）
 - **禁止操作**: いかなる場合も実行不可
   - `sudo` の使用
@@ -592,7 +592,7 @@ BLOCKED_PATTERNS=(
 │   ├── config.yaml        # OpenClaw設定（シークレットなし）
 │   ├── skills/            # カスタムSkill定義
 │   └── logs/              # 監査ログ（自動ローテーション）
-├── make-scenarios/        # Make.comシナリオバックアップ
+├── make-scenarios/        # n8nワークフローバックアップ
 ├── scripts/
 │   └── emergency_stop.sh  # ローカル緊急停止スクリプト
 └── docs/
@@ -621,7 +621,7 @@ BLOCKED_PATTERNS=(
  ┌──────────────────────────────────────────────────────────────┐
  │ 1. 意図しないWRITE操作が承認なしに実行された（または実行中）    │
  │ 2. 不明な送信者からのコマンドが処理された形跡                  │
- │ 3. Lark/Make.comで想定外のデータ変更を検知                    │
+ │ 3. Lark/n8nで想定外のデータ変更を検知                    │
  │ 4. プロンプトインジェクション攻撃を検知                       │
  │ 5. OpenClawの挙動が明らかに異常（ループ、大量API呼出し等）     │
  │ 6. あなたの直感（「何かおかしい」で十分）                      │
@@ -669,9 +669,9 @@ echo "[1/4] Stopping OpenClaw daemon..."
 sudo systemctl stop openclaw.service
 sudo systemctl disable openclaw.service
 
-# 2. Make.com Webhookを無効化（全シナリオ停止）
-echo "[2/4] Disabling Make.com scenarios..."
-curl -s -X POST "https://hook.make.com/${EMERGENCY_STOP_SCENARIO_ID}" \
+# 2. n8n Webhookを無効化（全シナリオ停止）
+echo "[2/4] Disabling n8n scenarios..."
+curl -s -X POST "https://hook.eu1.make.com/${EMERGENCY_STOP_SCENARIO_ID}" \
   -H "Content-Type: application/json" \
   -d '{"action":"disable_all","reason":"emergency_stop_l2"}'
 
@@ -715,12 +715,12 @@ wsl --shutdown
 # 3. Lark Appの認証情報をLark管理画面で無効化
 #    → https://open.larksuite.com/app/ でApp Secret再発行
 
-# 4. Make.comの全シナリオを手動でOFF
+# 4. n8nの全シナリオを手動でOFF
 #    → https://www.make.com/scenarios で全てDeactivate
 
 # 5. 影響調査
 #    → Lark Bitableの変更履歴を確認
-#    → Make.comの実行履歴を確認
+#    → n8nの実行履歴を確認
 #    → OpenClawの監査ログを確認
 ```
 
@@ -732,7 +732,7 @@ wsl --shutdown
  □ 停止原因を特定し、CLAUDE.mdまたはOpenClaw設定を修正
  □ 全シークレットをローテーション（L3の場合は必須）
  □ Lark Bitableのデータ整合性を確認
- □ Make.comシナリオの実行履歴を確認（意図しない実行がないか）
+ □ n8nワークフローの実行履歴を確認（意図しない実行がないか）
  □ OpenClaw監査ログを確認し、異常操作を特定
  □ 再発防止策をCLAUDE.mdに追記
  □ Telegramで /resume 後、READ系操作のテスト実行
@@ -743,7 +743,7 @@ wsl --shutdown
  連絡先・参考:
  - OpenClaw公式ドキュメント: [URL]
  - Lark API Status: https://open.larksuite.com/status
- - Make.com Status: https://status.make.com
+ - n8n Status: https://status.make.com
  - このドキュメント: ~/aiflow/docs/emergency_stop_protocol.md
 ```
 
@@ -778,7 +778,7 @@ The user wants a detailed design document in Japanese covering 6 areas for their
 
 Let me think through each section carefully:
 
-1. ASCII Architecture Diagram - showing the full system with OpenClaw, Claude Code, Telegram, Make.com, and Lark
+1. ASCII Architecture Diagram - showing the full system with OpenClaw, Claude Code, Telegram, n8n, and Lark
 2. Telegram Bot vs OpenClaw migration decision
 3. Security design with concrete values
 4. Implementation roadmap with time estimates

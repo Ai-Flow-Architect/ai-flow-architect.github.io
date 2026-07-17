@@ -12,7 +12,7 @@
 
 ## 今日の完了タスク
 - ✅ skill-creator 調査・インストール・ルール作り（/today-log スキル作成・MEMORY.md更新含む）
-- ✅ Make.com Sleep Tracking カラムインデックス修正（1インデックス対応）
+- ✅ n8n Sleep Tracking カラムインデックス修正（1インデックス対応）
 - ✅ blind-spot / agent-teams / make-dev スキル作成
 - ✅ メルカリ全件再出品（新ID: m92598713643 / m33149515742 / m51071144572）
 - ✅ Sleep Tracking GPT 日付バグ修正（00:00-05:59は前日として記録）
@@ -21,5 +21,5 @@
 ## プロジェクト概要
 - 作業ハブ: ~/projects/new-project/
 - スキル: ~/.claude/skills/
-- 外部連携: Lark / GPT / Obsidian / Make.com
+- 外部連携: Lark / GPT / Obsidian / n8n
 - 開発ルール: 出力・コメントは日本語統一

@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 EMAIL = os.environ["CROWDWORKS_EMAIL"]
 PASSWORD = os.environ["CROWDWORKS_PASSWORD"]
 
-NEW_INTRO_PREFIX = """【問い合わせ自動化→月20h削減・ROI2,000%超】Make.com+ChatGPT+GASで、繰り返し手作業を根絶します。
+NEW_INTRO_PREFIX = """【問い合わせ自動化→月20h削減・ROI2,000%超】n8n+ChatGPT+GASで、繰り返し手作業を根絶します。
 
 ▶ 実績（数字）
 ・問い合わせ対応: 返信速度24h→3分、月工数20h→1.8h

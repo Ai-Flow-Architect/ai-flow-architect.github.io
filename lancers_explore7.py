@@ -38,11 +38,11 @@ def fill_step1(page):
     """基本情報を入力して次へを押す（カテゴリ候補を出す）"""
     # タイトル・サブタイトル
     page.query_selector('textarea[name="ProjectPlanForm.title"]').fill(
-        "Make.com×AIで業務プロセスを自動化｜月20時間削減保証パッケージ"
+        "n8n×AIで業務プロセスを自動化｜月20時間削減保証パッケージ"
     )
     subtitle = page.query_selector('textarea[name="ProjectPlanForm.subtitle"]')
     if subtitle:
-        subtitle.fill("繰り返し作業・手動コピペ・レポート作成をMake.com+AIで丸ごと自動化します")
+        subtitle.fill("繰り返し作業・手動コピペ・レポート作成をn8n+AIで丸ごと自動化します")
     time.sleep(0.5)
 
     # 大カテゴリ
