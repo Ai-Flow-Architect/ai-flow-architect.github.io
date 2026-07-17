@@ -1,0 +1,10 @@
+{
+  "name": "ai-flow-openai-proxy",
+  "private": true,
+  "type": "module",
+  "description": "LPチャット用 OpenAI プロキシ Worker。鍵をブラウザへ配らないための経路。",
+  "scripts": {
+    "test": "node --test test/",
+    "deploy": "npx wrangler@latest deploy"
+  }
+}
