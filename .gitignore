@@ -3,6 +3,11 @@ node_modules/
 *.log
 .DS_Store
 
+# Cloudflare Worker のローカル秘密（本番は wrangler secret / ここには実キーを置かない）
+.dev.vars
+.dev.vars.*
+.wrangler/
+
 # === 内部・クライアント固有ファイル（LPに混入禁止・2026-05-12追加） ===
 findme/
 yasuda_project/
