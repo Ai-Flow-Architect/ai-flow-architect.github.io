@@ -1,0 +1,23 @@
+name = "ai-flow-openai-proxy"
+main = "src/index.js"
+compatibility_date = "2026-07-17"
+
+# レート制限（Workers Rate Limiting API）。2025-09-19 に GA・要 wrangler 4.36.0+。
+# 旧 [[unsafe.bindings]] 形式は非推奨（当面は動作継続）。
+# period は 10 か 60 のみ指定可（公式制約）。
+# limit=20/60秒/IP: LPチャットの実利用（1人が1分に20回も送らない）には十分な余裕がありつつ、
+# 自動化された大量呼び出しは頭打ちになる。
+# 🔴 このブロックを消すと Worker は「レート制限なし」で無言に動き続ける（コード側は
+#    バインディング未設定を console.warn するだけで停止しない＝可用性優先）。消さないこと。
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 20
+  period = 60
+
+# OPENAI_API_KEY は Secret（`npx wrangler secret put OPENAI_API_KEY`）。
+# ここ（平文 vars）には絶対に書かない。
+# 既存デプロイのSecretは deploy で消えない（公式明記: "Secrets are never deleted by a
+# deployment whether this flag is true or false."）＝上書きデプロイでチャットは死なない。
