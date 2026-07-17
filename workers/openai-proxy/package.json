@@ -6,5 +6,8 @@
   "scripts": {
     "test": "node --test test/",
     "deploy": "npx wrangler@latest deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.111.0"
   }
 }
