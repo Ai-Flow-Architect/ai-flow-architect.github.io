@@ -392,15 +392,21 @@ var Diag = (function(){
     var btn = $('lf-submit');
     btn.disabled = true;
     btn.textContent = '送信中…';
-    fetch(GAS_ENDPOINT, { method:'POST', body:body, mode:'no-cors' })
-      .then(function(){
+    // mode:'no-cors' は使わない（opaque応答は失敗を検出できず、リードを無言で捨てる）。
+    // text/plain の simple request にすればプリフライト無しでGASの応答(ACAO:*)を読める。
+    fetch(GAS_ENDPOINT, { method:'POST',
+                          headers:{'Content-Type':'text/plain;charset=utf-8'}, body:body })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        // 旧デプロイのGASは delivered を返さないため status のみで判定（デプロイ順序に依存させない）
+        if(!j || j.status !== 'ok'){ throw new Error((j && j.msg) || 'send failed'); }
         $('lead-card').classList.add('hidden');
         $('lead-success').classList.remove('hidden');
       })
       .catch(function(){
         btn.disabled = false;
         btn.textContent = '診断結果を送って無料提案を受け取る →';
-        err.textContent = '送信に失敗しました。通信環境をご確認のうえ、もう一度お試しください。';
+        err.textContent = '送信に失敗しました。お手数ですが公式LINEまたはメールでご連絡ください。';
       });
   }
 
