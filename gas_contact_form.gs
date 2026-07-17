@@ -53,23 +53,35 @@ function doPost(e) {
     const isDiagnosis = message.indexOf('【AI診断リード】') === 0;
     const source = isDiagnosis ? 'AI診断' : 'お問い合わせ';
 
+    // 🔴 durable経路の成否を集約する（2026-07-17）。
+    //    旧実装は全経路を握り潰して常に status:'ok' を返していたため、事業者メールとシートが
+    //    両方死んでもフォームは成功画面を出し、リードは誰にも届かず消えた（3月〜7月の実障害と同一構造）。
+    //    「記録が1つも残らなかった」時だけは必ず error を返し、送信者に別導線を案内する。
+    var ownerOk = false, sheetOk = false;
+
     // ① 事業者へメール通知（最優先・確実）
-    try { notifyOwner_(props, source, name, company, email, message, budget); }
+    try { notifyOwner_(props, source, name, company, email, message, budget); ownerOk = true; }
     catch(err){ Logger.log('owner通知エラー: ' + err); }
 
     // ② リード台帳シートへ追記（durable）
-    try { appendToSheet_(props, source, name, company, email, message, budget); }
+    try { appendToSheet_(props, source, name, company, email, message, budget); sheetOk = true; }
     catch(err){ Logger.log('シート追記エラー: ' + err); }
 
-    // ③ Lark通知（best-effort・設定時のみ）
+    // ③ Lark通知（best-effort・設定時のみ）※失敗してもリードは①②に残るので status に影響させない
     try { sendLarkNotification_(props, source, name, company, email, message, budget); }
     catch(err){ Logger.log('Lark通知エラー: ' + err); }
 
-    // ④ 顧客へ自動返信メール
+    // ④ 顧客へ自動返信メール ※同上（届かなくてもリード自体は失われない）
     try { sendAutoReply_(name, email); }
     catch(err){ Logger.log('自動返信エラー: ' + err); }
 
-    return json_({status:'ok'});
+    if (!ownerOk && !sheetOk) {
+      // ここに来た＝問い合わせが1バイトも残っていない。成功を装ってはいけない。
+      Logger.log('🔴 durable経路が全滅: owner/sheet 双方失敗 → error を返す');
+      return json_({status:'error', delivered:false,
+                    msg:'送信に失敗しました。お手数ですが公式LINEまたはメールでご連絡ください。'});
+    }
+    return json_({status:'ok', delivered:true, via:{owner:ownerOk, sheet:sheetOk}});
 
   } catch(err) {
     Logger.log('doPost エラー: ' + err);
@@ -157,10 +169,41 @@ function sendLarkNotification_(props, source, name, company, email, message, bud
 }
 
 // ─── ④ 顧客へ自動返信メール ─────────────────────────────────────────────
+// 🔴 踏み台化ガード（2026-07-17）:
+//   このWebアプリは未認証で誰でも叩ける。旧実装は宛先(email)を検証せず自動返信を送っていたため、
+//   「攻撃者が指定した宛先」へ当方のGmailから送れる状態だった（スパム踏み台）。さらに
+//   MailApp の日次クォータ(無料100通)を焼かれると、① 事業者通知メールまで巻き添えで止まり
+//   実リードが届かなくなる＝リード喪失に直結する。
+//   対策: ①宛先の形式検証 ②自動返信の1日総量上限（超過しても①②のリード記録は継続）。
+const AUTOREPLY_DAILY_CAP = 30;          // 自動返信の1日上限（実需要は数通/日）
+const AUTOREPLY_COUNT_KEY = 'autoreply_count_';
+
+function isValidEmail_(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
+}
+
 function sendAutoReply_(name, email) {
+  if (!isValidEmail_(email)) {
+    Logger.log('自動返信スキップ: 宛先の形式が不正');
+    return;
+  }
+  // 1日総量ガード（メール単位のレート制限だけでは宛先を変えられると素通りする）
+  const props = PropertiesService.getScriptProperties();
+  const dayKey = AUTOREPLY_COUNT_KEY +
+        Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyyMMdd');
+  const sentToday = parseInt(props.getProperty(dayKey) || '0');
+  if (sentToday >= AUTOREPLY_DAILY_CAP) {
+    // ここで止めても事業者通知①とシート②は既に完了しているためリードは失われない
+    Logger.log('🔴 自動返信の1日上限に到達（' + sentToday + '通）→ 送信停止。悪用の可能性を確認すること');
+    return;
+  }
+  props.setProperty(dayKey, String(sentToday + 1));
+
+  // 宛名は外部入力。改行を潰し長さを切る（本文へ任意テキストを流し込ませない）
+  const safeName = String(name).replace(/[\r\n]+/g, ' ').slice(0, 40);
   const subject = 'AI Flow Architect: お問い合わせありがとうございます';
   const body =
-    name + ' 様\n\n' +
+    safeName + ' 様\n\n' +
     'お問い合わせありがとうございます。\n' +
     'AI Flow Architect(Aiフローアーキテクト)です。\n\n' +
     '内容を確認いたしました。通常12時間以内にご返信いたします。\n\n' +
