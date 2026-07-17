@@ -89,7 +89,7 @@ def create_service(page):
     print(f"ページタイトル: {page.title()}")
 
     # タイトル入力
-    title = "【Make.com×AI】業務プロセスを丸ごと自動化｜月20時間削減保証パッケージ"
+    title = "【n8n×AI】業務プロセスを丸ごと自動化｜月20時間削減保証パッケージ"
     title_field = page.query_selector('input[name*="title"], input[placeholder*="タイトル"], #title, input[id*="title"]')
     if title_field:
         print(f"タイトル入力: {title}")
@@ -106,7 +106,7 @@ def create_service(page):
             print(f"  input[{i}]: name={name}, placeholder={placeholder}")
 
     # 説明文
-    description = """【Make.com×AI】で繰り返し作業を丸ごと自動化します
+    description = """【n8n×AI】で繰り返し作業を丸ごと自動化します
 
 ━━━━━━━━━━━━━━━━━
 ■ こんな方にぴったりです
@@ -124,10 +124,10 @@ def create_service(page):
 　→ 自動化できる箇所を特定し、優先度をご提示
 
 ② 自動化設計書の作成
-　→ Make.com + AI（GPT/Claude）を使った設計図をご提示
+　→ n8n + AI（GPT/Claude）を使った設計図をご提示
 
 ③ 自動化システムの構築・テスト
-　→ Make.com シナリオ + AI連携を実装・動作確認
+　→ n8n シナリオ + AI連携を実装・動作確認
 
 ④ 納品・操作説明
 　→ 操作マニュアル付きでお渡し。導入後も安心

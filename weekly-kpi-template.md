@@ -78,7 +78,7 @@
 |------|---------|---------|---------|
 | X API | $- | $- | $5.00 |
 | OpenAI API | $- | $- | $5.00 |
-| Make.com ops | - ops | - ops | 10,000 ops |
+| n8n ops | - ops | - ops | 10,000 ops |
 | Gemini API | $- | $- | $300 |
 
 ---

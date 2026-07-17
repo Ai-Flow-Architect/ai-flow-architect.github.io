@@ -51,7 +51,7 @@ def main():
 
         # タイトルを入力
         title_field = page.query_selector('textarea[name="ProjectPlanForm.title"]')
-        title_field.fill("Make.com×AIで業務プロセスを自動化します｜月20時間削減保証")
+        title_field.fill("n8n×AIで業務プロセスを自動化します｜月20時間削減保証")
         time.sleep(0.5)
 
         # 大カテゴリを選択（change イベントを発火）
