@@ -2218,15 +2218,15 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
 <script>
 /* =====================================================
    LLM CONFIG
-   ⚠️ 公開GitHubリポジトリに載せる場合は、
-      Usageリミット付きの専用キーを使ってください
-   冗長構成: OpenAI → Gemini → 静的FAQ → 問い合わせ誘導
+   🔴 このページは公開される。APIキーをここに置かないこと（2026-07-17）。
+      「Usageリミット付きの専用キーを使う」「プレースホルダー形式を維持する」では
+      守れない＝deploy.yml が実キーを焼き込むため、公開HTMLに平文で載る。
+      実際 Gemini実キーが view-source で露出し、当方の実測でキーは有効なままだった。
+      キーが要る経路は必ずサーバー側（Workerプロキシ）に置き、鍵をブラウザへ配らない。
+   冗長構成: OpenAI(Workerプロキシ経由・鍵はブラウザに無い) → 静的FAQ → 問い合わせ誘導
 ===================================================== */
 const WORKER_URL='https://ai-flow-openai-proxy.kosuke-axson.workers.dev/chat';
 const OPENAI_MODEL  ='gpt-4o-mini';
-// Gemini第2フォールバック: 実キーを設定すると有効化（未設定時はOpenAI→staticFAQ→ハードコードで動作継続）
-const GEMINI_API_KEY='__GEMINI_API_KEY__';
-const GEMINI_MODEL  ='gemini-1.5-flash';
 
 /* =====================================================
    CUSTOM CURSOR
@@ -2412,10 +2412,10 @@ n8n / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark / Ch
     ]);
   }
 
-  /* ---- 冗長LLM呼び出し: OpenAI → Gemini → null ---- */
+  /* ---- 冗長LLM呼び出し: OpenAI(Workerプロキシ) → null ---- */
   async function callLLM(messages,maxTokens){
     maxTokens=maxTokens||500;
-    // ① OpenAI
+    // ① OpenAI（Workerプロキシ経由＝鍵はブラウザに配らない）
     if(WORKER_URL){
       try{
         const r=await fetchWithTimeout(WORKER_URL,{
@@ -2429,27 +2429,14 @@ n8n / Zapier / n8n / Notion / Slack / LINE / Google Sheets / kintone / Lark / Ch
         if(t)return t;
       }catch(e){console.warn('[LLM] OpenAI failed:',e.message||e);}
     }
-    // ② Gemini fallback
-    if(GEMINI_API_KEY&&GEMINI_API_KEY!=='__GEMINI_API_KEY__'){
-      try{
-        const sys=messages.filter(m=>m.role==='system').map(m=>m.content).join('\n');
-        const contents=messages.filter(m=>m.role!=='system').map(m=>({
-          role:m.role==='user'?'user':'model',
-          parts:[{text:m.content}]
-        }));
-        const body={contents:contents,generationConfig:{maxOutputTokens:maxTokens,temperature:.7}};
-        if(sys)body.systemInstruction={parts:[{text:sys}]};
-        const r=await fetchWithTimeout(
-          'https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent?key='+GEMINI_API_KEY,
-          {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)},5000
-        );
-        if(!r.ok)throw new Error(`HTTP ${r.status}`);
-        const d=await r.json();
-        const t=d.candidates?.[0]?.content?.parts?.[0]?.text;
-        if(t)return t;
-      }catch(e){console.warn('[LLM] Gemini failed:',e.message||e);}
-    }
-    return null; // 両方失敗 → staticFAQ → ハードコードメッセージへ
+    // ② Gemini直叩きフォールバックは削除した（2026-07-17）。
+    //    ブラウザから叩く以上キーを配る必要があり、deploy.yml が公開HTMLへ実キーを
+    //    焼き込んでいた（実測で有効なキーが view-source から取得できた）。
+    //    リファラ制限は Referer を偽装できるため防御にならず、課金上限は被害額を
+    //    決めるだけで漏洩を止めない。鍵を持たなければ破られない＝経路ごと落とす。
+    //    ①が落ちた時は下の staticFAQ（FAQ_DB）→問い合わせ誘導が受け止める。
+    //    冗長化を戻すなら Worker 側にモデルを足すこと（ブラウザに鍵を戻さない）。
+    return null; // ①失敗 → staticFAQ → ハードコードメッセージへ
   }
 
   /* ---- 即回答テンプレート（Q1分岐：情報収集系） ---- */

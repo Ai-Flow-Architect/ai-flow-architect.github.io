@@ -24,21 +24,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Inject API Keys
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          python3 - <<'PYEOF'
-          import os
-          with open('index.html', 'r', encoding='utf-8') as f:
-              content = f.read()
-          content = content.replace('__OPENAI_API_KEY__', os.environ['OPENAI_API_KEY'].strip())
-          content = content.replace('__GEMINI_API_KEY__', os.environ['GEMINI_API_KEY'].strip())
-          with open('index.html', 'w', encoding='utf-8') as f:
-              f.write(content)
-          print('API keys injected successfully')
-          PYEOF
+      # 🔴 "Inject API Keys" ステップは削除した（2026-07-17）。
+      #    このステップこそが公開HTMLへ実キーを焼き込む露出源だった。GitHub Pages は
+      #    静的配信＝ここで注入した値は view-source で誰でも読める。実測で Gemini の
+      #    実キーが公開され、かつ有効なままだった。
+      #    LLMを呼ぶ経路は Cloudflare Worker プロキシに置き、鍵はブラウザへ配らない。
+      #    「プレースホルダー形式を維持する」ルールは鍵を隠さない＝再発防止にならない。
+      #    ⚠️ ここへ鍵注入を復活させないこと。冗長化が要るなら Worker 側で行う。
+      - name: Assert no API keys in published HTML
+        run: python3 scripts/assert_no_secrets.py
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
