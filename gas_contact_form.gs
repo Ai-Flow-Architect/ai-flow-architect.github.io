@@ -64,7 +64,9 @@ function doPost(e) {
     catch(err){ Logger.log('owner通知エラー: ' + err); }
 
     // ② リード台帳シートへ追記（durable）
-    try { appendToSheet_(props, source, name, company, email, message, budget); sheetOk = true; }
+    //    sheetOk は appendToSheet_ の戻り値で決める。例外の有無で決めると、
+    //    LEADS_SHEET_ID 未設定時の「何もせず正常終了」を成功と誤認する（2026-07-17実障害）。
+    try { sheetOk = appendToSheet_(props, source, name, company, email, message, budget); }
     catch(err){ Logger.log('シート追記エラー: ' + err); }
 
     // ③ Lark通知（best-effort・設定時のみ）※失敗してもリードは①②に残るので status に影響させない
@@ -120,9 +122,15 @@ function notifyOwner_(props, source, name, company, email, message, budget) {
 }
 
 // ─── ② リード台帳シートへ追記 ───────────────────────────────────────────
+// 戻り値: true=1行書けた / false=書いていない（未設定でスキップ）。例外は呼び出し側が拾う。
 function appendToSheet_(props, source, name, company, email, message, budget) {
-  const sid = props.getProperty('LEADS_SHEET_ID');
-  if (!sid) { return; }  // 未設定なら台帳スキップ
+  // trim: プロパティ欄への貼り付けは末尾に空白・改行が混入しうる。混入すると openById が
+  //       例外を投げるだけで、原因が「IDが違う」のか「権限が無い」のか区別できない。
+  const sid = (props.getProperty('LEADS_SHEET_ID') || '').trim();
+  if (!sid) {
+    Logger.log('🔴 LEADS_SHEET_ID 未設定 → 台帳に残らない（事業者メールが唯一の記録）');
+    return false;
+  }
   const ss = SpreadsheetApp.openById(sid);
   let sh = ss.getSheetByName('leads');
   if (!sh) {
@@ -130,6 +138,7 @@ function appendToSheet_(props, source, name, company, email, message, budget) {
     sh.appendRow(['日時', '種別', 'お名前', '会社名', 'メール', '予算', '内容']);
   }
   sh.appendRow([nowJst_(), source, name, company, email, budgetLabel_(budget), message]);
+  return true;
 }
 
 // ─── ③ Lark チャット通知（設定時のみ・best-effort） ─────────────────────
@@ -229,4 +238,18 @@ function budgetLabel_(budget) {
 }
 function nowJst_() {
   return Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm:ss');
+}
+
+// ─── 診断用（エディタから手動実行する）─────────────────────────────────
+// doPost の try/catch は台帳の失敗を握り潰してログにしか残さない。この関数は握り潰さず、
+// エディタの実行ログへ直接エラーを出す。SpreadsheetApp を実際に叩くので、spreadsheets
+// スコープが未承認なら承認ダイアログが出る（doGet では絶対に炙り出せない）。
+// ⚠️ 実行するとテスト行が1行増える。確認後に削除すること。
+function testSheetAccess() {
+  const sid = PropertiesService.getScriptProperties().getProperty('LEADS_SHEET_ID');
+  Logger.log('sid=[' + sid + '] 文字数=' + (sid ? sid.length : 0));  // 正常=44
+  const ss = SpreadsheetApp.openById(sid);
+  Logger.log('シート名: ' + ss.getName());
+  ss.getSheetByName('leads').appendRow([nowJst_(), '診断', '【テスト】権限確認', '', 'test@example.com', '未回答', '診断用']);
+  Logger.log('追記 成功');
 }
