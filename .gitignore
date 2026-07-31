@@ -19,3 +19,21 @@ portfolio.md
 lancers_*.py
 lancers_*.md
 coconala-*.js
+
+# === 2026-07-31: 内部運用ファイルを公開リポから外す ===
+# この repo は GitHub Pages が `path: '.'` でリポジトリ全体を配信する＝
+# ルートに置いたファイルは全部 第三者がダウンロードできる（実測で17本取得できた）。
+# 作業用のスクリプト・戦略メモ・PF出品ドラフトは公開する必要が無いので追跡しない。
+# ⚠️ 新しい作業ファイルをルートに置く時は、ここに足すか docs/ の外へ置くこと。
+.claude/
+CLAUDE.md
+TODAY.md
+*.md
+!docs/*.md
+coconala_*.png
+x_header_*.png
+lancers_*.py
+lark_*.py
+update_cw_profile.py
+gas_contact_form.gs
+x_post_draft.txt
