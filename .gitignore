@@ -9,8 +9,7 @@ node_modules/
 .wrangler/
 
 # === 内部・クライアント固有ファイル（LPに混入禁止・2026-05-12追加） ===
-findme/
-yasuda_project/
+# 客様名を含むフォルダは .git/info/exclude（手元だけ・公開されない）で除外する（2026-09-15）
 templates/
 hearing_*.md
 followup_*.md
