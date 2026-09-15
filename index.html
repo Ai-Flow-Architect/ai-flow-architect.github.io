@@ -1886,6 +1886,11 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <span style="font-size:.72rem;color:var(--t3)">※お客様都合の仕様変更・外部サービスの仕様変更・操作ミスは対象外です</span>
       </div>
     </div>
+    <p style="max-width:680px;margin:14px auto 0;font-size:.75rem;color:var(--t3);line-height:1.7;text-align:center">
+      ※ 本サイトからのお申し込みは、法人・個人事業主のお客様に限らせていただいております。事業としてではなく個人でご利用の場合は
+      <a href="https://coconala.com/users/3197520" target="_blank" rel="noopener" style="color:var(--t2);text-decoration:underline">ココナラ</a>
+      より同じ内容を承ります。詳しくは <a href="/business.html" style="color:var(--t2);text-decoration:underline">事業者情報・お取引条件</a> をご覧ください。
+    </p>
 
     <!-- STEP 2 ラベル -->
     <div style="display:flex;align-items:center;gap:12px;margin:56px auto 18px;max-width:760px">
@@ -2101,6 +2106,15 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
         <span class="iform-badge"><span class="avail-dot" style="width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pdot 1.8s ease-in-out infinite;display:inline-block;margin-right:6px"></span>受付中 · 通常12時間以内に返信</span>
       </div>
       <form class="iform" id="contact-form" onsubmit="submitForm(event)">
+        <div class="iform-field">
+          <label class="iform-label">お客様の区分 <span class="iform-req">必須</span></label>
+          <select name="bizType" class="iform-sel" required>
+            <option value="">選択してください</option>
+            <option value="corp">法人</option>
+            <option value="sole">個人事業主</option>
+          </select>
+          <p class="iform-note" style="text-align:left;margin-top:8px">このフォームからのお申し込みは、法人・個人事業主のお客様に限らせていただいております。事業としてではなく個人でご利用の場合は <a href="https://coconala.com/users/3197520" target="_blank" rel="noopener" style="color:var(--or)">ココナラ</a> より同じ内容を承ります。</p>
+        </div>
         <div class="iform-row">
           <div class="iform-field">
             <label class="iform-label">お名前 <span class="iform-req">必須</span></label>
@@ -2108,7 +2122,7 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
           </div>
           <div class="iform-field">
             <label class="iform-label">会社名・屋号 <span class="iform-opt">任意</span></label>
-            <input type="text" name="company" class="iform-inp" placeholder="株式会社〇〇 / 個人">
+            <input type="text" name="company" class="iform-inp" placeholder="株式会社〇〇 / 屋号">
           </div>
         </div>
         <div class="iform-field">
@@ -2188,6 +2202,8 @@ select.roi-inp:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rg
     <a href="#pricing">料金</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">お問い合わせ</a>
+    <a href="/privacy.html">プライバシーポリシー</a>
+    <a href="/business.html">事業者情報・お取引条件</a>
   </div>
 </footer>
 
@@ -3285,11 +3301,15 @@ function submitForm(e){
   btn.disabled=true;
   txt.textContent='送信中…';
   var f=document.getElementById('contact-form');
+  var bizSel=f.querySelector('[name="bizType"]');
+  var bizLabel=bizSel&&bizSel.selectedIndex>0?bizSel.options[bizSel.selectedIndex].text:'';
+  // GAS側が未知フィールドを捨てても区分が必ず届くよう、message の先頭にも同じ値を入れる
   var body=JSON.stringify({
     name:f.querySelector('[name="name"]').value,
     company:f.querySelector('[name="company"]').value,
     email:f.querySelector('[name="email"]').value,
-    message:f.querySelector('[name="message"]').value,
+    bizType:bizLabel,
+    message:'【お客様の区分】'+bizLabel+'\n'+f.querySelector('[name="message"]').value,
     budget:f.querySelector('[name="budget"]').value
   });
   // mode:'no-cors' は使わない。opaque応答は必ず解決するため、GASが落ちていても成功画面を

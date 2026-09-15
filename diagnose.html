@@ -107,6 +107,8 @@ a{text-decoration:none;color:inherit}
 .lf-input,.lf-textarea{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--bm);background:rgba(0,0,0,.35);color:var(--t1);font-family:var(--font);font-size:.9rem;transition:border-color .18s}
 .lf-input:focus,.lf-textarea:focus{outline:none;border-color:var(--gr)}
 .lf-input::placeholder,.lf-textarea::placeholder{color:var(--t3)}
+.lf-select{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--bm);background:rgba(0,0,0,.35);color:var(--t1);font-family:var(--font);font-size:.9rem;transition:border-color .18s;cursor:pointer}
+.lf-select:focus{outline:none;border-color:var(--gr)}
 .lf-textarea{resize:vertical;min-height:64px}
 .lf-err{font-size:.74rem;color:#ff7a6b;margin-top:8px;min-height:1em}
 .lf-submit{width:100%;margin-top:6px;padding:15px;border-radius:12px;border:none;font-family:var(--font);font-weight:800;font-size:.96rem;cursor:pointer;color:#fff;background:linear-gradient(180deg,#4ae89a,#2cb870 55%,#1a9a58);box-shadow:0 6px 18px rgba(61,214,140,.35);transition:all .18s}
@@ -201,6 +203,15 @@ a{text-decoration:none;color:inherit}
           <div class="lead-sub">あなたの回答に合わせた具体的な自動化プランと概算お見積もりを、<br>担当（代表）が直接お送りします。<strong style="color:var(--t2)">しつこい営業は一切ありません。</strong></div>
           <form id="lead-form" onsubmit="Diag.submitLead(event)" novalidate>
             <div class="lf-field">
+              <label class="lf-label" for="lf-biz">お客様の区分<span class="req">必須</span></label>
+              <select class="lf-select" id="lf-biz" name="bizType" required>
+                <option value="">選択してください</option>
+                <option value="corp">法人</option>
+                <option value="sole">個人事業主</option>
+              </select>
+              <div style="font-size:.68rem;color:var(--t3);line-height:1.6;margin-top:6px">このフォームからのお申し込みは、法人・個人事業主のお客様に限らせていただいております。事業としてではなく個人でご利用の場合は <a href="https://coconala.com/users/3197520" target="_blank" rel="noopener" style="color:var(--or)">ココナラ</a> より同じ内容を承ります。</div>
+            </div>
+            <div class="lf-field">
               <label class="lf-label" for="lf-name">お名前<span class="req">必須</span></label>
               <input class="lf-input" id="lf-name" name="name" type="text" placeholder="例：山田 太郎" autocomplete="name" required>
             </div>
@@ -218,7 +229,7 @@ a{text-decoration:none;color:inherit}
             </div>
             <div class="lf-err" id="lf-err"></div>
             <button type="submit" class="lf-submit" id="lf-submit">診断結果を送って無料提案を受け取る →</button>
-            <div class="lf-privacy">🔒 ご入力内容はご提案の目的にのみ使用します。<br>診断結果（判定・推奨プラン・概算）も一緒に送信されます。</div>
+            <div class="lf-privacy">🔒 ご入力内容はご提案の目的にのみ使用します。<br>診断結果（判定・推奨プラン・概算）も一緒に送信されます。<br><a href="/privacy.html" style="color:var(--t3);text-decoration:underline">プライバシーポリシー</a> ／ <a href="/business.html" style="color:var(--t3);text-decoration:underline">事業者情報・お取引条件</a></div>
           </form>
         </div>
 
@@ -373,18 +384,22 @@ var Diag = (function(){
     var company = ($('lf-company').value || '').trim();
     var email = ($('lf-email').value || '').trim();
     var extra = ($('lf-message').value || '').trim();
+    var bizSel = $('lf-biz');
+    var bizLabel = (bizSel && bizSel.selectedIndex > 0) ? bizSel.options[bizSel.selectedIndex].text : '';
     var err = $('lf-err');
-    // バリデーション
+    // バリデーション（form に novalidate があるため required 属性では止まらない。ここで止める）
+    if(!bizLabel){ err.textContent = 'お客様の区分をお選びください。'; bizSel.focus(); return; }
     if(!name){ err.textContent = 'お名前をご入力ください。'; $('lf-name').focus(); return; }
     if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent = '正しいメールアドレスをご入力ください。'; $('lf-email').focus(); return; }
     err.textContent = '';
 
-    var msg = composeMessage(lastRes || E.diagnose(answers));
+    var msg = '【お客様の区分】' + bizLabel + '\n\n' + composeMessage(lastRes || E.diagnose(answers));
     if(extra) msg += '\n\n── ご相談・補足 ──\n' + extra;
     var body = JSON.stringify({
       name: name,
       company: company,
       email: email,
+      bizType: bizLabel,
       message: msg,
       budget: BUDGET_MAP[answers.budget] || 'undecided'
     });
