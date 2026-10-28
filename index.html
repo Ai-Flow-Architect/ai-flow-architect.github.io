@@ -2418,7 +2418,8 @@ n8n / Zapier / Notion / Slack / LINE / Google Sheets / kintone / Lark / ChatGPT 
 7. 「高すぎ」「無料で」など予算不満や迷いには「まず超ミニマムプラン（¥20,000）で1つの自動化を検証する方法もございます」と提案する
 8. 離脱しそうな雰囲気（「考えます」「また今度」「検討します」）には「超ミニマムプラン¥20,000であれば、最小リスクで効果を検証いただけます」と提案する
 9. 1〜2文字の短い入力（「あ」「？」「…」等）には「もう少し詳しくお聞かせいただけますでしょうか」と聞き返す
-10. 競合比較には自社の強みだけ伝え、競合の批判はしない`;
+10. 競合比較には自社の強みだけ伝え、競合の批判はしない
+11. 上の【】に書かれていない事柄（個別の納期・特定ツールとの連携可否・追加費用・保証内容・実績の詳細など）は推測で答えず、「できます」「対応します」とも断定しない。「その点はご状況を伺ったうえで正確にお答えいたします」と伝え、無料相談フォームへ案内する。料金・納期も上の表の範囲を超えて約束しない`;
 
   /* ---- ユーティリティ ---- */
   function fetchWithTimeout(url,options,ms){
@@ -2559,6 +2560,14 @@ n8n / Zapier / Notion / Slack / LINE / Google Sheets / kintone / Lark / ChatGPT 
     }
     return null;
   }
+
+  /* ---- 答えない門：根拠の無い約束になりやすい質問はLLMに渡さない ----
+     2026-10-28: プロンプトで「推測で答えない」と指示しても gpt-4o-mini は
+     「対応可能です」「初期サポートが含まれます」と言い切ることがあった（同じ質問で回ごとにぶれる）。
+     判断はモデルでなくコードで行う＝該当したら定型の案内で返す。 */
+  const NEEDS_HUMAN=/納期|何日|何週間|いつまで|いつ頃|連携|つなげ|繋げ|可能ですか|対応でき|追加費用|追加料金|別料金|保証|無償|バグ|不具合|返金|契約|著作権|秘密保持|NDA/i;
+  const HUMAN_REPLY='その点は、お使いのツールや業務の流れを伺ったうえで正確にお答えいたします。\n\n無料相談フォームからお気軽にお送りください。\n→ https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb';
+  function needsHuman(text){return NEEDS_HUMAN.test(text);}
 
   /* ---- 質問判定：「？」か質問ワードを含むか ---- */
   function isQuestion(text){
@@ -3051,7 +3060,7 @@ n8n / Zapier / Notion / Slack / LINE / Google Sheets / kintone / Lark / ChatGPT 
             setTimeout(()=>reShow(),900);
           },600);
         } else {
-          const llmReply=await callLLM([{role:'system',content:SYS},{role:'user',content:text}],450);
+          const llmReply=needsHuman(text)?HUMAN_REPLY:await callLLM([{role:'system',content:SYS},{role:'user',content:text}],450);
           removeTyping();
           addMsg(llmReply||'詳しくはお問い合わせフォームからどうぞ！😊');
           setTimeout(()=>reShow(),900);
@@ -3079,7 +3088,7 @@ n8n / Zapier / Notion / Slack / LINE / Google Sheets / kintone / Lark / ChatGPT 
     if(history.length>22){const sys=history.filter(m=>m.role==='system');const nonSys=history.filter(m=>m.role!=='system').slice(-20);history.splice(0,history.length,...sys,...nonSys);}
     showTyping();
     // ① LLM呼び出し（OpenAI → Gemini）
-    let reply=await callLLM(history,450);
+    let reply=needsHuman(text)?HUMAN_REPLY:await callLLM(history,450);
     // [Fix#3] 不満カウンター：LLM応答の有無に関わらず先にカウント・エスカレート
     const frustrationWords=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
     if(frustrationWords.test(text)){
