@@ -2565,7 +2565,7 @@ n8n / Zapier / Notion / Slack / LINE / Google Sheets / kintone / Lark / ChatGPT 
      2026-10-28: プロンプトで「推測で答えない」と指示しても gpt-4o-mini は
      「対応可能です」「初期サポートが含まれます」と言い切ることがあった（同じ質問で回ごとにぶれる）。
      判断はモデルでなくコードで行う＝該当したら定型の案内で返す。 */
-  const NEEDS_HUMAN=/納期|何日|何週間|いつまで|いつ頃|連携|つなげ|繋げ|可能ですか|対応でき|追加費用|追加料金|別料金|保証|無償|バグ|不具合|返金|契約|著作権|秘密保持|NDA/i;
+  const NEEDS_HUMAN=/納期|何日|何週間|いつまで|いつ頃|いつから|いつ始|最短|連携|連動|つなげ|繋げ|可能ですか|対応でき|[はもで]できますか|追加費用|追加料金|別料金|値引|割引|保証|無償|バグ|不具合|返金|契約|著作権|ソースコード|秘密保持|NDA/i;
   const HUMAN_REPLY='その点は、お使いのツールや業務の流れを伺ったうえで正確にお答えいたします。\n\n無料相談フォームからお気軽にお送りください。\n→ https://ejprriiwdcbs.jp.larksuite.com/share/base/shrjpdZI1mteYxODkourcoHZgjb';
   function needsHuman(text){return NEEDS_HUMAN.test(text);}
 
@@ -3088,7 +3088,8 @@ n8n / Zapier / Notion / Slack / LINE / Google Sheets / kintone / Lark / ChatGPT 
     if(history.length>22){const sys=history.filter(m=>m.role==='system');const nonSys=history.filter(m=>m.role!=='system').slice(-20);history.splice(0,history.length,...sys,...nonSys);}
     showTyping();
     // ① LLM呼び出し（OpenAI → Gemini）
-    let reply=needsHuman(text)?HUMAN_REPLY:await callLLM(history,450);
+    // 門に当たっても、取締役が書いたFAQに答えがあればそれを返す（質問判定ルートと同じ順＝FAQ→門→LLM）
+    let reply=needsHuman(text)?(staticFAQ(text)||HUMAN_REPLY):await callLLM(history,450);
     // [Fix#3] 不満カウンター：LLM応答の有無に関わらず先にカウント・エスカレート
     const frustrationWords=/使えない|最悪|最低|ひどい|だめ|無駄|高すぎ|信用できない|絶対失敗/;
     if(frustrationWords.test(text)){
