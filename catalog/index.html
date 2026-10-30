@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>できることカタログ — AI Flow Architect</title>
+<meta name="description" content="AI・Webシステムで中小企業の業務がどこまで自動化できるか。実際に動く見本178件を、困りごとから探せる無料のカタログ。">
+<meta property="og:title" content="できることカタログ — 困りごとから探す、実際に動く見本178件">
+<meta property="og:description" content="転記・問い合わせ対応・請求・予約・集客。AIとWebシステムで何ができるかを、動く画面で確かめられます。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-flow-architect.github.io/catalog/">
+<meta property="og:image" content="https://ai-flow-architect.github.io/og.png">
+<link rel="canonical" href="https://ai-flow-architect.github.io/catalog/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ── Notion型（取締役確定 2026-10-28）: 白地・特大見出し・丸いボタン・実物の画面を大きく ── */
+:root{
+  --bg:#ffffff;--bg2:#f7f7f5;--ink:#191919;--ink2:#4d4d4d;--ink3:#6b6b70;
+  --line:#e6e6e3;--blue:#2383e2;--blue-d:#1a6fc4;--hl:#e3efff;--radius:12px;
+  --font:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block}
+[hidden]{display:none!important}
+a{color:var(--blue)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-d)}
+.btn-s{background:var(--hl);color:var(--blue-d)}
+.btn:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid #9cc6f5;outline-offset:2px}
+/* header */
+header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:900;letter-spacing:.02em;color:var(--ink);text-decoration:none;font-size:17px}
+nav a{color:var(--ink2);text-decoration:none;font-weight:500;margin-left:22px;font-size:15px}
+nav a:hover{color:var(--ink)}
+.nav-cta{margin-left:22px}
+@media (max-width:640px){nav a:not(.nav-cta){display:none}.nav-cta{margin-left:0}.logo{white-space:nowrap;font-size:15px}}
+@media (max-width:360px){.hero h1{word-break:normal;overflow-wrap:anywhere}}
+/* hero */
+.hero{padding:72px 0 40px;text-align:center}
+.hero h1{font-size:clamp(28px,7.4vw,74px);line-height:1.18;font-weight:900;letter-spacing:-.01em;word-break:keep-all}
+.hero h1 .pill{display:inline-block;background:var(--hl);border-radius:999px;padding:0 .35em;position:relative}
+.hero h1 .pill::before{content:"";display:inline-block;width:.32em;height:.32em;border-radius:50%;background:var(--blue);margin-right:.18em;vertical-align:middle;position:relative;top:-.08em}
+.hero p{font-size:clamp(16px,1.6vw,20px);color:var(--ink2);margin:22px auto 30px;max-width:720px}
+.hero .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.stage{margin:40px auto 0;max-width:1000px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 20px 60px rgba(25,25,25,.08)}
+.stage .bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--bg2)}
+.stage .bar i{width:10px;height:10px;border-radius:50%;background:#d9d9d6}
+.stage .bar span{margin-left:auto;font-size:13px;color:var(--ink3)}
+.stage video{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top;background:#fff}
+.stage img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top}
+.caption{font-size:13px;color:var(--ink3);margin-top:12px}
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.btn:hover{transform:none}}
+/* sections */
+section{padding:72px 0}
+.band{background:var(--bg2)}
+h2{font-size:clamp(26px,3.4vw,40px);font-weight:900;line-height:1.3;letter-spacing:-.01em}
+.lead{color:var(--ink2);margin-top:12px;font-size:17px;max-width:760px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:34px}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.step b{display:block;font-size:13px;color:var(--blue);margin-bottom:8px;letter-spacing:.06em}
+.step h3{font-size:19px;margin-bottom:8px}
+.step p{color:var(--ink2);font-size:15px}
+/* catalog controls */
+.controls{display:flex;flex-direction:column;gap:14px;margin-top:28px;padding:14px 0;border-bottom:1px solid var(--line)}
+.search{width:100%;padding:14px 18px;border:1.5px solid var(--line);border-radius:999px;font-size:16px;font-family:inherit;background:#fff}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:#fff;color:var(--ink2);border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.count{font-size:14px;color:var(--ink3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:22px;margin-top:26px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(25,25,25,.09)}
+.thumb{position:relative;aspect-ratio:16/10;background:var(--bg2);overflow:hidden;border-bottom:1px solid var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top}
+.thumb .noimg{display:flex;align-items:center;justify-content:center;height:100%;color:var(--ink3);font-size:14px}
+.play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:transparent;border:0;cursor:pointer}
+.play span{background:rgba(25,25,25,.78);color:#fff;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:700;display:flex;gap:8px;align-items:center}
+.card .body{padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.tag{font-size:12px;color:var(--blue-d);background:var(--hl);border-radius:999px;padding:3px 10px;align-self:flex-start;font-weight:700}
+.pain{font-size:15px;color:var(--ink2)}
+.pain::before{content:"困りごと：";color:var(--ink3);font-size:12px;display:block}
+.card h3{font-size:17px;line-height:1.45}
+.can{list-style:none;font-size:14px;color:var(--ink2)}
+.can li{padding-left:18px;position:relative}
+.can li::before{content:"✓";position:absolute;left:0;color:var(--blue)}
+.meta{font-size:12px;color:var(--ink3);margin-top:auto;padding-top:8px;border-top:1px dashed var(--line)}
+.card .acts{display:flex;gap:8px;flex-wrap:wrap}
+.card .acts a,.card .acts button{font-size:13px;padding:9px 14px}
+/* modal */
+dialog{border:0;border-radius:16px;padding:0;max-width:min(960px,94vw);width:100%;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+dialog::backdrop{background:rgba(25,25,25,.55)}
+dialog .mh{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+dialog .mh h3{font-size:16px}
+dialog .close{border:0;background:var(--bg2);border-radius:999px;width:36px;height:36px;cursor:pointer;font-size:18px}
+dialog video{width:100%;max-height:70vh;background:#fff}
+dialog .mf{padding:14px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink3)}
+/* calculator */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:30px}
+@media (max-width:760px){.calc{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+label{display:block;font-weight:700;font-size:14px;margin:14px 0 6px}
+label:first-child{margin-top:0}
+input[type=number],input[type=text],input[type=email],select,textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;background:#fff}
+.hint{font-size:12px;color:var(--ink3);margin-top:4px}
+.result{display:grid;gap:14px}
+.num{background:var(--bg2);border-radius:12px;padding:18px}
+.num small{display:block;color:var(--ink3);font-size:13px}
+.num strong{font-size:clamp(26px,3vw,36px);font-weight:900;color:var(--ink)}
+.note{font-size:13px;color:var(--ink3);line-height:1.6}
+/* register */
+.reg{max-width:640px;margin:30px auto 0}
+.ok{background:var(--hl);border-radius:12px;padding:18px;margin-top:14px;display:none}
+footer{padding:40px 0 60px;border-top:1px solid var(--line);font-size:13px;color:var(--ink3)}
+footer a{color:var(--ink3)}
+.sr{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="../">AI Flow Architect</a>
+    <nav aria-label="ページ内">
+      <a href="#list">一覧</a>
+      <a href="#calc">削減額を計算</a>
+      <a href="#how">進め方</a>
+      <a class="btn btn-p nav-cta" href="#register" style="padding:10px 18px;font-size:14px">相談する</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <h1 class="rv">あなたの業務、<br>AIで<span class="pill">ここまで</span>できます。</h1>
+    <p class="rv">転記・問い合わせ・請求・予約・集客。中小企業の「手作業が残っている所」を、AIとWebの仕組みでどこまで無くせるか。<strong>こちらで実際に作った見本 <span id="total">178</span>件</strong>（うち <span id="nvideo">126</span>件は動く画面の録画つき）を、困りごとから探せます。</p>
+    <div class="cta rv">
+      <a class="btn btn-p" href="#list">困りごとから探す</a>
+      <a class="btn btn-s" href="#calc">いくら減るか計算する</a>
+    </div>
+    <figure class="stage rv" aria-label="動く見本">
+      <div class="bar"><i></i><i></i><i></i><span id="stage-title">動く見本</span></div>
+      <video id="stage" muted playsinline autoplay preload="metadata" aria-label="見本の画面"></video>
+      <img id="stage-still" alt="見本の画面" hidden>
+    </figure>
+    <p class="caption">画面は架空のデータで動かした例です。音は出ません。</p>
+  </div>
+</section>
+
+<section id="how" class="band">
+  <div class="wrap">
+    <h2 class="rv">見本 → 計算 → 相談。全部こちらで動く物から始めます。</h2>
+    <p class="lead rv">「AIで何ができるか分からない」が、中小企業がAIを入れない理由の1位（35.6%・商工中金 2026年1月調査）。だから先に、動く物をお見せします。</p>
+    <div class="steps">
+      <div class="step rv"><b>STEP 1</b><h3>困りごとで探す</h3><p>「毎日コピペしている」「問い合わせに追われる」。業務の言葉で検索すると、同じ型の見本が出ます。</p></div>
+      <div class="step rv"><b>STEP 2</b><h3>動く様子を見る</h3><p>見本は全部こちらで実際に動かした物。126件は30秒ほどの画面録画で、入力から結果までを確かめられます（録画のない物は相談時にお見せします）。</p></div>
+      <div class="step rv"><b>STEP 3</b><h3>いくら減るか計算する</h3><p>月の作業時間と時給を入れるだけ。人件費の削減額の目安が出ます（数字はあなたの入力から計算。推定値です）。</p></div>
+      <div class="step rv"><b>STEP 4</b><h3>同じ物を相談する</h3><p>見本の番号を添えて相談。御社の道具（Excel・LINE・会計ソフト）は変えずに、継ぎ目だけを自動化する形でご提案します。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="list">
+  <div class="wrap">
+    <h2 class="rv">できることカタログ</h2>
+    <p class="lead rv">7つの分野・<span id="total2">178</span>件。録画のあるカードは「動く様子を見る」で画面録画が開きます。</p>
+    <div class="controls">
+      <label class="sr" for="q">困りごとで検索</label>
+      <input id="q" class="search" type="search" placeholder="例：注文のコピペ／問い合わせの返信／請求書／予約／LINE／在庫">
+      <div class="chips" id="chips" role="group" aria-label="分野で絞り込む"></div>
+      <div class="count" id="count"></div>
+    </div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="calc" class="band">
+  <div class="wrap">
+    <h2 class="rv">その作業、月にいくらかかっていますか？</h2>
+    <p class="lead rv">手作業の時間と時給を入れると、自動化で減らせる人件費の目安が出ます。計算はこの画面の中だけで行います（下の相談フォームを送る時だけ、この数字を一緒にお送りします）。</p>
+    <div class="calc">
+      <div class="panel rv">
+        <label for="c-name">作業の名前（任意）</label>
+        <input id="c-name" type="text" placeholder="例：注文の転記">
+        <label for="c-hours">月あたりの作業時間（時間）</label>
+        <input id="c-hours" type="number" min="0" step="0.5" value="20" inputmode="decimal">
+        <label for="c-rate">時給（円）</label>
+        <input id="c-rate" type="number" min="0" step="100" value="2000" inputmode="numeric">
+        <p class="hint">担当者の時給の目安。社員なら月給÷160時間。</p>
+        <label for="c-cut">自動化で減る割合（％）</label>
+        <input id="c-cut" type="number" min="0" max="100" step="5" value="80" inputmode="numeric">
+        <p class="hint">転記・集計・下書きの型は 80〜95％、判断が残る型は 50〜70％ が目安です。</p>
+      </div>
+      <div class="panel rv">
+        <div class="result">
+          <div class="num"><small>いま、毎月かかっている人件費</small><strong id="r-now">¥40,000</strong></div>
+          <div class="num"><small>自動化で減る金額（月）</small><strong id="r-month">¥32,000</strong></div>
+          <div class="num"><small>自動化で減る金額（年）</small><strong id="r-year">¥384,000</strong></div>
+          <div class="num"><small>減る時間（月）</small><strong id="r-hours">16時間</strong></div>
+        </div>
+        <p class="note" style="margin-top:14px">※ あなたが入れた数字からの概算です。実際の削減は業務の型と例外の多さで変わります。相談では、実データで一緒に数えます。</p>
+        <a class="btn btn-p" href="#register" style="margin-top:16px">この数字で相談する</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="register">
+  <div class="wrap">
+    <h2 class="rv" style="text-align:center">気になる見本があれば、番号を添えてどうぞ。</h2>
+    <p class="lead rv" style="text-align:center;margin-left:auto;margin-right:auto">御社の道具は変えません。継ぎ目だけを自動化し、止まったらこちらが直します。まずは現状を聞かせてください。</p>
+    <form class="panel reg rv" id="form" novalidate>
+      <label for="f-name">お名前 <span style="color:#c0392b">*</span></label>
+      <input id="f-name" name="name" type="text" required autocomplete="name">
+      <label for="f-company">会社名・屋号</label>
+      <input id="f-company" name="company" type="text" autocomplete="organization">
+      <label for="f-email">メールアドレス <span style="color:#c0392b">*</span></label>
+      <input id="f-email" name="email" type="email" required autocomplete="email">
+      <label for="f-msg">困っている作業・気になった見本の番号</label>
+      <textarea id="f-msg" name="message" rows="4" placeholder="例：注文のコピペ（見本 2-ec-order-merge）。月20時間くらい。"></textarea>
+      <p class="hint">送信後、2営業日以内に返信します。営業電話はしません。</p>
+      <button class="btn btn-p" type="submit" style="margin-top:16px;width:100%;justify-content:center">送信する</button>
+      <div class="ok" id="inv" style="background:#fdecea">お名前とメールアドレスを確認してください。</div>
+      <div class="ok" id="ok">ありがとうございます。2営業日以内にメールで返信します。</div>
+      <div class="ok" id="ng" style="background:#fdecea">送信できませんでした。お手数ですが <a href="../#contact">お問い合わせフォーム</a> からお願いします。</div>
+    </form>
+    <p class="note" style="text-align:center;margin-top:18px">ココナラでのご相談も受け付けています：<a href="https://coconala.com/services/4145728" rel="noopener" target="_blank">50分のオンライン相談（ココナラ）</a></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>見本の画面はすべて架空のデータで動かした物です。実在の企業・個人のデータは含みません。削減額は入力値からの概算で、成果を保証する物ではありません。</p>
+    <p style="margin-top:8px"><a href="../">トップへ</a>　<a href="../privacy.html">プライバシーポリシー</a>　<span>© AI Flow Architect</span></p>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <div class="mh"><h3 id="dlg-title"></h3><button class="close" type="button" aria-label="閉じる" id="dlg-close">×</button></div>
+  <video id="dlg-video" controls muted playsinline preload="metadata"></video>
+  <div class="mf"><span id="dlg-id"></span><a class="btn btn-s" href="#register" id="dlg-ask" style="padding:8px 14px;font-size:13px">同じ物を相談する</a></div>
+</dialog>
+
+<script>
+(function(){
+  var GROUPS = {1:'生成AI・チャットボット',2:'業務の自動化（転記・連携・通知）',3:'業務システム（Webアプリ）',4:'LINE',5:'書類の読み取り（OCR）',6:'数字の見える化（分析）',7:'サイト・集客'};
+  var HERO = ['2-ec-order-merge','1-site-faq-chat','6-ec-sales-dashboard','5-invoice-ocr'];
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = navigator.connection && navigator.connection.saveData;
+  var items = [], names = {};
+
+  // ── 見本一覧 ──
+  fetch('assets.json').then(function(r){return r.json();}).then(function(d){
+    items = d; d.forEach(function(a){names[a.id]=a.name;});
+    document.getElementById('total').textContent = d.length;
+    document.getElementById('total2').textContent = d.length;
+    document.getElementById('nvideo').textContent = d.filter(function(a){return a.has_video;}).length;
+    buildChips(); render(); hero();
+  }).catch(function(){ document.getElementById('grid').innerHTML = '<p>一覧を読み込めませんでした。再読み込みしてください。</p>'; });
+
+  var active = 0;
+  function buildChips(){
+    var c = document.getElementById('chips');
+    var all = ['<button class="chip" type="button" aria-pressed="true" data-g="0">すべて</button>'];
+    Object.keys(GROUPS).forEach(function(g){
+      var n = items.filter(function(a){return a.group==g;}).length;
+      all.push('<button class="chip" type="button" aria-pressed="false" data-g="'+g+'">'+GROUPS[g]+'（'+n+'）</button>');
+    });
+    c.innerHTML = all.join('');
+    c.addEventListener('click', function(e){
+      var b = e.target.closest('.chip'); if(!b) return;
+      active = +b.dataset.g;
+      c.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed', x===b ? 'true':'false');});
+      render();
+    });
+  }
+  var q = document.getElementById('q');
+  q.addEventListener('input', render);
+  function esc(s){return String(s).replace(/[&<>"]/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch];});}
+  function render(){
+    var kw = q.value.trim().toLowerCase();
+    var list = items.filter(function(a){
+      if(active && a.group!=active) return false;
+      if(!kw) return true;
+      var hay = (a.name+' '+a.pain+' '+a.can.join(' ')+' '+a.inputs+' '+a.id).toLowerCase();
+      return kw.split(/\s+/).every(function(w){return hay.indexOf(w)>=0;});
+    });
+    document.getElementById('count').textContent = list.length+'件'+(kw?'（「'+kw+'」で絞り込み）':'');
+    document.getElementById('grid').innerHTML = list.map(function(a){
+      var th = a.has_video ? '<img src="thumbs/'+a.id+'.jpg" alt="'+esc(a.name)+'の画面" loading="lazy" onerror="this.style.display=\'none\'">' : '<div class="noimg">画面録画は準備中</div>';
+      var play = a.has_video ? '<button class="play" type="button" data-id="'+a.id+'" aria-label="'+esc(a.name)+'の動く様子を見る"><span>▶ 動く様子を見る</span></button>' : '';
+      return '<article class="card rv in">'+
+        '<div class="thumb">'+th+play+'</div>'+
+        '<div class="body"><span class="tag">'+GROUPS[a.group]+'</span>'+
+        '<p class="pain">'+esc(a.pain)+'</p>'+
+        '<h3>'+esc(a.name)+'</h3>'+
+        '<ul class="can">'+a.can.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul>'+
+        '<div class="meta">入力：'+esc(a.inputs||'—')+'　／　見本番号：'+a.id+'</div>'+
+        '<div class="acts">'+(a.has_video?'<button class="btn btn-s" type="button" data-id="'+a.id+'">動く様子を見る</button>':'')+'<a class="btn btn-p" href="#register" data-ask="'+a.id+'">同じ物を相談する</a></div>'+
+        '</div></article>';
+    }).join('');
+  }
+  // ── 動画モーダル ──
+  var dlg = document.getElementById('dlg'), dv = document.getElementById('dlg-video');
+  document.getElementById('grid').addEventListener('click', function(e){
+    var b = e.target.closest('[data-id]');
+    if(b){ open(b.dataset.id); return; }
+    var ask = e.target.closest('[data-ask]');
+    if(ask){ prefill(ask.dataset.ask); }
+  });
+  function open(id){
+    document.getElementById('dlg-title').textContent = names[id]||id;
+    document.getElementById('dlg-id').textContent = '見本番号：'+id;
+    if(typeof dlg.showModal !== 'function'){ window.open('videos/'+id+'.mp4', '_blank'); return; } // dialog非対応の古いブラウザは動画を別タブで
+    document.getElementById('dlg-ask').onclick = function(){ closeDlg(); prefill(id); };
+    dv.src = 'videos/'+id+'.mp4'; dlg.showModal(); dv.play().catch(function(){});
+  }
+  function closeDlg(){ dv.pause(); dv.removeAttribute('src'); dv.load(); dlg.close(); }
+  document.getElementById('dlg-close').onclick = closeDlg;
+  dlg.addEventListener('click', function(e){ if(e.target===dlg) closeDlg(); });
+  dlg.addEventListener('cancel', function(e){ e.preventDefault(); closeDlg(); });
+  function prefill(id){
+    var m = document.getElementById('f-msg');
+    var line = '気になった見本：'+(names[id]||id)+'（'+id+'）';
+    if(m.value.indexOf(id)<0) m.value = (m.value ? m.value+'\n' : '') + line;
+  }
+  // ── トップの動く見本（4本を順に・動きを減らす設定なら静止画） ──
+  function hero(){
+    var v = document.getElementById('stage'), still = document.getElementById('stage-still'), t = document.getElementById('stage-title');
+    var list = HERO.filter(function(id){ return items.some(function(a){return a.id===id && a.has_video;}); });
+    if(!list.length) return;
+    if(reduce || saveData){ v.hidden = true; still.hidden = false; still.src = 'thumbs/'+list[0]+'.jpg'; t.textContent = names[list[0]]; return; }
+    var i = 0;
+    function play(){ var id = list[i%list.length]; t.textContent = names[id]; v.src = 'videos/'+id+'.mp4'; v.play().catch(function(){}); i++; }
+    v.addEventListener('loadedmetadata', function(){ if(v.currentTime < 3) v.currentTime = 3; }); // 冒頭の題名カードを飛ばして画面から見せる
+    v.addEventListener('ended', play);
+    v.addEventListener('error', function(){ if(i<list.length*2) play(); }); // play() が i を進めるのでここでは進めない
+    play();
+  }
+  // ── 計算器（既存 roi-calculator と同じ式） ──
+  function yen(n){ return '¥'+Math.round(n).toLocaleString('ja-JP'); }
+  function calc(){
+    var h = +document.getElementById('c-hours').value||0, r = +document.getElementById('c-rate').value||0, c = Math.min(100,Math.max(0,+document.getElementById('c-cut').value||0))/100;
+    var now = h*r, m = now*c;
+    document.getElementById('r-now').textContent = yen(now);
+    document.getElementById('r-month').textContent = yen(m);
+    document.getElementById('r-year').textContent = yen(m*12);
+    document.getElementById('r-hours').textContent = (Math.round(h*c*10)/10)+'時間';
+  }
+  ['c-hours','c-rate','c-cut'].forEach(function(id){ document.getElementById(id).addEventListener('input', calc); });
+  calc();
+  // ── 事前登録（既存のお問い合わせ経路と同じ受け口） ──
+  var GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyN_zdve66TxQl8R6g4wj2vm2fBobxoHEV_C2CQ1S176xlmCtPI7LdUbbNT2fO_olN1/exec';
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target, ok = document.getElementById('ok'), ng = document.getElementById('ng');
+    ok.style.display = ng.style.display = 'none';
+    var inv = document.getElementById('inv'); inv.style.display='none';
+    if(!f.name.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value.trim())){ inv.style.display='block'; return; }
+    var calcLine = '計算器：月'+document.getElementById('c-hours').value+'h×¥'+document.getElementById('c-rate').value+'×'+document.getElementById('c-cut').value+'%＝月'+document.getElementById('r-month').textContent;
+    var src = '流入：'+(document.referrer||'直接')+' '+(location.search||'');
+    var body = { name:f.name.value.trim(), company:f.company.value.trim(), email:f.email.value.trim(),
+      message:'【できることカタログ 事前登録】\n'+(f.message.value.trim()||'（記入なし）')+'\n'+calcLine+'\n'+src, budget:'' };
+    var btn = f.querySelector('button[type=submit]'); btn.disabled = true;
+    fetch(GAS_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(body)})
+      .then(function(){ ok.style.display='block'; f.reset(); })
+      .catch(function(){ ng.style.display='block'; })
+      .finally(function(){ btn.disabled=false; });
+  });
+  // ── スクロールで現れる ──
+  if(!reduce && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); }, {rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); }); }
+})();
+</script>
+</body>
+</html>
