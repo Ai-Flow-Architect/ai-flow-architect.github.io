@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>受注から出荷までの「つなぎ目」を見張る — AI Flow Architect</title>
+<meta name="description" content="モール・自社EC・FAX・メールの注文を、今の道具のまま販売管理・入金確認・出荷の指示へつなぎ、止まった所を赤と黄で知らせる仕組み。いま30分の聞き取りにご協力いただける事業者様を探しています。">
+<meta property="og:title" content="注文の入れ直し、まだ人がやっていますか — 受注から出荷までのつなぎ目の見張り">
+<meta property="og:description" content="今の道具は変えずに、注文・入金・販売管理・出荷のつなぎ目だけをつなぎ、止まったら知らせます。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-flow-architect.github.io/seam/">
+<meta property="og:image" content="https://ai-flow-architect.github.io/seam/demo-day2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://ai-flow-architect.github.io/seam/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232383e2'/%3E%3Cpath d='M14 32h12l6-10 6 20 6-10h6' stroke='%23fff' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* Notion型（できることカタログと同じ見た目・取締役確定 2026-10-28）: 白地・特大見出し・丸いボタン・実物の画面を大きく */
+:root{--bg:#fff;--bg2:#f7f7f5;--ink:#191919;--ink2:#4d4d4d;--ink3:#6b6b70;--line:#e6e6e3;--blue:#2383e2;--blue-d:#1a6fc4;--hl:#e3efff;--red:#c0392b;--radius:12px;
+  --font:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--blue)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-d)}
+.btn-s{background:var(--hl);color:var(--blue-d)}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #9cc6f5;outline-offset:2px}
+header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:900;color:var(--ink);text-decoration:none;font-size:17px;white-space:nowrap}
+nav a{color:var(--ink2);text-decoration:none;font-weight:500;margin-left:20px;font-size:15px}
+@media (max-width:640px){nav a:not(.nav-cta){display:none}.logo{font-size:15px}}
+.hero{padding:72px 0 36px;text-align:center}
+.hero h1{font-size:clamp(28px,6.6vw,66px);line-height:1.2;font-weight:900;letter-spacing:-.01em;word-break:keep-all;overflow-wrap:anywhere}
+.hero h1 .pill{display:inline-block;background:var(--hl);border-radius:999px;padding:0 .35em}
+.hero p{font-size:clamp(16px,1.6vw,20px);color:var(--ink2);margin:22px auto 30px;max-width:740px}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.stage{margin:40px auto 0;max-width:1000px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 20px 60px rgba(25,25,25,.08)}
+.stage .bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--bg2)}
+.stage .bar i{width:10px;height:10px;border-radius:50%;background:#d9d9d6}
+.stage .bar span{margin-left:auto;font-size:13px;color:var(--ink3)}
+.caption{font-size:13px;color:var(--ink3);margin-top:12px;text-align:center}
+section{padding:72px 0}
+.band{background:var(--bg2)}
+h2{font-size:clamp(26px,3.4vw,40px);font-weight:900;line-height:1.3}
+.lead{color:var(--ink2);margin-top:12px;font-size:17px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:32px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.card b{display:block;font-size:13px;color:var(--blue);margin-bottom:8px;letter-spacing:.06em}
+.card h3{font-size:19px;margin-bottom:8px;line-height:1.45}
+.card p{color:var(--ink2);font-size:15px}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:28px;font-weight:700}
+.flow span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:8px 16px}
+.flow em{font-style:normal;color:var(--ink3)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:32px}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+.shot{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+.shot p{font-size:14px;color:var(--ink2);padding:12px 16px;border-top:1px solid var(--line)}
+.note{font-size:14px;color:var(--ink3)}
+ul.plain{list-style:none;margin-top:20px}
+ul.plain li{padding:12px 0;border-bottom:1px solid var(--line);color:var(--ink2)}
+ul.plain li strong{color:var(--ink)}
+.panel{max-width:640px;margin:30px auto 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px}
+.panel label{display:block;font-weight:700;font-size:14px;margin-top:14px}
+.panel input,.panel textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;margin-top:6px;background:#fff;color:var(--ink)}
+.hint{font-size:13px;color:var(--ink3);margin-top:10px}
+.ok{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:#e7f6ec;font-size:14px}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(--ink3)}
+footer a{color:var(--ink2);margin-right:14px}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="../">AI Flow Architect</a>
+    <nav>
+      <a href="#how">しくみ</a>
+      <a href="#demo">見本の画面</a>
+      <a href="calc.html">損失額の計算</a>
+      <a class="btn btn-p nav-cta" href="#join" style="padding:10px 18px;font-size:14px">聞き取りに協力する</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <h1 class="rv">注文の入れ直し、<br><span class="pill">まだ人が</span>やっていますか。</h1>
+    <p class="rv">モール・自社EC・FAX・メールから来る注文を、<strong>今お使いの道具は変えずに</strong>、販売管理・入金の確認・出荷の指示へつなぎます。止まった所・数が合わない所は、赤と黄で直し方と一緒にお知らせします。</p>
+    <div class="cta rv">
+      <a class="btn btn-p" href="calc.html">毎月の損失額を計算する（1分）</a>
+      <a class="btn btn-s" href="#demo">見本の画面を見る</a>
+    </div>
+    <div class="stage rv">
+      <div class="bar"><i></i><i></i><i></i><span>見本の画面（架空のデータ）</span></div>
+      <a href="https://ai-flow-architect.github.io/order-seam-watch-demo/" target="_blank" rel="noopener"><img src="demo-day2.jpg" width="1366" height="854" alt="見本の画面：4つのつなぎ目（取り込み・販売管理・入金の突き合わせ・出荷の指示）の件数と、赤と黄の知らせ・直し方の一覧"></a>
+    </div>
+    <p class="caption">画面をクリックすると、1〜3日目の動きを切り替えて見られます（すべて架空の注文です）。</p>
+  </div>
+</section>
+
+<section class="band" id="pain">
+  <div class="wrap">
+    <h2 class="rv">こんな「継ぎ目」で、毎日手が止まっていませんか。</h2>
+    <div class="grid">
+      <div class="card rv"><b>01</b><h3>注文が2〜4か所から来る</h3><p>モール・自社EC・FAX・メール。それぞれを販売管理や表計算へ、人が入れ直している。</p></div>
+      <div class="card rv"><b>02</b><h3>入金の確認が人の目だより</h3><p>銀行振込や決済代行の明細と注文を、目で突き合わせてから出荷を決めている。</p></div>
+      <div class="card rv"><b>03</b><h3>止まっても、気づくのが翌日</h3><p>連携が止まった・二重に入った・未入金のまま出荷した。分かるのはお客様からの連絡のあと。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2 class="rv">道具は変えずに、つなぎ目だけを受け持ちます。</h2>
+    <p class="lead rv">新しいシステムへの乗り換えは求めません。今の書き出し（CSV・明細）を読み、4つのつなぎ目を毎日見張ります。</p>
+    <div class="flow rv"><span>①注文の取り込み</span><em>→</em><span>②販売管理</span><em>→</em><span>③入金の突き合わせ</span><em>→</em><span>④出荷の指示</span></div>
+    <div class="grid">
+      <div class="card rv"><b>つなぐ</b><h3>1つの形にそろえる</h3><p>経路ごとに違う注文の形をそろえ、二重の注文は取り込まない。出荷できる注文だけを先へ渡します。</p></div>
+      <div class="card rv"><b>突き合わせる</b><h3>入金と注文を結ぶ</h3><p>名義と金額が合う入金だけを自動で消し込みます。名義が分からない入金は自動にせず、人の判断に回します。</p></div>
+      <div class="card rv"><b>知らせる</b><h3>赤と黄で、直し方つき</h3><p>出荷済みなのに未入金・出荷後の返金・取り込みの止まりなどを、直し方の一文と一緒にお知らせします。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="demo">
+  <div class="wrap">
+    <h2 class="rv">見本の画面</h2>
+    <p class="lead rv">架空のお店の3日分の注文で、実際に動かした画面です。2日目は入金の突き合わせで止まった所を赤で出しています。</p>
+    <div class="two">
+      <div class="shot rv"><img src="demo-day1.jpg" width="1366" height="854" alt="見本の1日目：注文の取り込みと販売管理への受け渡しの画面" loading="lazy"><p>1日目：注文を1つの形にそろえ、出荷できる物だけを先へ</p></div>
+      <div class="shot rv"><img src="demo-day2.jpg" width="1366" height="854" alt="見本の2日目：入金の突き合わせで止まった所が赤で表示された画面" loading="lazy"><p>2日目：未入金のまま出荷された注文を赤で知らせる</p></div>
+    </div>
+    <div class="cta rv" style="margin-top:28px"><a class="btn btn-s" href="https://ai-flow-architect.github.io/order-seam-watch-demo/" target="_blank" rel="noopener">見本の画面を開く（別タブ）</a></div>
+    <p class="note rv" style="margin-top:18px;text-align:center">見本は架空のデータで動かした試作です。実在のモール・決済・販売管理との接続は、御社の書き出しの形に合わせて最初に設定します。</p>
+  </div>
+</section>
+
+<section id="honest">
+  <div class="wrap">
+    <h2 class="rv">先にお伝えしておくこと</h2>
+    <ul class="plain rv">
+      <li><strong>判断は人に残します。</strong>名義が分からない入金や、出荷を止めるかどうかは自動で決めません。</li>
+      <li><strong>今の道具に残ります。</strong>やめる時も、御社の環境の中に仕組みが残る形で作ります。</li>
+      <li><strong>効果はお店ごとに違います。</strong>計算器の数字は、入力された値からの目安です。</li>
+    </ul>
+  </div>
+</section>
+
+<section class="band" id="join">
+  <div class="wrap">
+    <h2 class="rv" style="text-align:center">30分の聞き取りに、ご協力ください。</h2>
+    <p class="lead rv" style="text-align:center;margin-left:auto;margin-right:auto">いま、注文が複数の経路から来る事業者様に、今の作業の流れと手間を伺っています。売り込みの場ではありません。費用はかかりません。</p>
+    <form class="panel rv" id="form" novalidate>
+      <label for="f-name">お名前 <span style="color:var(--red)">*</span></label>
+      <input id="f-name" name="name" type="text" required autocomplete="name">
+      <label for="f-company">会社名・屋号</label>
+      <input id="f-company" name="company" type="text" autocomplete="organization">
+      <label for="f-email">メールアドレス <span style="color:var(--red)">*</span></label>
+      <input id="f-email" name="email" type="email" required autocomplete="email">
+      <label for="f-msg">注文の経路と、手間のかかっている作業</label>
+      <textarea id="f-msg" name="message" rows="4" placeholder="例：楽天・自社EC・FAX の3経路。毎朝1時間ほど販売管理へ入れ直している。"></textarea>
+      <p class="hint">送信後、2営業日以内にメールで日程を伺います。営業電話はしません。</p>
+      <button class="btn btn-p" type="submit" style="margin-top:16px;width:100%;justify-content:center">送信する</button>
+      <div class="ok" id="inv" style="background:#fdecea">お名前とメールアドレスを確認してください。</div>
+      <div class="ok" id="ok">ありがとうございます。2営業日以内にメールでご連絡します。</div>
+      <div class="ok" id="ng" style="background:#fdecea">送信できませんでした。お手数ですが <a href="../#contact">お問い合わせフォーム</a> からお願いします。</div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>見本の画面はすべて架空のデータで動かした物です。実在の企業・個人のデータは含みません。計算器の数字は入力値からの目安で、成果を保証する物ではありません。</p>
+    <p style="margin-top:8px"><a href="../">トップへ</a><a href="../catalog/">できることカタログ</a><a href="../privacy.html">プライバシーポリシー</a><span>© AI Flow Architect</span></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 事前登録（できることカタログと同じ受け口・既存のお問い合わせ経路）
+  var GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyN_zdve66TxQl8R6g4wj2vm2fBobxoHEV_C2CQ1S176xlmCtPI7LdUbbNT2fO_olN1/exec';
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target, ok = document.getElementById('ok'), ng = document.getElementById('ng'), inv = document.getElementById('inv');
+    ok.style.display = ng.style.display = inv.style.display = 'none';
+    if(!f.name.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value.trim())){ inv.style.display='block'; return; }
+    var calc = '';
+    try { calc = sessionStorage.getItem('seam_calc') || ''; } catch(_){}
+    var body = { name:f.name.value.trim(), company:f.company.value.trim(), email:f.email.value.trim(),
+      message:'【つなぎ目LP 聞き取り協力】\n'+(f.message.value.trim()||'（記入なし）')+(calc?'\n計算器：'+calc:'')+'\n流入：'+(document.referrer||'直接')+' '+(location.search||''), budget:'' };
+    var btn = f.querySelector('button[type=submit]'); btn.disabled = true;
+    fetch(GAS_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(body)})
+      .then(function(){ ok.style.display='block'; f.reset(); })
+      .catch(function(){ ng.style.display='block'; })
+      .finally(function(){ btn.disabled=false; });
+  });
+  if(!reduce && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); }, {rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); }); }
+})();
+</script>
+</body>
+</html>

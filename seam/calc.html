@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>受注まわりの損失額 計算器 — AI Flow Architect</title>
+<meta name="description" content="注文の入れ直し・入金の確認・出荷の事故で、毎月いくら失っているかを1分で計算します。入力した数字だけで計算し、どこにも送信しません。">
+<meta property="og:title" content="受注まわりの損失額 計算器（1分・送信なし）">
+<meta property="og:description" content="注文の入れ直し・入金の確認・出荷の事故。毎月の手間と損失を、お手元の数字で計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-flow-architect.github.io/seam/calc.html">
+<meta property="og:image" content="https://ai-flow-architect.github.io/seam/demo-day2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://ai-flow-architect.github.io/seam/calc.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232383e2'/%3E%3Cpath d='M14 32h12l6-10 6 20 6-10h6' stroke='%23fff' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--bg2:#f7f7f5;--ink:#191919;--ink2:#4d4d4d;--ink3:#6b6b70;--line:#e6e6e3;--blue:#2383e2;--blue-d:#1a6fc4;--hl:#e3efff;--radius:12px;
+  --font:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:900;color:var(--ink);text-decoration:none;font-size:17px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-d)}
+.btn-s{background:var(--hl);color:var(--blue-d)}
+.btn:focus-visible,input:focus-visible{outline:3px solid #9cc6f5;outline-offset:2px}
+h1{font-size:clamp(28px,5.4vw,52px);font-weight:900;line-height:1.25;margin-top:56px;word-break:keep-all;overflow-wrap:anywhere}
+.lead{color:var(--ink2);margin-top:14px;font-size:17px;max-width:720px}
+.layout{display:grid;grid-template-columns:1.25fr 1fr;gap:26px;margin:36px 0 64px;align-items:start}
+@media (max-width:820px){.layout{grid-template-columns:1fr}}
+fieldset{border:1px solid var(--line);border-radius:16px;padding:20px 22px 8px;margin-bottom:18px;background:#fff}
+legend{font-weight:900;font-size:17px;padding:0 8px}
+.row{display:grid;grid-template-columns:1fr 150px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.row label{font-size:15px;color:var(--ink)}
+.row small{display:block;color:var(--ink3);font-size:12.5px}
+.row .in{display:flex;align-items:center;gap:6px}
+.row input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:17px;font-family:inherit;text-align:right;background:#fff;color:var(--ink)}
+.row .u{font-size:14px;color:var(--ink3);white-space:nowrap}
+.result{position:sticky;top:84px;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:24px}
+.result h2{font-size:18px;font-weight:900}
+.big{font-size:clamp(34px,5vw,48px);font-weight:900;line-height:1.2;margin:8px 0 2px;color:var(--ink)}
+.sub{color:var(--ink2);font-size:14px}
+.lines{margin:18px 0;border-top:1px solid var(--line)}
+.lines div{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.lines b{white-space:nowrap}
+.note{font-size:13px;color:var(--ink3);margin-top:12px}
+.cta{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.cta .btn{justify-content:center}
+.err{color:#c0392b;font-size:13px;display:none;margin-top:6px}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(--ink3)}
+footer a{color:var(--ink2);margin-right:14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="../">AI Flow Architect</a>
+    <a class="btn btn-s" href="./" style="padding:10px 18px;font-size:14px">しくみを見る</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>受注まわりで、毎月いくら失っていますか。</h1>
+  <p class="lead">注文の入れ直し・入金の確認・出荷の事故の3つを、お手元の数字で計算します。入力した数字はこの画面の中だけで計算し、どこにも送信しません。最初に入っている数字は<strong>例</strong>です。</p>
+
+  <div class="layout">
+    <form id="calc" novalidate>
+      <fieldset>
+        <legend>1. 注文の入れ直し・照合</legend>
+        <div class="row"><label for="orders">1日の注文件数<small>全部の経路の合計</small></label><div class="in"><input id="orders" type="number" inputmode="decimal" min="0" step="1" value="30"><span class="u">件</span></div></div>
+        <div class="row"><label for="minPerOrder">1件あたりの入れ直し・確認の時間<small>販売管理や表計算への入力、見比べ</small></label><div class="in"><input id="minPerOrder" type="number" inputmode="decimal" min="0" step="0.5" value="3"><span class="u">分</span></div></div>
+        <div class="row"><label for="days">月の営業日</label><div class="in"><input id="days" type="number" inputmode="decimal" min="0" max="31" step="1" value="22"><span class="u">日</span></div></div>
+      </fieldset>
+      <fieldset>
+        <legend>2. 入金の確認</legend>
+        <div class="row"><label for="pays">月の入金確認の件数<small>銀行振込・決済代行の明細と注文の突き合わせ</small></label><div class="in"><input id="pays" type="number" inputmode="decimal" min="0" step="1" value="40"><span class="u">件</span></div></div>
+        <div class="row"><label for="minPerPay">1件あたりの確認の時間</label><div class="in"><input id="minPerPay" type="number" inputmode="decimal" min="0" step="0.5" value="2"><span class="u">分</span></div></div>
+      </fieldset>
+      <fieldset>
+        <legend>3. 担当者の時給</legend>
+        <div class="row"><label for="wage">担当者の時給<small>社会保険などを含めた目安</small></label><div class="in"><input id="wage" type="number" inputmode="decimal" min="0" step="50" value="1500"><span class="u">円</span></div></div>
+      </fieldset>
+      <fieldset>
+        <legend>4. 出荷の事故</legend>
+        <div class="row"><label for="incidents">直近3か月の事故の件数<small>誤出荷・出荷漏れ・未入金のまま出荷・二重出荷</small></label><div class="in"><input id="incidents" type="number" inputmode="decimal" min="0" step="1" value="3"><span class="u">件</span></div></div>
+        <div class="row"><label for="costPerIncident">1件あたりの損失<small>再送の送料・返品・値引き・対応の時間</small></label><div class="in"><input id="costPerIncident" type="number" inputmode="decimal" min="0" step="500" value="5000"><span class="u">円</span></div></div>
+      </fieldset>
+      <p class="err" id="err" role="alert">0以上の数字を入れてください（空欄は0として計算します）。</p>
+    </form>
+
+    <aside class="result" aria-live="polite">
+      <h2>毎月の損失（目安）</h2>
+      <div class="big" id="r-month">—</div>
+      <div class="sub">1年で <b id="r-year">—</b>／手作業 <b id="r-hours">—</b></div>
+      <div class="lines">
+        <div><span>注文の入れ直し・照合</span><b id="r-a">—</b></div>
+        <div><span>入金の確認</span><b id="r-b">—</b></div>
+        <div><span>出荷の事故（月平均）</span><b id="r-c">—</b></div>
+      </div>
+      <p class="note">計算式：手作業の時間（分）÷60×時給＋事故の件数÷3×1件の損失。入力値からの目安で、成果を保証する物ではありません。</p>
+      <div class="cta">
+        <a class="btn btn-p" href="./#join">この数字をもとに、30分の聞き取りに協力する</a>
+        <a class="btn btn-s" href="https://ai-flow-architect.github.io/order-seam-watch-demo/" target="_blank" rel="noopener">見本の画面を見る</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>この計算器はお使いのブラウザの中だけで計算します（入力した数字は送信しません）。聞き取りのお申し込みフォームへ進んだ時だけ、計算結果の1行を一緒にお送りします。</p>
+    <p style="margin-top:8px"><a href="./">つなぎ目の見張り</a><a href="../catalog/">できることカタログ</a><a href="../privacy.html">プライバシーポリシー</a><span>© AI Flow Architect</span></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ids = ['orders','minPerOrder','days','pays','minPerPay','wage','incidents','costPerIncident'];
+  function num(id){ var v = document.getElementById(id).value.trim(); if(v==='') return 0; var n = Number(v); return (isFinite(n) && n >= 0) ? n : NaN; }
+  function yen(n){ return '¥' + Math.round(n).toLocaleString('ja-JP'); }
+  function calc(){
+    var v = {}, bad = false;
+    ids.forEach(function(id){ v[id] = num(id); if(isNaN(v[id])) bad = true; });
+    document.getElementById('err').style.display = bad ? 'block' : 'none';
+    if(bad){ ['r-month','r-year','r-hours','r-a','r-b','r-c'].forEach(function(id){ document.getElementById(id).textContent='—'; }); return; }
+    var minA = v.orders * v.minPerOrder * v.days;      // 分/月
+    var minB = v.pays * v.minPerPay;                    // 分/月
+    var a = minA / 60 * v.wage, b = minB / 60 * v.wage;
+    var c = v.incidents / 3 * v.costPerIncident;        // 3か月の件数→月平均
+    var m = a + b + c, hours = (minA + minB) / 60;
+    document.getElementById('r-a').textContent = yen(a);
+    document.getElementById('r-b').textContent = yen(b);
+    document.getElementById('r-c').textContent = yen(c);
+    document.getElementById('r-month').textContent = yen(m);
+    document.getElementById('r-year').textContent = yen(m * 12);
+    document.getElementById('r-hours').textContent = (Math.round(hours * 10) / 10) + '時間/月';
+    try { sessionStorage.setItem('seam_calc', '月'+yen(m)+'（入れ直し'+yen(a)+'・入金確認'+yen(b)+'・事故'+yen(c)+'／注文'+v.orders+'件/日×'+v.minPerOrder+'分×'+v.days+'日・入金'+v.pays+'件×'+v.minPerPay+'分・時給'+v.wage+'円・事故'+v.incidents+'件/3か月×'+v.costPerIncident+'円）'); } catch(_){}
+  }
+  ids.forEach(function(id){ document.getElementById(id).addEventListener('input', calc); });
+  calc();
+  window.__seamCalc = calc;
+})();
+</script>
+</body>
+</html>
