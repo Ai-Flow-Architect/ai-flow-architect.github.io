@@ -25,7 +25,7 @@
 
 const ALLOWED_ORIGINS = new Set([
   'https://ai-flow-architect.github.io',
-  // 2026-11-08 HPを ai-flow-works.com へ移設（旧は転送のため残す）
+  // 2026-11-08 HPを ai-flow-works.com へ移設。旧アドレスのLPも転送せず公開を続けるため旧も残す
   'https://ai-flow-works.com',
   'https://www.ai-flow-works.com',
 ]);
