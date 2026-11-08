@@ -25,6 +25,9 @@
 
 const ALLOWED_ORIGINS = new Set([
   'https://ai-flow-architect.github.io',
+  // 2026-11-08 HPを ai-flow-works.com へ移設（旧は転送のため残す）
+  'https://ai-flow-works.com',
+  'https://www.ai-flow-works.com',
 ]);
 
 // ② モデルは固定。client の model は読まない（旧実装はここが素通しで gpt-4o を許していた）。
