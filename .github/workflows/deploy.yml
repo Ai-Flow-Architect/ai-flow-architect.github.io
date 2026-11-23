@@ -23,6 +23,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 鍵検査が履歴全体を見るため（2026-11-23）
+
+      # 2026-11-23: 配信前に、ツリーと履歴の両方を鍵検査。候補が1つでもあれば配信しない。
+      - name: Secret scan (tree + full history)
+        run: python3 scripts/secret_scan_ci.py .
 
       # 🔴 "Inject API Keys" ステップは削除した（2026-07-17）。
       #    このステップこそが公開HTMLへ実キーを焼き込む露出源だった。GitHub Pages は
