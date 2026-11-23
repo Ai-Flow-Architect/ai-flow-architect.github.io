@@ -37,10 +37,21 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # 2026-11-23 取締役承認（公開リポの鍵露出の再発防止）: リポ全体（path: '.'）を配信すると、
+      # 作業用ファイル・鍵を含む旧データが URL で取得できる。配信するのは allowlist の外側だけ＝
+      # 内部用（scripts/・workers/・docs/・.github/・テスト）は配信物から除外する。
+      - name: Stage public site
+        run: |
+          rm -rf _site && mkdir _site
+          rsync -a \
+            --exclude='.git' --exclude='.github' --exclude='scripts' --exclude='workers' \
+            --exclude='docs' --exclude='.gitignore' --exclude='*.test.js' --exclude='test_*.js' \
+            ./ _site/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
